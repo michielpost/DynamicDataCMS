@@ -8,4 +8,6 @@ Headless CMS based on JsonSchema standard
 - Open source JsonSchema editor will be used as editor
 - Support for multiple datastores (NOSQL (CosmosDB? MongoDB?), Blob Storage, Flat Files?, SQL)
 - Support for pages/entities in multiple languages
+- Distributed using NuGet packages, Docker?
+- Zero config install?
 
