@@ -13,15 +13,25 @@ namespace QMS.Web.Controllers
     [ApiController]
     public class ApiController : ControllerBase
     {
+        CosmosService cs = new CosmosService();
+
         [HttpPost]
         [Route("save")]
-        public async Task Post([FromBody] dynamic value)
+        public async Task Save([FromBody] dynamic value)
         {
             value.id = "t1324"; //Must be lower case id
-            CosmosService cs = new CosmosService();
             await cs.Save(value);
         }
 
-       
+        [HttpGet]
+        [Route("load")]
+        [Produces("application/json")]
+        public async Task<JObject> Load()
+        {
+            var result = await cs.Load("t1324");
+            return result;
+        }
+
+
     }
 }
