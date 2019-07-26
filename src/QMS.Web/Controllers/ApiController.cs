@@ -17,7 +17,7 @@ namespace QMS.Web.Controllers
         [Route("save")]
         public async Task Post([FromBody] dynamic value)
         {
-            value.Id = "testid";
+            value.id = "t1324"; //Must be lower case id
             CosmosService cs = new CosmosService();
             await cs.Save(value);
         }
