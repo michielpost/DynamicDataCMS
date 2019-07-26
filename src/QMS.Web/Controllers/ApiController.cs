@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using QMS.Storage.CosmosDB;
 
 namespace QMS.Web.Controllers
 {
@@ -14,9 +15,11 @@ namespace QMS.Web.Controllers
     {
         [HttpPost]
         [Route("save")]
-        public void Post([FromBody] JObject value)
+        public async Task Post([FromBody] dynamic value)
         {
-
+            value.Id = "testid";
+            CosmosService cs = new CosmosService();
+            await cs.Save(value);
         }
 
        

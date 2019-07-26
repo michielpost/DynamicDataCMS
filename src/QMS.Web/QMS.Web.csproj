@@ -17,4 +17,9 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <ProjectReference Include="..\QMS.Storage.CosmosDB\QMS.Storage.CosmosDB.csproj" />
+  </ItemGroup>
+
 </Project>

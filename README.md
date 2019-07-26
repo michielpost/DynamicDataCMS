@@ -11,3 +11,10 @@ Headless CMS based on JsonSchema standard
 - Distributed using NuGet packages, Docker?
 - Zero config install?
 
+
+## Dependencies
+JSON Schema Editor
+https://github.com/json-editor/json-editor
+
+Azure Cosmos DB
+https://github.com/Azure/azure-cosmos-dotnet-v3
