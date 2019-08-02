@@ -18,3 +18,14 @@ https://github.com/json-editor/json-editor
 
 Azure Cosmos DB
 https://github.com/Azure/azure-cosmos-dotnet-v3
+
+## TODO and Notes
+UI Schema: which properties to show in list view?
+
+JsonSchema NuGet package? Json.net is depricated and has paid alternative
+
+Json Schema Designers
+https://bjdash.github.io/JSON-Schema-Builder/
+https://jsondraft.com/4c/#tree
+https://mozilla-services.github.io/react-jsonschema-form/
+https://jsoneditoronline.org/
