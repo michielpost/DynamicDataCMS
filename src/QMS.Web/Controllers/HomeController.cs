@@ -62,9 +62,17 @@ namespace QMS.Web.Controllers
         }
 
         [Route("create/{cmsType}")]
-        public IActionResult Create([FromRoute]string cmsType)
+        public async Task<IActionResult> Create([FromRoute]string cmsType)
         {
-            return RedirectToAction(nameof(Edit), new { cmsType = cmsType, id = Guid.NewGuid() });
+            var schema = await schemaService.GetSchema(cmsType);
+
+            var model = new EditViewModel
+            {
+                CmsType = cmsType,
+                Id = Guid.NewGuid().ToString(),
+                SchemaLocation = schema,
+            };
+            return View("Edit", model);
         }
 
 

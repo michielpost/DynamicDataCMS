@@ -32,8 +32,8 @@ namespace QMS.Services
             foreach (var location in schemaConfig.SchemaLocations.Where(x => x.Schema == null))
             {
                 var getJson = await httpClient.GetStringAsync(location.Uri);
-                JsonSchema schema = JsonSchema.Parse(getJson);
-                location.Schema = schema;
+               // JsonSchema schema = JsonSchema.Parse(getJson);
+                location.Schema = getJson;
             }
 
             return schemaConfig.SchemaLocations;

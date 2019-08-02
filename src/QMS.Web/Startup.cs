@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using QMS.Services;
 using QMS.Services.Models;
 using QMS.Storage.CosmosDB;
+using QMS.Storage.CosmosDB.Models;
 
 namespace QMS.Web
 {
@@ -28,6 +29,7 @@ namespace QMS.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<JsonSchemaConfig>(Configuration.GetSection(nameof(JsonSchemaConfig)));
+            services.Configure<CosmosConfig>(Configuration.GetSection(nameof(CosmosConfig)));
 
             services.AddHttpClient();
 

@@ -15,6 +15,6 @@ namespace QMS.Services.Models
         public string Name { get; set; }
         public string Key { get; set; }
         public Uri Uri { get; set; }
-        public JsonSchema Schema { get; set; }
+        public string Schema { get; set; }
     }
 }
