@@ -11,6 +11,10 @@ Headless CMS based on JsonSchema standard
 - Distributed using NuGet packages, Docker?
 - Zero config install?
 
+## Installation Instructions
+- Install CosmosDB emulator for Windows https://aka.ms/cosmosdb-emulator
+- Edit appsettings.json with Cosmos Endpoint and Key
+- Run QMS4
 
 ## Dependencies
 JSON Schema Editor
