@@ -1,0 +1,39 @@
+﻿@model ListViewModel
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<h1>List</h1>
+
+<p>
+    @Html.ActionLink("Create New " +@Model.CmsType, "Create", new { cmstype = Model.CmsType })
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Id
+            </th>
+            <th>
+                CmsType
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Items) {
+        <tr>
+            <td>
+                @item.id
+            </td>
+            <td>
+                @item.cmstype
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.id, cmstype = item.cmstype }) |
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

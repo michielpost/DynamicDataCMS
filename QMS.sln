@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QMS.Web", "src\QMS.Web\QMS.Web.csproj", "{A5156F62-FD3B-4584-A129-4969716D6B83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QMS.Storage.CosmosDB", "src\QMS.Storage.CosmosDB\QMS.Storage.CosmosDB.csproj", "{377466BC-1915-430E-9BE3-778D0099E39B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QMS.Storage.CosmosDB", "src\QMS.Storage.CosmosDB\QMS.Storage.CosmosDB.csproj", "{377466BC-1915-430E-9BE3-778D0099E39B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QMS.Services", "src\QMS.Services\QMS.Services.csproj", "{3C461AC9-613F-4407-8574-9C839BF05E27}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{377466BC-1915-430E-9BE3-778D0099E39B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{377466BC-1915-430E-9BE3-778D0099E39B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{377466BC-1915-430E-9BE3-778D0099E39B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C461AC9-613F-4407-8574-9C839BF05E27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C461AC9-613F-4407-8574-9C839BF05E27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C461AC9-613F-4407-8574-9C839BF05E27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C461AC9-613F-4407-8574-9C839BF05E27}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,77 @@
+﻿@model EditViewModel
+@{
+    ViewData["Title"] = "QMS";
+}
+
+@section Scripts
+{
+    @Html.Raw("<script src=\"https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js\"></script>")
+
+    <script type="text/javascript">
+    var editor = null;
+    (function () {
+        JSONEditor.defaults.options.theme = 'bootstrap2';
+
+        // Initialize the editor
+        editor = new JSONEditor(document.getElementById("editor_holder"), {
+            schema: 
+                @Html.Raw(Model.SchemaLocation.Schema.ToString())
+            
+        });
+
+        // Set the value
+        editor.setValue(@Html.Raw(Model.Data));
+
+    })();
+
+    function save() {
+        var data = editor.getValue();
+
+        //console.log('saving');
+        //alert(data);
+
+        return fetch('/api/save/@Model.CmsType/@Model.Id', {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        //mode: 'cors', // no-cors, cors, *same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        //credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+            'Content-Type': 'application/json',
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        //redirect: 'follow', // manual, *follow, error
+        //referrer: 'no-referrer', // no-referrer, *client
+        body: JSON.stringify(data), // body data type must match "Content-Type" header
+    })
+    .then(response => response.json());
+    }
+
+        function load() {
+
+            return fetch('/api/load/@Model.CmsType/@Model.Id', {
+                method: 'GET', // *GET, POST, PUT, DELETE, etc.
+                //mode: 'cors', // no-cors, cors, *same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                //credentials: 'same-origin', // include, *same-origin, omit
+                //headers: {
+                //    'Content-Type': 'application/json',
+                //    // 'Content-Type': 'application/x-www-form-urlencoded',
+                //},
+                //redirect: 'follow', // manual, *follow, error
+                //referrer: 'no-referrer', // no-referrer, *client
+                //body: JSON.stringify(data), // body data type must match "Content-Type" header
+            })
+                .then(response => response.json())
+                .then(data => {editor.setValue(data) });
+        }
+
+    </script>
+}
+<div class="text-center">
+    <h1 class="display-4">Editor Test Demo</h1>
+    <button id="load" onclick="javascript:load()">Load</button>
+    <button id="save" onclick="javascript:save()">Save</button>
+
+    <div id='editor_holder'></div>
+
+</div>

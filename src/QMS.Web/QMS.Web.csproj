@@ -14,11 +14,12 @@
 
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\schemas\" />
   </ItemGroup>
 
 
   <ItemGroup>
+    <ProjectReference Include="..\QMS.Services\QMS.Services.csproj" />
     <ProjectReference Include="..\QMS.Storage.CosmosDB\QMS.Storage.CosmosDB.csproj" />
   </ItemGroup>
 

@@ -1,177 +1,19 @@
-﻿@{
-    ViewData["Title"] = "QMS";
+﻿@model List<QMS.Services.Models.SchemaLocation>
+@{
+    ViewData["Title"] = "Index";
 }
 
-@section Scripts
+<h1>Index</h1>
+
+@foreach(var schema in Model)
 {
-    @Html.Raw("<script src=\"https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js\"></script>")
+<p>
+    @schema.Name
 
-    <script type="text/javascript">
-    var editor = null;
-    (function () {
-        JSONEditor.defaults.options.theme = 'bootstrap2';
+@Html.ActionLink("List", "List", new { cmstype = @schema.Key })
 
-        // Initialize the editor
-        editor = new JSONEditor(document.getElementById("editor_holder"), {
-            schema: {
-  "title": "Person",
-  "type": "object",
-  "required": [
-    "name",
-    "age",
-    "date",
-    "favorite_color",
-    "gender",
-    "location",
-    "pets"
-  ],
-  "properties": {
-    "name": {
-      "type": "string",
-      "description": "First and Last name",
-      "minLength": 4,
-      "default": "Jeremy Dorn"
-    },
-    "age": {
-      "type": "integer",
-      "default": 25,
-      "minimum": 18,
-      "maximum": 99
-    },
-    "favorite_color": {
-      "type": "string",
-      "format": "color",
-      "title": "favorite color",
-      "default": "#ffa500"
-    },
-    "gender": {
-      "type": "string",
-      "enum": [
-        "male",
-        "female"
-      ]
-    },
-    "date": {
-      "type": "string",
-      "format": "date",
-      "options": {
-        "flatpickr": {}
-      }
-    },
-    "location": {
-      "type": "object",
-      "title": "Location",
-      "properties": {
-        "city": {
-          "type": "string",
-          "default": "San Francisco"
-        },
-        "state": {
-          "type": "string",
-          "default": "CA"
-        },
-        "citystate": {
-          "type": "string",
-          "description": "This is generated automatically from the previous two fields",
-          "template": "{{city}}, {{state}}",
-          "watch": {
-            "city": "location.city",
-            "state": "location.state"
-          }
-        }
-      }
-    },
-    "pets": {
-      "type": "array",
-      "format": "table",
-      "title": "Pets",
-      "uniqueItems": true,
-      "items": {
-        "type": "object",
-        "title": "Pet",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": [
-              "cat",
-              "dog",
-              "bird",
-              "reptile",
-              "other"
-            ],
-            "default": "dog"
-          },
-          "name": {
-            "type": "string"
-          }
-        }
-      },
-      "default": [
-        {
-          "type": "dog",
-          "name": "Walter"
-        }
-      ]
-    }
-  }
+
+
+</p>
 }
-        });
 
-        // Set the value
-        editor.setValue({
-            name: "John Smith"
-        });
-
-    })();
-
-    function save() {
-        var data = editor.getValue();
-
-        //console.log('saving');
-        //alert(data);
-
-        return fetch('api/save', {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        //mode: 'cors', // no-cors, cors, *same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        //credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-            'Content-Type': 'application/json',
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        //redirect: 'follow', // manual, *follow, error
-        //referrer: 'no-referrer', // no-referrer, *client
-        body: JSON.stringify(data), // body data type must match "Content-Type" header
-    })
-    .then(response => response.json());
-    }
-
-        function load() {
-
-            return fetch('api/load', {
-                method: 'GET', // *GET, POST, PUT, DELETE, etc.
-                //mode: 'cors', // no-cors, cors, *same-origin
-                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-                //credentials: 'same-origin', // include, *same-origin, omit
-                //headers: {
-                //    'Content-Type': 'application/json',
-                //    // 'Content-Type': 'application/x-www-form-urlencoded',
-                //},
-                //redirect: 'follow', // manual, *follow, error
-                //referrer: 'no-referrer', // no-referrer, *client
-                //body: JSON.stringify(data), // body data type must match "Content-Type" header
-            })
-                .then(response => response.json())
-                .then(data => {editor.setValue(data) });
-        }
-
-    </script>
-}
-<div class="text-center">
-    <h1 class="display-4">Editor Test Demo</h1>
-    <button id="load" onclick="javascript:load()">Load</button>
-    <button id="save" onclick="javascript:save()">Save</button>
-
-    <div id='editor_holder'></div>
-
-</div>

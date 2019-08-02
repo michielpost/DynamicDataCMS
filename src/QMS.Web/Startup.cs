@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using QMS.Services;
+using QMS.Services.Models;
+using QMS.Storage.CosmosDB;
 
 namespace QMS.Web
 {
@@ -24,13 +27,12 @@ namespace QMS.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            services.Configure<JsonSchemaConfig>(Configuration.GetSection(nameof(JsonSchemaConfig)));
 
+            services.AddHttpClient();
+
+            services.AddScoped<CosmosService>();
+            services.AddScoped<JsonSchemaService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
