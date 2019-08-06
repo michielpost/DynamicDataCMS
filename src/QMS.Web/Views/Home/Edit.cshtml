@@ -11,20 +11,26 @@
     <script type="text/javascript">
     var editor = null;
     (function () {
-        JSONEditor.defaults.options.theme = 'bootstrap2';
+        JSONEditor.defaults.options.theme = 'bootstrap4';
         JSONEditor.defaults.options.no_additional_properties = true;
 
         // Initialize the editor
         editor = new JSONEditor(document.getElementById("editor_holder"), {
+            iconlib: "fontawesome5",
             schema:
                 @Html.Raw(Model.SchemaLocation.Schema.ToString())
 
         });
 
-        // Set the value
-        editor.setValue(@Html.Raw(Model.Data));
+        @if (!string.IsNullOrEmpty(Model.Data))
+        {
+            <text>
+            // Set the value
+            editor.setValue(@Html.Raw(Model.Data));
+            </text>
+        }
 
-    })();
+        })();
 
     function save() {
         var data = editor.getValue();
