@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Schema;
+using NJsonSchema;
 using QMS.Services.Models;
 using System;
 using System.Collections.Generic;
@@ -32,7 +32,7 @@ namespace QMS.Services
             foreach (var location in schemaConfig.SchemaLocations.Where(x => x.Schema == null))
             {
                 var getJson = await httpClient.GetStringAsync(location.Uri);
-               // JsonSchema schema = JsonSchema.Parse(getJson);
+                JsonSchema schema = await JsonSchema.FromJsonAsync(getJson);
                 location.Schema = getJson;
             }
 
