@@ -18,7 +18,7 @@ namespace QMS.Storage.CosmosDB
         }
         public async Task<List<dynamic>> List(string partitionKey)
         {
-            Container container = await GetContainer();
+            Container container = GetContainer();
 
             QueryDefinition queryDefinition = new QueryDefinition("SELECT * FROM c WHERE c.cmstype = @cmstype").WithParameter("@cmstype", partitionKey);
             FeedIterator<dynamic> queryResultSetIterator = container.GetItemQueryIterator<dynamic>(queryDefinition);
@@ -39,7 +39,7 @@ namespace QMS.Storage.CosmosDB
 
         public async Task Save(string partitionKey, dynamic document)
         {
-            Container container = await GetContainer();
+            Container container = GetContainer();
 
             document.cmstype = partitionKey;
             await container.UpsertItemAsync(document, new PartitionKey(partitionKey));
@@ -47,15 +47,14 @@ namespace QMS.Storage.CosmosDB
 
         public async Task<JObject> Load(string partitionKey, string documentId)
         {
-            Container container = await GetContainer();
-
+            Container container = GetContainer();
             var response = await container.ReadItemAsync<JObject>(documentId, new PartitionKey(partitionKey));
 
             return response.Resource;
 
         }
 
-        private async Task<Container> GetContainer()
+        public async Task<Container> InitializeContainer()
         {
             CosmosClient client = new CosmosClient(cosmosConfig.Endpoint, cosmosConfig.Key);
             Database database = await client.CreateDatabaseIfNotExistsAsync(cosmosConfig.DatabaseId);
@@ -63,6 +62,16 @@ namespace QMS.Storage.CosmosDB
                 cosmosConfig.ContainerId,
                 "/cmstype",
                 400);
+
+            return container;
+        }
+
+        private Container GetContainer()
+        {
+            CosmosClient client = new CosmosClient(cosmosConfig.Endpoint, cosmosConfig.Key);
+            Database database = client.GetDatabase(cosmosConfig.DatabaseId);
+            Container container = database.GetContainer(cosmosConfig.ContainerId);
+
             return container;
         }
     }

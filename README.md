@@ -28,10 +28,17 @@ https://github.com/RicoSuter/NJsonSchema
 
 
 ## TODO and Notes
-UI Schema: which properties to show in list view?
+- Decide which properties to show in the list:
+Schema annotation of additional entity.view.schema?
 
-Json Schema Designers
-https://bjdash.github.io/JSON-Schema-Builder/
-https://jsondraft.com/4c/#tree
-https://mozilla-services.github.io/react-jsonschema-form/
-https://jsoneditoronline.org/
+- Searching and ordering on list view
+
+- UI Schema: which properties to show in list view?
+
+- Multi Language Support, using generic wrapping json schema? 
+
+- Json Schema Designers  
+https://bjdash.github.io/JSON-Schema-Builder/  
+https://jsondraft.com/4c/#tree  
+https://mozilla-services.github.io/react-jsonschema-form/  
+https://jsoneditoronline.org/  

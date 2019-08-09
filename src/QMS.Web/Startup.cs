@@ -29,6 +29,8 @@ namespace QMS.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<JsonSchemaConfig>(Configuration.GetSection(nameof(JsonSchemaConfig)));
+
+            //Cosmos
             services.Configure<CosmosConfig>(Configuration.GetSection(nameof(CosmosConfig)));
 
             services.AddHttpClient();
@@ -56,6 +58,12 @@ namespace QMS.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            //Cosmos
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                serviceScope.ServiceProvider.GetService<CosmosService>().InitializeContainer();
+            }
 
             app.UseMvc(routes =>
             {
