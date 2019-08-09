@@ -3,6 +3,10 @@
   "title": "",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
+    "personId": {
+      "title": "test person",
+      "$ref": "https://localhost:44341/api/enum/person"
+    },
     "photo": {
       "type": "array",
       "items": {

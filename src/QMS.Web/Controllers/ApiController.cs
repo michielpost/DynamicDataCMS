@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using QMS.Services;
 using QMS.Storage.CosmosDB;
+using QMS.Web.Models;
 
 namespace QMS.Web.Controllers
 {
@@ -47,6 +48,26 @@ namespace QMS.Web.Controllers
         public async Task<List<dynamic>> List([FromRoute]string cmsType)
         {
             var result = await cosmosService.List(cmsType);
+            return result;
+        }
+
+        [HttpGet]
+        [Route("enum/{cmsType}")]
+        [Produces("application/json")]
+        public async Task<ExternalEnum> Enum([FromRoute]string cmsType)
+        {
+            var list = await cosmosService.List(cmsType);
+
+            var result = new ExternalEnum
+            {
+                title = cmsType,
+                type = "string",
+                @enum = list.Select(x => (string)x.id.ToString()).ToList(),
+                options = new Options
+                {
+                     enum_titles = list.Select(x => "TODO: Title: " + (string)x.id.ToString()).ToList()
+                }
+            };
             return result;
         }
 
