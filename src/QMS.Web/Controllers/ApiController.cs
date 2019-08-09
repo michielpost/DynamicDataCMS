@@ -51,6 +51,12 @@ namespace QMS.Web.Controllers
             return result;
         }
 
+
+        /// <summary>
+        /// Used to make references to other entities by providing a dynamic enum json schema
+        /// </summary>
+        /// <param name="cmsType"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("enum/{cmsType}")]
         [Produces("application/json")]

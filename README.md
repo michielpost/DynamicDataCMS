@@ -33,7 +33,7 @@ Schema annotation of additional entity.view.schema?
 
 - Searching and ordering on list view
 
-- UI Schema: which properties to show in list view?
+- CMS Schema: define which schema's to use for entities, and which properties to show in listview
 
 - Multi Language Support, using generic wrapping json schema? 
 
