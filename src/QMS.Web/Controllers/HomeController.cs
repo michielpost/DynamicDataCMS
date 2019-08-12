@@ -36,6 +36,14 @@ namespace QMS.Web.Controllers
             var result = await cosmosService.List(cmsType);
             var schema = await schemaService.GetSchema(cmsType);
 
+            if(schema.IsSingleton)
+            {
+                if (result.Any())
+                    return RedirectToAction("Edit", new { cmsType = cmsType, id = result.First().id });
+                else
+                    return RedirectToAction("Create", new { cmsType = cmsType });
+            }
+
             var model = new ListViewModel
             {
                 CmsType = cmsType,

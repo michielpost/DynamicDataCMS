@@ -26,11 +26,22 @@
           "DisplayName": "Severity"
         }
       ]
+    },
+    {
+      "Name": "Single Person",
+      "Key": "singleton-person",
+      "IsSingleton": true,
+      "Uri": "https://localhost:44341/schemas/person.schema.json",
+      "ListViewProperties": [
+        {
+          "Key": "firstName",
+          "DisplayName": "Firstname"
+        },
+        {
+          "Key": "lastName",
+          "DisplayName": "Lastname"
+        }
+      ]
     }
-    //{
-    //  "Name": "Schema",
-    //  "Key": "schema",
-    //  "Uri": "http://json-schema.org/draft-07/schema#"
-    //}
   ]
 }
