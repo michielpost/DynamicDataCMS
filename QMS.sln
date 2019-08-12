@@ -7,7 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QMS.Web", "src\QMS.Web\QMS.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QMS.Storage.CosmosDB", "src\QMS.Storage.CosmosDB\QMS.Storage.CosmosDB.csproj", "{377466BC-1915-430E-9BE3-778D0099E39B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QMS.Services", "src\QMS.Services\QMS.Services.csproj", "{3C461AC9-613F-4407-8574-9C839BF05E27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QMS.Services", "src\QMS.Services\QMS.Services.csproj", "{3C461AC9-613F-4407-8574-9C839BF05E27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QMS.Models", "src\QMS.Models\QMS.Models.csproj", "{6EEA4536-9116-4737-8A24-D44B83EFDEF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QMS.Core", "src\QMS.Core\QMS.Core.csproj", "{360DA53C-E026-4728-903C-D725C41BEDEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{3C461AC9-613F-4407-8574-9C839BF05E27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C461AC9-613F-4407-8574-9C839BF05E27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C461AC9-613F-4407-8574-9C839BF05E27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EEA4536-9116-4737-8A24-D44B83EFDEF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EEA4536-9116-4737-8A24-D44B83EFDEF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EEA4536-9116-4737-8A24-D44B83EFDEF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EEA4536-9116-4737-8A24-D44B83EFDEF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{360DA53C-E026-4728-903C-D725C41BEDEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{360DA53C-E026-4728-903C-D725C41BEDEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{360DA53C-E026-4728-903C-D725C41BEDEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{360DA53C-E026-4728-903C-D725C41BEDEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

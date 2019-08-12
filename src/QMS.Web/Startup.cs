@@ -28,7 +28,8 @@ namespace QMS.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<JsonSchemaConfig>(Configuration.GetSection(nameof(JsonSchemaConfig)));
+            //CmsConfiguration
+            services.Configure<CmsConfigLocation>(Configuration.GetSection(nameof(CmsConfigLocation)));
 
             //Cosmos
             services.Configure<CosmosConfig>(Configuration.GetSection(nameof(CosmosConfig)));

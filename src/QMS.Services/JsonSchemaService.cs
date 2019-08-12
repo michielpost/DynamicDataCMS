@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using NJsonSchema;
 using QMS.Services.Models;
 using System;
@@ -11,12 +12,13 @@ namespace QMS.Services
 {
     public class JsonSchemaService
     {
-        private readonly JsonSchemaConfig schemaConfig;
+        private static CmsConfiguration schemaConfig;
+        private readonly CmsConfigLocation schemaConfigLocation;
         private readonly IHttpClientFactory clientFactory;
 
-        public JsonSchemaService(IOptions<JsonSchemaConfig> schemaConfig, IHttpClientFactory clientFactory)
+        public JsonSchemaService(IOptions<CmsConfigLocation> schemaConfig, IHttpClientFactory clientFactory)
         {
-            this.schemaConfig = schemaConfig.Value;
+            this.schemaConfigLocation = schemaConfig.Value;
             this.clientFactory = clientFactory;
         }
 
@@ -27,16 +29,22 @@ namespace QMS.Services
 
             var httpClient = clientFactory.CreateClient();
 
-            //TODO: Cache schemas
+            if (schemaConfig == null || !schemaConfig.IsInitialized)
+            {
+                var config = await httpClient.GetStringAsync(schemaConfigLocation.Uri);
+                //TODO: Check if response is OK
+                schemaConfig = JsonConvert.DeserializeObject<CmsConfiguration>(config);
+            }
 
-            foreach (var location in schemaConfig.SchemaLocations.Where(x => x.Schema == null))
+            //TODO: Cache schemas
+            foreach (var location in schemaConfig.Entities.Where(x => x.Schema == null))
             {
                 var getJson = await httpClient.GetStringAsync(location.Uri);
                 JsonSchema schema = await JsonSchema.FromJsonAsync(getJson);
                 location.Schema = getJson;
             }
 
-            return schemaConfig.SchemaLocations;
+            return schemaConfig.Entities;
         }
 
         public async Task<SchemaLocation> GetSchema(string cmsType)

@@ -18,6 +18,10 @@
             <th>
                 CmsType
             </th>
+            @foreach(var column in Model.Schema.ListViewProperties)
+            {
+                <th>@column.DisplayName</th>
+            }
             <th></th>
         </tr>
     </thead>
@@ -30,8 +34,12 @@
             <td>
                 @item.cmstype
             </td>
+            @foreach (var column in Model.Schema.ListViewProperties)
+            {
+                <td>@item[column.Key]</td>
+            }
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.id, cmstype = item.cmstype }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.id, cmstype = item.cmstype }) |
             </td>
         </tr>
 }

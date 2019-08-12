@@ -34,10 +34,13 @@ namespace QMS.Web.Controllers
         public async Task<IActionResult> List([FromRoute]string cmsType)
         {
             var result = await cosmosService.List(cmsType);
+            var schema = await schemaService.GetSchema(cmsType);
+
             var model = new ListViewModel
             {
                 CmsType = cmsType,
-                 Items = result
+                Schema = schema,
+                Items = result
             };
             return View(model);
         }
