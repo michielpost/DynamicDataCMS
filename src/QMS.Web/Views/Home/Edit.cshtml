@@ -26,8 +26,10 @@
         @if (!string.IsNullOrEmpty(Model.Data))
         {
             <text>
-            // Set the value
-            editor.setValue(@Html.Raw(Model.Data));
+            editor.on('ready',function() {
+                editor.setValue(@Html.Raw(Model.Data));
+            });
+            
             </text>
         }
 
