@@ -28,14 +28,7 @@ https://github.com/RicoSuter/NJsonSchema
 
 
 ## TODO and Notes
-- Decide which properties to show in the list:
-Schema annotation of additional entity.view.schema?
-
 - Searching and ordering on list view
-
-- CMS Schema: define which schema's to use for entities, and which properties to show in listview
-
-- Multi Language Support, using generic wrapping json schema? 
 
 - Json Schema Designers  
 https://bjdash.github.io/JSON-Schema-Builder/  
