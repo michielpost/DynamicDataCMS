@@ -1,6 +1,7 @@
 ﻿using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
+using QMS.Models;
 using QMS.Storage.CosmosDB.Models;
 using System;
 using System.Collections.Generic;
@@ -16,19 +17,19 @@ namespace QMS.Storage.CosmosDB
         {
             this.cosmosConfig = cosmosConfig.Value;
         }
-        public async Task<List<dynamic>> List(string partitionKey)
+        public async Task<List<CmsItem>> List(string partitionKey)
         {
             Container container = GetContainer();
 
             QueryDefinition queryDefinition = new QueryDefinition("SELECT * FROM c WHERE c.cmstype = @cmstype").WithParameter("@cmstype", partitionKey);
-            FeedIterator<dynamic> queryResultSetIterator = container.GetItemQueryIterator<dynamic>(queryDefinition);
+            FeedIterator<CmsItem> queryResultSetIterator = container.GetItemQueryIterator<CmsItem>(queryDefinition);
 
-            List<dynamic> results = new List<dynamic>();
+            List<CmsItem> results = new List<CmsItem>();
 
             while (queryResultSetIterator.HasMoreResults)
             {
-                FeedResponse<dynamic> currentResultSet = await queryResultSetIterator.ReadNextAsync();
-                foreach (dynamic item in currentResultSet)
+                FeedResponse<CmsItem> currentResultSet = await queryResultSetIterator.ReadNextAsync();
+                foreach (CmsItem item in currentResultSet)
                 {
                     results.Add(item);
                 }
@@ -37,18 +38,18 @@ namespace QMS.Storage.CosmosDB
             return results;
         }
 
-        public async Task Save(string partitionKey, dynamic document)
+        public async Task Save(string partitionKey, CmsItem document)
         {
             Container container = GetContainer();
 
-            document.cmstype = partitionKey;
+            document.CmsType = partitionKey;
             await container.UpsertItemAsync(document, new PartitionKey(partitionKey));
         }
 
-        public async Task<JObject> Load(string partitionKey, string documentId)
+        public async Task<CmsItem> Load(string partitionKey, string documentId)
         {
             Container container = GetContainer();
-            var response = await container.ReadItemAsync<JObject>(documentId, new PartitionKey(partitionKey));
+            var response = await container.ReadItemAsync<CmsItem>(documentId, new PartitionKey(partitionKey));
 
             return response.Resource;
 

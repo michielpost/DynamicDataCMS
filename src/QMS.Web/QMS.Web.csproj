@@ -14,6 +14,7 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\QMS.Models\QMS.Models.csproj" />
     <ProjectReference Include="..\QMS.Services\QMS.Services.csproj" />
     <ProjectReference Include="..\QMS.Storage.CosmosDB\QMS.Storage.CosmosDB.csproj" />
   </ItemGroup>

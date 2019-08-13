@@ -39,7 +39,7 @@ namespace QMS.Web.Controllers
             if(schema.IsSingleton)
             {
                 if (result.Any())
-                    return RedirectToAction("Edit", new { cmsType = cmsType, id = result.First().id });
+                    return RedirectToAction("Edit", new { cmsType = cmsType, id = result.First().Id });
                 else
                     return RedirectToAction("Create", new { cmsType = cmsType });
             }

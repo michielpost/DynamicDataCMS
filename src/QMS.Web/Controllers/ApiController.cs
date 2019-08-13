@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using QMS.Models;
 using QMS.Services;
 using QMS.Storage.CosmosDB;
 using QMS.Web.Models;
@@ -26,16 +27,16 @@ namespace QMS.Web.Controllers
 
         [HttpPost]
         [Route("save/{cmsType}/{id}")]
-        public async Task Save([FromRoute]string cmsType, [FromRoute]string id, [FromBody] dynamic value)
+        public async Task Save([FromRoute]string cmsType, [FromRoute]string id, [FromBody] CmsItem value)
         {
-            value.id = id; //Must be lower case id prop name
+            value.Id = id; //Must be lower case id prop name
             await cosmosService.Save(cmsType, value);
         }
 
         [HttpGet]
         [Route("load/{cmsType}/{id}")]
         [Produces("application/json")]
-        public async Task<JObject> Load([FromRoute]string cmsType, [FromRoute]string id)
+        public async Task<CmsItem> Load([FromRoute]string cmsType, [FromRoute]string id)
         {
             var result = await cosmosService.Load(cmsType, id);
             return result;
@@ -45,7 +46,7 @@ namespace QMS.Web.Controllers
         [HttpGet]
         [Route("list/{cmsType}")]
         [Produces("application/json")]
-        public async Task<List<dynamic>> List([FromRoute]string cmsType)
+        public async Task<List<CmsItem>> List([FromRoute]string cmsType)
         {
             var result = await cosmosService.List(cmsType);
             return result;
@@ -68,10 +69,10 @@ namespace QMS.Web.Controllers
             {
                 title = cmsType,
                 type = "string",
-                @enum = list.Select(x => (string)x.id.ToString()).ToList(),
+                @enum = list.Select(x => x.Id).ToList(),
                 options = new Options
                 {
-                     enum_titles = list.Select(x => "TODO: Title: " + (string)x.id.ToString()).ToList()
+                     enum_titles = list.Select(x => "TODO: Title: " + x.Id).ToList()
                 }
             };
             return result;

@@ -29,17 +29,17 @@
 @foreach (var item in Model.Items) {
         <tr>
             <td>
-                @item.id
+                @item.Id
             </td>
             <td>
-                @item.cmstype
+                @item.CmsType
             </td>
             @foreach (var column in Model.Schema.ListViewProperties)
             {
-                <td>@item[column.Key]</td>
+                <td>@item.AdditionalProperties[column.Key]</td>
             }
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.id, cmstype = item.cmstype }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id, cmstype = item.CmsType }) |
             </td>
         </tr>
 }
