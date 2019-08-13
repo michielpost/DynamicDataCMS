@@ -1,48 +1,62 @@
-﻿<!DOCTYPE html>
+﻿@inject QMS.Services.JsonSchemaService JsonSchemaService
+@{
+    var schemas = await JsonSchemaService.GetSchemas();
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - QMS.Web</title>
+    <title>@ViewData["Title"] - QMS 4</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@json-editor/json-editor@latest/dist/css/jsoneditor.min.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" />
+    <link rel="stylesheet" href="~/css//site.css" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">QMS.Web</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" asp-area="" asp-controller="Home" asp-action="Index">QMS 4</a>
+        <ul class="navbar-nav px-3">
+            @*<li class="nav-item text-nowrap">
+                <a class="nav-link" href="#">Sign out</a>
+            </li>*@
+        </ul>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <span>CMS Entities</span>
+                    </h6>
+
+                    <ul class="nav flex-column">
+
+                        @foreach (var schema in schemas)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("List", new { cmstype = @schema.Key })">
+                                    <span data-feather="file"></span>
+                                    @schema.Name
+                                </a>
+                            </li>
+                        }
+
+
                     </ul>
+
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+            </nav>
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2019 - QMS.Web - <a href="https://github.com/Q42/QMS4" target="_blank">QMS4 on GitHub</a>
-        </div>
-    </footer>
 
-   
 
     @RenderSection("Scripts", required: false)
 </body>

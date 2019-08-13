@@ -36,7 +36,7 @@
             </td>
             @foreach (var column in Model.Schema.ListViewProperties)
             {
-                <td>@item.AdditionalProperties[column.Key]</td>
+                <td>@item.AdditionalProperties.GetValueOrDefault(column.Key)</td>
             }
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id, cmstype = item.CmsType }) |
