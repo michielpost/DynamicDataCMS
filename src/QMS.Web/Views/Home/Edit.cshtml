@@ -23,11 +23,11 @@
 
         });
 
-        @if (!string.IsNullOrEmpty(Model.Data))
+        @if (Model.Data != null)
         {
             <text>
             editor.on('ready',function() {
-                editor.setValue(@Html.Raw(Model.Data));
+                editor.setValue(@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Data)));
             });
             
             </text>
@@ -41,7 +41,7 @@
         //console.log('saving');
         //alert(data);
 
-        return fetch('/api/save/@Model.CmsType/@Model.Id', {
+        return fetch('/api/save/@Model.CmsType/@Model.Id/@Model.Language', {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         //mode: 'cors', // no-cors, cors, *same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -59,7 +59,7 @@
 
         function load() {
 
-            return fetch('/api/load/@Model.CmsType/@Model.Id', {
+            return fetch('/api/load/@Model.CmsType/@Model.Id/@Model.Language', {
                 method: 'GET', // *GET, POST, PUT, DELETE, etc.
                 //mode: 'cors', // no-cors, cors, *same-origin
                 cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -80,6 +80,23 @@
 }
 <div>
     <h1 class="display-4">Editor Test Demo</h1>
+
+    @if (Model.CmsConfiguration?.Languages?.Any() ?? false)
+    {
+<ul class="nav">
+    <li class="nav-item">
+        <a class="nav-link" href="@Url.Action("Edit", "Home", new { lang = "" })">Default Language</a>
+    </li>
+    @foreach (var lang in Model.CmsConfiguration.Languages)
+    {
+        <li class="nav-item">
+            <a class="nav-link" href="@Url.Action("Edit", "Home", new { lang = @lang })">@lang</a>
+        </li>
+    }
+</ul>
+    }
+
+
     <button id="load" onclick="javascript:load()">Load</button>
     <button id="save" onclick="javascript:save()">Save</button>
 

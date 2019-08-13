@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using QMS.Models;
 using QMS.Services;
 using QMS.Storage.CosmosDB;
 using QMS.Web.Models;
@@ -53,21 +55,28 @@ namespace QMS.Web.Controllers
             return View(model);
         }
 
-        [Route("edit/{cmsType}/{id}")]
-        public async Task<IActionResult> Edit([FromRoute]string cmsType, [FromRoute]string id)
+        [Route("edit/{cmsType}/{id}/{lang?}")]
+        public async Task<IActionResult> Edit([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string lang)
         {
             if (string.IsNullOrEmpty(id))
                 return new NotFoundResult();
 
             var schema = await schemaService.GetSchema(cmsType);
-            var data = await cosmosService.Load(cmsType, id);
+            var cmsItem = await cosmosService.Load(cmsType, id);
+
+            CmsDataItem data = cmsItem;
+
+            if (lang != null)
+                data = cmsItem.Translations.GetValueOrDefault(lang);
 
             var model = new EditViewModel
             {
-                 CmsType = cmsType,
-                 Id = id,
-                 SchemaLocation = schema,
-                 Data = JsonConvert.SerializeObject(data)
+                CmsType = cmsType,
+                Id = id,
+                SchemaLocation = schema,
+                CmsConfiguration = schemaService.GetCmsConfiguration(),
+                Language = lang,
+                Data = data
             };
             return View(model);
         }

@@ -49,10 +49,21 @@ namespace QMS.Storage.CosmosDB
         public async Task<CmsItem> Load(string partitionKey, string documentId)
         {
             Container container = GetContainer();
-            var response = await container.ReadItemAsync<CmsItem>(documentId, new PartitionKey(partitionKey));
 
-            return response.Resource;
+            try
+            {
+                //TODO: Why does it throw a 404 when no document is found? Should not throw
+                var response = await container.ReadItemAsync<CmsItem>(documentId, new PartitionKey(partitionKey));
 
+                return response.Resource;
+            }
+            catch { }
+
+            return new CmsItem
+            {
+                Id = documentId,
+                CmsType = partitionKey
+            };
         }
 
         public async Task<Container> InitializeContainer()

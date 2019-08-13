@@ -6,7 +6,7 @@ using System.Text;
 
 namespace QMS.Models
 {
-    public class CmsItem
+    public class CmsItem : CmsDataItem
     {
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -14,20 +14,13 @@ namespace QMS.Models
         [JsonProperty("cmstype")]
         public string CmsType { get; set; }
 
+        public Dictionary<string, CmsDataItem> Translations { get; set; } = new Dictionary<string, CmsDataItem>();
+
+    }
+
+    public class CmsDataItem
+    {
         [JsonExtensionData]
         public Dictionary<string, JToken> AdditionalProperties { get; set; } = new Dictionary<string, JToken>();
-
     }
-
-    public class CmsLanguagWrapper : CmsItem
-    {
-        public List<CmsLanguageItem> Items { get; set; }
-
-    }
-
-    public class CmsLanguageItem : CmsItem
-    {
-        public string Language { get; set; }
-    }
-
 }

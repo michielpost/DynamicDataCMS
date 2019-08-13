@@ -26,20 +26,32 @@ namespace QMS.Web.Controllers
         }
 
         [HttpPost]
-        [Route("save/{cmsType}/{id}")]
-        public async Task Save([FromRoute]string cmsType, [FromRoute]string id, [FromBody] CmsItem value)
+        [Route("save/{cmsType}/{id}/{lang?}")]
+        public async Task Save([FromRoute]string cmsType, [FromRoute]string id, [FromBody] CmsDataItem value, [FromRoute]string lang)
         {
-            value.Id = id; //Must be lower case id prop name
-            await cosmosService.Save(cmsType, value);
+            var cmsItem = await cosmosService.Load(cmsType, id);
+
+            if (lang == null)
+                cmsItem.AdditionalProperties = value.AdditionalProperties;
+            else
+                cmsItem.Translations[lang] = value;
+
+            await cosmosService.Save(cmsType, cmsItem);
         }
 
         [HttpGet]
-        [Route("load/{cmsType}/{id}")]
+        [Route("load/{cmsType}/{id}/{lang?}")]
         [Produces("application/json")]
-        public async Task<CmsItem> Load([FromRoute]string cmsType, [FromRoute]string id)
+        public async Task<CmsDataItem> Load([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string lang)
         {
-            var result = await cosmosService.Load(cmsType, id);
-            return result;
+            var cmsItem = await cosmosService.Load(cmsType, id);
+
+            CmsDataItem data = cmsItem;
+
+            if (lang != null)
+                data = cmsItem.Translations.GetValueOrDefault(lang);
+
+            return data;
         }
 
 
