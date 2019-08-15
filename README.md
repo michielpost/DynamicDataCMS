@@ -27,10 +27,20 @@ NJsonSchema
 https://github.com/RicoSuter/NJsonSchema
 
 
-## TODO and Notes
+## Roadmap
+- Asset Manager for Images and other files
+
 - Searching and ordering on list view
 
-- Json Schema Designers  
+- Pages and url tree
+
+- Multiple Data Stores (write to blob storage)
+
+- Authentication and Authorization
+
+- Audit Trail
+
+- Build in JsonSchema Designer, some ideas:  
 https://bjdash.github.io/JSON-Schema-Builder/  
 https://jsondraft.com/4c/#tree  
 https://mozilla-services.github.io/react-jsonschema-form/  
