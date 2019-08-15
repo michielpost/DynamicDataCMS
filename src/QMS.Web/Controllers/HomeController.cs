@@ -25,18 +25,16 @@ namespace QMS.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var all = await schemaService.GetSchemas();
-
-            return View(all);
+            return View();
         }
 
         [Route("list/{cmsType}")]
         public async Task<IActionResult> List([FromRoute]string cmsType)
         {
             var result = await cosmosService.List(cmsType);
-            var schema = await schemaService.GetSchema(cmsType);
+            var schema = schemaService.GetSchema(cmsType);
 
             if(schema.IsSingleton)
             {
@@ -61,7 +59,7 @@ namespace QMS.Web.Controllers
             if (string.IsNullOrEmpty(id))
                 return new NotFoundResult();
 
-            var schema = await schemaService.GetSchema(cmsType);
+            var schema = schemaService.GetSchema(cmsType);
             var cmsItem = await cosmosService.Load(cmsType, id);
 
             CmsDataItem data = cmsItem;
@@ -82,9 +80,9 @@ namespace QMS.Web.Controllers
         }
 
         [Route("create/{cmsType}")]
-        public async Task<IActionResult> Create([FromRoute]string cmsType)
+        public IActionResult Create([FromRoute]string cmsType)
         {
-            var schema = await schemaService.GetSchema(cmsType);
+            var schema = schemaService.GetSchema(cmsType);
 
             var model = new EditViewModel
             {

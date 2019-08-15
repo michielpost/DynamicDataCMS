@@ -1,19 +1,7 @@
-﻿@model List<QMS.Services.Models.SchemaLocation>
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    ViewData["Title"] = "QMS4";
 }
 
-<h1>Index</h1>
+<h1>QMS 4</h1>
 
-@foreach(var schema in Model)
-{
-<p>
-    @schema.Name
-
-@Html.ActionLink("List", "List", new { cmstype = @schema.Key })
-
-
-
-</p>
-}
 

@@ -1,6 +1,6 @@
 ﻿@model EditViewModel
 @{
-    ViewData["Title"] = "QMS";
+    ViewData["Title"] = Model.SchemaLocation.Name;
 }
 
 @section Scripts
@@ -120,7 +120,7 @@
     </script>
 }
 <div>
-    <h1 class="display-4">Editor Test Demo</h1>
+    <h1 class="display-4">@Model.SchemaLocation.Name</h1>
 
     @if (Model.CmsConfiguration?.Languages?.Any() ?? false)
     {

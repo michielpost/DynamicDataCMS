@@ -66,6 +66,12 @@ namespace QMS.Web
                 serviceScope.ServiceProvider.GetService<CosmosService>().InitializeContainer();
             }
 
+            //Schemas
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                serviceScope.ServiceProvider.GetService<JsonSchemaService>().InitializeSchemas();
+            }
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

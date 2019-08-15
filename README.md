@@ -36,6 +36,8 @@ https://github.com/RicoSuter/NJsonSchema
 
 - Multiple Data Stores (write to blob storage)
 
+- Website SDK / Website usage example
+
 - Authentication and Authorization
 
 - Audit Trail

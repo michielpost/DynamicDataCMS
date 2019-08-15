@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using QMS.Models;
 using QMS.Services;
+using QMS.Services.Models;
 using QMS.Storage.CosmosDB;
 using QMS.Web.Models;
 
@@ -75,6 +77,7 @@ namespace QMS.Web.Controllers
         [Produces("application/json")]
         public async Task<ExternalEnum> Enum([FromRoute]string cmsType)
         {
+            var schema = schemaService.GetSchema(cmsType);
             var list = await cosmosService.List(cmsType);
 
             var result = new ExternalEnum
@@ -84,12 +87,26 @@ namespace QMS.Web.Controllers
                 @enum = list.Select(x => x.Id).ToList(),
                 options = new Options
                 {
-                     enum_titles = list.Select(x => "TODO: Title: " + x.Id).ToList()
+                     enum_titles = list.Select(x => GetDisplayTitle(x, schema)).ToList()
                 }
             };
             return result;
         }
 
+        private string GetDisplayTitle(CmsItem x, SchemaLocation schema)
+        {
+            List<string> titles = new List<string>();
 
+            foreach(var prop in schema.ListViewProperties)
+            {
+                titles.Add(x.AdditionalProperties.GetValueOrDefault(prop.Key).ToString());
+            }
+
+            string result = string.Join(' ', titles);
+            if (string.IsNullOrWhiteSpace(result))
+                result = x.Id;
+
+            return result;
+        }
     }
 }

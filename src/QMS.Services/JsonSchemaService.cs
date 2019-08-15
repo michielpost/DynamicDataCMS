@@ -23,7 +23,7 @@ namespace QMS.Services
         }
 
 
-        public async Task<List<SchemaLocation>> GetSchemas()
+        private async Task<List<SchemaLocation>> GetSchemas()
         {
             var result = new List<SchemaLocation>();
 
@@ -47,10 +47,14 @@ namespace QMS.Services
             return cmsConfig.Entities;
         }
 
-        public async Task<SchemaLocation> GetSchema(string cmsType)
+        public Task InitializeSchemas()
         {
-            var all = await GetSchemas();
-            return all.Where(x => x.Key == cmsType).FirstOrDefault();
+           return GetSchemas();
+        }
+
+        public SchemaLocation GetSchema(string cmsType)
+        {
+            return cmsConfig.Entities.Where(x => x.Key == cmsType).FirstOrDefault();
         }
 
         public CmsConfiguration GetCmsConfiguration()
