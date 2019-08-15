@@ -42,6 +42,17 @@
           "DisplayName": "Lastname"
         }
       ]
+    },
+    {
+      "Name": "Image",
+      "Key": "image",
+      "Uri": "https://localhost:44341/schemas/image.schema.json",
+      "ListViewProperties": [
+        {
+          "Key": "name",
+          "DisplayName": "Name"
+        }
+      ]
     }
   ]
 }

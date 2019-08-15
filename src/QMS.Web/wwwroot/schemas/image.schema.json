@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Image",
+  "type": "object",
+  "properties": {
+    "file": {
+      "type": "string",
+      "format": "url",
+      "options": {
+        "upload": true
+      }
+    },
+    "name": {
+      "type": "string",
+      "description": "Name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description"
+    }
+  }
+}

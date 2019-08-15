@@ -15,6 +15,47 @@
         JSONEditor.defaults.options.theme = 'bootstrap4';
         JSONEditor.defaults.options.no_additional_properties = true;
 
+         // Specify upload handler
+        JSONEditor.defaults.options.upload = function (type, file, cbs) {
+
+            var formData = new FormData();
+            formData.set("file", file , file.name);
+
+            fetch('/cms/upload/images', { // Your POST endpoint
+    method: 'POST',
+    //headers: {
+    //  // Content-Type may need to be completely **omitted**
+    //  // or you may need something
+    //  "Content-Type": "multipart/form-data"
+    //},
+    body: formData // This is your file object
+  }).then(
+    response => response.json() // if the response is a JSON object
+  ).then(
+      success => { console.log(success);  cbs.success('http://www.example.com/images/' + file.name); } // Handle the success response object
+  ).catch(
+    error => console.log(error) // Handle the error response object
+  );
+          //var tick = 0;
+
+          //var tickFunction = function() {
+          //  tick += 1;
+          //  console.log('progress: ' + tick);
+
+          //  if (tick < 100) {
+          //    cbs.updateProgress(tick);
+          //    window.setTimeout(tickFunction, 50)
+          //  } else if (tick == 100) {
+          //    cbs.updateProgress();
+          //    window.setTimeout(tickFunction, 500)
+          //  } else {
+          //    cbs.success('http://www.example.com/images/' + file.name);
+          //  }
+          //};
+
+          //window.setTimeout(tickFunction);
+      };
+
         // Initialize the editor
         editor = new JSONEditor(document.getElementById("editor_holder"), {
             iconlib: "fontawesome5",
