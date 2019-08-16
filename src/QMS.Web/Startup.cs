@@ -32,11 +32,11 @@ namespace QMS.Web
             services.Configure<CmsConfigLocation>(Configuration.GetSection(nameof(CmsConfigLocation)));
 
             //Cosmos
-            services.Configure<CosmosConfig>(Configuration.GetSection(nameof(CosmosConfig)));
+           // services.Configure<CosmosConfig>(Configuration.GetSection(nameof(CosmosConfig)));
 
             services.AddHttpClient();
 
-            services.AddScoped<CosmosService>();
+           // services.AddScoped<CosmosService>();
             services.AddScoped<JsonSchemaService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -61,10 +61,10 @@ namespace QMS.Web
             app.UseCookiePolicy();
 
             //Cosmos
-            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                serviceScope.ServiceProvider.GetService<CosmosService>().InitializeContainer();
-            }
+            //using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            //{
+            //    serviceScope.ServiceProvider.GetService<CosmosService>().InitializeContainer();
+            //}
 
             //Schemas
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())

@@ -27,10 +27,10 @@ namespace QMS.Storage.AzureStorage
             if (string.IsNullOrEmpty(fileName))
                 fileName = Guid.NewGuid().ToString();
 
-            var blockBlob = blobContainer.GetBlockBlobReference(fileName.ToUpper(CultureInfo.InvariantCulture));
+            var blockBlob = blobContainer.GetBlockBlobReference(fileName);
 
             blockBlob.Properties.ContentType = contentType;
-            blockBlob.Properties.CacheControl = "public, max-age=31536000"; //Cache for 1 year
+            //blockBlob.Properties.CacheControl = "public, max-age=31536000"; //Cache for 1 year
 
             using (var stream = new MemoryStream(fileData, writable: false))
             {
@@ -46,7 +46,7 @@ namespace QMS.Storage.AzureStorage
         private async Task<CloudBlobContainer> GetBlobContainer(string containerName)
         {
             if (string.IsNullOrEmpty(containerName))
-                containerName = _config.AssetsContainerName;
+                containerName = _config.ContainerName;
 
             var storageAccount = CloudStorageAccount.Parse(_config.StorageAccount);
 
@@ -88,7 +88,7 @@ namespace QMS.Storage.AzureStorage
 
             var container = await GetBlobContainer(containerName);
 
-            var blobReference = container.GetBlockBlobReference(blobStoreId.ToUpper(CultureInfo.InvariantCulture));
+            var blobReference = container.GetBlockBlobReference(blobStoreId);
             if (blobReference == null)
                 throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Given blobStoreId '{0}' does not exist",
                   blobStoreId));

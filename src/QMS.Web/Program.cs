@@ -19,6 +19,7 @@ namespace QMS.Web
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseSetting(WebHostDefaults.HostingStartupAssembliesKey, "QMS.Storage.CosmosDB;QMS.Storage.AzureStorage")
                 .UseStartup<Startup>();
     }
 }
