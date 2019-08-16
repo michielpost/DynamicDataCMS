@@ -5,16 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 using QMS.Models;
 using QMS.Services;
 using QMS.Services.Models;
 using QMS.Storage.CosmosDB;
-using QMS.Web.Models;
+using QMS.Core.Models;
 
-namespace QMS.Web.Controllers
+namespace QMS.Core.Controllers
 {
-    [Route("api/")]
+    [Area("cms")]
+    [Route("[area]/api")]
     [ApiController]
     public class ApiController : ControllerBase
     {
@@ -51,7 +51,7 @@ namespace QMS.Web.Controllers
             CmsDataItem data = cmsItem;
 
             if (lang != null)
-                data = cmsItem.Translations.GetValueOrDefault(lang);
+                data = cmsItem.Translations.FirstOrDefault(x => x.Key == lang).Value;
 
             return data;
         }
@@ -99,10 +99,10 @@ namespace QMS.Web.Controllers
 
             foreach(var prop in schema.ListViewProperties)
             {
-                titles.Add(x.AdditionalProperties.GetValueOrDefault(prop.Key).ToString());
+                titles.Add(x.AdditionalProperties.FirstOrDefault(p => p.Key == prop.Key).Value.ToString());
             }
 
-            string result = string.Join(' ', titles);
+            string result = string.Join(" ", titles);
             if (string.IsNullOrWhiteSpace(result))
                 result = x.Id;
 

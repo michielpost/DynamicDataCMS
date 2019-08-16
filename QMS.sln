@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QMS.Storage.CosmosDB", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QMS.Services", "src\QMS.Services\QMS.Services.csproj", "{3C461AC9-613F-4407-8574-9C839BF05E27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QMS.Models", "src\QMS.Models\QMS.Models.csproj", "{6EEA4536-9116-4737-8A24-D44B83EFDEF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QMS.Models", "src\QMS.Models\QMS.Models.csproj", "{6EEA4536-9116-4737-8A24-D44B83EFDEF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QMS.Core", "src\QMS.Core\QMS.Core.csproj", "{360DA53C-E026-4728-903C-D725C41BEDEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QMS.Core", "src\QMS.Core\QMS.Core.csproj", "{360DA53C-E026-4728-903C-D725C41BEDEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

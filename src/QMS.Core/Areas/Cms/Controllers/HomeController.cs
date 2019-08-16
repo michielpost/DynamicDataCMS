@@ -4,15 +4,15 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using QMS.Models;
 using QMS.Services;
 using QMS.Storage.CosmosDB;
-using QMS.Web.Models;
+using QMS.Core.Models;
 
-namespace QMS.Web.Controllers
+namespace QMS.Core.Controllers
 {
+    [Area("cms")]
+    [Route("[area]")]
     public class HomeController : Controller
     {
         private readonly CosmosService cosmosService;
@@ -63,9 +63,8 @@ namespace QMS.Web.Controllers
             var cmsItem = await cosmosService.Load(cmsType, id);
 
             CmsDataItem data = cmsItem;
-
             if (lang != null)
-                data = cmsItem.Translations.GetValueOrDefault(lang);
+                data = cmsItem.Translations.FirstOrDefault(x => x.Key == lang).Value;
 
             var model = new EditViewModel
             {
@@ -94,10 +93,10 @@ namespace QMS.Web.Controllers
         }
 
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        //public IActionResult Error()
+        //{
+        //    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        //}
     }
 }

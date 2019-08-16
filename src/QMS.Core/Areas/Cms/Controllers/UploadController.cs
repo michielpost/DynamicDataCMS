@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace QMS.Web.Controllers
+namespace QMS.Core.Controllers
 {
-    [Route("cms/upload")]
+    [Area("cms")]
+    [Route("[area]/upload")]
     public class UploadController : Controller
     {
         [HttpPost]

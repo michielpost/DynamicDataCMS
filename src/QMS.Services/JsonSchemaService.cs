@@ -40,7 +40,7 @@ namespace QMS.Services
             foreach (var location in cmsConfig.Entities.Where(x => x.Schema == null))
             {
                 var getJson = await httpClient.GetStringAsync(location.Uri);
-                JsonSchema schema = await JsonSchema.FromJsonAsync(getJson);
+                //JsonSchema schema = await JsonSchema.FromJsonAsync(getJson);
                 location.Schema = getJson;
             }
 

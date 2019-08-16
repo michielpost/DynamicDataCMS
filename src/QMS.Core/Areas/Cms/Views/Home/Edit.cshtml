@@ -21,7 +21,7 @@
             var formData = new FormData();
             formData.set("file", file , file.name);
 
-            fetch('/cms/upload/images', { // Your POST endpoint
+            fetch('@Url.Action("Upload", "Images", new { area = "cms", cmsType = Model.CmsType, id = Model.Id, lang = Model.Language })', { // Your POST endpoint
     method: 'POST',
     //headers: {
     //  // Content-Type may need to be completely **omitted**
@@ -70,7 +70,7 @@
             editor.on('ready',function() {
                 editor.setValue(@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Data)));
             });
-            
+
             </text>
         }
 
@@ -82,7 +82,7 @@
         //console.log('saving');
         //alert(data);
 
-        return fetch('/api/save/@Model.CmsType/@Model.Id/@Model.Language', {
+        return fetch('@Url.Action("Save", "Api", new { area = "cms", cmsType = Model.CmsType, id = Model.Id, lang = Model.Language })', {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         //mode: 'cors', // no-cors, cors, *same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -100,7 +100,7 @@
 
         function load() {
 
-            return fetch('/api/load/@Model.CmsType/@Model.Id/@Model.Language', {
+            return fetch('@Url.Action("Load", "Api", new { area = "cms", cmsType = Model.CmsType, id = Model.Id, lang = Model.Language })', {
                 method: 'GET', // *GET, POST, PUT, DELETE, etc.
                 //mode: 'cors', // no-cors, cors, *same-origin
                 cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
