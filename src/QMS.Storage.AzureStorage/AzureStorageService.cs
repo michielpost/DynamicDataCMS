@@ -23,7 +23,7 @@ namespace QMS.Storage.AzureStorage
         /// </summary>
         public async Task<ICloudBlob> StoreFileAsync(byte[] fileData, string contentType, string fileName = null, string containerName = null)
         {
-            var blobContainer = await GetBlobContainer(containerName);
+            var blobContainer = await GetBlobContainer(containerName).ConfigureAwait(false);
             if (string.IsNullOrEmpty(fileName))
                 fileName = Guid.NewGuid().ToString();
 
@@ -34,7 +34,7 @@ namespace QMS.Storage.AzureStorage
 
             using (var stream = new MemoryStream(fileData, writable: false))
             {
-                await blockBlob.UploadFromStreamAsync(stream);
+                await blockBlob.UploadFromStreamAsync(stream).ConfigureAwait(false);
             }
 
             return blockBlob;
@@ -52,7 +52,7 @@ namespace QMS.Storage.AzureStorage
 
             var blobClient = storageAccount.CreateCloudBlobClient();
             var blobContainer = blobClient.GetContainerReference(containerName);
-            await blobContainer.CreateIfNotExistsAsync();
+            await blobContainer.CreateIfNotExistsAsync().ConfigureAwait(false);
             return blobContainer;
         }
 
@@ -66,14 +66,14 @@ namespace QMS.Storage.AzureStorage
             if (string.IsNullOrWhiteSpace(blobStoreId))
                 throw new ArgumentNullException(nameof(blobStoreId));
 
-            var container = await GetBlobContainer(containerName);
+            var container = await GetBlobContainer(containerName).ConfigureAwait(false);
 
-            var blobReference = await container.GetBlobReferenceFromServerAsync(blobStoreId);
+            var blobReference = await container.GetBlobReferenceFromServerAsync(blobStoreId).ConfigureAwait(false);
             if (blobReference == null)
                 throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Given blobStoreId '{0}' does not exist",
                   blobStoreId));
 
-            await blobReference.DeleteAsync();
+            await blobReference.DeleteAsync().ConfigureAwait(false);
         }
 
         /// <summary>
@@ -86,14 +86,14 @@ namespace QMS.Storage.AzureStorage
             if (string.IsNullOrWhiteSpace(blobStoreId))
                 throw new ArgumentNullException(nameof(blobStoreId));
 
-            var container = await GetBlobContainer(containerName);
+            var container = await GetBlobContainer(containerName).ConfigureAwait(false);
 
             var blobReference = container.GetBlockBlobReference(blobStoreId);
             if (blobReference == null)
                 throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Given blobStoreId '{0}' does not exist",
                   blobStoreId));
 
-            if (!await blobReference.ExistsAsync())
+            if (!await blobReference.ExistsAsync().ConfigureAwait(false))
                 throw new FileNotFoundException();
 
             if (blobReference.Properties.Length == 0)

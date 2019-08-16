@@ -26,7 +26,7 @@ namespace QMS.Core.Areas.Cms.Controllers
         {
             try
             {
-                var image = await _imageService.GetImageAsync(cmsType, id, fieldName, lang, w, h, cover, quality);
+                var image = await _imageService.GetImageAsync(cmsType, id, fieldName, lang, w, h, cover, quality).ConfigureAwait(false);
 
                 return File(image, "image/jpeg");
             }

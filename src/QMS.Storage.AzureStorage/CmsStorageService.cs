@@ -22,12 +22,12 @@ namespace QMS.Storage.AzureStorage
             string fileName = GenerateFileName(cmsType, id, fieldName, lang);
 
             // get original image
-            var blob = await azureStorageService.GetFileReference(id);
+            var blob = await azureStorageService.GetFileReference(id).ConfigureAwait(false);
 
             using (var stream = new MemoryStream())
             {
                 // download image
-                await blob.DownloadToStreamAsync(stream);
+                await blob.DownloadToStreamAsync(stream).ConfigureAwait(false);
                 var imageBytes = stream.ToArray();
 
                 return imageBytes;
@@ -38,7 +38,7 @@ namespace QMS.Storage.AzureStorage
         {
             string fileName = GenerateFileName(cmsType, id, fieldName, lang);
 
-            var blob = await azureStorageService.StoreFileAsync(bytes, mimeType, fileName);
+            var blob = await azureStorageService.StoreFileAsync(bytes, mimeType, fileName).ConfigureAwait(false);
             return blob.Uri;
         }
 

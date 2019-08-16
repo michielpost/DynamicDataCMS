@@ -22,19 +22,19 @@ namespace QMS.Services
         }
 
 
-        public async Task<byte[]> GetImageAsync(string cmsType, string id, string fieldName, string lang, 
+        public async Task<byte[]> GetImageAsync(string cmsType, string id, string fieldName, string lang,
             int? width = null, int? height = null, bool cover = false, int? quality = null)
         {
-            return await GetImageAsync(cmsType, id, fieldName, lang, width, height, cover, quality ?? compressionQuality);
+            return await GetImageAsync(cmsType, id, fieldName, lang, width, height, cover, quality ?? compressionQuality).ConfigureAwait(false);
         }
 
-        private async Task<byte[]> GetImageAsync(string cmsType, string id, string fieldName, string lang, 
+        private async Task<byte[]> GetImageAsync(string cmsType, string id, string fieldName, string lang,
             int? width, int? height, bool cover, int quality)
         {
 
-            var imageBytes = await readFileService.ReadFile(cmsType, id, fieldName, lang);
+            var imageBytes = await readFileService.ReadFile(cmsType, id, fieldName, lang).ConfigureAwait(false);
 
-                // Read from stream.
+            // Read from stream.
             using (var image = Image.Load(Configuration.Default, imageBytes, out var format))
             {
                 if (cover)

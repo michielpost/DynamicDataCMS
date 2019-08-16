@@ -46,7 +46,7 @@ namespace QMS.Core.Controllers
                     try
                     {
                         //Image.Load(Configuration.Default, bytes);
-                        var blob = await writeFileService.WriteFile(bytes, mimeType, cmsType, id, fieldName, lang);
+                        var blob = await writeFileService.WriteFile(bytes, mimeType, cmsType, id, fieldName, lang).ConfigureAwait(false);
 
                     }
                     catch (Exception e)

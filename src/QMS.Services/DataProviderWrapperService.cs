@@ -36,23 +36,23 @@ namespace QMS.Services
 
         public async Task<IReadOnlyList<CmsItem>> List(string cmsType)
         {
-            var task = await Task.WhenAny(readCmsItemProviders.Select(x => x.List(cmsType)));
+            var task = await Task.WhenAny(readCmsItemProviders.Select(x => x.List(cmsType))).ConfigureAwait(false);
 
-            return await task;
+            return await task.ConfigureAwait(false);
         }
 
         public async Task<CmsItem> Read(string cmsType, string id)
         {
-            var task = await Task.WhenAny(readCmsItemProviders.Select(x => x.Read(cmsType, id)));
+            var task = await Task.WhenAny(readCmsItemProviders.Select(x => x.Read(cmsType, id))).ConfigureAwait(false);
 
-            return await task;
+            return await task.ConfigureAwait(false);
         }
 
         public async Task<byte[]> ReadFile(string cmsType, string id, string fieldName, string lang)
         {
-            var task = await Task.WhenAny(readFileProviders.Select(x => x.ReadFile(cmsType, id, fieldName, lang)));
+            var task = await Task.WhenAny(readFileProviders.Select(x => x.ReadFile(cmsType, id, fieldName, lang))).ConfigureAwait(false);
 
-            return await task;
+            return await task.ConfigureAwait(false);
         }
 
         public Task Write(CmsItem item, string cmsType, string id, string lang)
@@ -62,7 +62,7 @@ namespace QMS.Services
 
         public async Task<Uri> WriteFile(byte[] bytes, string mimeType, string cmsType, string id, string fieldName, string lang)
         {
-            var task = await Task.WhenAll(writeFileProviders.Select(x => x.WriteFile(bytes, mimeType, cmsType, id, fieldName, lang)));
+            var task = await Task.WhenAll(writeFileProviders.Select(x => x.WriteFile(bytes, mimeType, cmsType, id, fieldName, lang))).ConfigureAwait(false);
 
             return task.First();
         }

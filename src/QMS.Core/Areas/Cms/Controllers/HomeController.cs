@@ -35,7 +35,7 @@ namespace QMS.Core.Controllers
         [Route("list/{cmsType}")]
         public async Task<IActionResult> List([FromRoute]string cmsType)
         {
-            var result = await readCmsItemService.List(cmsType);
+            var result = await readCmsItemService.List(cmsType).ConfigureAwait(false);
             var schema = schemaService.GetSchema(cmsType);
 
             if(schema.IsSingleton)
@@ -62,7 +62,7 @@ namespace QMS.Core.Controllers
                 return new NotFoundResult();
 
             var schema = schemaService.GetSchema(cmsType);
-            var cmsItem = await readCmsItemService.Read(cmsType, id);
+            var cmsItem = await readCmsItemService.Read(cmsType, id).ConfigureAwait(false);
 
             CmsDataItem data = cmsItem;
             if (lang != null)

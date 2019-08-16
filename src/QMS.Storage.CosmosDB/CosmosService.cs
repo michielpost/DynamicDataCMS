@@ -29,7 +29,7 @@ namespace QMS.Storage.CosmosDB
 
             while (queryResultSetIterator.HasMoreResults)
             {
-                FeedResponse<CmsItem> currentResultSet = await queryResultSetIterator.ReadNextAsync();
+                FeedResponse<CmsItem> currentResultSet = await queryResultSetIterator.ReadNextAsync().ConfigureAwait(false);
                 foreach (CmsItem item in currentResultSet)
                 {
                     results.Add(item);
@@ -44,7 +44,7 @@ namespace QMS.Storage.CosmosDB
             Container container = GetContainer();
 
             item.CmsType = cmsType;
-            await container.UpsertItemAsync(item, new PartitionKey(cmsType));
+            await container.UpsertItemAsync(item, new PartitionKey(cmsType)).ConfigureAwait(false);
         }
 
         public async Task<CmsItem> Read(string partitionKey, string documentId)
@@ -54,7 +54,7 @@ namespace QMS.Storage.CosmosDB
             try
             {
                 //TODO: Why does it throw a 404 when no document is found? Should not throw
-                var response = await container.ReadItemAsync<CmsItem>(documentId, new PartitionKey(partitionKey));
+                var response = await container.ReadItemAsync<CmsItem>(documentId, new PartitionKey(partitionKey)).ConfigureAwait(false);
 
                 return response.Resource;
             }
@@ -70,11 +70,11 @@ namespace QMS.Storage.CosmosDB
         public async Task<Container> InitializeContainer()
         {
             CosmosClient client = new CosmosClient(cosmosConfig.Endpoint, cosmosConfig.Key);
-            Database database = await client.CreateDatabaseIfNotExistsAsync(cosmosConfig.DatabaseId);
+            Database database = await client.CreateDatabaseIfNotExistsAsync(cosmosConfig.DatabaseId).ConfigureAwait(false);
             Container container = await database.CreateContainerIfNotExistsAsync(
                 cosmosConfig.ContainerId,
                 "/cmstype",
-                400);
+                400).ConfigureAwait(false);
 
             return container;
         }

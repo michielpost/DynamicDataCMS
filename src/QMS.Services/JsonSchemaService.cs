@@ -31,7 +31,7 @@ namespace QMS.Services
 
             if (cmsConfig == null || !cmsConfig.IsInitialized)
             {
-                var config = await httpClient.GetStringAsync(cmsConfigLocation.Uri);
+                var config = await httpClient.GetStringAsync(cmsConfigLocation.Uri).ConfigureAwait(false);
                 //TODO: Check if response is OK
                 cmsConfig = JsonConvert.DeserializeObject<CmsConfiguration>(config);
             }
@@ -39,8 +39,8 @@ namespace QMS.Services
             //TODO: Cache schemas
             foreach (var location in cmsConfig.Entities.Where(x => x.Schema == null))
             {
-                var getJson = await httpClient.GetStringAsync(location.Uri);
-                //JsonSchema schema = await JsonSchema.FromJsonAsync(getJson);
+                var getJson = await httpClient.GetStringAsync(location.Uri).ConfigureAwait(false);
+                //JsonSchema schema = await JsonSchema.FromJsonAsync(getJson).ConfigureAwait(false);
                 location.Schema = getJson;
             }
 
