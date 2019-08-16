@@ -1,58 +1,70 @@
 {
   "Languages": [ "en-US", "nl-NL" ],
-  "Entities": [
+  "EntityGroups": [
     {
-      "Name": "Person",
-      "Key": "person",
-      "Uri": "https://localhost:44341/schemas/person.schema.json",
-      "ListViewProperties": [
+      "Name": "CMS Items",
+      "Entities": [
         {
-          "Key": "firstName",
-          "DisplayName": "Firstname"
+          "Name": "Person",
+          "Key": "person",
+          "Uri": "https://localhost:44341/schemas/person.schema.json",
+          "ListViewProperties": [
+            {
+              "Key": "firstName",
+              "DisplayName": "Firstname"
+            },
+            {
+              "Key": "lastName",
+              "DisplayName": "Lastname"
+            }
+          ]
         },
         {
-          "Key": "lastName",
-          "DisplayName": "Lastname"
-        }
-      ]
-    },
-    {
-      "Name": "Vehicle",
-      "Key": "vehicle",
-      "Uri": "https://localhost:44341/schemas/vehicle.schema.json",
-      "ListViewProperties": [
-        {
-          "Key": "accidentDetails.Severity",
-          "DisplayName": "Severity"
-        }
-      ]
-    },
-    {
-      "Name": "Single Person",
-      "Key": "singleton-person",
-      "IsSingleton": true,
-      "Uri": "https://localhost:44341/schemas/person.schema.json",
-      "ListViewProperties": [
-        {
-          "Key": "firstName",
-          "DisplayName": "Firstname"
+          "Name": "Vehicle",
+          "Key": "vehicle",
+          "Uri": "https://localhost:44341/schemas/vehicle.schema.json",
+          "ListViewProperties": [
+            {
+              "Key": "accidentDetails.Severity",
+              "DisplayName": "Severity"
+            }
+          ]
         },
         {
-          "Key": "lastName",
-          "DisplayName": "Lastname"
+          "Name": "Single Person",
+          "Key": "singleton-person",
+          "IsSingleton": true,
+          "Uri": "https://localhost:44341/schemas/person.schema.json",
+          "ListViewProperties": [
+            {
+              "Key": "firstName",
+              "DisplayName": "Firstname"
+            },
+            {
+              "Key": "lastName",
+              "DisplayName": "Lastname"
+            }
+          ]
         }
       ]
     },
     {
-      "Name": "Image",
-      "Key": "image",
-      "Uri": "https://localhost:44341/schemas/image.schema.json",
-      "ListViewProperties": [
+      "Name" : "Assets",
+      "Entities": [
         {
-          "Key": "name",
-          "DisplayName": "Name"
+          "Name": "Image",
+          "Key": "image",
+          "Uri": "https://localhost:44341/schemas/image.schema.json",
+          "ListViewProperties": [
+            {
+              "Key": "name",
+              "DisplayName": "Name"
+            }
+          ]
         }
       ]
     }
+
   ]
+  
 }

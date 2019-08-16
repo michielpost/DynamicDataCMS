@@ -28,40 +28,26 @@
             <nav class="col-md-2 d-none d-md-block bg-light sidebar">
                 <div class="sidebar-sticky">
 
-                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        <span>CMS Entities</span>
-                    </h6>
+                    @foreach (var entityGroup in cmsConfig.EntityGroups.OrderBy(x => x.Order))
+                    {
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                            <span>@entityGroup.Name</span>
+                        </h6>
 
-                    <ul class="nav flex-column">
+                        <ul class="nav flex-column">
 
-                        @foreach (var schema in cmsConfig.Entities)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("List", new { cmstype = @schema.Key })">
-                                    @schema.Name
-                                </a>
-                            </li>
-                        }
+                            @foreach (var schema in entityGroup.Entities)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Action("List", new { cmstype = @schema.Key })">
+                                        @schema.Name
+                                    </a>
+                                </li>
+                            }
 
 
-                    </ul>
-
-                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        <span>Assets</span>
-                    </h6>
-
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("List", new { cmstype = "image" })">
-                                Images
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("List", new { mstype = "image" })">
-                                Others
-                            </a>
-                        </li>
-                    </ul>
+                        </ul>
+                    }
 
                 </div>
             </nav>

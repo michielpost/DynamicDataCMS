@@ -15,9 +15,20 @@ namespace QMS.Services.Models
     {
         public List<string> Languages { get; set; }
 
-        public List<SchemaLocation> Entities { get; set; }
+        public List<EntityGroupConfiguration> EntityGroups { get; set; } = new List<EntityGroupConfiguration>();
 
-        public bool IsInitialized => Entities?.Any() ?? false;
+        public IEnumerable<SchemaLocation> Entities => EntityGroups.SelectMany(x => x.Entities);
+
+        public bool IsInitialized => EntityGroups.SelectMany(x => x.Entities).Any();
+    }
+
+    public class EntityGroupConfiguration
+    {
+        public string Name { get; set; }
+        public int Order { get; set; }
+
+        public List<SchemaLocation> Entities { get; set; } = new List<SchemaLocation>();
+
     }
 
     public class SchemaLocation

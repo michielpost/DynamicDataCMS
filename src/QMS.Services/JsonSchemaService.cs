@@ -23,7 +23,7 @@ namespace QMS.Services
         }
 
 
-        private async Task<List<SchemaLocation>> GetSchemas()
+        private async Task<IEnumerable<SchemaLocation>> GetSchemas()
         {
             var result = new List<SchemaLocation>();
 
