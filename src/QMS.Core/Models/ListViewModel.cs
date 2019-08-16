@@ -11,7 +11,7 @@ namespace QMS.Core.Models
     {
         public string CmsType { get; set; }
 
-        public List<CmsItem> Items { get; set; }
+        public IReadOnlyList<CmsItem> Items { get; set; }
         public SchemaLocation Schema { get; set; }
     }
 }

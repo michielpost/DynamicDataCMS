@@ -5,7 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using QMS.Storage.AzureStorage;
+using QMS.Services;
+using QMS.Storage.Interfaces;
 
 namespace QMS.Core.Controllers
 {
@@ -13,11 +14,11 @@ namespace QMS.Core.Controllers
     [Route("[area]/upload")]
     public class UploadController : Controller
     {
-        private readonly CmsStorageService azureStorage;
+        private readonly IWriteFile writeFileService;
 
-        public UploadController(CmsStorageService azureStorage)
+        public UploadController(DataProviderWrapperService dataProviderService)
         {
-            this.azureStorage = azureStorage;
+            this.writeFileService = dataProviderService;
         }
 
         [HttpPost]
@@ -45,7 +46,7 @@ namespace QMS.Core.Controllers
                     try
                     {
                         //Image.Load(Configuration.Default, bytes);
-                        var blob = await azureStorage.StoreFileAsync(bytes, mimeType, cmsType, id, fieldName, lang);
+                        var blob = await writeFileService.WriteFile(bytes, mimeType, cmsType, id, fieldName, lang);
 
                     }
                     catch (Exception e)

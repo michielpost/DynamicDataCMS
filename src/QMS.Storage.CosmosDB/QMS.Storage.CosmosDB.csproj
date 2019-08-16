@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QMS.Models\QMS.Models.csproj" />
+    <ProjectReference Include="..\..\QMS.Storage.Interfaces\QMS.Storage.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

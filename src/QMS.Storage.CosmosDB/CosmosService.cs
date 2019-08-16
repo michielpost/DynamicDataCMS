@@ -3,13 +3,14 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using QMS.Models;
 using QMS.Storage.CosmosDB.Models;
+using QMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace QMS.Storage.CosmosDB
 {
-    public class CosmosService
+    public class CosmosService : IReadCmsItem, IWriteCmsItem
     {
         private readonly CosmosConfig cosmosConfig;
 
@@ -17,11 +18,11 @@ namespace QMS.Storage.CosmosDB
         {
             this.cosmosConfig = cosmosConfig.Value;
         }
-        public async Task<List<CmsItem>> List(string partitionKey)
+        public async Task<IReadOnlyList<CmsItem>> List(string cmsType)
         {
             Container container = GetContainer();
 
-            QueryDefinition queryDefinition = new QueryDefinition("SELECT * FROM c WHERE c.cmstype = @cmstype").WithParameter("@cmstype", partitionKey);
+            QueryDefinition queryDefinition = new QueryDefinition("SELECT * FROM c WHERE c.cmstype = @cmstype").WithParameter("@cmstype", cmsType);
             FeedIterator<CmsItem> queryResultSetIterator = container.GetItemQueryIterator<CmsItem>(queryDefinition);
 
             List<CmsItem> results = new List<CmsItem>();
@@ -38,15 +39,15 @@ namespace QMS.Storage.CosmosDB
             return results;
         }
 
-        public async Task Save(string partitionKey, CmsItem document)
+        public async Task Write(CmsItem item, string cmsType, string id, string lang)
         {
             Container container = GetContainer();
 
-            document.CmsType = partitionKey;
-            await container.UpsertItemAsync(document, new PartitionKey(partitionKey));
+            item.CmsType = cmsType;
+            await container.UpsertItemAsync(item, new PartitionKey(cmsType));
         }
 
-        public async Task<CmsItem> Load(string partitionKey, string documentId)
+        public async Task<CmsItem> Read(string partitionKey, string documentId)
         {
             Container container = GetContainer();
 

@@ -93,6 +93,15 @@ namespace QMS.Storage.AzureStorage
                 throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Given blobStoreId '{0}' does not exist",
                   blobStoreId));
 
+            if (!await blobReference.ExistsAsync())
+                throw new FileNotFoundException();
+
+            if (blobReference.Properties.Length == 0)
+            {
+                throw new InvalidDataException();
+            }
+
+
             return blobReference;
         }
     }

@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using QMS.Models;
 using QMS.Services;
 using QMS.Services.Models;
-using QMS.Storage.CosmosDB;
 using QMS.Core.Models;
+using QMS.Storage.Interfaces;
 
 namespace QMS.Core.Controllers
 {
@@ -18,12 +18,14 @@ namespace QMS.Core.Controllers
     [ApiController]
     public class ApiController : ControllerBase
     {
-        private readonly CosmosService cosmosService;
+        private readonly IReadCmsItem readCmsItemService;
+        private readonly IWriteCmsItem writeCmsItemService;
         private readonly JsonSchemaService schemaService;
 
-        public ApiController(CosmosService cosmosService, JsonSchemaService schemaService)
+        public ApiController(DataProviderWrapperService dataProviderService, JsonSchemaService schemaService)
         {
-            this.cosmosService = cosmosService;
+            this.readCmsItemService = dataProviderService;
+            this.writeCmsItemService = dataProviderService;
             this.schemaService = schemaService;
         }
 
@@ -31,14 +33,14 @@ namespace QMS.Core.Controllers
         [Route("save/{cmsType}/{id}/{lang?}")]
         public async Task Save([FromRoute]string cmsType, [FromRoute]string id, [FromBody] CmsDataItem value, [FromRoute]string lang)
         {
-            var cmsItem = await cosmosService.Load(cmsType, id);
+            var cmsItem = await readCmsItemService.Read(cmsType, id);
 
             if (lang == null)
                 cmsItem.AdditionalProperties = value.AdditionalProperties;
             else
                 cmsItem.Translations[lang] = value;
 
-            await cosmosService.Save(cmsType, cmsItem);
+            await writeCmsItemService.Write(cmsItem, cmsType, id, lang);
         }
 
         [HttpGet]
@@ -46,7 +48,7 @@ namespace QMS.Core.Controllers
         [Produces("application/json")]
         public async Task<CmsDataItem> Load([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string lang)
         {
-            var cmsItem = await cosmosService.Load(cmsType, id);
+            var cmsItem = await readCmsItemService.Read(cmsType, id);
 
             CmsDataItem data = cmsItem;
 
@@ -60,9 +62,9 @@ namespace QMS.Core.Controllers
         [HttpGet]
         [Route("list/{cmsType}")]
         [Produces("application/json")]
-        public async Task<List<CmsItem>> List([FromRoute]string cmsType)
+        public async Task<IReadOnlyList<CmsItem>> List([FromRoute]string cmsType)
         {
-            var result = await cosmosService.List(cmsType);
+            var result = await readCmsItemService.List(cmsType);
             return result;
         }
 
@@ -78,7 +80,7 @@ namespace QMS.Core.Controllers
         public async Task<ExternalEnum> Enum([FromRoute]string cmsType)
         {
             var schema = schemaService.GetSchema(cmsType);
-            var list = await cosmosService.List(cmsType);
+            var list = await readCmsItemService.List(cmsType);
 
             var result = new ExternalEnum
             {

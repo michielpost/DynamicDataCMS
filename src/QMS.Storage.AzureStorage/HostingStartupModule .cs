@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using QMS.Storage.Interfaces;
 
 [assembly: HostingStartup(typeof(QMS.Storage.AzureStorage.HostingStartupModule))]
 namespace QMS.Storage.AzureStorage
@@ -25,7 +26,8 @@ namespace QMS.Storage.AzureStorage
             services.Configure<AzureStorageConfig>(Configuration.GetSection(nameof(AzureStorageConfig)));
 
             services.AddTransient<AzureStorageService>();
-            services.AddTransient<CmsStorageService>();
+            services.AddTransient<IReadFile, CmsStorageService>();
+            services.AddTransient<IWriteFile, CmsStorageService>();
 
         }
 

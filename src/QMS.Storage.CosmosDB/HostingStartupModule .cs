@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using QMS.Storage.CosmosDB.Models;
+using QMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,7 +25,8 @@ namespace QMS.Storage.CosmosDB
         {
             services.Configure<CosmosConfig>(Configuration.GetSection(nameof(CosmosConfig)));
 
-            services.AddTransient<CosmosService>();
+            services.AddTransient<IReadCmsItem, CosmosService>();
+            services.AddTransient<IWriteCmsItem, CosmosService>();
 
         }
 
