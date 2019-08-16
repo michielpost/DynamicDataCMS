@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QMS.Storage.AzureStorage;
 
 namespace QMS.Core.Controllers
 {
@@ -12,9 +13,16 @@ namespace QMS.Core.Controllers
     [Route("[area]/upload")]
     public class UploadController : Controller
     {
+        private readonly CmsStorageService azureStorage;
+
+        public UploadController(CmsStorageService azureStorage)
+        {
+            this.azureStorage = azureStorage;
+        }
+
         [HttpPost]
-        [Route("images")]
-        public IActionResult Images([FromForm]IFormFile file)
+        [Route("images/{cmsType}/{id}/{lang?}")]
+        public async Task<IActionResult> Images([FromForm]IFormFile file, [FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string lang, [FromQuery]string fieldName)
         {
             string fileName = null;
             string mimeType = null;
@@ -37,6 +45,8 @@ namespace QMS.Core.Controllers
                     try
                     {
                         //Image.Load(Configuration.Default, bytes);
+                        var blob = await azureStorage.StoreFileAsync(bytes, mimeType, cmsType, id, fieldName, lang);
+
                     }
                     catch (Exception e)
                     {

@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QMS.Models", "src\QMS.Model
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QMS.Core", "src\QMS.Core\QMS.Core.csproj", "{360DA53C-E026-4728-903C-D725C41BEDEC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QMS.Storage.AzureStorage", "src\QMS.Storage.AzureStorage\QMS.Storage.AzureStorage.csproj", "{6AD5DBFC-0A75-4FFD-B90B-DCB9A1F60547}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{360DA53C-E026-4728-903C-D725C41BEDEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{360DA53C-E026-4728-903C-D725C41BEDEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{360DA53C-E026-4728-903C-D725C41BEDEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AD5DBFC-0A75-4FFD-B90B-DCB9A1F60547}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AD5DBFC-0A75-4FFD-B90B-DCB9A1F60547}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AD5DBFC-0A75-4FFD-B90B-DCB9A1F60547}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AD5DBFC-0A75-4FFD-B90B-DCB9A1F60547}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
