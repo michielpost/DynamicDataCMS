@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QMS.Storage.AzureStorage", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataProviders", "DataProviders", "{63E0E146-5C7E-4972-A9F4-19EE05240997}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QMS.Storage.Interfaces", "QMS.Storage.Interfaces\QMS.Storage.Interfaces.csproj", "{C16DF40C-1991-4D4E-A7D8-FF3FB71A300A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QMS.Storage.Interfaces", "src\QMS.Storage.Interfaces\QMS.Storage.Interfaces.csproj", "{C16DF40C-1991-4D4E-A7D8-FF3FB71A300A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

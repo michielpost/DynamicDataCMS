@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\QMS.Models\QMS.Models.csproj" />
+    <ProjectReference Include="..\QMS.Models\QMS.Models.csproj" />
   </ItemGroup>
 
 </Project>
