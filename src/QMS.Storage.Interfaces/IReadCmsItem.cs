@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace QMS.Storage.Interfaces
 {
+    /// <summary>
+    /// Interface that defines Read operations on CmsItems
+    /// </summary>
     public interface IReadCmsItem
     {
         Task<CmsItem> Read(string cmsType, string id);

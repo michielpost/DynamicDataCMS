@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace QMS.Storage.AzureStorage
 {
+    /// <summary>
+    /// Implements read and write interface for files for Azure Blob Storage
+    /// </summary>
     public class CmsStorageService : IReadFile, IWriteFile
     {
         private readonly AzureStorageService azureStorageService;

@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace QMS.Storage.AzureStorage
 {
+    /// <summary>
+    /// Azure Storage helper service
+    /// </summary>
     public class AzureStorageService
     {
         private readonly AzureStorageConfig _config;

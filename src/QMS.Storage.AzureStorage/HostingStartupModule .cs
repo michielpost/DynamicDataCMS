@@ -10,6 +10,9 @@ using QMS.Storage.Interfaces;
 [assembly: HostingStartup(typeof(QMS.Storage.AzureStorage.HostingStartupModule))]
 namespace QMS.Storage.AzureStorage
 {
+    /// <summary>
+    /// Configure all services in the QMS.Storage.AzureStorage package
+    /// </summary>
     public class HostingStartupModule : IHostingStartup
     {
         private IConfiguration Configuration { get; set; }

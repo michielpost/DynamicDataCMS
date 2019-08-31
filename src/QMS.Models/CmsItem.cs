@@ -6,6 +6,9 @@ using System.Text;
 
 namespace QMS.Models
 {
+    /// <summary>
+    /// Core CmsItem, holds the default language version and all translations
+    /// </summary>
     public class CmsItem : CmsDataItem
     {
         [JsonProperty("id")]
@@ -18,6 +21,9 @@ namespace QMS.Models
 
     }
 
+    /// <summary>
+    /// Single CmsDataItem (single language)
+    /// </summary>
     public class CmsDataItem
     {
         [JsonExtensionData]

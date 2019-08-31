@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace QMS.Services
 {
+    /// <summary>
+    /// Handles all the image resizing
+    /// </summary>
     public class ImageResizeService
     {
         private readonly int compressionQuality = 75;

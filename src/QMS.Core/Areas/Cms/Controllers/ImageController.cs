@@ -8,6 +8,9 @@ using QMS.Services;
 
 namespace QMS.Core.Areas.Cms.Controllers
 {
+    /// <summary>
+    /// Endpoint that returns resized images
+    /// </summary>
     [Area("cms")]
     [Route("[area]")]
     public class ImageController : Controller

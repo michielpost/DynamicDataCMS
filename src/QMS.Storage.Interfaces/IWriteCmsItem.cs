@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace QMS.Storage.Interfaces
 {
+    /// <summary>
+    /// Interface that defines write operations on CmsItems
+    /// </summary>
     public interface IWriteCmsItem
     {
         Task Write(CmsItem item, string cmsType, string id, string lang);

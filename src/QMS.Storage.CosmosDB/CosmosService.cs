@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace QMS.Storage.CosmosDB
 {
+    /// <summary>
+    /// Implements read and write interface for CmsItems for CosmosDB storage
+    /// </summary>
     public class CosmosService : IReadCmsItem, IWriteCmsItem
     {
         private readonly CosmosConfig cosmosConfig;

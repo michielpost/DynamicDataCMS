@@ -4,6 +4,9 @@ using System.Text;
 
 namespace QMS.Storage.CosmosDB.Models
 {
+    /// <summary>
+    /// Configuration that is needed for QMS.Storage.CosmosDB package
+    /// </summary>
     public class CosmosConfig
     {
         public string Endpoint { get; set; }

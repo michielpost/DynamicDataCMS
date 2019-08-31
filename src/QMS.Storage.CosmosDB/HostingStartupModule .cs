@@ -10,6 +10,9 @@ using System.Text;
 [assembly: HostingStartup(typeof(QMS.Storage.CosmosDB.HostingStartupModule))]
 namespace QMS.Storage.CosmosDB
 {
+    /// <summary>
+    /// Configure all services in the QMS.Storage.CosmosDB package
+    /// </summary>
     public class HostingStartupModule : IHostingStartup
     {
         private IConfiguration Configuration { get; set; }

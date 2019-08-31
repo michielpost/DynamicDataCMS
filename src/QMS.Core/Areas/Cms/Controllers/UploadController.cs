@@ -10,6 +10,9 @@ using QMS.Storage.Interfaces;
 
 namespace QMS.Core.Controllers
 {
+    /// <summary>
+    /// Handles uploading of files
+    /// </summary>
     [Area("cms")]
     [Route("[area]/upload")]
     public class UploadController : Controller

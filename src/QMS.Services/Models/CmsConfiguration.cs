@@ -6,11 +6,17 @@ using System.Text;
 
 namespace QMS.Services.Models
 {
+    /// <summary>
+    /// Defines the location of the Cms Configuration
+    /// </summary>
     public class CmsConfigLocation
     {
         public Uri Uri { get; set; }
     }
 
+    /// <summary>
+    /// Holds all CMS Configuration (schemas)
+    /// </summary>
     public class CmsConfiguration
     {
         public List<string> Languages { get; set; }
