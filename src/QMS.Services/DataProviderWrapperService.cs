@@ -10,6 +10,7 @@ namespace QMS.Services
 {
     /// <summary>
     /// Wraps dataprovider calls because there can be multiple interface implementations
+    /// Always read from one source, write to all sources
     /// </summary>
     public class DataProviderWrapperService :
         IReadFile,
@@ -17,42 +18,36 @@ namespace QMS.Services
         IReadCmsItem,
         IWriteCmsItem
     {
-        private readonly IEnumerable<IReadFile> readFileProviders;
+        private readonly IReadFile readFileProvider;
         private readonly IEnumerable<IWriteFile> writeFileProviders;
-        private readonly IEnumerable<IReadCmsItem> readCmsItemProviders;
+        private readonly IReadCmsItem readCmsItemProvider;
         private readonly IEnumerable<IWriteCmsItem> writeCmsItemProviders;
 
-        public DataProviderWrapperService(IEnumerable<IReadFile> readFileProviders,
+        public DataProviderWrapperService(IReadFile readFileProvider,
             IEnumerable<IWriteFile> writeFileProviders,
-            IEnumerable<IReadCmsItem> readCmsItemProviders,
+            IReadCmsItem readCmsItemProvider,
             IEnumerable<IWriteCmsItem> writeCmsItemProviders)
         {
-            this.readFileProviders = readFileProviders;
+            this.readFileProvider = readFileProvider;
             this.writeFileProviders = writeFileProviders;
-            this.readCmsItemProviders = readCmsItemProviders;
+            this.readCmsItemProvider = readCmsItemProvider;
             this.writeCmsItemProviders = writeCmsItemProviders;
         }
 
 
-        public async Task<IReadOnlyList<CmsItem>> List(string cmsType)
+        public Task<IReadOnlyList<CmsItem>> List(string cmsType)
         {
-            var task = await Task.WhenAny(readCmsItemProviders.Select(x => x.List(cmsType))).ConfigureAwait(false);
-
-            return await task.ConfigureAwait(false);
+            return readCmsItemProvider.List(cmsType);
         }
 
-        public async Task<CmsItem> Read(string cmsType, string id)
+        public Task<CmsItem> Read(string cmsType, string id)
         {
-            var task = await Task.WhenAny(readCmsItemProviders.Select(x => x.Read(cmsType, id))).ConfigureAwait(false);
-
-            return await task.ConfigureAwait(false);
+           return readCmsItemProvider.Read(cmsType, id);
         }
 
-        public async Task<byte[]> ReadFile(string cmsType, string id, string fieldName, string lang)
+        public Task<byte[]> ReadFile(string cmsType, string id, string fieldName, string lang)
         {
-            var task = await Task.WhenAny(readFileProviders.Select(x => x.ReadFile(cmsType, id, fieldName, lang))).ConfigureAwait(false);
-
-            return await task.ConfigureAwait(false);
+            return readFileProvider.ReadFile(cmsType, id, fieldName, lang);
         }
 
         public Task Write(CmsItem item, string cmsType, string id, string lang)
