@@ -2,14 +2,13 @@
 Open source Q42 CMS   
 Headless CMS based on JsonSchema standard
 
-## Vision
+## Features
 - Headless CMS
-- JsonSchema will be used to describe pages and entities
-- Open source JsonSchema editor will be used as editor
-- Support for multiple datastores (NOSQL (CosmosDB? MongoDB?), Blob Storage, Flat Files?, SQL)
-- Support for pages/entities in multiple languages
-- Distributed using NuGet packages, Docker?
-- Zero config install?
+- JsonSchema used to describe entities
+- View and edit entities
+- Support for multiple datastores (CosmosDB, Blob Storage)
+- Support for entities in multiple languages
+- Easy installation using NuGet packages
 
 ## Installation Instructions
 - Install CosmosDB emulator for Windows https://aka.ms/cosmosdb-emulator
