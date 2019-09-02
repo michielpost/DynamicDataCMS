@@ -25,7 +25,7 @@ namespace QMS.Storage.AzureStorage
             string fileName = GenerateFileName(cmsType, id, fieldName, lang);
 
             // get original image
-            var blob = await azureStorageService.GetFileReference(id).ConfigureAwait(false);
+            var blob = await azureStorageService.GetFileReference(fileName).ConfigureAwait(false);
 
             using (var stream = new MemoryStream())
             {
@@ -37,12 +37,13 @@ namespace QMS.Storage.AzureStorage
             }
         }
 
-        public async Task<Uri> WriteFile(byte[] bytes, string mimeType, string cmsType, string id, string fieldName, string lang)
+        public async Task<string> WriteFile(byte[] bytes, string mimeType, string cmsType, string id, string fieldName, string lang)
         {
             string fileName = GenerateFileName(cmsType, id, fieldName, lang);
 
             var blob = await azureStorageService.StoreFileAsync(bytes, mimeType, fileName).ConfigureAwait(false);
-            return blob.Uri;
+
+            return fileName;
         }
 
         private static string GenerateFileName(string cmsType, string id, string fieldName, string lang)

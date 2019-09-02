@@ -10,6 +10,16 @@ namespace QMS.Storage.Interfaces
     /// </summary>
     public interface IWriteFile
     {
-        Task<Uri> WriteFile(byte[] bytes, string mimeType, string cmsType, string id, string fieldName, string lang);
+        /// <summary>
+        /// Write a file
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <param name="mimeType"></param>
+        /// <param name="cmsType"></param>
+        /// <param name="id"></param>
+        /// <param name="fieldName"></param>
+        /// <param name="lang"></param>
+        /// <returns>Return the filename</returns>
+        Task<string> WriteFile(byte[] bytes, string mimeType, string cmsType, string id, string fieldName, string lang);
     }
 }

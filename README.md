@@ -33,7 +33,11 @@ https://github.com/RicoSuter/NJsonSchema
 
 - Pages and url tree
 
+- Multiple versions of items (with start and end time)
+
 - Multiple Data Stores (write to blob storage)
+
+- POCO to JsonSchema API
 
 - Website SDK / Website usage example
 

@@ -55,7 +55,7 @@ namespace QMS.Services
             return Task.WhenAll(writeCmsItemProviders.Select(x => x.Write(item, cmsType, id, lang)));
         }
 
-        public async Task<Uri> WriteFile(byte[] bytes, string mimeType, string cmsType, string id, string fieldName, string lang)
+        public async Task<string> WriteFile(byte[] bytes, string mimeType, string cmsType, string id, string fieldName, string lang)
         {
             var task = await Task.WhenAll(writeFileProviders.Select(x => x.WriteFile(bytes, mimeType, cmsType, id, fieldName, lang))).ConfigureAwait(false);
 

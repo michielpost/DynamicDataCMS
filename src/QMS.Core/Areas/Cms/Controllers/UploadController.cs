@@ -26,7 +26,7 @@ namespace QMS.Core.Controllers
 
         [HttpPost]
         [Route("images/{cmsType}/{id}/{lang?}")]
-        public async Task<IActionResult> Images([FromForm]IFormFile file, [FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string lang, [FromQuery]string fieldName)
+        public async Task<JsonResult> Images([FromForm]IFormFile file, [FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string lang, [FromQuery]string fieldName)
         {
             string fileName = null;
             string mimeType = null;
@@ -49,8 +49,9 @@ namespace QMS.Core.Controllers
                     try
                     {
                         //Image.Load(Configuration.Default, bytes);
-                        var blob = await writeFileService.WriteFile(bytes, mimeType, cmsType, id, fieldName, lang).ConfigureAwait(false);
+                        var result = await writeFileService.WriteFile(bytes, mimeType, cmsType, id, fieldName, lang).ConfigureAwait(false);
 
+                        return new JsonResult(result);
                     }
                     catch (Exception e)
                     {
@@ -58,7 +59,8 @@ namespace QMS.Core.Controllers
                 }
             }
 
-            return View();
+            //TODO: some error result
+            return new JsonResult("");
         }
 
         private static string GetFileName(IFormFile file) => file.ContentDisposition.Split(';')

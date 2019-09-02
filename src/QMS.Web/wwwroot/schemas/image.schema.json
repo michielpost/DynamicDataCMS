@@ -8,7 +8,13 @@
       "format": "url",
       "options": {
         "upload": true
+      },
+      "links": [ {
+        "href": "{{self}}",
+        "mediaType": "image",
+        "rel": ""
       }
+      ]
     },
     "name": {
       "type": "string",

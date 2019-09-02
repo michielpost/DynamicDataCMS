@@ -34,7 +34,7 @@
   }).then(
     response => response.json() // if the response is a JSON object
   ).then(
-      success => { console.log(success);  cbs.success('http://www.example.com/images/' + file.name); } // Handle the success response object
+      success => { console.log(success);  cbs.success('https://localhost:44341/cms/image/' + 'IMAGE/C0146535-94F8-47B6-965D-BE4DCC63D150/FILE' + '?w=100&h=100'); } // Handle the success response object
   ).catch(
     error => console.log(error) // Handle the error response object
   );
