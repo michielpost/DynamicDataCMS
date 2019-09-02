@@ -10,6 +10,7 @@ using QMS.Services;
 using QMS.Services.Models;
 using QMS.Core.Models;
 using QMS.Storage.Interfaces;
+using NJsonSchema;
 
 namespace QMS.Core.Controllers
 {
@@ -93,6 +94,15 @@ namespace QMS.Core.Controllers
                 }
             };
             return result;
+        }
+
+        [HttpGet]
+        [Route("schema/{assemblyName}/{typeName}")]
+        [Produces("application/json")]
+        public async Task<JsonSchema> Schema([FromRoute]string assemblyName, [FromRoute]string typeName)
+        {
+            Type type = Type.GetType($"{typeName}, {assemblyName}");
+            return JsonSchema.FromType(type);
         }
 
         private string GetDisplayTitle(CmsItem x, SchemaLocation schema)

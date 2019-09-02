@@ -2,6 +2,22 @@
   "Languages": [ "en-US", "nl-NL" ],
   "EntityGroups": [
     {
+      "Name": "Pages",
+      "Entities": [
+        {
+          "Name": "Homepage",
+          "Key": "homepage",
+          "Uri": "https://localhost:44341/cms/api/schema/QMS.Web/QMS.Web.Models.HomePage",
+          "ListViewProperties": [
+            {
+              "Key": "title",
+              "DisplayName": "Title"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "Name": "CMS Items",
       "Entities": [
         {
@@ -49,7 +65,7 @@
       ]
     },
     {
-      "Name" : "Assets",
+      "Name": "Assets",
       "Entities": [
         {
           "Name": "Image",
