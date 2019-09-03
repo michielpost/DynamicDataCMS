@@ -13,8 +13,35 @@ Headless CMS based on JsonSchema standard
 - Easy installation using NuGet packages
 
 ## Installation Instructions
+Install `QMS.Core` and `QMS.Storage.CosmosDB` from NuGet
+
+Optional: `QMS.Storage.AzureStorage` 
+
+Edit `Program.cs` and add the following lines to `CreateWebHostBuilder`   
+
+```cs
+    .UseQms(new CmsBuilder()
+                            .AddAzureStorage()
+                            .AddCosmosDB())
+```
+
+Add configuration to your appsettings.json
+```json
+"CosmosConfig": {
+    "Endpoint": "https://localhost:8081",
+    "Key": "CosmosDB-key"
+  },
+  "AzureStorageConfig": {
+    "StorageAccount": "UseDevelopmentStorage=true",
+    "ContainerName": "cms",
+    "AssetContainerName": "cms"
+  }
+```
+
+## Installation Instructions for Development
 - Install CosmosDB emulator for Windows https://aka.ms/cosmosdb-emulator
 - Edit appsettings.json with Cosmos Endpoint and Key
+- Install Azure Storage Emulator
 - Run QMS4
 
 ## Dependencies
@@ -36,6 +63,8 @@ https://github.com/RicoSuter/NJsonSchema
 - Multiple versions of items (with start and end time)
 
 - Multiple Data Stores (write to blob storage)
+
+- Configure the CMS from within the CMS
 
 - Website SDK / Website usage example
 

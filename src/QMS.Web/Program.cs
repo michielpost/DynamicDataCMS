@@ -7,6 +7,9 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using QMS.Core;
+using QMS.Storage.AzureStorage;
+using QMS.Storage.CosmosDB;
 
 namespace QMS.Web
 {
@@ -19,7 +22,9 @@ namespace QMS.Web
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseSetting(WebHostDefaults.HostingStartupAssembliesKey, "QMS.Storage.CosmosDB;QMS.Storage.AzureStorage")
+                .UseQms(new CmsBuilder()
+                            .AddAzureStorage()
+                            .AddCosmosDB())
                 .UseStartup<Startup>();
     }
 }
