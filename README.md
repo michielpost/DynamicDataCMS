@@ -8,6 +8,8 @@ Headless CMS based on JsonSchema standard
 - View and edit entities
 - Support for multiple datastores (CosmosDB, Blob Storage)
 - Support for entities in multiple languages
+- Upload images and other assets
+- Generate JsonSchema from C# Models
 - Easy installation using NuGet packages
 
 ## Installation Instructions
@@ -27,8 +29,6 @@ https://github.com/RicoSuter/NJsonSchema
 
 
 ## Roadmap
-- Asset Manager for Images and other files
-
 - Searching and ordering on list view
 
 - Pages and url tree
@@ -37,13 +37,11 @@ https://github.com/RicoSuter/NJsonSchema
 
 - Multiple Data Stores (write to blob storage)
 
-- POCO to JsonSchema API
-
 - Website SDK / Website usage example
 
 - Authentication and Authorization
 
-- Audit Trail
+- Audit Trail (CosmosDB Change Feed / Blob Storage file)
 
 - Build in JsonSchema Designer, some ideas:  
 https://bjdash.github.io/JSON-Schema-Builder/  
