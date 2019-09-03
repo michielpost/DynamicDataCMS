@@ -109,6 +109,7 @@ namespace QMS.Core.Controllers
             {
                 //AllowReferencesWithProperties = true,
                 //AlwaysAllowAdditionalObjectProperties = true,
+                DefaultReferenceTypeNullHandling = NJsonSchema.Generation.ReferenceTypeNullHandling.NotNull,
                 GenerateAbstractProperties = true,
                 FlattenInheritanceHierarchy = true,
             });
