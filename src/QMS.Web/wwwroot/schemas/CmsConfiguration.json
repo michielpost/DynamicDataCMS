@@ -7,7 +7,18 @@
         {
           "Name": "Homepage",
           "Key": "homepage",
-          "Uri": "https://localhost:44341/cms/api/schema/QMS.Web/QMS.Web.Models.HomePage",
+          "Uri": "https://localhost:44341/cms/api/schema/QMS.Web/QMS.Web.Models.Pages.HomePage",
+          "ListViewProperties": [
+            {
+              "Key": "title",
+              "DisplayName": "Title"
+            }
+          ]
+        },
+        {
+          "Name": "ContentPage",
+          "Key": "contentpage",
+          "Uri": "https://localhost:44341/cms/api/schema/QMS.Web/QMS.Web.Models.Pages.ContentPage",
           "ListViewProperties": [
             {
               "Key": "title",

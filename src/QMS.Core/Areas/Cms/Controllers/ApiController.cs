@@ -99,10 +99,21 @@ namespace QMS.Core.Controllers
         [HttpGet]
         [Route("schema/{assemblyName}/{typeName}")]
         [Produces("application/json")]
-        public async Task<JsonSchema> Schema([FromRoute]string assemblyName, [FromRoute]string typeName)
+        public ActionResult Schema([FromRoute]string assemblyName, [FromRoute]string typeName)
         {
             Type type = Type.GetType($"{typeName}, {assemblyName}");
-            return JsonSchema.FromType(type);
+            if (type == null)
+                return new NotFoundResult();
+
+            var schema = JsonSchema.FromType(type, new NJsonSchema.Generation.JsonSchemaGeneratorSettings()
+            {
+                //AllowReferencesWithProperties = true,
+                //AlwaysAllowAdditionalObjectProperties = true,
+                GenerateAbstractProperties = true,
+                FlattenInheritanceHierarchy = true,
+            });
+
+            return Content(schema.ToJson());
         }
 
         private string GetDisplayTitle(CmsItem x, SchemaLocation schema)
