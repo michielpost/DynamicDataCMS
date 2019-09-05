@@ -10,7 +10,7 @@
         "upload": true
       },
       "links": [ {
-        "href": "{{self}}",
+        "href": "https://localhost:44341/cms/image/{{self}}?w=100&h=100",
         "mediaType": "image",
         "rel": ""
       }
