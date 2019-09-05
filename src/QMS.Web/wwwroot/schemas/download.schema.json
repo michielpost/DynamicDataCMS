@@ -10,7 +10,7 @@
         "upload": true
       },
       "links": [ {
-        "href": "https://localhost:44341/cms/file/download/{{self}}",
+        "href": "/cms/file/download/{{self}}",
         "mediaType": "link",
         "rel": ""
       }
