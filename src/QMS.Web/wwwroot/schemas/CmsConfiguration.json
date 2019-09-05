@@ -88,6 +88,17 @@
               "DisplayName": "Name"
             }
           ]
+        },
+        {
+          "Name": "Downloads",
+          "Key": "download",
+          "Uri": "https://localhost:44341/schemas/download.schema.json",
+          "ListViewProperties": [
+            {
+              "Key": "name",
+              "DisplayName": "Name"
+            }
+          ]
         }
       ]
     }
