@@ -75,7 +75,7 @@ namespace QMS.Services
             throw new Exception("You did it wrong. Find help. Or don't.");
         }
 
-        private void CropImage(Image<Rgba32> image, int? width, int? height)
+        private void CropImage(Image image, int? width, int? height)
         {
             if (!width.HasValue || !height.HasValue)
             {
@@ -101,7 +101,7 @@ namespace QMS.Services
 
         }
 
-        private void ResizeImage(Image<Rgba32> image, int? width, int? height)
+        private void ResizeImage(Image image, int? width, int? height)
         {
             var newWidth = width ?? image.Width;
             var newHeight = height ?? image.Height;

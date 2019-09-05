@@ -72,6 +72,8 @@ https://github.com/RicoSuter/NJsonSchema
 
 - Audit Trail (CosmosDB Change Feed / Blob Storage file)
 
+- Build a JsonSchema editor in Blazor?
+
 - Build in JsonSchema Designer, some ideas:  
 https://bjdash.github.io/JSON-Schema-Builder/  
 https://jsondraft.com/4c/#tree  
