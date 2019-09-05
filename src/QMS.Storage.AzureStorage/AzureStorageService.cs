@@ -3,6 +3,7 @@ using Microsoft.Azure.Storage.Blob;
 using Microsoft.Extensions.Options;
 using QMS.Storage.AzureStorage.Models;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
@@ -80,7 +81,7 @@ namespace QMS.Storage.AzureStorage
         }
 
         /// <summary>
-        /// Delete the given file from the blobstore
+        /// Get file from the blobstore
         /// </summary>
         /// <param name="blobStoreId"></param>
         /// <returns></returns>
@@ -106,6 +107,23 @@ namespace QMS.Storage.AzureStorage
 
 
             return blobReference;
+        }
+
+        public async Task<IEnumerable<IListBlobItem>> GetFilesFromDirectory(string path, string containerName = null)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+                throw new ArgumentNullException(nameof(path));
+
+            var container = await GetBlobContainer(containerName).ConfigureAwait(false);
+
+            var dirReference = container.GetDirectoryReference(path);
+            if (dirReference == null)
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Given directory '{0}' does not exist",
+                  path));
+
+            var list = dirReference.ListBlobs();
+
+            return list;
         }
     }
 }

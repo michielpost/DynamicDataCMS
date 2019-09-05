@@ -35,6 +35,11 @@ namespace QMS.Core.Controllers
         public async Task Save([FromRoute]string cmsType, [FromRoute]string id, [FromBody] CmsDataItem value, [FromRoute]string lang)
         {
             var cmsItem = await readCmsItemService.Read(cmsType, id).ConfigureAwait(false);
+            if (cmsItem == null)
+                cmsItem = new CmsItem();
+
+            cmsItem.Id = id;
+            cmsItem.CmsType = cmsType;
 
             if (lang == null)
                 cmsItem.AdditionalProperties = value.AdditionalProperties;

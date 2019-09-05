@@ -25,7 +25,8 @@ namespace QMS.Web
                 .UseQms(new CmsBuilder()
                             .AddCoreCms()
                             .AddAzureStorage()
-                            .AddCosmosDB())
+                            .AddCosmosDB()
+                )
                 .UseStartup<Startup>();
     }
 }

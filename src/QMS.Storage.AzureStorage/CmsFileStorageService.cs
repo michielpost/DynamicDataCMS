@@ -11,11 +11,11 @@ namespace QMS.Storage.AzureStorage
     /// <summary>
     /// Implements read and write interface for files for Azure Blob Storage
     /// </summary>
-    public class CmsStorageService : IReadFile, IWriteFile
+    public class CmsFileStorageService : IReadFile, IWriteFile
     {
         private readonly AzureStorageService azureStorageService;
 
-        public CmsStorageService(AzureStorageService azureStorageService)
+        public CmsFileStorageService(AzureStorageService azureStorageService)
         {
             this.azureStorageService = azureStorageService;
         }

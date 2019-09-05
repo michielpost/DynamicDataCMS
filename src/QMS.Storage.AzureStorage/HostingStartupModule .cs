@@ -29,8 +29,10 @@ namespace QMS.Storage.AzureStorage
             services.Configure<AzureStorageConfig>(Configuration.GetSection(nameof(AzureStorageConfig)));
 
             services.AddTransient<AzureStorageService>();
-            services.AddTransient<IReadFile, CmsStorageService>();
-            services.AddTransient<IWriteFile, CmsStorageService>();
+            services.AddTransient<IReadFile, CmsFileStorageService>();
+            services.AddTransient<IWriteFile, CmsFileStorageService>();
+            services.AddTransient<IReadCmsItem, CmsItemStorageService>();
+            services.AddTransient<IWriteCmsItem, CmsItemStorageService>();
 
         }
 
