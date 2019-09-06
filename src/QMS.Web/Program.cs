@@ -22,11 +22,6 @@ namespace QMS.Web
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseQms(new CmsBuilder()
-                            .AddCoreCms()
-                            .AddAzureStorage()
-                            .AddCosmosDB()
-                )
                 .UseStartup<Startup>();
     }
 }

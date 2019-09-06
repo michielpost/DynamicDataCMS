@@ -9,8 +9,11 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using QMS.Core;
+using QMS.Models;
 using QMS.Services;
 using QMS.Services.Models;
+using QMS.Storage.AzureStorage;
 using QMS.Storage.CosmosDB;
 using QMS.Storage.CosmosDB.Models;
 
@@ -30,12 +33,9 @@ namespace QMS.Web
         {
             services.AddHttpClient();
 
-            //CmsConfiguration
-            services.Configure<CmsConfigLocation>(Configuration.GetSection(nameof(CmsConfigLocation)));
-
-            services.AddTransient<JsonSchemaService>();
-            services.AddTransient<ImageResizeService>();
-            services.AddTransient<DataProviderWrapperService>();
+            services.UseQms(Configuration)
+                .ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
+                .ConfigureAzureStorage(() => new StorageConfiguration() { ReadFiles = true });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

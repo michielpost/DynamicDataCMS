@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,19 +9,13 @@ namespace QMS.Core
 {
     public class CmsBuilder
     {
-        private List<string> _namespaces = new List<string>();
+        public IServiceCollection Services { get; set; }
+        public IConfiguration Configuration { get; set; }
 
-        public bool HasDataPackages => _namespaces.Any();
-
-        public void AddNamespace(string name)
+        public CmsBuilder(IServiceCollection services, IConfiguration configuration)
         {
-            _namespaces.Add(name);
+            this.Services = services;
+            this.Configuration = configuration;
         }
-
-        public string GetHostingStartupAssembliesKey()
-        {
-            return string.Join(";", _namespaces);
-        }
-
     }
 }

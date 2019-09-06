@@ -17,12 +17,12 @@ Install `QMS.Core` and `QMS.Storage.CosmosDB` from NuGet
 
 Optional: `QMS.Storage.AzureStorage` 
 
-Edit `Program.cs` and add the following lines to `CreateWebHostBuilder`   
+Edit `Startup.cs` and add the following lines to `ConfigureServices`   
 
 ```cs
-    .UseQms(new CmsBuilder()
-                            .AddAzureStorage()
-                            .AddCosmosDB())
+services.UseQms(Configuration)
+  .ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
+  .ConfigureAzureStorage(() => new StorageConfiguration() { ReadFiles = true });
 ```
 
 Add configuration to your appsettings.json
