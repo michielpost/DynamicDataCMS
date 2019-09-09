@@ -36,10 +36,10 @@ namespace QMS.Services
             int? width, int? height, bool cover, int quality)
         {
 
-            var imageBytes = await readFileService.ReadFile(cmsType, id, fieldName, lang).ConfigureAwait(false);
+            var cmsFile = await readFileService.ReadFile(cmsType, id, fieldName, lang).ConfigureAwait(false);
 
             // Read from stream.
-            using (var image = Image.Load(Configuration.Default, imageBytes, out var format))
+            using (var image = Image.Load(Configuration.Default, cmsFile.Bytes, out var format))
             {
                 if (cover)
                 {

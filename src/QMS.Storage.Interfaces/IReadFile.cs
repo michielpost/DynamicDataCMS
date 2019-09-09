@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QMS.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace QMS.Storage.Interfaces
@@ -8,8 +9,6 @@ namespace QMS.Storage.Interfaces
     /// </summary>
     public interface IReadFile
     {
-        Task<byte[]> ReadFile(string cmsType, string id, string fieldName, string lang);
+        Task<CmsFile> ReadFile(string cmsType, string id, string fieldName, string lang);
     }
-
-   
 }
