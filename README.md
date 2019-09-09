@@ -40,9 +40,10 @@ Add configuration to your appsettings.json
 
 ## Installation Instructions for Development
 - Install CosmosDB emulator for Windows https://aka.ms/cosmosdb-emulator
-- Edit appsettings.json with Cosmos Endpoint and Key
-- Install Azure Storage Emulator
+- Install Azure Storage Emulator https://docs.microsoft.com/nl-nl/azure/storage/common/storage-use-emulator
+- Optional (not needed when using emulators): Edit appsettings.json with Cosmos Endpoint and Key
 - Run QMS4
+- Navigate to https://localhost:44341/cms
 
 ## Dependencies
 JSON Schema Editor
