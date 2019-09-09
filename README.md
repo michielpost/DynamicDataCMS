@@ -57,13 +57,11 @@ https://github.com/RicoSuter/NJsonSchema
 
 
 ## Roadmap
-- Searching and ordering on list view
+- Paging, ordering and searching on list view
 
 - Pages and url tree
 
 - Multiple versions of items (with start and end time)
-
-- Multiple Data Stores (write to blob storage)
 
 - Configure the CMS from within the CMS
 
