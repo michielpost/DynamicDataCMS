@@ -55,6 +55,11 @@ namespace QMS.Services
             return Task.WhenAll(writeCmsItemProviders.Select(x => x.Write(item, cmsType, id, lang)));
         }
 
+        public Task Delete(string cmsType, string id)
+        {
+            return Task.WhenAll(writeCmsItemProviders.Select(x => x.Delete(cmsType, id)));
+        }
+
         public async Task<string> WriteFile(byte[] bytes, string mimeType, string cmsType, string id, string fieldName, string lang)
         {
             var task = await Task.WhenAll(writeFileProviders.Select(x => x.WriteFile(bytes, mimeType, cmsType, id, fieldName, lang))).ConfigureAwait(false);

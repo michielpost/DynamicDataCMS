@@ -1,0 +1,12 @@
+﻿@model EditViewModel
+@{
+    ViewData["Title"] = Model.SchemaLocation.Name;
+}
+
+
+<h1>Delete @Model.CmsType - @Model.Id?</h1>
+
+@using (Html.BeginForm("DeleteConfirm", "Home", FormMethod.Post))
+{
+    <input type="submit" value="Delete" />
+}

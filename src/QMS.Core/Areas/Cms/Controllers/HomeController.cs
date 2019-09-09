@@ -94,6 +94,30 @@ namespace QMS.Core.Controllers
             return View("Edit", model);
         }
 
+        [HttpGet]
+        [Route("delete/{cmsType}/{id}/{lang?}")]
+        public async Task<IActionResult> Delete([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string lang)
+        {
+            var schema = schemaService.GetSchema(cmsType);
+
+            var model = new EditViewModel
+            {
+                CmsType = cmsType,
+                Id = Guid.NewGuid().ToString(),
+                SchemaLocation = schema,
+            };
+            return View("Delete", model);
+        }
+
+        [HttpPost]
+        [Route("delete/{cmsType}/{id}/{lang?}")]
+        public async Task<IActionResult> DeleteConfirm([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string lang)
+        {
+            await writeCmsItemService.Delete(cmsType, id);
+
+            return RedirectToAction("List", new { cmsType = cmsType });
+        }
+
 
         //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         //public IActionResult Error()

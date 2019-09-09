@@ -58,6 +58,13 @@ namespace QMS.Storage.CosmosDB
             await container.UpsertItemAsync(item, new PartitionKey(cmsType)).ConfigureAwait(false);
         }
 
+        public async Task Delete(string cmsType, string id)
+        {
+            Container container = GetContainer();
+
+            await container.DeleteItemAsync<CmsItem>(id, new PartitionKey(cmsType)).ConfigureAwait(false);
+        }
+
         public async Task<CmsItem> Read(string partitionKey, string documentId)
         {
             Container container = GetContainer();
