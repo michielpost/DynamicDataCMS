@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using QMS.Core;
 using QMS.Models;
 using QMS.Storage.CosmosDB.Models;
@@ -29,6 +30,13 @@ namespace QMS.Storage.CosmosDB
                 services.AddTransient<IReadCmsItem, CosmosService>();
             if (storageConfig.WriteCmsItems)
                 services.AddTransient<IWriteCmsItem, CosmosService>();
+
+            var cosmosConfig = new CosmosConfig();
+            Configuration.GetSection(nameof(CosmosConfig)).Bind(cosmosConfig);
+            var cosmosConfigOptions = Options.Create<CosmosConfig>(cosmosConfig);
+
+            var cosmosService = new CosmosService(cosmosConfigOptions);
+            cosmosService.InitializeContainer();
 
             return builder;
 

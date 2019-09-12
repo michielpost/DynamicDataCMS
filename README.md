@@ -4,9 +4,9 @@ Headless CMS based on JsonSchema standard
 
 ## Features
 - Headless CMS
+- Support for multiple datastore plugins (CosmosDB, Blob Storage)
 - JsonSchema used to describe entities
 - View and edit entities
-- Support for multiple datastores (CosmosDB, Blob Storage)
 - Support for entities in multiple languages
 - Upload images and other assets
 - Generate JsonSchema from C# Models
@@ -40,9 +40,10 @@ Add configuration to your appsettings.json
 
 ## Installation Instructions for Development
 - Install CosmosDB emulator for Windows https://aka.ms/cosmosdb-emulator
-- Edit appsettings.json with Cosmos Endpoint and Key
-- Install Azure Storage Emulator
+- Install Azure Storage Emulator https://docs.microsoft.com/nl-nl/azure/storage/common/storage-use-emulator
+- Optional (not needed when using emulators): Edit appsettings.json with Cosmos Endpoint and Key
 - Run QMS4
+- Navigate to https://localhost:44341/cms
 
 ## Dependencies
 JSON Schema Editor
@@ -56,13 +57,11 @@ https://github.com/RicoSuter/NJsonSchema
 
 
 ## Roadmap
-- Searching and ordering on list view
+- Paging, ordering and searching on list view
 
 - Pages and url tree
 
 - Multiple versions of items (with start and end time)
-
-- Multiple Data Stores (write to blob storage)
 
 - Configure the CMS from within the CMS
 

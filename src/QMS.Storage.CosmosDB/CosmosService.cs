@@ -32,10 +32,18 @@ namespace QMS.Storage.CosmosDB
 
             while (queryResultSetIterator.HasMoreResults)
             {
-                FeedResponse<CmsItem> currentResultSet = await queryResultSetIterator.ReadNextAsync().ConfigureAwait(false);
-                foreach (CmsItem item in currentResultSet)
+                try
                 {
-                    results.Add(item);
+                    FeedResponse<CmsItem> currentResultSet = await queryResultSetIterator.ReadNextAsync().ConfigureAwait(false);
+                    foreach (CmsItem item in currentResultSet)
+                    {
+                        results.Add(item);
+                    }
+                }
+                catch(CosmosException)
+                {
+                    //TODO: Handle scenario if no documents are found, first time. Not initialized yet?
+                    break;
                 }
             }
 
@@ -48,6 +56,13 @@ namespace QMS.Storage.CosmosDB
 
             item.CmsType = cmsType;
             await container.UpsertItemAsync(item, new PartitionKey(cmsType)).ConfigureAwait(false);
+        }
+
+        public async Task Delete(string cmsType, string id)
+        {
+            Container container = GetContainer();
+
+            await container.DeleteItemAsync<CmsItem>(id, new PartitionKey(cmsType)).ConfigureAwait(false);
         }
 
         public async Task<CmsItem> Read(string partitionKey, string documentId)

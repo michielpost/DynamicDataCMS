@@ -7,10 +7,11 @@
         {
           "Name": "Homepage",
           "Key": "homepage",
+          "IsSingleton": true,
           "Uri": "https://localhost:44341/cms/api/schema/QMS.Web/QMS.Web.Models.Pages.HomePage",
           "ListViewProperties": [
             {
-              "Key": "title",
+              "Key": "MetaTitle",
               "DisplayName": "Title"
             }
           ]
@@ -21,7 +22,7 @@
           "Uri": "https://localhost:44341/cms/api/schema/QMS.Web/QMS.Web.Models.Pages.ContentPage",
           "ListViewProperties": [
             {
-              "Key": "title",
+              "Key": "metaTitle",
               "DisplayName": "Title"
             }
           ]

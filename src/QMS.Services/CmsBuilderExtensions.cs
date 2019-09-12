@@ -5,7 +5,7 @@ using QMS.Services.Models;
 namespace QMS.Services
 {
     /// <summary>
-    /// Configure all services in the QMS.Storage.CosmosDB package
+    /// Configure the CMS
     /// </summary>
     public static class CmsBuilderExtensions
     {

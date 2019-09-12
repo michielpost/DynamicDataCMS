@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QMS.Models;
 using QMS.Services;
 using QMS.Storage.Interfaces;
 
@@ -51,9 +52,15 @@ namespace QMS.Core.Controllers
                 //    //Image.Load(Configuration.Default, bytes);
                 //}
 
+                CmsFile cmsFile = new CmsFile
+                {
+                    Bytes = bytes,
+                    ContentType = mimeType
+                };
+
                 try
                 {
-                    var result = await writeFileService.WriteFile(bytes, mimeType, cmsType, id, fieldName, lang).ConfigureAwait(false);
+                    var result = await writeFileService.WriteFile(cmsFile, cmsType, id, fieldName, lang).ConfigureAwait(false);
 
                     return new JsonResult(result);
                 }
@@ -70,12 +77,11 @@ namespace QMS.Core.Controllers
         [Route("download/{cmsType}/{id}/{fieldName}/{lang?}")]
         public async Task<IActionResult> Download([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string lang, [FromRoute]string fieldName)
         {
-            //TODO: Also return content type?
             var file = await readFileService.ReadFile(cmsType, id, fieldName, lang);
 
             //TODO: Get document and get proper file name
 
-            return File(file, "application/octet-stream");
+            return File(file.Bytes, file.ContentType);
         }
 
         private static string GetFileName(IFormFile file) => file.ContentDisposition.Split(';')

@@ -78,6 +78,13 @@ namespace QMS.Storage.AzureStorage
             return azureStorageService.StoreFileAsync(fileData, "application/json", fileName);
         }
 
+        public Task Delete(string cmsType, string id)
+        {
+            var fileName = GenerateFileName(cmsType, id);
+            
+            return azureStorageService.DeleteFileAsync(fileName);
+        }
+
         private static string GenerateFileName(string cmsType, string id)
         {
             string fileName = $"{cmsType}/{id}.json";

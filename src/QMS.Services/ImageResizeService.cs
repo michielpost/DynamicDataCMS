@@ -3,6 +3,7 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using SixLabors.Primitives;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,10 +36,10 @@ namespace QMS.Services
             int? width, int? height, bool cover, int quality)
         {
 
-            var imageBytes = await readFileService.ReadFile(cmsType, id, fieldName, lang).ConfigureAwait(false);
+            var cmsFile = await readFileService.ReadFile(cmsType, id, fieldName, lang).ConfigureAwait(false);
 
             // Read from stream.
-            using (var image = Image.Load(Configuration.Default, imageBytes, out var format))
+            using (var image = Image.Load(Configuration.Default, cmsFile.Bytes, out var format))
             {
                 if (cover)
                 {
@@ -114,7 +115,29 @@ namespace QMS.Services
             if (newHeight < 1 || newHeight > image.Height)
                 newHeight = image.Height;
 
-            image.Mutate(x => x.Crop(newWidth, newHeight));
+            if (width.HasValue && height.HasValue)
+            {
+
+                if (((double)image.Height / height) > ((double)image.Width / width))
+                {
+                    newHeight = image.Height * width.Value / image.Width;
+                }
+                else
+                {
+                    newWidth = (image.Width * height.Value) / image.Height;
+                }
+            }
+
+            image.Mutate(x => x.Resize(newWidth, newHeight));
+
+            //if (width != newWidth || height != newHeight)
+            //{
+            //    image.Mutate(x => x.Crop(new Rectangle(
+            //        width == newWidth ? 0 : (newWidth - width) / 2,
+            //        height == newHeight ? 0 : (newHeight - height) / 2,
+            //        width,
+            //        height)));
+            //}
         }
     }
 }

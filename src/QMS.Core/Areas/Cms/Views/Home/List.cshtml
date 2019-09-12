@@ -15,9 +15,6 @@
             <th>
                Id
             </th>
-            <th>
-                CmsType
-            </th>
             @foreach(var column in Model.Schema.ListViewProperties)
             {
                 <th>@column.DisplayName</th>
@@ -31,16 +28,14 @@
             <td>
                 @item.Id
             </td>
-            <td>
-                @item.CmsType
-            </td>
             @foreach (var column in Model.Schema.ListViewProperties)
             {
                 <td>@item.AdditionalProperties.FirstOrDefault(x => x.Key == column.Key).Value</td>
             }
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id, cmstype = item.CmsType }) |
-            </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id, cmstype = item.CmsType }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id, cmstype = item.CmsType })
+        </td>
         </tr>
 }
     </tbody>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.Storage.Blob;
+using QMS.Models;
 using QMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -20,28 +21,28 @@ namespace QMS.Storage.AzureStorage
             this.azureStorageService = azureStorageService;
         }
 
-        public async Task<byte[]> ReadFile(string cmsType, string id, string fieldName, string lang)
+        public async Task<CmsFile> ReadFile(string cmsType, string id, string fieldName, string lang)
         {
             string fileName = GenerateFileName(cmsType, id, fieldName, lang);
 
-            // get original image
+            // get original file
             var blob = await azureStorageService.GetFileReference(fileName).ConfigureAwait(false);
 
             using (var stream = new MemoryStream())
             {
-                // download image
+                // download file
                 await blob.DownloadToStreamAsync(stream).ConfigureAwait(false);
-                var imageBytes = stream.ToArray();
+                var fileBytes = stream.ToArray();
 
-                return imageBytes;
+                return new CmsFile { Bytes = fileBytes, ContentType = blob.Properties.ContentType };
             }
         }
 
-        public async Task<string> WriteFile(byte[] bytes, string mimeType, string cmsType, string id, string fieldName, string lang)
+        public async Task<string> WriteFile(CmsFile file, string cmsType, string id, string fieldName, string lang)
         {
             string fileName = GenerateFileName(cmsType, id, fieldName, lang);
 
-            var blob = await azureStorageService.StoreFileAsync(bytes, mimeType, fileName).ConfigureAwait(false);
+            var blob = await azureStorageService.StoreFileAsync(file.Bytes, file.ContentType, fileName).ConfigureAwait(false);
 
             return fileName;
         }
