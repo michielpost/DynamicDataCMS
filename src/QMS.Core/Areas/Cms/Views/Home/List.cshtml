@@ -1,10 +1,10 @@
 ﻿@model ListViewModel
 
 @{
-    ViewData["Title"] = "List";
+    ViewData["Title"] = Model.Schema.Name + "List";
 }
 
-<h1>List</h1>
+    <h1>@Model.Schema.Name List</h1>
 
 <p>
     @Html.ActionLink("Create New " +@Model.CmsType, "Create", new { cmstype = Model.CmsType })
