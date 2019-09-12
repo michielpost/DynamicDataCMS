@@ -15,8 +15,6 @@ jobs:
         dotnet-version: 2.2.108
     - name: Build with dotnet
       run: dotnet build --configuration Release
-    - name: Publish Website
-      run: dotnet publish src\QMS.Web -o ..\..\publish\QMS.Web -c Release
    
     - name: Deploy to app service
     - uses: azure/appservice-actions/webapp@master
