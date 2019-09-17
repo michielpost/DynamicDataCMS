@@ -29,22 +29,18 @@ namespace QMS.Core.Controllers
 
         [HttpPost]
         [Route("upload/{cmsType}/{id}/{lang?}")]
-        public async Task<JsonResult> Upload([FromForm]IFormFile file, [FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string lang, [FromQuery]string fieldName)
+        public async Task<JsonResult> Upload([FromForm]IFormFile file, [FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string? lang, [FromQuery]string fieldName)
         {
-            string fileName = null;
-            string mimeType = null;
-            byte[] bytes = null;
-
             if (file != null)
             {
-                fileName = GetFileName(file);
-                mimeType = file.ContentType.ToLowerInvariant();
+                string fileName = GetFileName(file);
+                string mimeType = file.ContentType.ToLowerInvariant();
 
                 //Get file bytes
                 var outputStream = new MemoryStream();
                 var output = file.OpenReadStream();
                 output.CopyTo(outputStream);
-                bytes = outputStream.ToArray();
+                byte[] bytes = outputStream.ToArray();
 
                 //if (mimeType.StartsWith("image/"))
                 //{
@@ -64,7 +60,7 @@ namespace QMS.Core.Controllers
 
                     return new JsonResult(result);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                 }
             }
@@ -75,9 +71,11 @@ namespace QMS.Core.Controllers
 
         [ResponseCache(Duration = 60 * 60 * 24 * 365, Location = ResponseCacheLocation.Any)]
         [Route("download/{cmsType}/{id}/{fieldName}/{lang?}")]
-        public async Task<IActionResult> Download([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string lang, [FromRoute]string fieldName)
+        public async Task<IActionResult> Download([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string? lang, [FromRoute]string fieldName)
         {
             var file = await readFileService.ReadFile(cmsType, id, fieldName, lang);
+            if(file == null)
+                return NotFound();
 
             //TODO: Get document and get proper file name
 

@@ -21,12 +21,15 @@ namespace QMS.Storage.AzureStorage
             this.azureStorageService = azureStorageService;
         }
 
-        public async Task<CmsFile> ReadFile(string cmsType, string id, string fieldName, string lang)
+        public async Task<CmsFile?> ReadFile(string cmsType, string id, string fieldName, string? lang)
         {
             string fileName = GenerateFileName(cmsType, id, fieldName, lang);
 
             // get original file
             var blob = await azureStorageService.GetFileReference(fileName).ConfigureAwait(false);
+
+            if ((!await blob.ExistsAsync()))
+                return null;
 
             using (var stream = new MemoryStream())
             {
@@ -38,7 +41,7 @@ namespace QMS.Storage.AzureStorage
             }
         }
 
-        public async Task<string> WriteFile(CmsFile file, string cmsType, string id, string fieldName, string lang)
+        public async Task<string> WriteFile(CmsFile file, string cmsType, string id, string fieldName, string? lang)
         {
             string fileName = GenerateFileName(cmsType, id, fieldName, lang);
 
@@ -47,7 +50,7 @@ namespace QMS.Storage.AzureStorage
             return fileName;
         }
 
-        private static string GenerateFileName(string cmsType, string id, string fieldName, string lang)
+        private static string GenerateFileName(string cmsType, string id, string fieldName, string? lang)
         {
             string fileName = $"{cmsType}/{id}/{lang}/{fieldName}";
             if (string.IsNullOrEmpty(lang))

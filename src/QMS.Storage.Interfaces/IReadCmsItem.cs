@@ -10,7 +10,7 @@ namespace QMS.Storage.Interfaces
     /// </summary>
     public interface IReadCmsItem
     {
-        Task<CmsItem> Read(string cmsType, string id);
+        Task<CmsItem?> Read(string cmsType, string id);
         Task<IReadOnlyList<CmsItem>> List(string cmsType);
     }
 

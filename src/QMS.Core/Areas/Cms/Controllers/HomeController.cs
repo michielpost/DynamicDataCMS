@@ -56,7 +56,7 @@ namespace QMS.Core.Controllers
         }
 
         [Route("edit/{cmsType}/{id}/{lang?}")]
-        public async Task<IActionResult> Edit([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string lang)
+        public async Task<IActionResult> Edit([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string? lang)
         {
             if (string.IsNullOrEmpty(id))
                 return new NotFoundResult();
@@ -64,9 +64,9 @@ namespace QMS.Core.Controllers
             var schema = schemaService.GetSchema(cmsType);
             var cmsItem = await readCmsItemService.Read(cmsType, id).ConfigureAwait(false);
 
-            CmsDataItem data = cmsItem;
+            CmsDataItem? data = cmsItem;
             if (lang != null)
-                data = cmsItem.Translations.FirstOrDefault(x => x.Key == lang).Value;
+                data = cmsItem?.Translations.FirstOrDefault(x => x.Key == lang).Value;
 
             var model = new EditViewModel
             {
@@ -96,7 +96,7 @@ namespace QMS.Core.Controllers
 
         [HttpGet]
         [Route("delete/{cmsType}/{id}/{lang?}")]
-        public async Task<IActionResult> Delete([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string lang)
+        public IActionResult Delete([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string? lang)
         {
             var schema = schemaService.GetSchema(cmsType);
 
@@ -111,7 +111,7 @@ namespace QMS.Core.Controllers
 
         [HttpPost]
         [Route("delete/{cmsType}/{id}/{lang?}")]
-        public async Task<IActionResult> DeleteConfirm([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string lang)
+        public async Task<IActionResult> DeleteConfirm([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string? lang)
         {
             await writeCmsItemService.Delete(cmsType, id);
 

@@ -20,6 +20,6 @@ namespace QMS.Storage.Interfaces
         /// <param name="fieldName"></param>
         /// <param name="lang"></param>
         /// <returns>Return the filename</returns>
-        Task<string> WriteFile(CmsFile file, string cmsType, string id, string fieldName, string lang);
+        Task<string> WriteFile(CmsFile file, string cmsType, string id, string fieldName, string? lang);
     }
 }

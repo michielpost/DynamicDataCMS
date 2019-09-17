@@ -33,14 +33,15 @@ namespace QMS.Storage.AzureStorage
                         .Replace($"{cmsType}/", "")
                         .Replace(".json", "");
                     var cmsItem = await Read(cmsType, fileName);
-                    result.Add(cmsItem);
+                    if(cmsItem != null)
+                        result.Add(cmsItem);
                 }
             }
 
             return result;
         }
 
-        public async Task<CmsItem> Read(string cmsType, string id)
+        public async Task<CmsItem?> Read(string cmsType, string id)
         {
             var fileName = GenerateFileName(cmsType, id);
 
@@ -68,7 +69,7 @@ namespace QMS.Storage.AzureStorage
             }
         }
 
-        public Task Write(CmsItem item, string cmsType, string id, string lang)
+        public Task Write(CmsItem item, string cmsType, string id, string? lang)
         {
             var fileName = GenerateFileName(cmsType, id);
             var json = JsonConvert.SerializeObject(item);
