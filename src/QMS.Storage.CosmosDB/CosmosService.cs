@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.Cosmos.Fluent;
 using Microsoft.Extensions.Options;
 using QMS.Models;
 using QMS.Storage.CosmosDB.Models;
@@ -87,7 +88,7 @@ namespace QMS.Storage.CosmosDB
 
         public async Task<Container> InitializeContainer()
         {
-            CosmosClient client = new CosmosClient(cosmosConfig.Endpoint, cosmosConfig.Key);
+            CosmosClient client = GetCosmosClient();
             Database database = await client.CreateDatabaseIfNotExistsAsync(cosmosConfig.DatabaseId).ConfigureAwait(false);
             Container container = await database.CreateContainerIfNotExistsAsync(
                 cosmosConfig.ContainerId,
@@ -97,9 +98,16 @@ namespace QMS.Storage.CosmosDB
             return container;
         }
 
+        private CosmosClient GetCosmosClient()
+        {
+            return new CosmosClientBuilder(cosmosConfig.Endpoint, cosmosConfig.Key)
+                            .WithCustomSerializer(new JsonCosmosSerializer())
+                            .Build();
+        }
+
         private Container GetContainer()
         {
-            CosmosClient client = new CosmosClient(cosmosConfig.Endpoint, cosmosConfig.Key);
+            CosmosClient client = GetCosmosClient();
             Database database = client.GetDatabase(cosmosConfig.DatabaseId);
             Container container = database.GetContainer(cosmosConfig.ContainerId);
 
