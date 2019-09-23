@@ -106,7 +106,7 @@ namespace QMS.Core.Controllers
         [Produces("application/json")]
         public ActionResult Schema([FromRoute]string assemblyName, [FromRoute]string typeName)
         {
-            Type type = Type.GetType($"{typeName}, {assemblyName}");
+            Type? type = Type.GetType($"{typeName}, {assemblyName}");
             if (type == null)
                 return new NotFoundResult();
 
