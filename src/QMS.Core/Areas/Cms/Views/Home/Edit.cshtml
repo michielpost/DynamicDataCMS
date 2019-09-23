@@ -130,7 +130,7 @@
     <li class="nav-item">
         <a class="nav-link" href="@Url.Action("Edit", "Home", new { lang = "" })">Default Language</a>
     </li>
-    @foreach (var lang in Model.CmsConfiguration.Languages)
+    @foreach (string lang in Model.CmsConfiguration?.Languages ?? Enumerable.Empty<string>())
     {
         <li class="nav-item">
             <a class="nav-link" href="@Url.Action("Edit", "Home", new { lang = @lang })">@lang</a>
