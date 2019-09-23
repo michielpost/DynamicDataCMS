@@ -1,6 +1,5 @@
 ﻿using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Linq;
 using QMS.Models;
 using QMS.Storage.CosmosDB.Models;
 using QMS.Storage.Interfaces;

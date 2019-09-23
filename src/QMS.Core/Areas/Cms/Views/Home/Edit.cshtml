@@ -70,7 +70,7 @@
         {
             <text>
             editor.on('ready',function() {
-                editor.setValue(@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Data)));
+                editor.setValue(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Data)));
             });
 
             </text>
