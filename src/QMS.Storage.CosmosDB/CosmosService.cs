@@ -6,6 +6,7 @@ using QMS.Storage.CosmosDB.Models;
 using QMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace QMS.Storage.CosmosDB
@@ -101,7 +102,7 @@ namespace QMS.Storage.CosmosDB
         private CosmosClient GetCosmosClient()
         {
             return new CosmosClientBuilder(cosmosConfig.Endpoint, cosmosConfig.Key)
-                            .WithCustomSerializer(new JsonCosmosSerializer())
+                            .WithCustomSerializer(new SystemTextJsonCosmosSerializer(new JsonSerializerOptions()))
                             .Build();
         }
 
