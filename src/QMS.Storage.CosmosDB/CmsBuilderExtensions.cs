@@ -24,11 +24,12 @@ namespace QMS.Storage.CosmosDB
             services.Configure<CosmosConfig>(Configuration.GetSection(nameof(CosmosConfig)));
 
             StorageConfiguration storageConfig = storageConfigFunc();
+            services.AddTransient<CosmosService>();
 
             if (storageConfig.ReadCmsItems)
-                services.AddTransient<IReadCmsItem, CosmosService>();
+                services.AddTransient<IReadCmsItem, CosmosWrapperService>();
             if (storageConfig.WriteCmsItems)
-                services.AddTransient<IWriteCmsItem, CosmosService>();
+                services.AddTransient<IWriteCmsItem, CosmosWrapperService>();
 
             var cosmosConfig = new CosmosConfig();
             Configuration.GetSection(nameof(CosmosConfig)).Bind(cosmosConfig);

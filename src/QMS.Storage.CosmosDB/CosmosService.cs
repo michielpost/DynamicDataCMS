@@ -1,7 +1,6 @@
 ﻿using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Fluent;
 using Microsoft.Extensions.Options;
-using QMS.Models;
 using QMS.Storage.CosmosDB.Models;
 using QMS.Storage.Interfaces;
 using System;
@@ -14,7 +13,7 @@ namespace QMS.Storage.CosmosDB
     /// <summary>
     /// Implements read and write interface for CmsItems for CosmosDB storage
     /// </summary>
-    public class CosmosService : IReadCmsItem, IWriteCmsItem
+    public class CosmosService
     {
         private readonly CosmosConfig cosmosConfig;
 
@@ -22,21 +21,21 @@ namespace QMS.Storage.CosmosDB
         {
             this.cosmosConfig = cosmosConfig.Value;
         }
-        public async Task<IReadOnlyList<CmsItem>> List(string cmsType)
+        internal async Task<IReadOnlyList<CosmosCmsItem>> List(string cmsType)
         {
             Container container = GetContainer();
 
             QueryDefinition queryDefinition = new QueryDefinition("SELECT * FROM c WHERE c.cmstype = @cmstype").WithParameter("@cmstype", cmsType);
-            FeedIterator<CmsItem> queryResultSetIterator = container.GetItemQueryIterator<CmsItem>(queryDefinition);
+            FeedIterator<CosmosCmsItem> queryResultSetIterator = container.GetItemQueryIterator<CosmosCmsItem>(queryDefinition);
 
-            List<CmsItem> results = new List<CmsItem>();
+            List<CosmosCmsItem> results = new List<CosmosCmsItem>();
 
             while (queryResultSetIterator.HasMoreResults)
             {
                 try
                 {
-                    FeedResponse<CmsItem> currentResultSet = await queryResultSetIterator.ReadNextAsync().ConfigureAwait(false);
-                    foreach (CmsItem item in currentResultSet)
+                    FeedResponse<CosmosCmsItem> currentResultSet = await queryResultSetIterator.ReadNextAsync().ConfigureAwait(false);
+                    foreach (CosmosCmsItem item in currentResultSet)
                     {
                         results.Add(item);
                     }
@@ -51,7 +50,7 @@ namespace QMS.Storage.CosmosDB
             return results;
         }
 
-        public async Task Write(CmsItem item, string cmsType, string id, string? lang)
+        internal async Task Write(CosmosCmsItem item, string cmsType, string id, string? lang)
         {
             Container container = GetContainer();
 
@@ -59,28 +58,28 @@ namespace QMS.Storage.CosmosDB
             await container.UpsertItemAsync(item, new PartitionKey(cmsType)).ConfigureAwait(false);
         }
 
-        public async Task Delete(string cmsType, string id)
+        internal async Task Delete(string cmsType, string id)
         {
             Container container = GetContainer();
 
-            await container.DeleteItemAsync<CmsItem>(id, new PartitionKey(cmsType)).ConfigureAwait(false);
+            await container.DeleteItemAsync<CosmosCmsItem>(id, new PartitionKey(cmsType)).ConfigureAwait(false);
         }
 
-        public async Task<CmsItem?> Read(string partitionKey, string documentId)
+        internal async Task<CosmosCmsItem?> Read(string partitionKey, string documentId)
         {
             Container container = GetContainer();
 
             try
             {
                 //TODO: Why does it throw a 404 when no document is found? Should not throw
-                var response = await container.ReadItemAsync<CmsItem>(documentId, new PartitionKey(partitionKey)).ConfigureAwait(false);
+                var response = await container.ReadItemAsync<CosmosCmsItem>(documentId, new PartitionKey(partitionKey)).ConfigureAwait(false);
 
                 return response.Resource;
             }
             catch { }
 
             //TODO: return null?
-            return new CmsItem
+            return new CosmosCmsItem
             {
                 Id = documentId,
                 CmsType = partitionKey
@@ -99,14 +98,12 @@ namespace QMS.Storage.CosmosDB
             return container;
         }
 
-        private CosmosClient GetCosmosClient()
+        internal CosmosClient GetCosmosClient()
         {
-            return new CosmosClientBuilder(cosmosConfig.Endpoint, cosmosConfig.Key)
-                            .WithCustomSerializer(new SystemTextJsonCosmosSerializer(new JsonSerializerOptions()))
-                            .Build();
+            return new CosmosClient(cosmosConfig.Endpoint, cosmosConfig.Key);
         }
 
-        private Container GetContainer()
+        internal Container GetContainer()
         {
             CosmosClient client = GetCosmosClient();
             Database database = client.GetDatabase(cosmosConfig.DatabaseId);
