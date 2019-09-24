@@ -50,7 +50,7 @@ namespace QMS.Storage.CosmosDB
             return results;
         }
 
-        public async Task Write(CmsItem item, string cmsType, string id, string lang)
+        public async Task Write(CmsItem item, string cmsType, string id, string? lang)
         {
             Container container = GetContainer();
 
@@ -65,7 +65,7 @@ namespace QMS.Storage.CosmosDB
             await container.DeleteItemAsync<CmsItem>(id, new PartitionKey(cmsType)).ConfigureAwait(false);
         }
 
-        public async Task<CmsItem> Read(string partitionKey, string documentId)
+        public async Task<CmsItem?> Read(string partitionKey, string documentId)
         {
             Container container = GetContainer();
 
@@ -78,6 +78,7 @@ namespace QMS.Storage.CosmosDB
             }
             catch { }
 
+            //TODO: return null?
             return new CmsItem
             {
                 Id = documentId,

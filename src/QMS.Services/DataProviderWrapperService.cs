@@ -40,17 +40,17 @@ namespace QMS.Services
             return readCmsItemProvider.List(cmsType);
         }
 
-        public Task<CmsItem> Read(string cmsType, string id)
+        public Task<CmsItem?> Read(string cmsType, string id)
         {
            return readCmsItemProvider.Read(cmsType, id);
         }
 
-        public Task<CmsFile> ReadFile(string cmsType, string id, string fieldName, string lang)
+        public Task<CmsFile?> ReadFile(string cmsType, string id, string fieldName, string? lang)
         {
             return readFileProvider.ReadFile(cmsType, id, fieldName, lang);
         }
 
-        public Task Write(CmsItem item, string cmsType, string id, string lang)
+        public Task Write(CmsItem item, string cmsType, string id, string? lang)
         {
             return Task.WhenAll(writeCmsItemProviders.Select(x => x.Write(item, cmsType, id, lang)));
         }
@@ -60,7 +60,7 @@ namespace QMS.Services
             return Task.WhenAll(writeCmsItemProviders.Select(x => x.Delete(cmsType, id)));
         }
 
-        public async Task<string> WriteFile(CmsFile file, string cmsType, string id, string fieldName, string lang)
+        public async Task<string> WriteFile(CmsFile file, string cmsType, string id, string fieldName, string? lang)
         {
             var task = await Task.WhenAll(writeFileProviders.Select(x => x.WriteFile(file, cmsType, id, fieldName, lang))).ConfigureAwait(false);
 

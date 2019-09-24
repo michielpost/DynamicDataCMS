@@ -25,7 +25,7 @@ namespace QMS.Storage.AzureStorage
         /// <summary>
         /// Store the given fileData in the blobstorage and return a blob identifying the results
         /// </summary>
-        public async Task<ICloudBlob> StoreFileAsync(byte[] fileData, string contentType, string fileName = null, string containerName = null)
+        public async Task<ICloudBlob> StoreFileAsync(byte[] fileData, string contentType, string? fileName = null, string? containerName = null)
         {
             var blobContainer = await GetBlobContainer(containerName).ConfigureAwait(false);
             if (string.IsNullOrEmpty(fileName))
@@ -47,7 +47,7 @@ namespace QMS.Storage.AzureStorage
         /// <summary>
         /// retrieve a new pointer to the blobstore container containing our assets
         /// </summary>
-        private async Task<CloudBlobContainer> GetBlobContainer(string containerName)
+        private async Task<CloudBlobContainer> GetBlobContainer(string? containerName)
         {
             if (string.IsNullOrEmpty(containerName))
                 containerName = _config.ContainerName;
@@ -65,7 +65,7 @@ namespace QMS.Storage.AzureStorage
         /// </summary>
         /// <param name="blobStoreId"></param>
         /// <returns></returns>
-        public async Task DeleteFileAsync(string blobStoreId, string containerName = null)
+        public async Task DeleteFileAsync(string blobStoreId, string? containerName = null)
         {
             if (string.IsNullOrWhiteSpace(blobStoreId))
                 throw new ArgumentNullException(nameof(blobStoreId));
@@ -85,7 +85,7 @@ namespace QMS.Storage.AzureStorage
         /// </summary>
         /// <param name="blobStoreId"></param>
         /// <returns></returns>
-        public async Task<ICloudBlob> GetFileReference(string blobStoreId, string containerName = null)
+        public async Task<ICloudBlob> GetFileReference(string blobStoreId, string? containerName = null)
         {
             if (string.IsNullOrWhiteSpace(blobStoreId))
                 throw new ArgumentNullException(nameof(blobStoreId));
@@ -109,7 +109,7 @@ namespace QMS.Storage.AzureStorage
             return blobReference;
         }
 
-        public async Task<IEnumerable<IListBlobItem>> GetFilesFromDirectory(string path, string containerName = null)
+        public async Task<IEnumerable<IListBlobItem>> GetFilesFromDirectory(string path, string? containerName = null)
         {
             if (string.IsNullOrWhiteSpace(path))
                 throw new ArgumentNullException(nameof(path));

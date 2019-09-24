@@ -12,8 +12,8 @@ namespace QMS.Core.Models
         public string CmsType { get; set; }
         public string Id { get; set; }
         public SchemaLocation SchemaLocation { get; set; }
-        public CmsDataItem Data { get; set; }
+        public CmsDataItem? Data { get; set; }
         public CmsConfiguration CmsConfiguration { get; set; }
-        public string Language { get; set; }
+        public string? Language { get; set; }
     }
 }

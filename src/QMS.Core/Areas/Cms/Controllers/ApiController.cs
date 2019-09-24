@@ -32,7 +32,7 @@ namespace QMS.Core.Controllers
 
         [HttpPost]
         [Route("save/{cmsType}/{id}/{lang?}")]
-        public async Task Save([FromRoute]string cmsType, [FromRoute]string id, [FromBody] CmsDataItem value, [FromRoute]string lang)
+        public async Task Save([FromRoute]string cmsType, [FromRoute]string id, [FromBody] CmsDataItem value, [FromRoute]string? lang)
         {
             var cmsItem = await readCmsItemService.Read(cmsType, id).ConfigureAwait(false);
             if (cmsItem == null)
@@ -52,14 +52,14 @@ namespace QMS.Core.Controllers
         [HttpGet]
         [Route("load/{cmsType}/{id}/{lang?}")]
         [Produces("application/json")]
-        public async Task<CmsDataItem> Load([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string lang)
+        public async Task<CmsDataItem?> Load([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string? lang)
         {
             var cmsItem = await readCmsItemService.Read(cmsType, id).ConfigureAwait(false);
 
-            CmsDataItem data = cmsItem;
+            CmsDataItem? data = cmsItem;
 
             if (lang != null)
-                data = cmsItem.Translations.FirstOrDefault(x => x.Key == lang).Value;
+                data = cmsItem?.Translations.FirstOrDefault(x => x.Key == lang).Value;
 
             return data;
         }
@@ -106,7 +106,7 @@ namespace QMS.Core.Controllers
         [Produces("application/json")]
         public ActionResult Schema([FromRoute]string assemblyName, [FromRoute]string typeName)
         {
-            Type type = Type.GetType($"{typeName}, {assemblyName}");
+            Type? type = Type.GetType($"{typeName}, {assemblyName}");
             if (type == null)
                 return new NotFoundResult();
 
