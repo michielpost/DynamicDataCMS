@@ -78,18 +78,28 @@ namespace QMS.Storage.AzureStorage
             return azureStorageService.StoreFileAsync(fileData, "application/json", fileName);
         }
 
-        public Task Delete(string cmsType, string id, string? lang)
+        public async Task Delete(string cmsType, string id, string? lang)
         {
-            var fileName = GenerateFileName(cmsType, id, lang);
+            var fileName = GenerateFileName(cmsType, id, null);
             
-            return azureStorageService.DeleteFileAsync(fileName);
+            await azureStorageService.DeleteFileAsync(fileName);
+
+            //Get translations
+            var files = await azureStorageService.GetFilesFromDirectory($"{cmsType}/{id}");
+            foreach(var file in files)
+            {
+                if (file is CloudBlockBlob cloudBlockBlob)
+                {
+                    await cloudBlockBlob.DeleteAsync();
+                }
+            }
         }
 
         private static string GenerateFileName(string cmsType, string id, string? lang)
         {
             string fileName = $"{cmsType}/{id}.json";
             if(!string.IsNullOrEmpty(lang))
-                fileName = $"{cmsType}/{id}-{lang}.json";
+                fileName = $"{cmsType}/{id}/{lang}.json";
             return fileName;
         }
     }
