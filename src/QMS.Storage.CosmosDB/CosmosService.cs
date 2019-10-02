@@ -1,10 +1,12 @@
 ﻿using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Fluent;
 using Microsoft.Extensions.Options;
+using QMS.Models;
 using QMS.Storage.CosmosDB.Models;
 using QMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -50,17 +52,18 @@ namespace QMS.Storage.CosmosDB
             return results;
         }
 
-        internal async Task Write(CosmosCmsItem item, string cmsType, string id, string? lang)
+        internal async Task Write(CosmosCmsDataItem item, string cmsType, string id, string? lang)
         {
             Container container = GetContainer();
 
+            item.Id = id;
             item.CmsType = cmsType;
 
 
             //Read main item without language
             var cmsItem = await this.ReadCmsItem(cmsType, id).ConfigureAwait(false);
             if (cmsItem == null)
-                cmsItem = new CosmosDBCmsItem();
+                cmsItem = new CosmosCmsItem();
 
             cmsItem.Id = id;
             cmsItem.CmsType = cmsType;
@@ -71,7 +74,7 @@ namespace QMS.Storage.CosmosDB
                 cmsItem.Translations[lang] = item;
 
 
-            await container.UpsertItemAsync(item, new PartitionKey(cmsType)).ConfigureAwait(false);
+            await container.UpsertItemAsync(cmsItem, new PartitionKey(cmsType)).ConfigureAwait(false);
         }
 
         public async Task Delete(string cmsType, string id, string? lang)
@@ -81,11 +84,11 @@ namespace QMS.Storage.CosmosDB
             await container.DeleteItemAsync<CosmosCmsItem>(id, new PartitionKey(cmsType)).ConfigureAwait(false);
         }
 
-        public async Task<CmsItem?> Read(string partitionKey, string documentId, string? lang)
+        internal async Task<CosmosCmsDataItem?> Read(string partitionKey, string documentId, string? lang)
         {
             var cmsItem = await ReadCmsItem(partitionKey, documentId);
 
-            CmsItem? data = cmsItem;
+            CosmosCmsDataItem? data = cmsItem;
 
             if (lang != null)
                 data = cmsItem?.Translations.FirstOrDefault(x => x.Key == lang).Value;
@@ -94,7 +97,7 @@ namespace QMS.Storage.CosmosDB
         }
 
 
-        internal async Task<CosmosDBCmsItem?> ReadCmsItem(string partitionKey, string documentId)
+        internal async Task<CosmosCmsItem?> ReadCmsItem(string partitionKey, string documentId)
         {
             Container container = GetContainer();
 

@@ -11,14 +11,7 @@ namespace QMS.Storage.CosmosDB.Models
     /// </summary>
     internal class CosmosCmsItem : CosmosCmsDataItem
     {
-        [JsonProperty("id")]
-        public string Id { get; set; }
-
-        [JsonProperty("cmstype")]
-        public string CmsType { get; set; }
-
         public Dictionary<string, CosmosCmsDataItem> Translations { get; set; } = new Dictionary<string, CosmosCmsDataItem>();
-
     }
 
     /// <summary>
@@ -26,6 +19,12 @@ namespace QMS.Storage.CosmosDB.Models
     /// </summary>
     internal class CosmosCmsDataItem
     {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("cmstype")]
+        public string CmsType { get; set; }
+
         [JsonExtensionData]
         public Dictionary<string, JToken> AdditionalProperties { get; set; } = new Dictionary<string, JToken>();
     }

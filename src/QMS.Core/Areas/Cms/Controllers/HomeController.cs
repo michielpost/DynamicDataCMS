@@ -108,7 +108,7 @@ namespace QMS.Core.Controllers
                 Id = Guid.NewGuid().ToString(),
                 SchemaLocation = schema,
                 CmsConfiguration = schemaService.GetCmsConfiguration(),
-                Data = Newtonsoft.Json.JsonConvert.DeserializeObject<CmsDataItem>(json)
+                Data = Newtonsoft.Json.JsonConvert.DeserializeObject<CmsItem>(json)
             };
             return View(nameof(Edit), model);
         }
