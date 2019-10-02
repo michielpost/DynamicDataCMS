@@ -1,10 +1,12 @@
 ﻿using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Fluent;
 using Microsoft.Extensions.Options;
+using QMS.Models;
 using QMS.Storage.CosmosDB.Models;
 using QMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -40,7 +42,7 @@ namespace QMS.Storage.CosmosDB
                         results.Add(item);
                     }
                 }
-                catch(CosmosException)
+                catch (CosmosException)
                 {
                     //TODO: Handle scenario if no documents are found, first time. Not initialized yet?
                     break;
@@ -50,22 +52,52 @@ namespace QMS.Storage.CosmosDB
             return results;
         }
 
-        internal async Task Write(CosmosCmsItem item, string cmsType, string id, string? lang)
+        internal async Task Write(CosmosCmsDataItem item, string cmsType, string id, string? lang)
         {
             Container container = GetContainer();
 
+            item.Id = id;
             item.CmsType = cmsType;
-            await container.UpsertItemAsync(item, new PartitionKey(cmsType)).ConfigureAwait(false);
+
+
+            //Read main item without language
+            var cmsItem = await this.ReadCmsItem(cmsType, id).ConfigureAwait(false);
+            if (cmsItem == null)
+                cmsItem = new CosmosCmsItem();
+
+            cmsItem.Id = id;
+            cmsItem.CmsType = cmsType;
+
+            if (lang == null)
+                cmsItem.AdditionalProperties = item.AdditionalProperties;
+            else
+                cmsItem.Translations[lang] = item;
+
+
+            await container.UpsertItemAsync(cmsItem, new PartitionKey(cmsType)).ConfigureAwait(false);
         }
 
-        internal async Task Delete(string cmsType, string id)
+        public async Task Delete(string cmsType, string id, string? lang)
         {
             Container container = GetContainer();
 
             await container.DeleteItemAsync<CosmosCmsItem>(id, new PartitionKey(cmsType)).ConfigureAwait(false);
         }
 
-        internal async Task<CosmosCmsItem?> Read(string partitionKey, string documentId)
+        internal async Task<CosmosCmsDataItem?> Read(string partitionKey, string documentId, string? lang)
+        {
+            var cmsItem = await ReadCmsItem(partitionKey, documentId);
+
+            CosmosCmsDataItem? data = cmsItem;
+
+            if (lang != null)
+                data = cmsItem?.Translations.FirstOrDefault(x => x.Key == lang).Value;
+
+            return data;
+        }
+
+
+        internal async Task<CosmosCmsItem?> ReadCmsItem(string partitionKey, string documentId)
         {
             Container container = GetContainer();
 
@@ -73,6 +105,8 @@ namespace QMS.Storage.CosmosDB
             {
                 //TODO: Why does it throw a 404 when no document is found? Should not throw
                 var response = await container.ReadItemAsync<CosmosCmsItem>(documentId, new PartitionKey(partitionKey)).ConfigureAwait(false);
+
+                var cmsItem = response.Resource;
 
                 return response.Resource;
             }

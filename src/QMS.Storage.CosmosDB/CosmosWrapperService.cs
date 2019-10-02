@@ -35,15 +35,15 @@ namespace QMS.Storage.CosmosDB
             return _cosmosService.Write(item.ToCosmosCmsItem(), cmsType, id, lang);
         }
 
-        public Task Delete(string cmsType, string id)
+        public Task Delete(string cmsType, string id, string? lang)
         {
-            return _cosmosService.Delete(cmsType, id);
+            return _cosmosService.Delete(cmsType, id, lang);
 
         }
 
-        public async Task<CmsItem?> Read(string partitionKey, string documentId)
+        public async Task<CmsItem?> Read(string partitionKey, string documentId, string? lang)
         {
-            var result = await _cosmosService.Read(partitionKey, documentId).ConfigureAwait(false);
+            var result = await _cosmosService.Read(partitionKey, documentId, lang).ConfigureAwait(false);
             return result?.ToCmsItem();
         }
     }

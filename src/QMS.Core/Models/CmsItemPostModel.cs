@@ -4,19 +4,10 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace QMS.Models
+namespace QMS.Core.Models
 {
-    /// <summary>
-    /// Single CmsDataItem (single language)
-    /// </summary>
-    public class CmsItem
+    public class CmsItemPostModel
     {
-        [JsonPropertyName("id")]
-        public string Id { get; set; }
-
-        [JsonPropertyName("cmstype")]
-        public string CmsType { get; set; }
-
         [JsonExtensionData]
         public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
     }

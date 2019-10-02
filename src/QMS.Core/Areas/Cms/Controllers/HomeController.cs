@@ -65,11 +65,7 @@ namespace QMS.Core.Controllers
                 return new NotFoundResult();
 
             var schema = schemaService.GetSchema(cmsType);
-            var cmsItem = await readCmsItemService.Read(cmsType, id).ConfigureAwait(false);
-
-            CmsDataItem? data = cmsItem;
-            if (lang != null)
-                data = cmsItem?.Translations.FirstOrDefault(x => x.Key == lang).Value;
+            var data = await readCmsItemService.Read(cmsType, id, lang).ConfigureAwait(false);
 
             var model = new EditViewModel
             {
@@ -112,7 +108,7 @@ namespace QMS.Core.Controllers
                 Id = Guid.NewGuid().ToString(),
                 SchemaLocation = schema,
                 CmsConfiguration = schemaService.GetCmsConfiguration(),
-                Data = Newtonsoft.Json.JsonConvert.DeserializeObject<CmsDataItem>(json)
+                Data = Newtonsoft.Json.JsonConvert.DeserializeObject<CmsItem>(json)
             };
             return View(nameof(Edit), model);
         }
@@ -150,7 +146,7 @@ namespace QMS.Core.Controllers
         [Route("delete/{cmsType}/{id}/{lang?}")]
         public async Task<IActionResult> DeleteConfirm([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string? lang)
         {
-            await writeCmsItemService.Delete(cmsType, id);
+            await writeCmsItemService.Delete(cmsType, id, lang);
 
             return RedirectToAction("List", new { cmsType = cmsType });
         }

@@ -32,7 +32,7 @@ namespace QMS.Storage.AzureStorage
                     string fileName = cloudBlockBlob.Name
                         .Replace($"{cmsType}/", "")
                         .Replace(".json", "");
-                    var cmsItem = await Read(cmsType, fileName);
+                    var cmsItem = await Read(cmsType, fileName, null);
                     if(cmsItem != null)
                         result.Add(cmsItem);
                 }
@@ -41,13 +41,12 @@ namespace QMS.Storage.AzureStorage
             return result;
         }
 
-        public async Task<CmsItem?> Read(string cmsType, string id)
+        public async Task<CmsItem?> Read(string cmsType, string id, string? lang)
         {
-            var fileName = GenerateFileName(cmsType, id);
+            var fileName = GenerateFileName(cmsType, id, lang);
 
             try
             {
-
                 var blob = await azureStorageService.GetFileReference(fileName).ConfigureAwait(false);
 
                 using (var stream = new MemoryStream())
@@ -71,7 +70,7 @@ namespace QMS.Storage.AzureStorage
 
         public Task Write(CmsItem item, string cmsType, string id, string? lang)
         {
-            var fileName = GenerateFileName(cmsType, id);
+            var fileName = GenerateFileName(cmsType, id, lang);
             var json = JsonSerializer.Serialize(item);
 
             byte[] fileData = Encoding.ASCII.GetBytes(json);
@@ -79,16 +78,18 @@ namespace QMS.Storage.AzureStorage
             return azureStorageService.StoreFileAsync(fileData, "application/json", fileName);
         }
 
-        public Task Delete(string cmsType, string id)
+        public Task Delete(string cmsType, string id, string? lang)
         {
-            var fileName = GenerateFileName(cmsType, id);
+            var fileName = GenerateFileName(cmsType, id, lang);
             
             return azureStorageService.DeleteFileAsync(fileName);
         }
 
-        private static string GenerateFileName(string cmsType, string id)
+        private static string GenerateFileName(string cmsType, string id, string? lang)
         {
             string fileName = $"{cmsType}/{id}.json";
+            if(!string.IsNullOrEmpty(lang))
+                fileName = $"{cmsType}/{id}-{lang}.json";
             return fileName;
         }
     }
