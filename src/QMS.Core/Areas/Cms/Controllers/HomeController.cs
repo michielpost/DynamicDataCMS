@@ -11,6 +11,8 @@ using QMS.Storage.Interfaces;
 using System.Net.Http;
 using QMS.Services.Models;
 using NJsonSchema;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace QMS.Core.Controllers
 {
@@ -108,7 +110,7 @@ namespace QMS.Core.Controllers
                 Id = Guid.NewGuid().ToString(),
                 SchemaLocation = schema,
                 CmsConfiguration = schemaService.GetCmsConfiguration(),
-                Data = Newtonsoft.Json.JsonConvert.DeserializeObject<CmsItem>(json)
+                Data = JsonSerializer.Deserialize<CmsItem>(json)
             };
             return View(nameof(Edit), model);
         }
