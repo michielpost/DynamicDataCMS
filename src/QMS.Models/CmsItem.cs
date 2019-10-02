@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace QMS.Models
 {
@@ -11,13 +11,13 @@ namespace QMS.Models
     /// </summary>
     public class CmsItem
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public string Id { get; set; }
 
-        [JsonProperty("cmstype")]
+        [JsonPropertyName("cmstype")]
         public string CmsType { get; set; }
 
         [JsonExtensionData]
-        public Dictionary<string, JToken> AdditionalProperties { get; set; } = new Dictionary<string, JToken>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
     }
 }

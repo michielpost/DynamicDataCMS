@@ -1,11 +1,11 @@
 ﻿using Microsoft.Azure.Storage.Blob;
-using Newtonsoft.Json;
 using QMS.Models;
 using QMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace QMS.Storage.AzureStorage
@@ -57,7 +57,7 @@ namespace QMS.Storage.AzureStorage
 
                     string json = Encoding.ASCII.GetString(fileBytes);
 
-                    var cmsItem = JsonConvert.DeserializeObject<CmsItem>(json);
+                    var cmsItem = JsonSerializer.Deserialize<CmsItem>(json);
 
                     return cmsItem;
                 }
@@ -71,7 +71,7 @@ namespace QMS.Storage.AzureStorage
         public Task Write(CmsItem item, string cmsType, string id, string? lang)
         {
             var fileName = GenerateFileName(cmsType, id, lang);
-            var json = JsonConvert.SerializeObject(item);
+            var json = JsonSerializer.Serialize(item);
 
             byte[] fileData = Encoding.ASCII.GetBytes(json);
 
