@@ -8,6 +8,9 @@ using QMS.Models;
 using QMS.Services;
 using QMS.Core.Models;
 using QMS.Storage.Interfaces;
+using System.Net.Http;
+using QMS.Services.Models;
+using NJsonSchema;
 
 namespace QMS.Core.Controllers
 {
@@ -78,6 +81,40 @@ namespace QMS.Core.Controllers
                 Data = data
             };
             return View(model);
+        }
+
+        /// <summary>
+        /// Dynamic Edit endpoint, accepts any json url and generates an editor
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        [Route("edit/_dynamic")]
+        public async Task<IActionResult> EditDynamic([FromQuery]string url)
+        {
+            if (string.IsNullOrEmpty(url))
+                return new NotFoundResult();
+
+            var httpClient = new HttpClient();
+            var json = await httpClient.GetStringAsync(url);
+
+            var jsonSchema = JsonSchema.FromSampleJson(json);
+
+            var schema = new SchemaLocation()
+            {
+                Key = "_dynamic",
+                Name = "Dynamic",
+                Schema = jsonSchema.ToJson()
+            };
+
+            var model = new EditViewModel
+            {
+                CmsType = "_dynamic",
+                Id = Guid.NewGuid().ToString(),
+                SchemaLocation = schema,
+                CmsConfiguration = schemaService.GetCmsConfiguration(),
+                Data = Newtonsoft.Json.JsonConvert.DeserializeObject<CmsDataItem>(json)
+            };
+            return View(nameof(Edit), model);
         }
 
         [Route("create/{cmsType}")]
