@@ -32,36 +32,25 @@ namespace QMS.Core.Controllers
 
         [HttpPost]
         [Route("save/{cmsType}/{id}/{lang?}")]
-        public async Task Save([FromRoute]string cmsType, [FromRoute]string id, [FromBody] CmsDataItem value, [FromRoute]string? lang)
+        public async Task Save([FromRoute]string cmsType, [FromRoute]string id, [FromBody] CmsItemPostModel value, [FromRoute]string? lang)
         {
-            var cmsItem = await readCmsItemService.Read(cmsType, id).ConfigureAwait(false);
-            if (cmsItem == null)
-                cmsItem = new CmsItem();
-
-            cmsItem.Id = id;
-            cmsItem.CmsType = cmsType;
-
-            if (lang == null)
-                cmsItem.AdditionalProperties = value.AdditionalProperties;
-            else
-                cmsItem.Translations[lang] = value;
-
-            await writeCmsItemService.Write(cmsItem, cmsType, id, lang).ConfigureAwait(false);
+            CmsItem item = new CmsItem
+            {
+                AdditionalProperties = value.AdditionalProperties,
+                CmsType = cmsType,
+                Id = id
+            };
+            await writeCmsItemService.Write(item, cmsType, id, lang).ConfigureAwait(false);
         }
 
         [HttpGet]
         [Route("load/{cmsType}/{id}/{lang?}")]
         [Produces("application/json")]
-        public async Task<CmsDataItem?> Load([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string? lang)
+        public async Task<CmsItem?> Load([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string? lang)
         {
-            var cmsItem = await readCmsItemService.Read(cmsType, id).ConfigureAwait(false);
+            var cmsItem = await readCmsItemService.Read(cmsType, id, lang).ConfigureAwait(false);
 
-            CmsDataItem? data = cmsItem;
-
-            if (lang != null)
-                data = cmsItem?.Translations.FirstOrDefault(x => x.Key == lang).Value;
-
-            return data;
+            return cmsItem;
         }
 
 
