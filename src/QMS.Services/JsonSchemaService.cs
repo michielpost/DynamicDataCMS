@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using NJsonSchema;
 using QMS.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace QMS.Services
@@ -33,7 +32,7 @@ namespace QMS.Services
             {
                 var config = await httpClient.GetStringAsync(cmsConfigLocation.Uri).ConfigureAwait(false);
                 //TODO: Check if response is OK
-                cmsConfig = JsonConvert.DeserializeObject<CmsConfiguration>(config);
+                cmsConfig = JsonSerializer.Deserialize<CmsConfiguration>(config);
             }
 
             //TODO: Cache schemas
