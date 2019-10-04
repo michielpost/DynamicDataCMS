@@ -2,6 +2,17 @@
 
 @{
     ViewData["Title"] = Model.Schema.Name + "List";
+
+    string GetSortOrder(string field)
+    {
+        if(ViewBag.SortField == field)
+        {
+            if (ViewBag.SortOrder == "Asc")
+                return "Desc";
+        }
+
+        return "Asc";
+    }
 }
 
 <h1>@Model.Schema.Name List</h1>
@@ -20,7 +31,7 @@
             }
             @foreach (var column in Model.Schema.ListViewProperties)
             {
-                <th>@column.DisplayName</th>
+                <th>@Html.ActionLink(column.DisplayName, "List", "Home", new { sortField = column.Key, sortOrder = GetSortOrder(column.Key) })</th>
             }
             <th></th>
         </tr>

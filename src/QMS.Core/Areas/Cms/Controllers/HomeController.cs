@@ -38,12 +38,15 @@ namespace QMS.Core.Controllers
         }
 
         [Route("list/{cmsType}")]
-        public async Task<IActionResult> List([FromRoute]string cmsType)
+        public async Task<IActionResult> List([FromRoute]string cmsType, [FromQuery]string? sortField, [FromQuery]string? sortOrder)
         {
             var result = await readCmsItemService.List(cmsType).ConfigureAwait(false);
             var schema = schemaService.GetSchema(cmsType);
 
-            if(schema.IsSingleton)
+            ViewBag.SortField = sortField;
+            ViewBag.SortOrder = sortOrder;
+
+            if (schema.IsSingleton)
             {
                 if (result.Any())
                     return RedirectToAction("Edit", new { cmsType = cmsType, id = result.First().Id });
