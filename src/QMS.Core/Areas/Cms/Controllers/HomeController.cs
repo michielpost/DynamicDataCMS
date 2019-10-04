@@ -48,8 +48,8 @@ namespace QMS.Core.Controllers
 
             if (schema.IsSingleton)
             {
-                if (result.Any())
-                    return RedirectToAction("Edit", new { cmsType = cmsType, id = result.First().Id });
+                if (result.results.Any())
+                    return RedirectToAction("Edit", new { cmsType = cmsType, id = result.results.First().Id });
                 else
                     return RedirectToAction("Create", new { cmsType = cmsType });
             }
@@ -58,7 +58,7 @@ namespace QMS.Core.Controllers
             {
                 CmsType = cmsType,
                 Schema = schema,
-                Items = result
+                Items = result.results
             };
             return View(model);
         }

@@ -63,7 +63,7 @@ namespace QMS.Core.Controllers
         public async Task<IReadOnlyList<CmsItem>> List([FromRoute]string cmsType, [FromQuery]string? sortField, [FromQuery]string? sortOrder)
         {
             var result = await readCmsItemService.List(cmsType, sortField, sortOrder).ConfigureAwait(false);
-            return result;
+            return result.Item1;
         }
 
 
@@ -84,10 +84,10 @@ namespace QMS.Core.Controllers
             {
                 title = cmsType,
                 type = "string",
-                @enum = list.Select(x => x.Id).ToList(),
+                @enum = list.results.Select(x => x.Id).ToList(),
                 options = new Options
                 {
-                     enum_titles = list.Select(x => GetDisplayTitle(x, schema)).ToList()
+                     enum_titles = list.results.Select(x => GetDisplayTitle(x, schema)).ToList()
                 }
             };
             return result;

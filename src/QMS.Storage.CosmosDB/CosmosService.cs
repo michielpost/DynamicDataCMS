@@ -1,5 +1,6 @@
 ﻿using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Fluent;
+using Microsoft.Azure.Cosmos.Linq;
 using Microsoft.Extensions.Options;
 using QMS.Models;
 using QMS.Storage.CosmosDB.Models;
@@ -23,13 +24,15 @@ namespace QMS.Storage.CosmosDB
         {
             this.cosmosConfig = cosmosConfig.Value;
         }
-        internal async Task<IReadOnlyList<CosmosCmsItem>> List(string cmsType, string? sortField, string sortOrder = "Asc", int pageSize = 20, int pageIndex = 0)
+        internal async Task<(IReadOnlyList<CosmosCmsItem> results, int total)> List(string cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0)
         {
             Container container = GetContainer();
-
+            var totalItems = await container.GetItemLinqQueryable<CosmosCmsItem>().Where(x => x.CmsType == cmsType).CountAsync().ConfigureAwait(false);
+            
             QueryDefinition queryDefinition = new QueryDefinition($"SELECT * FROM c WHERE c.cmstype = @cmstype OFFSET {pageSize*pageIndex} LIMIT {pageSize}").WithParameter("@cmstype", cmsType);
             if (sortField != null)
             {
+                sortOrder = sortOrder ?? "Asc";
                 queryDefinition = new QueryDefinition($"SELECT * FROM c WHERE c.cmstype = @cmstype ORDER BY c.{sortField} {sortOrder.ToUpperInvariant()} OFFSET {pageSize * pageIndex} LIMIT {pageSize}")
                     .WithParameter("@cmstype", cmsType);
             }
@@ -55,7 +58,7 @@ namespace QMS.Storage.CosmosDB
                 }
             }
 
-            return results;
+            return (results, totalItems.Resource);
         }
 
         internal async Task Write(CosmosCmsDataItem item, string cmsType, string id, string? lang)
