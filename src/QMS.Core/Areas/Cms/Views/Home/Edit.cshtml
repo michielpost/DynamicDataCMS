@@ -126,23 +126,25 @@
 
     @if (Model.CmsConfiguration?.Languages?.Any() ?? false)
     {
-<ul class="nav">
-    <li class="nav-item">
-        <a class="nav-link" href="@Url.Action("Edit", "Home", new { lang = "" })">Default Language</a>
-    </li>
-    @foreach (string lang in Model.CmsConfiguration?.Languages ?? Enumerable.Empty<string>())
-    {
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Edit", "Home", new { lang = @lang })">@lang</a>
-        </li>
-    }
-</ul>
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Edit", "Home", new { lang = "" })">Default Language</a>
+            </li>
+            @foreach (string lang in Model.CmsConfiguration?.Languages ?? Enumerable.Empty<string>())
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Edit", "Home", new { lang = @lang })">@lang</a>
+                </li>
+            }
+        </ul>
     }
 
 
-    <button id="load" onclick="javascript:load()">Load</button>
-    <button id="save" onclick="javascript:save()">Save</button>
+    <button onclick="javascript:load()" class="btn btn-warning">Reload data</button>
+    <button onclick="javascript:save()" class="btn btn-primary">Save</button>
 
     <div id='editor_holder'></div>
+
+    <button onclick="javascript:save()" class="btn btn-primary">Save</button>
 
 </div>

@@ -1,4 +1,5 @@
 {
+  "Title": "QMS4 Sample CMS",
   "Languages": [ "en-US", "nl-NL" ],
   "EntityGroups": [
     {
@@ -105,5 +106,5 @@
     }
 
   ]
-  
+
 }
