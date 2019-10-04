@@ -17,10 +17,9 @@ jobs:
       run: dotnet build --configuration Release
     - name: Publish Website
       run: dotnet publish src/QMS.Web -o publish/QMS.Web -c Release
-   
     - name: Deploy to app service
       uses: azure/webapps-deploy@v1
       with:
-        app-name: qms4-dev  # Replace with your app name
+        app-name: qms4-dev
         package: publish/QMS.Web
         publish-profile: ${{ secrets.qms4devpublish }}
