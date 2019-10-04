@@ -23,14 +23,14 @@ namespace QMS.Storage.CosmosDB
         {
             this.cosmosConfig = cosmosConfig.Value;
         }
-        internal async Task<IReadOnlyList<CosmosCmsItem>> List(string cmsType, string? sortField, string sortOrder = "Asc")
+        internal async Task<IReadOnlyList<CosmosCmsItem>> List(string cmsType, string? sortField, string sortOrder = "Asc", int pageSize = 20, int pageIndex = 0)
         {
             Container container = GetContainer();
 
-            QueryDefinition queryDefinition = new QueryDefinition("SELECT * FROM c WHERE c.cmstype = @cmstype").WithParameter("@cmstype", cmsType);
+            QueryDefinition queryDefinition = new QueryDefinition($"SELECT * FROM c WHERE c.cmstype = @cmstype OFFSET {pageSize*pageIndex} LIMIT {pageSize}").WithParameter("@cmstype", cmsType);
             if (sortField != null)
             {
-                queryDefinition = new QueryDefinition($"SELECT * FROM c WHERE c.cmstype = @cmstype ORDER BY c.{sortField} {sortOrder.ToUpperInvariant()}")
+                queryDefinition = new QueryDefinition($"SELECT * FROM c WHERE c.cmstype = @cmstype ORDER BY c.{sortField} {sortOrder.ToUpperInvariant()} OFFSET {pageSize * pageIndex} LIMIT {pageSize}")
                     .WithParameter("@cmstype", cmsType);
             }
 
@@ -92,7 +92,7 @@ namespace QMS.Storage.CosmosDB
 
         internal async Task<CosmosCmsDataItem?> Read(string partitionKey, string documentId, string? lang)
         {
-            var cmsItem = await ReadCmsItem(partitionKey, documentId);
+            var cmsItem = await ReadCmsItem(partitionKey, documentId).ConfigureAwait(false);
 
             CosmosCmsDataItem? data = cmsItem;
 

@@ -4,6 +4,7 @@ using QMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -21,20 +22,20 @@ namespace QMS.Storage.AzureStorage
             this.azureStorageService = azureStorageService;
         }
 
-        public async Task<IReadOnlyList<CmsItem>> List(string cmsType, string? sortField, string? sortOrder)
+        public async Task<IReadOnlyList<CmsItem>> List(string cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0)
         {
-            var directoryInfo = await azureStorageService.GetFilesFromDirectory(cmsType);
+            var directoryInfo = await azureStorageService.GetFilesFromDirectory(cmsType).ConfigureAwait(false);
 
             List<CmsItem> result = new List<CmsItem>();
 
-            foreach(var file in directoryInfo)
+            foreach(var file in directoryInfo.Skip(pageSize * pageIndex).Take(pageSize))
             {
                 if (file is CloudBlockBlob cloudBlockBlob)
                 {
                     string fileName = cloudBlockBlob.Name
                         .Replace($"{cmsType}/", "")
                         .Replace(".json", "");
-                    var cmsItem = await Read(cmsType, fileName, null);
+                    var cmsItem = await Read(cmsType, fileName, null).ConfigureAwait(false);
                     if(cmsItem != null)
                         result.Add(cmsItem);
                 }
@@ -84,15 +85,15 @@ namespace QMS.Storage.AzureStorage
         {
             var fileName = GenerateFileName(cmsType, id, null);
             
-            await azureStorageService.DeleteFileAsync(fileName);
+            await azureStorageService.DeleteFileAsync(fileName).ConfigureAwait(false);
 
             //Get translations
-            var files = await azureStorageService.GetFilesFromDirectory($"{cmsType}/{id}");
+            var files = await azureStorageService.GetFilesFromDirectory($"{cmsType}/{id}").ConfigureAwait(false);
             foreach(var file in files)
             {
                 if (file is CloudBlockBlob cloudBlockBlob)
                 {
-                    await cloudBlockBlob.DeleteAsync();
+                    await cloudBlockBlob.DeleteAsync().ConfigureAwait(false);
                 }
             }
         }

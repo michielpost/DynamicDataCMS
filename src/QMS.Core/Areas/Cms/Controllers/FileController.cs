@@ -73,7 +73,7 @@ namespace QMS.Core.Controllers
         [Route("download/{cmsType}/{id}/{fieldName}/{lang?}")]
         public async Task<IActionResult> Download([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string? lang, [FromRoute]string fieldName)
         {
-            var file = await readFileService.ReadFile(cmsType, id, fieldName, lang);
+            var file = await readFileService.ReadFile(cmsType, id, fieldName, lang).ConfigureAwait(false);
             if(file == null)
                 return NotFound();
 

@@ -38,9 +38,9 @@ namespace QMS.Core.Controllers
         }
 
         [Route("list/{cmsType}")]
-        public async Task<IActionResult> List([FromRoute]string cmsType, [FromQuery]string? sortField, [FromQuery]string? sortOrder)
+        public async Task<IActionResult> List([FromRoute]string cmsType, [FromQuery]string? sortField, [FromQuery]string? sortOrder, [FromQuery]int pageIndex)
         {
-            var result = await readCmsItemService.List(cmsType, sortField, sortOrder).ConfigureAwait(false);
+            var result = await readCmsItemService.List(cmsType, sortField, sortOrder, pageSize: 20, pageIndex).ConfigureAwait(false);
             var schema = schemaService.GetSchema(cmsType);
 
             ViewBag.SortField = sortField;
@@ -96,7 +96,7 @@ namespace QMS.Core.Controllers
                 return new NotFoundResult();
 
             var httpClient = new HttpClient();
-            var json = await httpClient.GetStringAsync(url);
+            var json = await httpClient.GetStringAsync(url).ConfigureAwait(false);
 
             var jsonSchema = JsonSchema.FromSampleJson(json);
 
@@ -151,7 +151,7 @@ namespace QMS.Core.Controllers
         [Route("delete/{cmsType}/{id}/{lang?}")]
         public async Task<IActionResult> DeleteConfirm([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string? lang)
         {
-            await writeCmsItemService.Delete(cmsType, id, lang);
+            await writeCmsItemService.Delete(cmsType, id, lang).ConfigureAwait(false);
 
             return RedirectToAction("List", new { cmsType = cmsType });
         }

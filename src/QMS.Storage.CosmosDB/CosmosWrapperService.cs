@@ -26,9 +26,9 @@ namespace QMS.Storage.CosmosDB
         {
             _cosmosService = cosmosService;
         }
-        public async Task<IReadOnlyList<CmsItem>> List(string cmsType, string? sortField, string? sortOrder)
+        public async Task<IReadOnlyList<CmsItem>> List(string cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0)
         {
-            var result = await _cosmosService.List(cmsType, sortField, sortOrder).ConfigureAwait(false);
+            var result = await _cosmosService.List(cmsType, sortField, sortOrder, pageSize, pageIndex).ConfigureAwait(false);
             return result.Select(x => x.ToCmsItem()).ToList();
         }
 

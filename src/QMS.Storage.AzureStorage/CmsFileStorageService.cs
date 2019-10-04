@@ -28,7 +28,7 @@ namespace QMS.Storage.AzureStorage
             // get original file
             var blob = await azureStorageService.GetFileReference(fileName).ConfigureAwait(false);
 
-            if ((!await blob.ExistsAsync()))
+            if ((!await blob.ExistsAsync().ConfigureAwait(false)))
                 return null;
 
             using (var stream = new MemoryStream())
