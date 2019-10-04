@@ -56,6 +56,9 @@ https://github.com/Azure/azure-cosmos-dotnet-v3
 NJsonSchema
 https://github.com/RicoSuter/NJsonSchema
 
+JavaScript Notifications
+https://ned.im/noty/
+
 
 ## Roadmap
 - Paging, ordering and searching on list view
