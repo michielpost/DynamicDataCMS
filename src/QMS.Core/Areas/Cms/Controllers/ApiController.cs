@@ -60,9 +60,9 @@ namespace QMS.Core.Controllers
         [HttpGet]
         [Route("list/{cmsType}")]
         [Produces("application/json")]
-        public async Task<IReadOnlyList<CmsItem>> List([FromRoute]string cmsType)
+        public async Task<IReadOnlyList<CmsItem>> List([FromRoute]string cmsType, [FromQuery]string? sortField, [FromQuery]string? sortOrder)
         {
-            var result = await readCmsItemService.List(cmsType).ConfigureAwait(false);
+            var result = await readCmsItemService.List(cmsType, sortField, sortOrder).ConfigureAwait(false);
             return result;
         }
 
@@ -78,7 +78,7 @@ namespace QMS.Core.Controllers
         public async Task<ExternalEnum> Enum([FromRoute]string cmsType)
         {
             var schema = schemaService.GetSchema(cmsType);
-            var list = await readCmsItemService.List(cmsType).ConfigureAwait(false);
+            var list = await readCmsItemService.List(cmsType, null, null).ConfigureAwait(false);
 
             var result = new ExternalEnum
             {

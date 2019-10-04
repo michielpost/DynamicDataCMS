@@ -20,11 +20,13 @@ namespace QMS.Storage.CosmosDB
     {
         internal readonly CosmosService _cosmosService;
 
+        public bool CanSort => true;
+
         public CosmosWrapperService(CosmosService cosmosService)
         {
             _cosmosService = cosmosService;
         }
-        public async Task<IReadOnlyList<CmsItem>> List(string cmsType)
+        public async Task<IReadOnlyList<CmsItem>> List(string cmsType, string? sortField, string? sortOrder)
         {
             var result = await _cosmosService.List(cmsType).ConfigureAwait(false);
             return result.Select(x => x.ToCmsItem()).ToList();

@@ -14,12 +14,14 @@ namespace QMS.Storage.AzureStorage
     {
         private readonly AzureStorageService azureStorageService;
 
+        public bool CanSort => false;
+
         public CmsItemStorageService(AzureStorageService azureStorageService)
         {
             this.azureStorageService = azureStorageService;
         }
 
-        public async Task<IReadOnlyList<CmsItem>> List(string cmsType)
+        public async Task<IReadOnlyList<CmsItem>> List(string cmsType, string? sortField, string? sortOrder)
         {
             var directoryInfo = await azureStorageService.GetFilesFromDirectory(cmsType);
 

@@ -34,10 +34,11 @@ namespace QMS.Services
             this.writeCmsItemProviders = writeCmsItemProviders;
         }
 
+        public bool CanSort => readCmsItemProvider.CanSort;
 
-        public Task<IReadOnlyList<CmsItem>> List(string cmsType)
+        public Task<IReadOnlyList<CmsItem>> List(string cmsType, string? sortField, string? sortOrder)
         {
-            return readCmsItemProvider.List(cmsType);
+            return readCmsItemProvider.List(cmsType, sortField, sortOrder);
         }
 
         public Task<CmsItem?> Read(string cmsType, string id, string? lang)

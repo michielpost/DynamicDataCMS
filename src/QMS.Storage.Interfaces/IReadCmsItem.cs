@@ -10,8 +10,10 @@ namespace QMS.Storage.Interfaces
     /// </summary>
     public interface IReadCmsItem
     {
+        bool CanSort { get; }
+
         Task<CmsItem?> Read(string cmsType, string id, string? lang);
-        Task<IReadOnlyList<CmsItem>> List(string cmsType);
+        Task<IReadOnlyList<CmsItem>> List(string cmsType, string? sortField, string? sortOrder);
     }
 
    
