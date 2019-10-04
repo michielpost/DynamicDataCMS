@@ -84,20 +84,30 @@
         //console.log('saving');
         //alert(data);
 
-        return fetch('@Url.Action("Save", "Api", new { area = "cms", cmsType = Model.CmsType, id = Model.Id, lang = Model.Language })', {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        //mode: 'cors', // no-cors, cors, *same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        //credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-            'Content-Type': 'application/json',
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        //redirect: 'follow', // manual, *follow, error
-        //referrer: 'no-referrer', // no-referrer, *client
-        body: JSON.stringify(data), // body data type must match "Content-Type" header
-    })
-    .then(response => response.json());
+        fetch('@Url.Action("Save", "Api", new { area = "cms", cmsType = Model.CmsType, id = Model.Id, lang = Model.Language })', {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            //mode: 'cors', // no-cors, cors, *same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            //credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json',
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            //redirect: 'follow', // manual, *follow, error
+            //referrer: 'no-referrer', // no-referrer, *client
+            body: JSON.stringify(data), // body data type must match "Content-Type" header
+        })
+        .then( response => {
+            if (!response.ok) { throw response }
+            return response.json()  //we only get here if there is no error
+         })
+        .then( json => {
+            new Noty({ text: 'Save success', type: 'success', timeout: 2000, theme: 'bootstrap-v4', progressBar: true }).show();
+        })
+        .catch( err => {
+            new Noty({ text: 'Save failed', type: 'error', timeout: 2000, theme: 'bootstrap-v4', progressBar: true }).show();
+        })
+
     }
 
         function load() {

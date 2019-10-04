@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@json-editor/json-editor@latest/dist/css/jsoneditor.min.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/noty@3.2.0-beta/lib/noty.min.css" >
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/noty@3.2.0-beta/lib/themes/bootstrap-v4.css">
     <link rel="stylesheet" href="~/_content/QMS.Core/cms.css" />
 </head>
 <body>
@@ -18,8 +20,8 @@
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" asp-area="Cms" asp-controller="Home" asp-action="Index">QMS 4</a>
         <ul class="navbar-nav px-3">
             @*<li class="nav-item text-nowrap">
-                <a class="nav-link" href="#">Sign out</a>
-            </li>*@
+                    <a class="nav-link" href="#">Sign out</a>
+                </li>*@
         </ul>
     </nav>
 
@@ -61,5 +63,6 @@
 
 
     @RenderSection("Scripts", required: false)
+    <script src="https://cdn.jsdelivr.net/npm/noty@3.2.0-beta/lib/noty.min.js" type="text/javascript"></script>
 </body>
 </html>

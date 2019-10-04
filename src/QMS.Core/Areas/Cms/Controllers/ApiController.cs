@@ -32,7 +32,8 @@ namespace QMS.Core.Controllers
 
         [HttpPost]
         [Route("save/{cmsType}/{id}/{lang?}")]
-        public async Task Save([FromRoute]string cmsType, [FromRoute]string id, [FromBody] CmsItemPostModel value, [FromRoute]string? lang)
+        [Produces("application/json")]
+        public async Task<ActionResult> Save([FromRoute]string cmsType, [FromRoute]string id, [FromBody] CmsItemPostModel value, [FromRoute]string? lang)
         {
             CmsItem item = new CmsItem
             {
@@ -41,6 +42,8 @@ namespace QMS.Core.Controllers
                 Id = id
             };
             await writeCmsItemService.Write(item, cmsType, id, lang).ConfigureAwait(false);
+
+            return new OkObjectResult(item);
         }
 
         [HttpGet]
