@@ -23,11 +23,17 @@ namespace QMS.Storage.CosmosDB
         {
             this.cosmosConfig = cosmosConfig.Value;
         }
-        internal async Task<IReadOnlyList<CosmosCmsItem>> List(string cmsType)
+        internal async Task<IReadOnlyList<CosmosCmsItem>> List(string cmsType, string? sortField, string sortOrder = "Asc")
         {
             Container container = GetContainer();
 
             QueryDefinition queryDefinition = new QueryDefinition("SELECT * FROM c WHERE c.cmstype = @cmstype").WithParameter("@cmstype", cmsType);
+            if (sortField != null)
+            {
+                queryDefinition = new QueryDefinition($"SELECT * FROM c WHERE c.cmstype = @cmstype ORDER BY c.{sortField} {sortOrder.ToUpperInvariant()}")
+                    .WithParameter("@cmstype", cmsType);
+            }
+
             FeedIterator<CosmosCmsItem> queryResultSetIterator = container.GetItemQueryIterator<CosmosCmsItem>(queryDefinition);
 
             List<CosmosCmsItem> results = new List<CosmosCmsItem>();
