@@ -45,7 +45,7 @@ namespace QMS.Services.Models
         public bool IsSingleton { get; set; }
         public string Schema { get; set; }
 
-        public List<ListViewProperty> ListViewProperties { get; set; }
+        public List<ListViewProperty> ListViewProperties { get; set; } = new List<ListViewProperty>();
 
     }
 

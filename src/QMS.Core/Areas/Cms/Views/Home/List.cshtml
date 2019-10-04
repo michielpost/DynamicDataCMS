@@ -4,18 +4,21 @@
     ViewData["Title"] = Model.Schema.Name + "List";
 }
 
-    <h1>@Model.Schema.Name List</h1>
+<h1>@Model.Schema.Name List</h1>
 
 <p>
-    @Html.ActionLink("Create New " +@Model.CmsType, "Create", new { cmstype = Model.CmsType })
+    @Html.ActionLink("Create New " + @Model.CmsType, "Create", new { cmstype = Model.CmsType })
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-               Id
-            </th>
-            @foreach(var column in Model.Schema.ListViewProperties)
+            @if (!Model.Schema.ListViewProperties.Any())
+            {
+                <th>
+                    Id
+                </th>
+            }
+            @foreach (var column in Model.Schema.ListViewProperties)
             {
                 <th>@column.DisplayName</th>
             }
@@ -23,20 +26,24 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Items) {
-        <tr>
-            <td>
-                @item.Id
-            </td>
-            @foreach (var column in Model.Schema.ListViewProperties)
-            {
-                <td>@item.AdditionalProperties.FirstOrDefault(x => x.Key == column.Key).Value</td>
-            }
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id, cmstype = item.CmsType }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id, cmstype = item.CmsType })
-        </td>
-        </tr>
-}
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                @if (!Model.Schema.ListViewProperties.Any())
+                {
+                    <td>
+                        @item.Id
+                    </td>
+                }
+                @foreach (var column in Model.Schema.ListViewProperties)
+                {
+                    <td>@item.AdditionalProperties.FirstOrDefault(x => x.Key == column.Key).Value</td>
+                }
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id, cmstype = item.CmsType }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id, cmstype = item.CmsType })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
