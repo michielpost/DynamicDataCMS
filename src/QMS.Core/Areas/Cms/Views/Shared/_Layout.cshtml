@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - QMS 4</title>
+    <title>@ViewData["Title"] - @cmsConfig.Title</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@json-editor/json-editor@latest/dist/css/jsoneditor.min.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" />
@@ -17,7 +17,7 @@
 </head>
 <body>
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-        <a class="navbar-brand col-sm-3 col-md-2 mr-0" asp-area="Cms" asp-controller="Home" asp-action="Index">QMS 4</a>
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" asp-area="Cms" asp-controller="Home" asp-action="Index">@cmsConfig.Title</a>
         <ul class="navbar-nav px-3">
             @*<li class="nav-item text-nowrap">
                     <a class="nav-link" href="#">Sign out</a>

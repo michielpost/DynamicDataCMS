@@ -1,7 +1,9 @@
-﻿@{
-    ViewData["Title"] = "QMS4";
+﻿@inject QMS.Services.JsonSchemaService JsonSchemaService
+@{
+    var cmsConfig = JsonSchemaService.GetCmsConfiguration();
+    ViewData["Title"] = "Home";
 }
 
-<h1>QMS 4</h1>
+<h1>@cmsConfig.Title</h1>
 
 

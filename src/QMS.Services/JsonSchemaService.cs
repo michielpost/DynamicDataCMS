@@ -11,13 +11,12 @@ namespace QMS.Services
 {
     public class JsonSchemaService
     {
-        private static CmsConfiguration cmsConfig;
-        private readonly CmsConfigLocation cmsConfigLocation;
+        private readonly CmsConfiguration cmsConfiguration;
         private readonly IHttpClientFactory clientFactory;
 
-        public JsonSchemaService(IOptions<CmsConfigLocation> schemaConfig, IHttpClientFactory clientFactory)
+        public JsonSchemaService(IOptions<CmsConfiguration> cmsConfiguration, IHttpClientFactory clientFactory)
         {
-            this.cmsConfigLocation = schemaConfig.Value;
+            this.cmsConfiguration = cmsConfiguration.Value;
             this.clientFactory = clientFactory;
         }
 
@@ -28,22 +27,15 @@ namespace QMS.Services
 
             var httpClient = clientFactory.CreateClient();
 
-            if (cmsConfig == null || !cmsConfig.IsInitialized)
-            {
-                var config = await httpClient.GetStringAsync(cmsConfigLocation.Uri).ConfigureAwait(false);
-                //TODO: Check if response is OK
-                cmsConfig = JsonSerializer.Deserialize<CmsConfiguration>(config);
-            }
-
             //TODO: Cache schemas
-            foreach (var location in cmsConfig.Entities.Where(x => x.Schema == null))
+            foreach (var location in cmsConfiguration.Entities.Where(x => x.Schema == null))
             {
                 var getJson = await httpClient.GetStringAsync(location.Uri).ConfigureAwait(false);
                 //JsonSchema schema = await JsonSchema.FromJsonAsync(getJson).ConfigureAwait(false);
                 location.Schema = getJson;
             }
 
-            return cmsConfig.Entities;
+            return cmsConfiguration.Entities;
         }
 
         public Task InitializeSchemas()
@@ -53,12 +45,12 @@ namespace QMS.Services
 
         public SchemaLocation GetSchema(string cmsType)
         {
-            return cmsConfig.Entities.Where(x => x.Key == cmsType).FirstOrDefault();
+            return cmsConfiguration.Entities.Where(x => x.Key == cmsType).FirstOrDefault();
         }
 
         public CmsConfiguration GetCmsConfiguration()
         {
-            return cmsConfig;
+            return cmsConfiguration;
         }
     }
 }
