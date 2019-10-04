@@ -20,7 +20,7 @@ jobs:
     - name: Publish Website
       run: dotnet publish src/QMS.Web -o publish/QMS.Web -c Release
     - name: Publish Nuget to GitHub registry
-      run: dotnet nuget push ./out -k ${NUGET_TOKEN}  
+      run: dotnet nuget push ./out -s https://api.nuget.org/v3/index.json -k ${NUGET_TOKEN}  
       env:
         NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }} 
     - name: Deploy to app service
