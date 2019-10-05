@@ -102,7 +102,7 @@ namespace QMS.Storage.AzureStorage
                 indexItem.AdditionalProperties[prop.Key] = value;
             }
 
-            indexFile.Add(item);
+            indexFile.Add(indexItem);
 
             await azureStorageService.WriteFileAsJson(indexFile, indexFileName);
         }
