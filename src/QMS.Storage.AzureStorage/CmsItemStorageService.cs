@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.Storage.Blob;
+using Microsoft.Extensions.Options;
 using QMS.Models;
 using QMS.Storage.Interfaces;
 using System;
@@ -14,74 +15,99 @@ namespace QMS.Storage.AzureStorage
     public class CmsItemStorageService : IReadCmsItem, IWriteCmsItem
     {
         private readonly AzureStorageService azureStorageService;
+        private readonly CmsConfiguration cmsConfiguration;
 
-        public bool CanSort => false;
+        public bool CanSort => true;
 
-        public CmsItemStorageService(AzureStorageService azureStorageService)
+        public CmsItemStorageService(AzureStorageService azureStorageService, IOptions<CmsConfiguration> cmsConfiguration)
         {
             this.azureStorageService = azureStorageService;
+            this.cmsConfiguration = cmsConfiguration.Value;
         }
 
         public async Task<(IReadOnlyList<CmsItem> results, int total)> List(string cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0)
         {
-            var directoryInfo = await azureStorageService.GetFilesFromDirectory(cmsType).ConfigureAwait(false);
+            //Get index file
+            var indexFileName = GenerateFileName(cmsType, "_index", null);
 
-            List<CmsItem> result = new List<CmsItem>();
+            //Get current index file
+            var indexFile = await azureStorageService.ReadFileAsJson<List<CmsItem>>(indexFileName).ConfigureAwait(false);
+            indexFile = indexFile ?? new List<CmsItem>();
 
-            foreach(var file in directoryInfo.Skip(pageSize * pageIndex).Take(pageSize))
+            var returnItems = indexFile.AsQueryable();
+            if (sortField != null)
             {
-                if (file is CloudBlockBlob cloudBlockBlob)
-                {
-                    string fileName = cloudBlockBlob.Name
-                        .Replace($"{cmsType}/", "")
-                        .Replace(".json", "");
-                    var cmsItem = await Read(cmsType, fileName, null).ConfigureAwait(false);
-                    if(cmsItem != null)
-                        result.Add(cmsItem);
-                }
+                sortOrder = sortOrder ?? "Asc";
+                if(sortOrder == "Asc")
+                    returnItems = returnItems.OrderBy(x => x.AdditionalProperties[sortField].ToString());
+                else
+                    returnItems = returnItems.OrderByDescending(x => x.AdditionalProperties[sortField].ToString());
             }
 
-            var total = directoryInfo.Count();
+            return (returnItems.Skip(pageSize*pageIndex).Take(pageSize).ToList(), indexFile.Count);
 
-            return (result, total);
+            //var directoryInfo = await azureStorageService.GetFilesFromDirectory(cmsType).ConfigureAwait(false);
+
+            //List<CmsItem> result = new List<CmsItem>();
+
+            //foreach(var file in directoryInfo.Skip(pageSize * pageIndex).Take(pageSize))
+            //{
+            //    if (file is CloudBlockBlob cloudBlockBlob)
+            //    {
+            //        string fileName = cloudBlockBlob.Name
+            //            .Replace($"{cmsType}/", "")
+            //            .Replace(".json", "");
+            //        var cmsItem = await Read(cmsType, fileName, null).ConfigureAwait(false);
+            //        if(cmsItem != null)
+            //            result.Add(cmsItem);
+            //    }
+            //}
+
+            //var total = directoryInfo.Count();
+
+            //return (result, total);
         }
 
-        public async Task<CmsItem?> Read(string cmsType, string id, string? lang)
+        public Task<CmsItem?> Read(string cmsType, string id, string? lang)
         {
             var fileName = GenerateFileName(cmsType, id, lang);
 
-            try
-            {
-                var blob = await azureStorageService.GetFileReference(fileName).ConfigureAwait(false);
-
-                using (var stream = new MemoryStream())
-                {
-                    // download image
-                    await blob.DownloadToStreamAsync(stream).ConfigureAwait(false);
-                    var fileBytes = stream.ToArray();
-
-                    string json = Encoding.ASCII.GetString(fileBytes);
-
-                    var cmsItem = JsonSerializer.Deserialize<CmsItem>(json);
-
-                    return cmsItem;
-                }
-            }
-            catch(FileNotFoundException)
-            {
-                return null;
-            }
+            return azureStorageService.ReadFileAsJson<CmsItem>(fileName);
         }
 
-        public Task Write(CmsItem item, string cmsType, string id, string? lang)
+        public async Task Write(CmsItem item, string cmsType, string id, string? lang)
         {
             var fileName = GenerateFileName(cmsType, id, lang);
-            var json = JsonSerializer.Serialize(item);
+            await azureStorageService.WriteFileAsJson(item, fileName);
 
-            byte[] fileData = Encoding.ASCII.GetBytes(json);
+            //Write index file for paging and sorting
+            var indexFileName = GenerateFileName(cmsType, "_index", lang);
+            var typeInfo = cmsConfiguration.Entities.Where(x => x.Key == cmsType).FirstOrDefault();
 
-            return azureStorageService.StoreFileAsync(fileData, "application/json", fileName);
+            if (typeInfo == null)
+                return;
+
+            //Get current index file
+            var indexFile = await azureStorageService.ReadFileAsJson<List<CmsItem>>(indexFileName).ConfigureAwait(false);
+            indexFile = indexFile ?? new List<CmsItem>();
+
+            //Remove existing item
+            indexFile.Remove(indexFile.Where(x => x.Id == item.Id).FirstOrDefault());
+
+            var indexItem = new CmsItem { Id = id };
+
+            foreach(var prop in typeInfo.ListViewProperties)
+            {
+                var value = item.AdditionalProperties[prop.Key];
+                indexItem.AdditionalProperties[prop.Key] = value;
+            }
+
+            indexFile.Add(item);
+
+            await azureStorageService.WriteFileAsJson(indexFile, indexFileName);
         }
+
+    
 
         public async Task Delete(string cmsType, string id, string? lang)
         {
@@ -98,6 +124,16 @@ namespace QMS.Storage.AzureStorage
                     await cloudBlockBlob.DeleteAsync().ConfigureAwait(false);
                 }
             }
+
+            //Write index file for paging and sorting
+            var indexFileName = GenerateFileName(cmsType, "_index", lang);
+            //Get current index file
+            var indexFile = await azureStorageService.ReadFileAsJson<List<CmsItem>>(indexFileName).ConfigureAwait(false);
+            indexFile = indexFile ?? new List<CmsItem>();
+
+            //Remove existing item
+            indexFile.Remove(indexFile.Where(x => x.Id == id).FirstOrDefault());
+            await azureStorageService.WriteFileAsJson(indexFile, indexFileName);
         }
 
         private static string GenerateFileName(string cmsType, string id, string? lang)

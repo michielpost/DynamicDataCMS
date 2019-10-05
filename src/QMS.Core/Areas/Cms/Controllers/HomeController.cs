@@ -133,14 +133,15 @@ namespace QMS.Core.Controllers
 
         [HttpGet]
         [Route("delete/{cmsType}/{id}/{lang?}")]
-        public IActionResult Delete([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string? lang)
+        public async Task<IActionResult> Delete([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string? lang)
         {
             var schema = schemaService.GetSchema(cmsType);
+            //var data = await readCmsItemService.Read(cmsType, id, lang).ConfigureAwait(false);
 
             var model = new EditViewModel
             {
                 CmsType = cmsType,
-                Id = Guid.NewGuid().ToString(),
+                Id = id,
                 SchemaLocation = schema,
             };
             return View("Delete", model);

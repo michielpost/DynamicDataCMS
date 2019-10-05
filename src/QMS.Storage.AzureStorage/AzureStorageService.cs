@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace QMS.Storage.AzureStorage
@@ -107,6 +109,40 @@ namespace QMS.Storage.AzureStorage
 
 
             return blobReference;
+        }
+
+        public async Task<T?> ReadFileAsJson<T>(string fileName) where T : class
+        {
+            try
+            {
+                var blob = await GetFileReference(fileName).ConfigureAwait(false);
+
+                using (var stream = new MemoryStream())
+                {
+                    // download image
+                    await blob.DownloadToStreamAsync(stream).ConfigureAwait(false);
+                    var fileBytes = stream.ToArray();
+
+                    string json = Encoding.ASCII.GetString(fileBytes);
+
+                    var cmsItem = JsonSerializer.Deserialize<T>(json);
+
+                    return cmsItem;
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                return default;
+            }
+        }
+
+        public Task WriteFileAsJson<T>(T item, string fileName)
+        {
+            var json = JsonSerializer.Serialize(item);
+
+            byte[] fileData = Encoding.ASCII.GetBytes(json);
+
+            return StoreFileAsync(fileData, "application/json", fileName);
         }
 
         public async Task<IEnumerable<IListBlobItem>> GetFilesFromDirectory(string path, string? containerName = null)
