@@ -12,7 +12,6 @@ using Microsoft.Extensions.DependencyInjection;
 using QMS.Core;
 using QMS.Models;
 using QMS.Services;
-using QMS.Services.Models;
 using QMS.Storage.AzureStorage;
 using QMS.Storage.CosmosDB;
 using QMS.Storage.CosmosDB.Models;

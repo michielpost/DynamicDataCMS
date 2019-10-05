@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
-using QMS.Services.Models;
+using QMS.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

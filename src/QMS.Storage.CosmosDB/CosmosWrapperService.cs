@@ -1,14 +1,8 @@
-﻿using Microsoft.Azure.Cosmos;
-using Microsoft.Azure.Cosmos.Fluent;
-using Microsoft.Extensions.Options;
-using QMS.Models;
+﻿using QMS.Models;
 using QMS.Storage.CosmosDB.Extensions;
-using QMS.Storage.CosmosDB.Models;
 using QMS.Storage.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace QMS.Storage.CosmosDB

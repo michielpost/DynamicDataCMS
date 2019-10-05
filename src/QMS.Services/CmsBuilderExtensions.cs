@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using QMS.Core;
-using QMS.Services.Models;
+using QMS.Models;
 
 namespace QMS.Services
 {
