@@ -27,7 +27,7 @@ namespace QMS.Storage.AzureStorage
         /// <summary>
         /// Store the given fileData in the blobstorage and return a blob identifying the results
         /// </summary>
-        public async Task<ICloudBlob> StoreFileAsync(byte[] fileData, string contentType, string? fileName = null, string? containerName = null)
+        public async Task<ICloudBlob> StoreFileAsync(byte[] fileData, string contentType, string? fileName = null, string? containerName = null, string? leaseId = null)
         {
             var blobContainer = await GetBlobContainer(containerName).ConfigureAwait(false);
             if (string.IsNullOrEmpty(fileName))
@@ -40,7 +40,10 @@ namespace QMS.Storage.AzureStorage
 
             using (var stream = new MemoryStream(fileData, writable: false))
             {
-                await blockBlob.UploadFromStreamAsync(stream).ConfigureAwait(false);
+                if(leaseId != null)
+                    await blockBlob.UploadFromStreamAsync(stream, new AccessCondition { LeaseId = leaseId }, null, null).ConfigureAwait(false);
+                else
+                    await blockBlob.UploadFromStreamAsync(stream).ConfigureAwait(false);
             }
 
             return blockBlob;
@@ -107,15 +110,19 @@ namespace QMS.Storage.AzureStorage
                 throw new InvalidDataException();
             }
 
-
             return blobReference;
         }
 
-        public async Task<T?> ReadFileAsJson<T>(string fileName) where T : class
+        public async Task<(T?, string? leaseId)> ReadFileAsJson<T>(string fileName, TimeSpan? leaseTime = null) where T : class
         {
+            string? leaseId = null;
+            ICloudBlob? blob = null;
             try
             {
-                var blob = await GetFileReference(fileName).ConfigureAwait(false);
+                blob = await GetFileReference(fileName).ConfigureAwait(false);
+
+                if (leaseTime.HasValue)
+                    leaseId = await blob.AcquireLeaseAsync(leaseTime);
 
                 using (var stream = new MemoryStream())
                 {
@@ -127,22 +134,27 @@ namespace QMS.Storage.AzureStorage
 
                     var cmsItem = JsonSerializer.Deserialize<T>(json);
 
-                    return cmsItem;
+                    return (cmsItem, leaseId);
                 }
             }
             catch (FileNotFoundException)
             {
                 return default;
             }
+            finally
+            {
+                if (leaseId != null && blob != null)
+                    await blob.ReleaseLeaseAsync(new AccessCondition { LeaseId = leaseId });
+            }
         }
 
-        public Task WriteFileAsJson<T>(T item, string fileName)
+        public Task WriteFileAsJson<T>(T item, string fileName, string? leaseId = null)
         {
             var json = JsonSerializer.Serialize(item);
 
             byte[] fileData = Encoding.ASCII.GetBytes(json);
 
-            return StoreFileAsync(fileData, "application/json", fileName);
+            return StoreFileAsync(fileData, "application/json", fileName, leaseId: leaseId);
         }
 
         public async Task<IEnumerable<IListBlobItem>> GetFilesFromDirectory(string path, string? containerName = null)
