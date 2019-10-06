@@ -38,13 +38,13 @@ namespace QMS.Storage.AzureStorage
             if (sortField != null)
             {
                 sortOrder = sortOrder ?? "Asc";
-                if(sortOrder == "Asc")
+                if (sortOrder == "Asc")
                     returnItems = returnItems.OrderBy(x => x.AdditionalProperties[sortField].ToString());
                 else
                     returnItems = returnItems.OrderByDescending(x => x.AdditionalProperties[sortField].ToString());
             }
 
-            return (returnItems.Skip(pageSize*pageIndex).Take(pageSize).ToList(), indexFile.Count);
+            return (returnItems.Skip(pageSize * pageIndex).Take(pageSize).ToList(), indexFile.Count);
 
             //var directoryInfo = await azureStorageService.GetFilesFromDirectory(cmsType).ConfigureAwait(false);
 
@@ -68,14 +68,14 @@ namespace QMS.Storage.AzureStorage
             //return (result, total);
         }
 
-        public Task<CmsItem?> Read(string cmsType, string id, string? lang)
+        public Task<CmsItem?> Read(string cmsType, Guid id, string? lang)
         {
             var fileName = GenerateFileName(cmsType, id, lang);
 
             return azureStorageService.ReadFileAsJson<CmsItem>(fileName);
         }
 
-        public async Task Write(CmsItem item, string cmsType, string id, string? lang)
+        public async Task Write(CmsItem item, string cmsType, Guid id, string? lang)
         {
             var fileName = GenerateFileName(cmsType, id, lang);
             await azureStorageService.WriteFileAsJson(item, fileName);
@@ -94,9 +94,13 @@ namespace QMS.Storage.AzureStorage
             //Remove existing item
             indexFile.Remove(indexFile.Where(x => x.Id == item.Id).FirstOrDefault());
 
-            var indexItem = new CmsItem { Id = id };
+            var indexItem = new CmsItem { 
+                Id = id, 
+                CmsType = cmsType, 
+                LastModifiedDate = item.LastModifiedDate 
+            };
 
-            foreach(var prop in typeInfo.ListViewProperties)
+            foreach (var prop in typeInfo.ListViewProperties)
             {
                 var value = item.AdditionalProperties[prop.Key];
                 indexItem.AdditionalProperties[prop.Key] = value;
@@ -107,17 +111,17 @@ namespace QMS.Storage.AzureStorage
             await azureStorageService.WriteFileAsJson(indexFile, indexFileName);
         }
 
-    
 
-        public async Task Delete(string cmsType, string id, string? lang)
+
+        public async Task Delete(string cmsType, Guid id, string? lang)
         {
             var fileName = GenerateFileName(cmsType, id, null);
-            
+
             await azureStorageService.DeleteFileAsync(fileName).ConfigureAwait(false);
 
             //Get translations
             var files = await azureStorageService.GetFilesFromDirectory($"{cmsType}/{id}").ConfigureAwait(false);
-            foreach(var file in files)
+            foreach (var file in files)
             {
                 if (file is CloudBlockBlob cloudBlockBlob)
                 {
@@ -136,10 +140,14 @@ namespace QMS.Storage.AzureStorage
             await azureStorageService.WriteFileAsJson(indexFile, indexFileName);
         }
 
+        private static string GenerateFileName(string cmsType, Guid id, string? lang)
+        {
+            return GenerateFileName(cmsType, id.ToString(), lang);
+        }
         private static string GenerateFileName(string cmsType, string id, string? lang)
         {
             string fileName = $"{cmsType}/{id}.json";
-            if(!string.IsNullOrEmpty(lang))
+            if (!string.IsNullOrEmpty(lang))
                 fileName = $"{cmsType}/{id}/{lang}.json";
             return fileName;
         }

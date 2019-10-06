@@ -1,6 +1,7 @@
 ﻿using QMS.Models;
 using QMS.Storage.CosmosDB.Extensions;
 using QMS.Storage.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,18 +27,18 @@ namespace QMS.Storage.CosmosDB
             return (result.results.Select(x => x.ToCmsItem()).ToList(), result.total);
         }
 
-        public Task Write(CmsItem item, string cmsType, string id, string? lang)
+        public Task Write(CmsItem item, string cmsType, Guid id, string? lang)
         {
             return _cosmosService.Write(item.ToCosmosCmsItem(), cmsType, id, lang);
         }
 
-        public Task Delete(string cmsType, string id, string? lang)
+        public Task Delete(string cmsType, Guid id, string? lang)
         {
             return _cosmosService.Delete(cmsType, id, lang);
 
         }
 
-        public async Task<CmsItem?> Read(string partitionKey, string documentId, string? lang)
+        public async Task<CmsItem?> Read(string partitionKey, Guid documentId, string? lang)
         {
             var result = await _cosmosService.Read(partitionKey, documentId, lang).ConfigureAwait(false);
             return result?.ToCmsItem();

@@ -20,10 +20,12 @@ namespace QMS.Storage.CosmosDB.Models
     internal class CosmosCmsDataItem
     {
         [JsonProperty("id")]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         [JsonProperty("cmstype")]
         public string CmsType { get; set; }
+
+        public DateTimeOffset LastModifiedDate { get; set; } = DateTimeOffset.UtcNow;
 
         [JsonExtensionData]
         public Dictionary<string, JToken> AdditionalProperties { get; set; } = new Dictionary<string, JToken>();
