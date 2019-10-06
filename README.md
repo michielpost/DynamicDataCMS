@@ -8,6 +8,7 @@ Headless CMS based on JsonSchema standard
 - Support for multiple datastore plugins (CosmosDB, Blob Storage)
 - JsonSchema used to describe entities
 - View and edit entities
+- Paging and ordering in list view
 - Support for entities in multiple languages
 - Upload images and other assets
 - Generate JsonSchema from C# Models
@@ -61,19 +62,21 @@ https://ned.im/noty/
 
 
 ## Roadmap
-- Paging, ordering and searching on list view
+- Searching in list view
 
 - Pages and url tree
 
 - Multiple versions of items (with start and end time)
-
-- Configure the CMS from within the CMS
 
 - Website SDK / Website usage example
 
 - Authentication and Authorization
 
 - Audit Trail (CosmosDB Change Feed / Blob Storage file)
+
+## Ideas
+
+- Configure the CMS from within the CMS
 
 - Build a JsonSchema editor in Blazor?
 
