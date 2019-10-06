@@ -39,7 +39,9 @@ namespace QMS.Core.Controllers
         [Route("list/{cmsType}")]
         public async Task<IActionResult> List([FromRoute]string cmsType, [FromQuery]string? sortField, [FromQuery]string? sortOrder, [FromQuery]int pageIndex)
         {
-            var result = await readCmsItemService.List(cmsType, sortField, sortOrder, pageSize: 20, pageIndex).ConfigureAwait(false);
+            int pageSize = 20;
+
+            var (results, total) = await readCmsItemService.List(cmsType, sortField, sortOrder, pageSize: pageSize, pageIndex).ConfigureAwait(false);
             var schema = schemaService.GetSchema(cmsType);
 
             ViewBag.SortField = sortField;
@@ -47,8 +49,8 @@ namespace QMS.Core.Controllers
 
             if (schema.IsSingleton)
             {
-                if (result.results.Any())
-                    return RedirectToAction("Edit", new { cmsType = cmsType, id = result.results.First().Id });
+                if (results.Any())
+                    return RedirectToAction("Edit", new { cmsType = cmsType, id = results.First().Id });
                 else
                     return RedirectToAction("Create", new { cmsType = cmsType });
             }
@@ -57,7 +59,10 @@ namespace QMS.Core.Controllers
             {
                 CmsType = cmsType,
                 Schema = schema,
-                Items = result.results
+                Items = results,
+                TotalPages = total,
+                CurrentPage = pageIndex + 1,
+                PageSize = pageSize
             };
             return View(model);
         }
