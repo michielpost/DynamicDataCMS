@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Storage.Blob;
+﻿using Microsoft.Azure.Storage;
+using Microsoft.Azure.Storage.Blob;
 using Microsoft.Extensions.Options;
 using QMS.Models;
 using QMS.Storage.Interfaces;
@@ -16,6 +17,7 @@ namespace QMS.Storage.AzureStorage
     {
         private readonly AzureStorageService azureStorageService;
         private readonly CmsConfiguration cmsConfiguration;
+        private const string INDEX_FILE_NAME = "_index";
 
         public bool CanSort => true;
 
@@ -28,10 +30,10 @@ namespace QMS.Storage.AzureStorage
         public async Task<(IReadOnlyList<CmsItem> results, int total)> List(string cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0)
         {
             //Get index file
-            var indexFileName = GenerateFileName(cmsType, "_index", null);
+            var indexFileName = GenerateFileName(cmsType, INDEX_FILE_NAME, null);
 
             //Get current index file
-            var indexFile = await azureStorageService.ReadFileAsJson<List<CmsItem>>(indexFileName).ConfigureAwait(false);
+            var (indexFile, _) = await azureStorageService.ReadFileAsJson<List<CmsItem>>(indexFileName).ConfigureAwait(false);
             indexFile = indexFile ?? new List<CmsItem>();
 
             var returnItems = indexFile.AsQueryable();
@@ -68,11 +70,13 @@ namespace QMS.Storage.AzureStorage
             //return (result, total);
         }
 
-        public Task<CmsItem?> Read(string cmsType, Guid id, string? lang)
+        public async Task<CmsItem?> Read(string cmsType, Guid id, string? lang)
         {
             var fileName = GenerateFileName(cmsType, id, lang);
 
-            return azureStorageService.ReadFileAsJson<CmsItem>(fileName);
+            var (indexFile, _) = await azureStorageService.ReadFileAsJson<CmsItem>(fileName);
+
+            return indexFile;
         }
 
         public async Task Write(CmsItem item, string cmsType, Guid id, string? lang)
@@ -81,34 +85,49 @@ namespace QMS.Storage.AzureStorage
             await azureStorageService.WriteFileAsJson(item, fileName);
 
             //Write index file for paging and sorting
-            var indexFileName = GenerateFileName(cmsType, "_index", lang);
+            var indexFileName = GenerateFileName(cmsType, INDEX_FILE_NAME, lang);
             var typeInfo = cmsConfiguration.Entities.Where(x => x.Key == cmsType).FirstOrDefault();
+            string? leaseId = null;
 
             if (typeInfo == null)
                 return;
 
-            //Get current index file
-            var indexFile = await azureStorageService.ReadFileAsJson<List<CmsItem>>(indexFileName).ConfigureAwait(false);
-            indexFile = indexFile ?? new List<CmsItem>();
-
-            //Remove existing item
-            indexFile.Remove(indexFile.Where(x => x.Id == item.Id).FirstOrDefault());
-
-            var indexItem = new CmsItem { 
-                Id = id, 
-                CmsType = cmsType, 
-                LastModifiedDate = item.LastModifiedDate 
-            };
-
-            foreach (var prop in typeInfo.ListViewProperties)
+            try
             {
-                var value = item.AdditionalProperties[prop.Key];
-                indexItem.AdditionalProperties[prop.Key] = value;
+                //Get current index file
+                var (indexFile, newLeaseId) = await azureStorageService.ReadFileAsJson<List<CmsItem>>(indexFileName, TimeSpan.FromSeconds(20)).ConfigureAwait(false);
+                indexFile = indexFile ?? new List<CmsItem>();
+                leaseId = newLeaseId;
+
+                //Remove existing item
+                indexFile.Remove(indexFile.Where(x => x.Id == item.Id).FirstOrDefault());
+
+                var indexItem = new CmsItem
+                {
+                    Id = id,
+                    CmsType = cmsType,
+                    LastModifiedDate = item.LastModifiedDate
+                };
+
+                foreach (var prop in typeInfo.ListViewProperties)
+                {
+                    var value = item.AdditionalProperties[prop.Key];
+                    indexItem.AdditionalProperties[prop.Key] = value;
+                }
+
+                indexFile.Add(indexItem);
+
+                await azureStorageService.WriteFileAsJson(indexFile, indexFileName, leaseId);
             }
-
-            indexFile.Add(indexItem);
-
-            await azureStorageService.WriteFileAsJson(indexFile, indexFileName);
+            finally
+            {
+                //Release lease
+                if (leaseId != null)
+                {
+                    var file = await azureStorageService.GetFileReference(indexFileName);
+                    await file.ReleaseLeaseAsync(new AccessCondition { LeaseId = leaseId });
+                }
+            }
         }
 
 
@@ -130,14 +149,32 @@ namespace QMS.Storage.AzureStorage
             }
 
             //Write index file for paging and sorting
-            var indexFileName = GenerateFileName(cmsType, "_index", lang);
-            //Get current index file
-            var indexFile = await azureStorageService.ReadFileAsJson<List<CmsItem>>(indexFileName).ConfigureAwait(false);
-            indexFile = indexFile ?? new List<CmsItem>();
+            var indexFileName = GenerateFileName(cmsType, INDEX_FILE_NAME, lang);
+            string? leaseId = null;
 
-            //Remove existing item
-            indexFile.Remove(indexFile.Where(x => x.Id == id).FirstOrDefault());
-            await azureStorageService.WriteFileAsJson(indexFile, indexFileName);
+            try
+            {
+                //Get current index file
+                var (indexFile, newLeaseId) = await azureStorageService.ReadFileAsJson<List<CmsItem>>(indexFileName, TimeSpan.FromSeconds(20)).ConfigureAwait(false);
+                indexFile = indexFile ?? new List<CmsItem>();
+                leaseId = newLeaseId;
+
+                //Remove existing item
+                indexFile.Remove(indexFile.Where(x => x.Id == id).FirstOrDefault());
+                await azureStorageService.WriteFileAsJson(indexFile, indexFileName);
+            }
+            finally
+            {
+                //Release lease
+                if (leaseId != null)
+                {
+                    var file = await azureStorageService.GetFileReference(indexFileName);
+                    await file.ReleaseLeaseAsync(new AccessCondition
+                    {
+                        LeaseId = leaseId
+                    });
+                }
+            }
         }
 
         private static string GenerateFileName(string cmsType, Guid id, string? lang)
