@@ -97,7 +97,6 @@ namespace QMS.Storage.AzureStorage
             var indexItem = new CmsItem { 
                 Id = id, 
                 CmsType = cmsType, 
-                CreatedDate = item.CreatedDate, 
                 LastModifiedDate = item.LastModifiedDate 
             };
 
