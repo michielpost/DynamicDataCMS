@@ -25,6 +25,8 @@ namespace QMS.Storage.CosmosDB.Models
         [JsonProperty("cmstype")]
         public string CmsType { get; set; }
 
+        public DateTimeOffset LastModifiedDate { get; set; } = DateTimeOffset.UtcNow;
+
         [JsonExtensionData]
         public Dictionary<string, JToken> AdditionalProperties { get; set; } = new Dictionary<string, JToken>();
     }

@@ -17,6 +17,8 @@ namespace QMS.Models
         [JsonPropertyName("cmstype")]
         public string CmsType { get; set; }
 
+        public DateTimeOffset LastModifiedDate { get; set; } = DateTimeOffset.UtcNow;
+
         [JsonExtensionData]
         public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
     }

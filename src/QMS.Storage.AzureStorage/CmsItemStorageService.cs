@@ -94,7 +94,12 @@ namespace QMS.Storage.AzureStorage
             //Remove existing item
             indexFile.Remove(indexFile.Where(x => x.Id == item.Id).FirstOrDefault());
 
-            var indexItem = new CmsItem { Id = id, CmsType = cmsType };
+            var indexItem = new CmsItem { 
+                Id = id, 
+                CmsType = cmsType, 
+                CreatedDate = item.CreatedDate, 
+                LastModifiedDate = item.LastModifiedDate 
+            };
 
             foreach (var prop in typeInfo.ListViewProperties)
             {
