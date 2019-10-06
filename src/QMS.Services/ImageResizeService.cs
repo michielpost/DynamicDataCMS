@@ -32,7 +32,7 @@ namespace QMS.Services
             return await GetImageAsync(cmsType, id, fieldName, lang, width, height, cover, quality ?? compressionQuality).ConfigureAwait(false);
         }
 
-        private async Task<byte[]?> GetImageAsync(string cmsType, string id, string fieldName, string? lang,
+        private async Task<byte[]?> GetImageAsync(string cmsType, Guid id, string fieldName, string? lang,
             int? width, int? height, bool cover, int quality)
         {
 

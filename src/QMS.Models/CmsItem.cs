@@ -12,7 +12,7 @@ namespace QMS.Models
     public class CmsItem
     {
         [JsonPropertyName("id")]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         [JsonPropertyName("cmstype")]
         public string CmsType { get; set; }

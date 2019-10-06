@@ -32,7 +32,7 @@ namespace QMS.Core.Controllers
         [HttpPost]
         [Route("save/{cmsType}/{id}/{lang?}")]
         [Produces("application/json")]
-        public async Task<ActionResult> Save([FromRoute]string cmsType, [FromRoute]string id, [FromBody] CmsItemPostModel value, [FromRoute]string? lang)
+        public async Task<ActionResult> Save([FromRoute]string cmsType, [FromRoute]Guid id, [FromBody] CmsItemPostModel value, [FromRoute]string? lang)
         {
             CmsItem item = new CmsItem
             {
@@ -48,7 +48,7 @@ namespace QMS.Core.Controllers
         [HttpGet]
         [Route("load/{cmsType}/{id}/{lang?}")]
         [Produces("application/json")]
-        public async Task<CmsItem?> Load([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string? lang)
+        public async Task<CmsItem?> Load([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang)
         {
             var cmsItem = await readCmsItemService.Read(cmsType, id, lang).ConfigureAwait(false);
 
@@ -83,7 +83,7 @@ namespace QMS.Core.Controllers
             {
                 title = cmsType,
                 type = "string",
-                @enum = list.results.Select(x => x.Id).ToList(),
+                @enum = list.results.Select(x => x.Id.ToString()).ToList(),
                 options = new Options
                 {
                      enum_titles = list.results.Select(x => GetDisplayTitle(x, schema)).ToList()
@@ -124,7 +124,7 @@ namespace QMS.Core.Controllers
 
             string result = string.Join(" ", titles);
             if (string.IsNullOrWhiteSpace(result))
-                result = x.Id;
+                result = x.Id.ToString();
 
             return result;
         }

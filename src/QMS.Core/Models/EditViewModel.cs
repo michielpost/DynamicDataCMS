@@ -9,7 +9,7 @@ namespace QMS.Core.Models
     public class EditViewModel
     {
         public string CmsType { get; set; }
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public SchemaLocation SchemaLocation { get; set; }
         public CmsItem? Data { get; set; }
         public CmsConfiguration CmsConfiguration { get; set; }

@@ -63,9 +63,9 @@ namespace QMS.Core.Controllers
         }
 
         [Route("edit/{cmsType}/{id}/{lang?}")]
-        public async Task<IActionResult> Edit([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string? lang)
+        public async Task<IActionResult> Edit([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang)
         {
-            if (string.IsNullOrEmpty(id))
+            if (id == Guid.Empty)
                 return new NotFoundResult();
 
             var schema = schemaService.GetSchema(cmsType);
@@ -109,7 +109,7 @@ namespace QMS.Core.Controllers
             var model = new EditViewModel
             {
                 CmsType = "_dynamic",
-                Id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid(),
                 SchemaLocation = schema,
                 CmsConfiguration = schemaService.GetCmsConfiguration(),
                 Data = JsonSerializer.Deserialize<CmsItem>(json)
@@ -125,31 +125,32 @@ namespace QMS.Core.Controllers
             var model = new EditViewModel
             {
                 CmsType = cmsType,
-                Id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid(),
                 SchemaLocation = schema,
             };
             return View("Edit", model);
         }
 
         [HttpGet]
-        [Route("delete/{cmsType}/{id}/{lang?}")]
-        public async Task<IActionResult> Delete([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string? lang)
+        [Route("delete/{cmsType}/{id:guid}/{lang?}")]
+        public async Task<IActionResult> Delete([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang)
         {
             var schema = schemaService.GetSchema(cmsType);
-            //var data = await readCmsItemService.Read(cmsType, id, lang).ConfigureAwait(false);
+            var data = await readCmsItemService.Read(cmsType, id, lang).ConfigureAwait(false);
 
             var model = new EditViewModel
             {
                 CmsType = cmsType,
                 Id = id,
                 SchemaLocation = schema,
+                Data = data
             };
             return View("Delete", model);
         }
 
         [HttpPost]
-        [Route("delete/{cmsType}/{id}/{lang?}")]
-        public async Task<IActionResult> DeleteConfirm([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string? lang)
+        [Route("delete/{cmsType}/{id:guid}/{lang?}")]
+        public async Task<IActionResult> DeleteConfirm([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang)
         {
             await writeCmsItemService.Delete(cmsType, id, lang).ConfigureAwait(false);
 

@@ -61,7 +61,7 @@ namespace QMS.Storage.CosmosDB
             return (results, totalItems.Resource);
         }
 
-        internal async Task Write(CosmosCmsDataItem item, string cmsType, string id, string? lang)
+        internal async Task Write(CosmosCmsDataItem item, string cmsType, Guid id, string? lang)
         {
             Container container = GetContainer();
 
@@ -86,14 +86,14 @@ namespace QMS.Storage.CosmosDB
             await container.UpsertItemAsync(cmsItem, new PartitionKey(cmsType)).ConfigureAwait(false);
         }
 
-        public async Task Delete(string cmsType, string id, string? lang)
+        public async Task Delete(string cmsType, Guid id, string? lang)
         {
             Container container = GetContainer();
 
-            await container.DeleteItemAsync<CosmosCmsItem>(id, new PartitionKey(cmsType)).ConfigureAwait(false);
+            await container.DeleteItemAsync<CosmosCmsItem>(id.ToString(), new PartitionKey(cmsType)).ConfigureAwait(false);
         }
 
-        internal async Task<CosmosCmsDataItem?> Read(string partitionKey, string documentId, string? lang)
+        internal async Task<CosmosCmsDataItem?> Read(string partitionKey, Guid documentId, string? lang)
         {
             var cmsItem = await ReadCmsItem(partitionKey, documentId).ConfigureAwait(false);
 
@@ -106,14 +106,14 @@ namespace QMS.Storage.CosmosDB
         }
 
 
-        internal async Task<CosmosCmsItem?> ReadCmsItem(string partitionKey, string documentId)
+        internal async Task<CosmosCmsItem?> ReadCmsItem(string partitionKey, Guid documentId)
         {
             Container container = GetContainer();
 
             try
             {
                 //TODO: Why does it throw a 404 when no document is found? Should not throw
-                var response = await container.ReadItemAsync<CosmosCmsItem>(documentId, new PartitionKey(partitionKey)).ConfigureAwait(false);
+                var response = await container.ReadItemAsync<CosmosCmsItem>(documentId.ToString(), new PartitionKey(partitionKey)).ConfigureAwait(false);
 
                 var cmsItem = response.Resource;
 
