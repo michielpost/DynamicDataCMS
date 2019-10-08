@@ -16,6 +16,21 @@
       "description": "Age in years which must be equal to or greater than zero.",
       "type": "integer",
       "minimum": 0
+    },
+    "text": {
+      "type": "string",
+      "format": "autocomplete",
+      "title": "Wikipedia lookup (Page titles)",
+      "description": "Enter a text of minimum 3 characters.",
+      "options": {
+        "grid_columns": 6,
+        "autocomplete": {
+          "search": "search_wikipedia",
+          "getResultValue": "getResultValue_wikipedia",
+          "renderResult": "renderResult_wikipedia",
+          "autoSelect": true
+        }
+      }
     }
   }
 }

@@ -5,8 +5,9 @@
 
 @section Scripts
 {
-    <script src="https://cdn.jsdelivr.net/npm/@@json-editor/json-editor@latest/dist/jsoneditor.min.js"></script>
+    <script src="https://pmk65.github.io/20test/dist/js/jsoneditor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@@latest/dist/purify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@@trevoreyre/autocomplete-js@latest/dist/autocomplete.min.js"></script>
 
     <script type="text/javascript">
     var editor = null;
@@ -14,6 +15,47 @@
         JSONEditor.defaults.options.ajax = true;
         JSONEditor.defaults.options.theme = 'bootstrap4';
         JSONEditor.defaults.options.no_additional_properties = true;
+
+        JSONEditor.defaults.callbacks = {
+  "autocomplete": {
+    // This is callback functions for the "autocomplete" editor
+    // In the schema you refer to the callback function by key
+    // Note: 1st parameter in callback is ALWAYS a reference to the current editor.
+    // So you need to add a variable to the callback to hold this (like the
+    // "jseditor_editor" variable in the examples below.)
+
+
+    // Setup for Wikipedia lookup
+    "search_wikipedia": function search(jseditor_editor, input, test) {
+          console.log(input);
+          console.log(jseditor_editor);
+          console.log('einde');
+      var url = 'https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&origin=*&srsearch=' + encodeURI(input);
+
+      return new Promise(function (resolve) {
+        if (input.length < 3) {
+          return resolve([]);
+        }
+
+        fetch(url).then(function (response) {
+          return response.json();
+        }).then(function (data) {
+          resolve(data.query.search);
+        });
+      });
+    },
+    "getResultValue_wikipedia": function getResultValue(jseditor_editor, result) {
+      return result.title;
+    },
+    "renderResult_wikipedia": function(jseditor_editor, result, props) {
+      return ['<li ' + props + '>',
+        '<div class="wiki-title">' + result.title + '</div>',
+        '<div class="wiki-snippet"><small>' + result.snippet + '<small></div>',
+        '</li>'].join('');
+    }
+  }
+        };
+
 
          // Specify upload handler
         JSONEditor.defaults.options.upload = function (type, file, cbs) {
