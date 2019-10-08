@@ -38,11 +38,18 @@ namespace QMS.Models
         public string Name { get; set; }
         public string Key { get; set; }
         public Uri Uri { get; set; }
+
         /// <summary>
         /// Indicates there can be only one instance
         /// TODO: Replace with Min / Max option like JsonSchema?
         /// </summary>
         public bool IsSingleton { get; set; }
+
+        /// <summary>
+        /// Page size for overview page, default 20
+        /// </summary>
+        public int PageSize { get; set; } = 20;
+
         public string Schema { get; set; }
 
         public List<ListViewProperty> ListViewProperties { get; set; } = new List<ListViewProperty>();
