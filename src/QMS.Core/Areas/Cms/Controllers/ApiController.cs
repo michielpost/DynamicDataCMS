@@ -61,8 +61,36 @@ namespace QMS.Core.Controllers
         [Produces("application/json")]
         public async Task<IReadOnlyList<CmsItem>> List([FromRoute]string cmsType, [FromQuery]string? sortField, [FromQuery]string? sortOrder)
         {
-            var result = await readCmsItemService.List(cmsType, sortField, sortOrder).ConfigureAwait(false);
-            return result.Item1;
+            var (results, _) = await readCmsItemService.List(cmsType, sortField, sortOrder).ConfigureAwait(false);
+            return results;
+        }
+
+        [HttpGet]
+        [Route("search/{cmsType}")]
+        [Produces("application/json")]
+        public async Task<IReadOnlyList<SearchResult>> Search([FromRoute]string cmsType, [FromQuery]string? q)
+        {
+            var schema = schemaService.GetSchema(cmsType);
+            var (results, _) = await readCmsItemService.List(cmsType, null, null, searchQuery: q).ConfigureAwait(false);
+
+            var searchResults = new List<SearchResult>();
+            foreach(var result in results)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach(var prop in schema.ListViewProperties)
+                {
+                    sb.Append(result.AdditionalProperties[prop.Key].ToString());
+                    sb.Append(" ");
+                }
+
+                searchResults.Add(new SearchResult
+                {
+                    Id = result.Id,
+                    Title = sb.ToString()
+                });
+            }
+
+            return searchResults;
         }
 
 
