@@ -35,7 +35,7 @@ namespace QMS.Storage.CosmosDB
             Configuration.GetSection(nameof(CosmosConfig)).Bind(cosmosConfig);
             var cosmosConfigOptions = Options.Create<CosmosConfig>(cosmosConfig);
 
-            var cosmosService = new CosmosService(cosmosConfigOptions);
+            var cosmosService = new CosmosService(cosmosConfigOptions, Options.Create(new CmsConfiguration()));
             cosmosService.InitializeContainer();
 
             return builder;
