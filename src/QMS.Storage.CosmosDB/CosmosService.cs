@@ -8,6 +8,7 @@ using QMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -19,21 +20,44 @@ namespace QMS.Storage.CosmosDB
     public class CosmosService
     {
         private readonly CosmosConfig cosmosConfig;
+        private readonly CmsConfiguration cmsConfiguration;
 
-        public CosmosService(IOptions<CosmosConfig> cosmosConfig)
+        public CosmosService(IOptions<CosmosConfig> cosmosConfig, IOptions<CmsConfiguration> cmsConfiguration)
         {
             this.cosmosConfig = cosmosConfig.Value;
+            this.cmsConfiguration = cmsConfiguration.Value;
         }
-        internal async Task<(IReadOnlyList<CosmosCmsItem> results, int total)> List(string cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0)
+        internal async Task<(IReadOnlyList<CosmosCmsItem> results, int total)> List(string cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0, string? searchQuery = null)
         {
             Container container = GetContainer();
             var totalItems = await container.GetItemLinqQueryable<CosmosCmsItem>().Where(x => x.CmsType == cmsType).CountAsync().ConfigureAwait(false);
-            
-            QueryDefinition queryDefinition = new QueryDefinition($"SELECT * FROM c WHERE c.cmstype = @cmstype OFFSET {pageSize*pageIndex} LIMIT {pageSize}").WithParameter("@cmstype", cmsType);
+            int totalResults = totalItems.Resource;
+
+            string whereClause = string.Empty;
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                var typeInfo = cmsConfiguration.Entities.Where(x => x.Key == cmsType).FirstOrDefault();
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append("AND (");
+                foreach (var prop in typeInfo.ListViewProperties)
+                    sb.Append($"CONTAINS(c.{prop.Key}, '{searchQuery}') OR ");
+                sb.Remove(sb.Length - 3, 3);
+                sb.Append(") ");
+
+                whereClause = sb.ToString();
+
+                //Only support one page of results for now
+                //TODO: Create count query with Where clause
+                totalResults = pageSize;
+            }
+
+            QueryDefinition queryDefinition = new QueryDefinition($"SELECT * FROM c WHERE c.cmstype = @cmstype {whereClause}OFFSET {pageSize*pageIndex} LIMIT {pageSize}").WithParameter("@cmstype", cmsType);
+
             if (sortField != null)
             {
                 sortOrder = sortOrder ?? "Asc";
-                queryDefinition = new QueryDefinition($"SELECT * FROM c WHERE c.cmstype = @cmstype ORDER BY c.{sortField} {sortOrder.ToUpperInvariant()} OFFSET {pageSize * pageIndex} LIMIT {pageSize}")
+                queryDefinition = new QueryDefinition($"SELECT * FROM c WHERE c.cmstype = @cmstype {whereClause}ORDER BY c.{sortField} {sortOrder.ToUpperInvariant()} OFFSET {pageSize * pageIndex} LIMIT {pageSize}")
                     .WithParameter("@cmstype", cmsType);
             }
 
@@ -58,7 +82,7 @@ namespace QMS.Storage.CosmosDB
                 }
             }
 
-            return (results, totalItems.Resource);
+            return (results, totalResults);
         }
 
         internal async Task Write(CosmosCmsDataItem item, string cmsType, Guid id, string? lang)

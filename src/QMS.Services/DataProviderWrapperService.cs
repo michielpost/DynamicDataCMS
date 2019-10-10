@@ -36,9 +36,9 @@ namespace QMS.Services
 
         public bool CanSort => readCmsItemProvider.CanSort;
 
-        public Task<(IReadOnlyList<CmsItem> results, int total)> List(string cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0)
+        public Task<(IReadOnlyList<CmsItem> results, int total)> List(string cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0, string? searchQuery = null)
         {
-            return readCmsItemProvider.List(cmsType, sortField, sortOrder, pageSize, pageIndex);
+            return readCmsItemProvider.List(cmsType, sortField, sortOrder, pageSize, pageIndex, searchQuery);
         }
 
         public Task<CmsItem?> Read(string cmsType, Guid id, string? lang)

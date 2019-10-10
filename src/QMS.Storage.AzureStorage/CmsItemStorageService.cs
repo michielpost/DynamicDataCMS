@@ -25,8 +25,10 @@ namespace QMS.Storage.AzureStorage
             this.cmsConfiguration = cmsConfiguration.Value;
         }
 
-        public async Task<(IReadOnlyList<CmsItem> results, int total)> List(string cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0)
+        public async Task<(IReadOnlyList<CmsItem> results, int total)> List(string cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0, string? searchQuery = null)
         {
+            var typeInfo = cmsConfiguration.Entities.Where(x => x.Key == cmsType).FirstOrDefault();
+
             //Get index file
             var indexFileName = GenerateFileName(cmsType, "_index", null);
 
@@ -35,6 +37,11 @@ namespace QMS.Storage.AzureStorage
             indexFile = indexFile ?? new List<CmsItem>();
 
             var returnItems = indexFile.AsQueryable();
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                returnItems = returnItems.Where(x => string.Join(" ", x.AdditionalProperties.Values.Select(x => x.ToString().ToLowerInvariant())).Contains(searchQuery));
+            }
+
             if (sortField != null)
             {
                 sortOrder = sortOrder ?? "Asc";
