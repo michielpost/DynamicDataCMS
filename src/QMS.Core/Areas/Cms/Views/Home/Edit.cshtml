@@ -19,18 +19,10 @@
         JSONEditor.defaults.callbacks = {
   "autocomplete": {
     // This is callback functions for the "autocomplete" editor
-    // In the schema you refer to the callback function by key
     // Note: 1st parameter in callback is ALWAYS a reference to the current editor.
-    // So you need to add a variable to the callback to hold this (like the
-    // "jseditor_editor" variable in the examples below.)
-
-
-    // Setup for Wikipedia lookup
-    "search_wikipedia": function search(jseditor_editor, input, test) {
-          console.log(input);
-          console.log(jseditor_editor);
-          console.log('einde');
-      var url = 'https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&origin=*&srsearch=' + encodeURI(input);
+     "search_autocomplete": function search(jseditor_editor, input, test) {
+      var itemType = jseditor_editor.parent.options.itemType;
+      var url = '@Url.Action("Search", "Api")' + '/'+ itemType + '?q=' + encodeURI(input);
 
       return new Promise(function (resolve) {
         if (input.length < 3) {
@@ -40,17 +32,21 @@
         fetch(url).then(function (response) {
           return response.json();
         }).then(function (data) {
-          resolve(data.query.search);
+          resolve(data);
         });
       });
     },
-    "getResultValue_wikipedia": function getResultValue(jseditor_editor, result) {
+    "getResultValue_autocomplete": function getResultValue(jseditor_editor, result) {
       return result.title;
     },
-    "renderResult_wikipedia": function(jseditor_editor, result, props) {
+     "onSubmit_autocomplete": function onSubmitValue(jseditor_editor, result) {
+         //console.log(jseditor_editor.parent.value.id);
+         jseditor_editor.parent.value.id = result.id;
+         
+    },
+    "renderResult_autocomplete": function(jseditor_editor, result, props) {
       return ['<li ' + props + '>',
-        '<div class="wiki-title">' + result.title + '</div>',
-        '<div class="wiki-snippet"><small>' + result.snippet + '<small></div>',
+        '<div class="title">' + result.title + '</div>',
         '</li>'].join('');
     }
   }

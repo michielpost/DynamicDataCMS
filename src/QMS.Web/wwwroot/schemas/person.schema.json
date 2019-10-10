@@ -17,18 +17,33 @@
       "type": "integer",
       "minimum": 0
     },
-    "text": {
-      "type": "string",
-      "format": "autocomplete",
-      "title": "Wikipedia lookup (Page titles)",
-      "description": "Enter a text of minimum 3 characters.",
+    "person_link": {
+      "description": "Link to a person",
+      "title": "Other person",
+      "type": "object",
       "options": {
-        "grid_columns": 6,
-        "autocomplete": {
-          "search": "search_wikipedia",
-          "getResultValue": "getResultValue_wikipedia",
-          "renderResult": "renderResult_wikipedia",
-          "autoSelect": true
+        "itemType": "person"
+      },
+      "properties": {
+        "text": {
+          "type": "string",
+          "format": "autocomplete",
+          "title": "Name",
+          "description": "Enter a text of minimum 3 characters.",
+          "options": {
+            "grid_columns": 6,
+            "autocomplete": {
+              "search": "search_autocomplete",
+              "getResultValue": "getResultValue_autocomplete",
+              "renderResult": "renderResult_autocomplete",
+              "onSubmit": "onSubmit_autocomplete",
+              "autoSelect": true
+            }
+          }
+        },
+        "id": {
+          "type": "string",
+          "options": { "hidden": true }
         }
       }
     }

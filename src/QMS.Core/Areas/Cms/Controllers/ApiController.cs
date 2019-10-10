@@ -76,17 +76,10 @@ namespace QMS.Core.Controllers
             var searchResults = new List<SearchResult>();
             foreach(var result in results)
             {
-                StringBuilder sb = new StringBuilder();
-                foreach(var prop in schema.ListViewProperties)
-                {
-                    sb.Append(result.AdditionalProperties[prop.Key].ToString());
-                    sb.Append(" ");
-                }
-
                 searchResults.Add(new SearchResult
                 {
                     Id = result.Id,
-                    Title = sb.ToString()
+                    Title = GetDisplayTitle(result, schema)
                 });
             }
 
