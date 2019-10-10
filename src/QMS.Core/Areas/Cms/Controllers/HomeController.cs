@@ -37,14 +37,14 @@ namespace QMS.Core.Controllers
         }
 
         [Route("list/{cmsType}")]
-        public async Task<IActionResult> List([FromRoute]string cmsType, [FromQuery]string? sortField, [FromQuery]string? sortOrder, [FromQuery]int pageIndex)
+        public async Task<IActionResult> List([FromRoute]string cmsType, [FromQuery]string? sortField, [FromQuery]string? sortOrder, [FromQuery]int pageIndex, [FromQuery]string? q)
         {
             var schema = schemaService.GetSchema(cmsType);
             int pageSize = schema.PageSize;
             if (pageSize <= 0)
                 pageSize = 20;
 
-            var (results, total) = await readCmsItemService.List(cmsType, sortField, sortOrder, pageSize: pageSize, pageIndex).ConfigureAwait(false);
+            var (results, total) = await readCmsItemService.List(cmsType, sortField, sortOrder, pageSize: pageSize, pageIndex, q).ConfigureAwait(false);
 
             ViewBag.SortField = sortField;
             ViewBag.SortOrder = sortOrder;
