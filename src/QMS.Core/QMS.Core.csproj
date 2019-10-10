@@ -22,12 +22,12 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   
-  <ItemGroup>
+  <!--<ItemGroup>
     <EmbeddedResource Include="wwwroot\cms.css" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\cms.css" />
-  </ItemGroup>
+  </ItemGroup>-->
 
   <ItemGroup>
     <ProjectReference Include="..\QMS.Services\QMS.Services.csproj" />
