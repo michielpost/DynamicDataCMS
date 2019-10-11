@@ -16,6 +16,36 @@
       "description": "Age in years which must be equal to or greater than zero.",
       "type": "integer",
       "minimum": 0
+    },
+    "person_link": {
+      "description": "Link to a person",
+      "title": "Other person",
+      "type": "object",
+      "options": {
+        "itemType": "person"
+      },
+      "properties": {
+        "text": {
+          "type": "string",
+          "format": "autocomplete",
+          "title": "Name",
+          "description": "Enter a text of minimum 3 characters.",
+          "options": {
+            "grid_columns": 6,
+            "autocomplete": {
+              "search": "search_autocomplete",
+              "getResultValue": "getResultValue_autocomplete",
+              "renderResult": "renderResult_autocomplete",
+              "onSubmit": "onSubmit_autocomplete",
+              "autoSelect": true
+            }
+          }
+        },
+        "id": {
+          "type": "string",
+          "options": { "hidden": true }
+        }
+      }
     }
   }
 }
