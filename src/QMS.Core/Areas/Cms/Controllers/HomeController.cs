@@ -76,7 +76,7 @@ namespace QMS.Core.Controllers
                 return new NotFoundResult();
 
             var schema = schemaService.GetSchema(cmsType);
-            var data = await readCmsItemService.Read(cmsType, id, lang).ConfigureAwait(false);
+            var data = await readCmsItemService.Read<CmsItem>(cmsType, id, lang).ConfigureAwait(false);
 
             var model = new EditViewModel
             {
@@ -143,7 +143,7 @@ namespace QMS.Core.Controllers
         public async Task<IActionResult> Delete([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang)
         {
             var schema = schemaService.GetSchema(cmsType);
-            var data = await readCmsItemService.Read(cmsType, id, lang).ConfigureAwait(false);
+            var data = await readCmsItemService.Read<CmsItem>(cmsType, id, lang).ConfigureAwait(false);
 
             var model = new EditViewModel
             {

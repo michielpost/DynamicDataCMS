@@ -41,9 +41,9 @@ namespace QMS.Services
             return readCmsItemProvider.List(cmsType, sortField, sortOrder, pageSize, pageIndex, searchQuery);
         }
 
-        public Task<CmsItem?> Read(string cmsType, Guid id, string? lang)
+        public Task<T?> Read<T>(string cmsType, Guid id, string? lang) where T : CmsItem
         {
-           return readCmsItemProvider.Read(cmsType, id, lang);
+           return readCmsItemProvider.Read<T>(cmsType, id, lang);
         }
 
         public Task<CmsFile?> ReadFile(string cmsType, Guid id, string fieldName, string? lang)

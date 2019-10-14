@@ -38,10 +38,10 @@ namespace QMS.Storage.CosmosDB
 
         }
 
-        public async Task<CmsItem?> Read(string partitionKey, Guid documentId, string? lang)
+        public async Task<T?> Read<T>(string partitionKey, Guid documentId, string? lang) where T : CmsItem
         {
             var result = await _cosmosService.Read(partitionKey, documentId, lang).ConfigureAwait(false);
-            return result?.ToCmsItem();
+            return result?.ToCmsItem<T>();
         }
     }
 }

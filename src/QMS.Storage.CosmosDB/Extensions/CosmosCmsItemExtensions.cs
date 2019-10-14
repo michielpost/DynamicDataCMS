@@ -17,10 +17,10 @@ namespace QMS.Storage.CosmosDB.Extensions
             return System.Text.Json.JsonSerializer.Deserialize<CmsItem>(json);
         }
 
-        internal static CmsItem ToCmsItem(this CosmosCmsDataItem item)
+        internal static T ToCmsItem<T>(this CosmosCmsDataItem item) where T : CmsItem
         {
             string json = JsonConvert.SerializeObject(item);
-            return System.Text.Json.JsonSerializer.Deserialize<CmsItem>(json);
+            return System.Text.Json.JsonSerializer.Deserialize<T>(json);
         }
 
         internal static CosmosCmsDataItem ToCosmosCmsItem(this CmsItem item)

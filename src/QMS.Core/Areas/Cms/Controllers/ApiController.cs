@@ -50,7 +50,7 @@ namespace QMS.Core.Controllers
         [Produces("application/json")]
         public async Task<CmsItem?> Load([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang)
         {
-            var cmsItem = await readCmsItemService.Read(cmsType, id, lang).ConfigureAwait(false);
+            var cmsItem = await readCmsItemService.Read<CmsItem>(cmsType, id, lang).ConfigureAwait(false);
 
             return cmsItem;
         }

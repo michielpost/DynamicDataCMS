@@ -75,11 +75,11 @@ namespace QMS.Storage.AzureStorage
             //return (result, total);
         }
 
-        public Task<CmsItem?> Read(string cmsType, Guid id, string? lang)
+        public Task<T?> Read<T>(string cmsType, Guid id, string? lang) where T : CmsItem
         {
             var fileName = GenerateFileName(cmsType, id, lang);
 
-            return azureStorageService.ReadFileAsJson<CmsItem>(fileName);
+            return azureStorageService.ReadFileAsJson<T>(fileName);
         }
 
         public async Task Write(CmsItem item, string cmsType, Guid id, string? lang)
