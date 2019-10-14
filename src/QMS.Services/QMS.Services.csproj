@@ -9,7 +9,7 @@
     <Company>Q42</Company>
     <Product>QMS</Product>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/Q42/QMS4</RepositoryUrl>
     <PackageProjectUrl>https://github.com/Q42/QMS4</PackageProjectUrl>
