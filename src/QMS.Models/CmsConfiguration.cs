@@ -18,10 +18,12 @@ namespace QMS.Models
         public List<string> Languages { get; set; } = new List<string>();
 
         public List<EntityGroupConfiguration> EntityGroups { get; set; } = new List<EntityGroupConfiguration>();
+        public IEnumerable<EntityGroupConfiguration> EntityGroupsInitialized => EntityGroups.Where(x => x.Entities.Any(e => !string.IsNullOrEmpty(e.Schema)));
+
 
         public IEnumerable<SchemaLocation> Entities => EntityGroups.SelectMany(x => x.Entities);
+        public IEnumerable<SchemaLocation> EntitiesInitialized => EntityGroupsInitialized.SelectMany(x => x.Entities);
 
-        public bool IsInitialized => EntityGroups.SelectMany(x => x.Entities).Any();
     }
 
     public class EntityGroupConfiguration
@@ -30,7 +32,7 @@ namespace QMS.Models
         public int Order { get; set; }
 
         public List<SchemaLocation> Entities { get; set; } = new List<SchemaLocation>();
-
+        public IEnumerable<SchemaLocation> EntitiesInitialized => Entities.Where(x => !string.IsNullOrEmpty(x.Schema));
     }
 
     public class SchemaLocation

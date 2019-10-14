@@ -54,7 +54,7 @@
          // Specify upload handler
         JSONEditor.defaults.options.upload = function (type, file, cbs) {
             console.log(type);
-            var url = '@Url.Action("Upload", "File", new { area = "cms", cmsType = Model.CmsType, id = Model.Id, lang = Model.Language })';
+            var url = '@Url.Action("Upload", "File", new { cmsType = Model.CmsType, id = Model.Id, lang = Model.Language })';
             url += '?fieldName=' + type.substr(5); //remote root. from typename
             var formData = new FormData();
             formData.set("file", file , file.name);
@@ -120,7 +120,7 @@
         //console.log('saving');
         //alert(data);
 
-        fetch('@Url.Action("Save", "Api", new { area = "cms", cmsType = Model.CmsType, id = Model.Id, lang = Model.Language })', {
+        fetch('@Url.Action("Save", "Api", new { cmsType = Model.CmsType, id = Model.Id, lang = Model.Language })', {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             //mode: 'cors', // no-cors, cors, *same-origin
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -148,7 +148,7 @@
 
         function load() {
 
-            return fetch('@Url.Action("Load", "Api", new { area = "cms", cmsType = Model.CmsType, id = Model.Id, lang = Model.Language })', {
+            return fetch('@Url.Action("Load", "Api", new { cmsType = Model.CmsType, id = Model.Id, lang = Model.Language })', {
                 method: 'GET', // *GET, POST, PUT, DELETE, etc.
                 //mode: 'cors', // no-cors, cors, *same-origin
                 cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached

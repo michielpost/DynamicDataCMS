@@ -37,6 +37,7 @@ namespace QMS.Core.Controllers
         }
 
         [Route("list/{cmsType}")]
+        [HttpGet]
         public async Task<IActionResult> List([FromRoute]string cmsType, [FromQuery]string? sortField, [FromQuery]string? sortOrder, [FromQuery]int pageIndex, [FromQuery]string? q)
         {
             var schema = schemaService.GetSchema(cmsType);
@@ -70,6 +71,7 @@ namespace QMS.Core.Controllers
         }
 
         [Route("edit/{cmsType}/{id}/{lang?}")]
+        [HttpGet]
         public async Task<IActionResult> Edit([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang)
         {
             if (id == Guid.Empty)
@@ -96,6 +98,7 @@ namespace QMS.Core.Controllers
         /// <param name="url"></param>
         /// <returns></returns>
         [Route("edit/_dynamic")]
+        [HttpGet]
         public async Task<IActionResult> EditDynamic([FromQuery]string url)
         {
             if (string.IsNullOrEmpty(url))
@@ -125,6 +128,7 @@ namespace QMS.Core.Controllers
         }
 
         [Route("create/{cmsType}")]
+        [HttpGet]
         public IActionResult Create([FromRoute]string cmsType)
         {
             var schema = schemaService.GetSchema(cmsType);

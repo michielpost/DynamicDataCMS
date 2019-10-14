@@ -30,12 +30,19 @@ namespace QMS.Services
             //TODO: Cache schemas
             foreach (var location in cmsConfiguration.Entities.Where(x => x.Schema == null))
             {
-                var getJson = await httpClient.GetStringAsync(location.Uri).ConfigureAwait(false);
-                //JsonSchema schema = await JsonSchema.FromJsonAsync(getJson).ConfigureAwait(false);
-                location.Schema = getJson;
+                try
+                {
+                    var getJson = await httpClient.GetStringAsync(location.Uri).ConfigureAwait(false);
+                    //JsonSchema schema = await JsonSchema.FromJsonAsync(getJson).ConfigureAwait(false);
+                    location.Schema = getJson;
+                }
+                catch(Exception ex)
+                {
+                    //TODO: Log unable to get schema
+                }
             }
 
-            return cmsConfiguration.Entities;
+            return cmsConfiguration.EntitiesInitialized;
         }
 
         public Task InitializeSchemas()
