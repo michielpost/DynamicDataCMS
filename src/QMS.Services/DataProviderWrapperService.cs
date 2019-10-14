@@ -51,7 +51,7 @@ namespace QMS.Services
             return readFileProvider.ReadFile(cmsType, id, fieldName, lang);
         }
 
-        public Task Write(CmsItem item, string cmsType, Guid id, string? lang)
+        public Task Write<T>(T item, string cmsType, Guid id, string? lang) where T : CmsItem
         {
             return Task.WhenAll(writeCmsItemProviders.Select(x => x.Write(item, cmsType, id, lang)));
         }

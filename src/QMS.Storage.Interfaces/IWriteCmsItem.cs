@@ -11,7 +11,7 @@ namespace QMS.Storage.Interfaces
     /// </summary>
     public interface IWriteCmsItem
     {
-        Task Write(CmsItem item, string cmsType, Guid id, string? lang);
+        Task Write<T>(T item, string cmsType, Guid id, string? lang) where T : CmsItem;
         Task Delete(string cmsType, Guid id, string? lang);
     }
 }

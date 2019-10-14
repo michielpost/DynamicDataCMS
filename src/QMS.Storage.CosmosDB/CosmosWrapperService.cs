@@ -27,7 +27,7 @@ namespace QMS.Storage.CosmosDB
             return (result.results.Select(x => x.ToCmsItem()).ToList(), result.total);
         }
 
-        public Task Write(CmsItem item, string cmsType, Guid id, string? lang)
+        public Task Write<T>(T item, string cmsType, Guid id, string? lang) where T : CmsItem
         {
             return _cosmosService.Write(item.ToCosmosCmsItem(), cmsType, id, lang);
         }

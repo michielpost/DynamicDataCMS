@@ -82,7 +82,7 @@ namespace QMS.Storage.AzureStorage
             return azureStorageService.ReadFileAsJson<T>(fileName);
         }
 
-        public async Task Write(CmsItem item, string cmsType, Guid id, string? lang)
+        public async Task Write<T>(T item, string cmsType, Guid id, string? lang) where T : CmsItem
         {
             var fileName = GenerateFileName(cmsType, id, lang);
             await azureStorageService.WriteFileAsJson(item, fileName);
