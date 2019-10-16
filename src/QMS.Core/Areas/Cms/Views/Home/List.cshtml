@@ -2,7 +2,7 @@
 @model ListViewModel
 
 @{
-    ViewData["Title"] = Model.Schema.Name + " List";
+    ViewData["Title"] = Model.Schema.Name + " Overview";
 
     int TotalPages = (int)Math.Ceiling(decimal.Divide(Model.TotalPages, Model.PageSize));
     bool EnablePrevious = Model.CurrentPage > 1;
