@@ -20,6 +20,7 @@
             <link rel="stylesheet" href="@cssUrl" />
         }
     }
+    @RenderSection("ScriptsHead", required: false)
     @if (cmsConfig.Scripts?.Any() ?? false)
     {
         foreach (var scriptUrl in cmsConfig.Scripts!)

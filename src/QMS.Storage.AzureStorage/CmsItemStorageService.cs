@@ -147,11 +147,11 @@ namespace QMS.Storage.AzureStorage
             await azureStorageService.WriteFileAsJson(indexFile, indexFileName);
         }
 
-        private static string GenerateFileName(string cmsType, Guid id, string? lang)
+        public static string GenerateFileName(string cmsType, Guid id, string? lang)
         {
             return GenerateFileName(cmsType, id.ToString(), lang);
         }
-        private static string GenerateFileName(string cmsType, string id, string? lang)
+        public static string GenerateFileName(string cmsType, string id, string? lang)
         {
             string fileName = $"{cmsType}/{id}.json";
             if (!string.IsNullOrEmpty(lang))
