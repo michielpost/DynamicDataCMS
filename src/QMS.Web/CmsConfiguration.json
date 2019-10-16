@@ -1,6 +1,7 @@
 {
   "Title": "QMS4 Sample CMS",
   "Languages": [ "en-US", "nl-NL" ],
+  "EditScripts": [ "/extra-script.js" ],
   "EntityGroups": [
     {
       "Name": "Pages",
