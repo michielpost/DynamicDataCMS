@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using QMS.Models;
 using QMS.Services;
 using QMS.Storage.Interfaces;
@@ -20,11 +21,13 @@ namespace QMS.Core.Controllers
     {
         private readonly IWriteFile writeFileService;
         private readonly IReadFile readFileService;
+        private readonly ILogger<FileController> logger;
 
-        public FileController(DataProviderWrapperService dataProviderService)
+        public FileController(DataProviderWrapperService dataProviderService, ILoggerFactory loggerFactory)
         {
             this.writeFileService = dataProviderService;
             this.readFileService = dataProviderService;
+            this.logger = loggerFactory.CreateLogger<FileController>();
         }
 
         [HttpPost]
@@ -60,13 +63,14 @@ namespace QMS.Core.Controllers
 
                     return new JsonResult(result);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    logger.LogError(ex, "Error writing file.");
+                    throw;
                 }
             }
 
-            //TODO: some error result
-            return new JsonResult("");
+            return new JsonResult("No file submitted");
         }
 
         [ResponseCache(Duration = 60 * 60 * 24 * 365, Location = ResponseCacheLocation.Any)]

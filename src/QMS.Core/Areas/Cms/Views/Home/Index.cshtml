@@ -1,7 +1,7 @@
 ﻿@inject QMS.Services.JsonSchemaService JsonSchemaService
 @{
     var cmsConfig = JsonSchemaService.GetCmsConfiguration();
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = cmsConfig.Title;
 }
 
 <h1>@cmsConfig.Title</h1>

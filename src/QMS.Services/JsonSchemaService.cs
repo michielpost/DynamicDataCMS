@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using QMS.Models;
 using System;
 using System.Collections.Generic;
@@ -14,11 +15,13 @@ namespace QMS.Services
     {
         private readonly CmsConfiguration cmsConfiguration;
         private readonly IHttpClientFactory clientFactory;
+        private readonly ILogger<JsonSchemaService> logger;
 
-        public JsonSchemaService(IOptions<CmsConfiguration> cmsConfiguration, IHttpClientFactory clientFactory)
+        public JsonSchemaService(IOptions<CmsConfiguration> cmsConfiguration, IHttpClientFactory clientFactory, ILoggerFactory loggerFactory)
         {
             this.cmsConfiguration = cmsConfiguration.Value;
             this.clientFactory = clientFactory;
+            this.logger = loggerFactory.CreateLogger<JsonSchemaService>();
         }
 
 
@@ -47,7 +50,7 @@ namespace QMS.Services
                 }
                 catch(Exception ex)
                 {
-                    //TODO: Log unable to get schema
+                    logger.LogError(ex, "Unable to read schema");
                 }
             }
 
