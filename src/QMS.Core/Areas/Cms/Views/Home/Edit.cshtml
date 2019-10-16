@@ -9,6 +9,13 @@
     <script src="https://cdn.jsdelivr.net/npm/dompurify@@latest/dist/purify.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@@trevoreyre/autocomplete-js@latest/dist/autocomplete.min.js"></script>
 
+    @if (Model.CmsConfiguration.EditScripts.Any())
+    {
+        @foreach (var scriptUrl in Model.CmsConfiguration.EditScripts)
+        {
+            <script src="@scriptUrl"></script>
+        }
+    }
     <script type="text/javascript">
     var editor = null;
     (function () {
