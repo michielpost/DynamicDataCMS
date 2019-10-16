@@ -17,6 +17,8 @@ namespace QMS.Models
 
         public List<string> Languages { get; set; } = new List<string>();
         public List<string> EditScripts { get; set; } = new List<string>();
+        public List<string> Scripts { get; set; } = new List<string>();
+        public List<string> Styles { get; set; } = new List<string>();
 
         public List<EntityGroupConfiguration> EntityGroups { get; set; } = new List<EntityGroupConfiguration>();
         public IEnumerable<EntityGroupConfiguration> EntityGroupsInitialized => EntityGroups.Where(x => x.Entities.Any(e => !string.IsNullOrEmpty(e.Schema)));
