@@ -16,6 +16,8 @@ namespace QMS.Core
             var Configuration = builder.Configuration;
             var services = builder.Services;
 
+            services.AddHttpClient();
+
             return builder;
         }
 
