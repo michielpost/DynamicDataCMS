@@ -57,15 +57,15 @@ namespace QMS.Services
             return readFileProvider.ReadFile(cmsType, id, fieldName, lang);
         }
 
-        public Task Write<T>(T item, string cmsType, Guid id, string? lang) where T : CmsItem
+        public async Task Write<T>(T item, string cmsType, Guid id, string? lang) where T : CmsItem
         {
             //Run interceptors before saving
             foreach(var interceptor in writeCmsItemInterceptors)
             {
-                interceptor.Intercept(item, cmsType, id, lang);
+                await interceptor.InterceptAsync(item, cmsType, id, lang).ConfigureAwait(false);
             };
 
-            return Task.WhenAll(writeCmsItemProviders.Select(x => x.Write(item, cmsType, id, lang)));
+            await Task.WhenAll(writeCmsItemProviders.Select(x => x.Write(item, cmsType, id, lang))).ConfigureAwait(false);
         }
 
         public Task Delete(string cmsType, Guid id, string? lang)
