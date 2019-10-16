@@ -16,6 +16,7 @@ using QMS.Services;
 using QMS.Storage.AzureStorage;
 using QMS.Storage.CosmosDB;
 using QMS.Storage.CosmosDB.Models;
+using QMS.Web.Interceptor;
 
 namespace QMS.Web
 {
@@ -34,6 +35,7 @@ namespace QMS.Web
             services.AddHttpClient();
 
             services.UseQms(Configuration)
+                .AddInterceptor<ExampleInterceptor>()
                 .ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
                 .ConfigureAzureStorage(() => new StorageConfiguration() { ReadFiles = true });
 

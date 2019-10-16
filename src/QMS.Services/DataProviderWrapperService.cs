@@ -22,17 +22,23 @@ namespace QMS.Services
         private readonly IEnumerable<IWriteFile> writeFileProviders;
         private readonly IReadCmsItem readCmsItemProvider;
         private readonly IEnumerable<IWriteCmsItem> writeCmsItemProviders;
+        private readonly IEnumerable<IWriteCmsItemInterceptor> writeCmsItemInterceptors;
 
         public DataProviderWrapperService(IReadFile readFileProvider,
-            IEnumerable<IWriteFile> writeFileProviders,
-            IReadCmsItem readCmsItemProvider,
-            IEnumerable<IWriteCmsItem> writeCmsItemProviders)
+           IEnumerable<IWriteFile> writeFileProviders,
+           IReadCmsItem readCmsItemProvider,
+           IEnumerable<IWriteCmsItem> writeCmsItemProviders,
+           IEnumerable<IWriteCmsItemInterceptor> writeCmsItemInterceptors
+           )
         {
             this.readFileProvider = readFileProvider;
             this.writeFileProviders = writeFileProviders;
             this.readCmsItemProvider = readCmsItemProvider;
             this.writeCmsItemProviders = writeCmsItemProviders;
+
+            this.writeCmsItemInterceptors = writeCmsItemInterceptors;
         }
+
 
         public bool CanSort => readCmsItemProvider.CanSort;
 
@@ -53,6 +59,12 @@ namespace QMS.Services
 
         public Task Write<T>(T item, string cmsType, Guid id, string? lang) where T : CmsItem
         {
+            //Run interceptors before saving
+            foreach(var interceptor in writeCmsItemInterceptors)
+            {
+                interceptor.Intercept(item, cmsType, id, lang);
+            };
+
             return Task.WhenAll(writeCmsItemProviders.Select(x => x.Write(item, cmsType, id, lang)));
         }
 
