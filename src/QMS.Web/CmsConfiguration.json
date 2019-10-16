@@ -36,7 +36,7 @@
         {
           "Name": "Person",
           "Key": "person",
-          "Uri": "https://localhost:44341/schemas/person.schema.json",
+          "FileLocation": "schemas/person.schema.json",
           "ListViewProperties": [
             {
               "Key": "firstName",
@@ -51,7 +51,7 @@
         {
           "Name": "Vehicle",
           "Key": "vehicle",
-          "Uri": "https://localhost:44341/schemas/vehicle.schema.json",
+          "FileLocation": "schemas/vehicle.schema.json",
           "ListViewProperties": [
             {
               "Key": "accidentDetails.Severity",
@@ -63,7 +63,7 @@
           "Name": "Single Person",
           "Key": "singleton-person",
           "IsSingleton": true,
-          "Uri": "https://localhost:44341/schemas/person.schema.json",
+          "FileLocation": "schemas/person.schema.json",
           "ListViewProperties": [
             {
               "Key": "firstName",
@@ -83,7 +83,7 @@
         {
           "Name": "Image",
           "Key": "image",
-          "Uri": "https://localhost:44341/schemas/image.schema.json",
+          "FileLocation": "schemas/image.schema.json",
           "ListViewProperties": [
             {
               "Key": "name",
@@ -94,7 +94,7 @@
         {
           "Name": "Downloads",
           "Key": "download",
-          "Uri": "https://localhost:44341/schemas/download.schema.json",
+          "FileLocation": "schemas/download.schema.json",
           "ListViewProperties": [
             {
               "Key": "name",

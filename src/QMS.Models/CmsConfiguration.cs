@@ -39,7 +39,8 @@ namespace QMS.Models
     {
         public string Name { get; set; }
         public string Key { get; set; }
-        public Uri Uri { get; set; }
+        public Uri? Uri { get; set; }
+        public string? FileLocation { get; set; }
 
         /// <summary>
         /// Indicates there can be only one instance
@@ -52,7 +53,7 @@ namespace QMS.Models
         /// </summary>
         public int PageSize { get; set; } = 20;
 
-        public string Schema { get; set; }
+        public string? Schema { get; set; }
 
         public List<ListViewProperty> ListViewProperties { get; set; } = new List<ListViewProperty>();
 

@@ -2,6 +2,7 @@
 using QMS.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
@@ -32,9 +33,17 @@ namespace QMS.Services
             {
                 try
                 {
-                    var getJson = await httpClient.GetStringAsync(location.Uri).ConfigureAwait(false);
-                    //JsonSchema schema = await JsonSchema.FromJsonAsync(getJson).ConfigureAwait(false);
-                    location.Schema = getJson;
+                    if (location.Uri != null)
+                    {
+                        var getJson = await httpClient.GetStringAsync(location.Uri).ConfigureAwait(false);
+                        //JsonSchema schema = await JsonSchema.FromJsonAsync(getJson).ConfigureAwait(false);
+                        location.Schema = getJson;
+                    }
+                    else if(!string.IsNullOrEmpty(location.FileLocation))
+                    {
+                        string json = File.ReadAllText(location.FileLocation);
+                        location.Schema = json;
+                    }
                 }
                 catch(Exception ex)
                 {

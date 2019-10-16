@@ -98,7 +98,7 @@
         editor = new JSONEditor(document.getElementById("editor_holder"), {
             iconlib: "fontawesome5",
             schema:
-                @Html.Raw(Model.SchemaLocation.Schema.ToString())
+                @Html.Raw(Model.SchemaLocation.Schema?.ToString())
 
         });
 
