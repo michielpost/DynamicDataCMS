@@ -24,7 +24,7 @@ namespace QMS.Core.Areas.Cms.Controllers
 
         //[ResponseCache(Duration = 60 * 60 * 24 * 365, Location = ResponseCacheLocation.Any)]
         [Route("image/{cmsType}/{id}/{fieldName}/{lang?}")]
-        public async Task<IActionResult> GetById([FromRoute]string cmsType, [FromRoute]string id, [FromRoute]string? lang, [FromRoute]string fieldName, 
+        public async Task<IActionResult> GetById([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang, [FromRoute]string fieldName, 
             int? w = null, int? h = null, bool cover = false, int? quality = null)
         {
             try
