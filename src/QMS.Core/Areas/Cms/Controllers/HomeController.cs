@@ -138,6 +138,7 @@ namespace QMS.Core.Controllers
                 CmsType = cmsType,
                 Id = Guid.NewGuid(),
                 SchemaLocation = schema,
+                CmsConfiguration = schemaService.GetCmsConfiguration(),
             };
             return View("Edit", model);
         }
