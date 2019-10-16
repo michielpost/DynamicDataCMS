@@ -20,6 +20,13 @@
             <link rel="stylesheet" href="@cssUrl" />
         }
     }
+    @if (cmsConfig.Scripts?.Any() ?? false)
+    {
+        foreach (var scriptUrl in cmsConfig.Scripts!)
+        {
+            <script src="@scriptUrl" type="text/javascript"></script>
+        }
+    }
 </head>
 <body>
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
@@ -70,12 +77,5 @@
 
     @RenderSection("Scripts", required: false)
     <script src="https://cdn.jsdelivr.net/npm/noty@3.2.0-beta/lib/noty.min.js" type="text/javascript"></script>
-    @if (cmsConfig.Scripts?.Any() ?? false)
-    {
-        foreach (var scriptUrl in cmsConfig.Scripts!)
-        {
-            <script src="@scriptUrl" type="text/javascript"></script>
-        }
-    }
 </body>
 </html>
