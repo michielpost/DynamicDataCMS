@@ -34,8 +34,8 @@ namespace QMS.Web
         {
             services.UseQms(Configuration)
                 .AddInterceptor<ExampleInterceptor>()
-                .ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
-                .ConfigureAzureStorage(() => new StorageConfiguration() { ReadFiles = true });
+                //.ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
+                .ConfigureAzureStorage(() => new StorageConfiguration() { ReadFiles = true, ReadCmsItems = true });
 
             services.AddControllersWithViews();
         }

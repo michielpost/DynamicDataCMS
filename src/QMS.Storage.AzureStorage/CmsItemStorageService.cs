@@ -1,6 +1,7 @@
 ﻿using Microsoft.Azure.Storage.Blob;
 using Microsoft.Extensions.Options;
 using QMS.Models;
+using QMS.Storage.AzureStorage.Models;
 using QMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -15,14 +16,19 @@ namespace QMS.Storage.AzureStorage
     public class CmsItemStorageService : IReadCmsItem, IWriteCmsItem
     {
         private readonly AzureStorageService azureStorageService;
+        private readonly AzureTableService tableService;
         private readonly CmsConfiguration cmsConfiguration;
+        private readonly AzureStorageConfig azureStorageConfig;
 
         public bool CanSort => true;
 
-        public CmsItemStorageService(AzureStorageService azureStorageService, IOptions<CmsConfiguration> cmsConfiguration)
+        public CmsItemStorageService(AzureStorageService azureStorageService, AzureTableService tableService, IOptions<CmsConfiguration> cmsConfiguration, IOptions<AzureStorageConfig> azureStorageConfig)
         {
             this.azureStorageService = azureStorageService;
+            this.tableService = tableService;
             this.cmsConfiguration = cmsConfiguration.Value;
+            this.azureStorageConfig = azureStorageConfig.Value;
+
         }
 
         public async Task<(IReadOnlyList<CmsItem> results, int total)> List(string cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0, string? searchQuery = null)
@@ -77,15 +83,31 @@ namespace QMS.Storage.AzureStorage
 
         public Task<T?> Read<T>(string cmsType, Guid id, string? lang) where T : CmsItem
         {
-            var fileName = GenerateFileName(cmsType, id, lang);
+            if (azureStorageConfig.StorageLocation == AzureStorageLocation.Tables
+                || azureStorageConfig.StorageLocation == AzureStorageLocation.Both)
+            {
+                return tableService.GetEntityAsync<T>(cmsType, id, lang);
+            }
+            else
+            {
+                var fileName = GenerateFileName(cmsType, id, lang);
 
-            return azureStorageService.ReadFileAsJson<T>(fileName);
+                return azureStorageService.ReadFileAsJson<T>(fileName);
+            }
         }
 
         public async Task Write<T>(T item, string cmsType, Guid id, string? lang) where T : CmsItem
         {
-            var fileName = GenerateFileName(cmsType, id, lang);
-            await azureStorageService.WriteFileAsJson(item, fileName);
+            if (azureStorageConfig.StorageLocation == AzureStorageLocation.Tables
+               || azureStorageConfig.StorageLocation == AzureStorageLocation.Both)
+            {
+                await tableService.InsertOrMergeEntityAsync<T>(item, lang);
+            }
+            else
+            {
+                var fileName = GenerateFileName(cmsType, id, lang);
+                await azureStorageService.WriteFileAsJson(item, fileName);
+            }
 
             //Write index file for paging and sorting
             var indexFileName = GenerateFileName(cmsType, "_index", lang);
@@ -122,18 +144,33 @@ namespace QMS.Storage.AzureStorage
 
         public async Task Delete(string cmsType, Guid id, string? lang)
         {
-            var fileName = GenerateFileName(cmsType, id, null);
-
-            await azureStorageService.DeleteFileAsync(fileName).ConfigureAwait(false);
-
-            //Get translations
-            var files = await azureStorageService.GetFilesFromDirectory($"{cmsType}/{id}").ConfigureAwait(false);
-            foreach (var file in files)
+            if (azureStorageConfig.StorageLocation == AzureStorageLocation.Tables
+              || azureStorageConfig.StorageLocation == AzureStorageLocation.Both)
             {
-                if (file is CloudBlockBlob cloudBlockBlob)
+                await tableService.DeleteEntityAsync(cmsType, id, lang);
+
+                //Delete all translations
+                foreach(var cmsLang in cmsConfiguration.Languages)
                 {
-                    await cloudBlockBlob.DeleteAsync().ConfigureAwait(false);
+                    await tableService.DeleteEntityAsync(cmsType, id, cmsLang);
                 }
+            }
+            else
+            {
+                var fileName = GenerateFileName(cmsType, id, null);
+
+                await azureStorageService.DeleteFileAsync(fileName).ConfigureAwait(false);
+
+                //Get translations
+                var files = await azureStorageService.GetFilesFromDirectory($"{cmsType}/{id}").ConfigureAwait(false);
+                foreach (var file in files)
+                {
+                    if (file is CloudBlockBlob cloudBlockBlob)
+                    {
+                        await cloudBlockBlob.DeleteAsync().ConfigureAwait(false);
+                    }
+                }
+
             }
 
             //Write index file for paging and sorting

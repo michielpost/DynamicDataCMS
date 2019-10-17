@@ -23,6 +23,7 @@ namespace QMS.Storage.AzureStorage
             services.Configure<AzureStorageConfig>(Configuration.GetSection(nameof(AzureStorageConfig)));
 
             services.AddTransient<AzureStorageService>();
+            services.AddTransient<AzureTableService>();
 
             StorageConfiguration storageConfig = storageConfigFunc();
 

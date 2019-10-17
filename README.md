@@ -5,7 +5,7 @@ Developer friendly, headless CMS based on JsonSchema standard
 
 ## Features
 - Headless CMS
-- Support for multiple datastore plugins (CosmosDB, Blob Storage)
+- Support for multiple datastore plugins (CosmosDB, Azure Storage (Blob / Tables))
 - JsonSchema used to describe entities
 - View and edit entities
 - Paging and ordering in list view
