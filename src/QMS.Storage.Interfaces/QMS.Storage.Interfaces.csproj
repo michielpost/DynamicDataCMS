@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QMS.Models\QMS.Core.Models.csproj" />
+    <ProjectReference Include="..\QMS.Core.Models\QMS.Core.Models.csproj" />
   </ItemGroup>
 
 </Project>

@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QMS.Services\QMS.Core.Services.csproj" />
+    <ProjectReference Include="..\QMS.Core.Services\QMS.Core.Services.csproj" />
   </ItemGroup>
   
   <!--<ItemGroup>
