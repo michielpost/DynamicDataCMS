@@ -4,6 +4,9 @@
   "title": "Person",
   "type": "object",
   "required": [ "firstName" ],
+  "options": {
+    "disable_edit_json": false
+  },
   "properties": {
     "firstName": {
       "type": "string",
