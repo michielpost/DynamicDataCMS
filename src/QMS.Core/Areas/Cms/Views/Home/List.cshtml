@@ -25,7 +25,7 @@
 <h1>@Model.Schema.Name Overview</h1>
 
 <p>
-    @Html.ActionLink("Create New " + @Model.CmsType, "Create", new { cmstype = Model.CmsType }, new { @class = "btn btn-primary", role = "button" })
+    @Html.ActionLink("Create New " + @Model.Schema.Name, "Create", new { cmstype = Model.CmsType }, new { @class = "btn btn-primary", role = "button" })
 </p>
 <table class="table">
     <thead>
