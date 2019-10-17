@@ -48,7 +48,7 @@
         },
         "id": {
           "type": "string",
-          "options": { "hidden": true }
+          "readonly": true
         }
       }
     }
