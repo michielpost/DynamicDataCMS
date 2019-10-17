@@ -1,4 +1,10 @@
-﻿body {
+﻿#saveButton {
+    position: fixed;
+    z-index: 100;
+    right: 1em;
+}
+
+body {
     font-size: .875rem;
 }
 

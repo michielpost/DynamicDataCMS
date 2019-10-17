@@ -128,16 +128,16 @@
         })();
 
         (function() {
-    var allimgs = document.images;
-    for (var i = 0; i < allimgs.length; i++) {
-        allimgs[i].onerror = function() {
-            this.style.visibility = "hidden"; // Other elements aren't affected. 
-        }
-         allimgs[i].onload = function() {
-            this.style.visibility = ""; // Other elements aren't affected. 
-        }
-    }
-})();
+            var allimgs = document.images;
+            for (var i = 0; i < allimgs.length; i++) {
+                allimgs[i].onerror = function() {
+                    this.style.visibility = "hidden"; // Other elements aren't affected. 
+                }
+                 allimgs[i].onload = function() {
+                    this.style.visibility = ""; // Other elements aren't affected. 
+                }
+            }
+        })();
 
         function save() {
 
@@ -222,10 +222,8 @@
 
 
     <button onclick="javascript:load()" class="btn btn-warning">Reload data</button>
-    <button onclick="javascript:save()" class="btn btn-primary">Save</button>
+    <button id="saveButton" onclick="javascript:save()" class="btn btn-primary">Save</button>
 
     <div id='editor_holder'></div>
-
-    <button onclick="javascript:save()" class="btn btn-primary">Save</button>
 
 </div>

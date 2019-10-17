@@ -130,16 +130,7 @@ namespace QMS.Core.Controllers
         [HttpGet]
         public IActionResult Create([FromRoute]string cmsType)
         {
-            var schema = schemaService.GetSchema(cmsType);
-
-            var model = new EditViewModel
-            {
-                CmsType = cmsType,
-                Id = Guid.NewGuid(),
-                SchemaLocation = schema,
-                CmsConfiguration = schemaService.GetCmsConfiguration(),
-            };
-            return View("Edit", model);
+            return RedirectToAction("Edit", new { cmsType = cmsType, id = Guid.NewGuid() });
         }
 
         [HttpGet]
