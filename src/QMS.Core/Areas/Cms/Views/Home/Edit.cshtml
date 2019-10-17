@@ -127,7 +127,17 @@
 
         })();
 
-    function save() {
+        function save() {
+
+            // Validate
+            var errors = editor.validate();
+            if(errors.length) {
+              // Not valid
+                editor.setOption('show_errors', 'always');
+                new Noty({ text: 'Please fix all validation errors.', type: 'warning', timeout: 2000, theme: 'bootstrap-v4', progressBar: true }).show();
+                return;
+            }
+
         var data = editor.getValue();
 
         //console.log('saving');
