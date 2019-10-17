@@ -1,4 +1,4 @@
-﻿using QMS.Models;
+﻿using QMS.Core.Models;
 using QMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QMS.Services
+namespace QMS.Core.Services
 {
     /// <summary>
     /// Wraps dataprovider calls because there can be multiple interface implementations

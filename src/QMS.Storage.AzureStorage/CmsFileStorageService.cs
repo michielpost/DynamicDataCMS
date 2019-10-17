@@ -1,5 +1,4 @@
-﻿using Microsoft.Azure.Storage.Blob;
-using QMS.Models;
+﻿using QMS.Core.Models;
 using QMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;

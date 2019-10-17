@@ -4,7 +4,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace QMS.Models
+namespace QMS.Core.Models
 {
     /// <summary>
     /// Single CmsDataItem (single language)

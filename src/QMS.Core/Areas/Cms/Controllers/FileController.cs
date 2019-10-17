@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using QMS.Models;
-using QMS.Services;
+using QMS.Core.Models;
+using QMS.Core.Services;
 using QMS.Storage.Interfaces;
 
 namespace QMS.Core.Controllers

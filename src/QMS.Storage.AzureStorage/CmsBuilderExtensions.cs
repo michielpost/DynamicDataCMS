@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using QMS.Storage.Interfaces;
 using QMS.Core;
-using QMS.Models;
+using QMS.Core.Models;
 
 namespace QMS.Storage.AzureStorage
 {

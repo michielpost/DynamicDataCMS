@@ -1,4 +1,4 @@
-﻿using QMS.Models;
+﻿using QMS.Core.Models;
 using QMS.Storage.Interfaces;
 using QMS.Web.Models.Pages;
 using System;

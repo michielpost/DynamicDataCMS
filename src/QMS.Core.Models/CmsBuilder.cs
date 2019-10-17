@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace QMS.Core
+namespace QMS.Core.Models
 {
     public class CmsBuilder
     {

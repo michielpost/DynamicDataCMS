@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace QMS.Models
+namespace QMS.Core.Models
 {
     public class StorageConfiguration
     {

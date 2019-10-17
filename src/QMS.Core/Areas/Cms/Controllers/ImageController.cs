@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using QMS.Services;
+using QMS.Core.Services;
 
 namespace QMS.Core.Areas.Cms.Controllers
 {

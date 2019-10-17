@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace QMS.Models
+namespace QMS.Core.Models
 {
     /// <summary>
     /// Holds all CMS Configuration (schemas)

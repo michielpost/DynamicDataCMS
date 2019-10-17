@@ -1,4 +1,4 @@
-﻿using QMS.Models;
+﻿using QMS.Core.Models;
 using System;
 using System.Threading.Tasks;
 

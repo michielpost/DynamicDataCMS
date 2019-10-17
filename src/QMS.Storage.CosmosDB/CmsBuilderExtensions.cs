@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using QMS.Core;
-using QMS.Models;
+using QMS.Core.Models;
 using QMS.Storage.CosmosDB.Models;
 using QMS.Storage.Interfaces;
 using System;

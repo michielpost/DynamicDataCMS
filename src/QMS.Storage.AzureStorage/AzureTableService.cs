@@ -1,6 +1,6 @@
 ﻿using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.Options;
-using QMS.Models;
+using QMS.Core.Models;
 using QMS.Storage.AzureStorage.Models;
 using System;
 using System.Collections.Generic;

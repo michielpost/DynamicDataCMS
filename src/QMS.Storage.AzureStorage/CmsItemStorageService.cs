@@ -1,6 +1,6 @@
 ﻿using Microsoft.Azure.Storage.Blob;
 using Microsoft.Extensions.Options;
-using QMS.Models;
+using QMS.Core.Models;
 using QMS.Storage.AzureStorage.Models;
 using QMS.Storage.Interfaces;
 using System;

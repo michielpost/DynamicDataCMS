@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using QMS.Services;
+using QMS.Core.Models;
+using QMS.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

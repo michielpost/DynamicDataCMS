@@ -2,7 +2,7 @@
 using Microsoft.Azure.Cosmos.Fluent;
 using Microsoft.Azure.Cosmos.Linq;
 using Microsoft.Extensions.Options;
-using QMS.Models;
+using QMS.Core.Models;
 using QMS.Storage.CosmosDB.Models;
 using QMS.Storage.Interfaces;
 using System;

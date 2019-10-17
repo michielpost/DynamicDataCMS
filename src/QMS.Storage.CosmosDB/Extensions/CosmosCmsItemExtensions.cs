@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using QMS.Models;
+using QMS.Core.Models;
 using QMS.Storage.CosmosDB.Models;
 using System;
 using System.Collections.Generic;

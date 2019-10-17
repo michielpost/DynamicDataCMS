@@ -10,7 +10,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QMS.Services
+namespace QMS.Core.Services
 {
     /// <summary>
     /// Handles all the image resizing

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using QMS.Core;
-using QMS.Models;
+using QMS.Core.Models;
 
-namespace QMS.Services
+namespace QMS.Core.Services
 {
     /// <summary>
     /// Configure the CMS

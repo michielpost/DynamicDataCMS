@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using QMS.Core;
+using QMS.Core.Models;
 using QMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
