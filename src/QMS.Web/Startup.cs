@@ -95,11 +95,11 @@ namespace QMS.Web
 
                     //If using auth, insert first test user
                     var dataService = serviceScope.ServiceProvider.GetService<DataProviderWrapperService>();
-                    var (_, total) = await dataService.List(Core.Auth.Controllers.AuthController.UserType, null, null);
+                    var (_, total) = await dataService.List(CmsUser.DefaultCmsType, null, null);
                     if (total == 0)
                     {
                         var cmsUser = new CmsUser { Email = "admin@admin.com", Password = "admin" };
-                        await dataService.Write(cmsUser.ToCmsItem(), Core.Auth.Controllers.AuthController.UserType, Guid.NewGuid(), null);
+                        await dataService.Write(cmsUser.ToCmsItem(), CmsUser.DefaultCmsType, Guid.NewGuid(), null);
                     }
                 }
             });

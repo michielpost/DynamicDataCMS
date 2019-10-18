@@ -50,7 +50,7 @@ namespace QMS.Core.Auth
                      {
                          new SchemaLocation()
                          {
-                              Key = Auth.Controllers.AuthController.UserType,
+                              Key = CmsUser.DefaultCmsType,
                               ListViewProperties = new List<ListViewProperty>() {
                                   new ListViewProperty() { DisplayName = nameof(CmsUser.Email), Key = nameof(CmsUser.Email) }
                               },

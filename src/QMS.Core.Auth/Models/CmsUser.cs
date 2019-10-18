@@ -9,6 +9,8 @@ namespace QMS.Core.Auth.Models
 {
     public class CmsUser
     {
+        public static string DefaultCmsType = "cmsUser";
+
         [Display(Name = "Email")]
         [Required] 
         [EmailAddress]

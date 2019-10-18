@@ -22,7 +22,6 @@ namespace QMS.Core.Auth.Controllers
     public class AuthController : Controller
     {
         private readonly IReadCmsItem readCmsItemService;
-        public static string UserType = "cmsUser";
 
         public AuthController(DataProviderWrapperService dataProviderService)
         {
@@ -40,10 +39,10 @@ namespace QMS.Core.Auth.Controllers
         [Route("login")]
         public async Task<IActionResult> Login(string email, string password)
         {
-            var (users, total) = await readCmsItemService.List(UserType, null, null, searchQuery: email);
+            var (users, total) = await readCmsItemService.List(CmsUser.DefaultCmsType, null, null, searchQuery: email);
             if (users.Any())
             {
-                var user = (await readCmsItemService.Read<CmsItem>(UserType, users.First().Id, null))?.ToObject<CmsUser>();
+                var user = (await readCmsItemService.Read<CmsItem>(CmsUser.DefaultCmsType, users.First().Id, null))?.ToObject<CmsUser>();
                 if (user != null && BCrypt.Net.BCrypt.Verify(password, user.PasswordEncrypted))
                 {
                     var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);

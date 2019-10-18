@@ -14,7 +14,7 @@ namespace QMS.Core.Auth
         public Task<T> InterceptAsync<T>(T item, string cmsType, Guid id, string? lang) where T : CmsItem
         {
             //Only do this for the auth controller
-            if(cmsType == Controllers.AuthController.UserType)
+            if(cmsType == CmsUser.DefaultCmsType)
             {
                 var cmsUser = item.ToObject<CmsUser>();
 
