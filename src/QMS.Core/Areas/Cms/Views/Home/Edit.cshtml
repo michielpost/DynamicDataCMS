@@ -29,6 +29,7 @@
         JSONEditor.defaults.options.disable_collapse = true;
         JSONEditor.defaults.options.disable_edit_json = true;
         JSONEditor.defaults.options.disable_properties = true;
+        //JSONEditor.defaults.options.show_opt_in = true;
 
         JSONEditor.defaults.callbacks = {
   "autocomplete": {
@@ -69,7 +70,16 @@
     }
   }
         };
-
+        
+        window.JSONEditor.defaults.callbacks.button = {
+            "clear": function (jseditor, e) {
+                var field = jseditor.options.field;
+                console.log(jseditor.parent.editors[field]);
+                jseditor.parent.editors[field].setValue('');
+                jseditor.parent.editors[field].deactivate();
+                jseditor.parent.editors[field].activate();
+            }
+        };
 
          // Specify upload handler
         JSONEditor.defaults.options.upload = function (type, file, cbs) {

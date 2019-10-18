@@ -52,7 +52,7 @@ namespace QMS.Core.Auth.Controllers
                     identity.AddClaim(new Claim(ClaimTypes.Role, "cms"));
 
                     var principal = new ClaimsPrincipal(identity);
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties { IsPersistent = true, ExpiresUtc = DateTimeOffset.UtcNow.AddMonths(3) } );
 
                     return RedirectToAction("Index", "Home", new { Area = "cms" });
                 }
