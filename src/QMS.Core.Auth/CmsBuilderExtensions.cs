@@ -6,9 +6,10 @@ using QMS.Core;
 using QMS.Core.Auth;
 using QMS.Core.Auth.Models;
 using QMS.Core.Models;
+using QMS.Core.Services;
 using System.Collections.Generic;
 
-namespace QMS.Core.Services
+namespace QMS.Core.Auth
 {
     /// <summary>
     /// Configure the CMS
