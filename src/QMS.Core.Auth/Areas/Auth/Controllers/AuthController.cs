@@ -59,7 +59,7 @@ namespace QMS.Core.Auth.Controllers
                 }
             }
 
-            ModelState.AddModelError("", "User not found");
+            ModelState.AddModelError("email", "User not found");
             return View();
 
            

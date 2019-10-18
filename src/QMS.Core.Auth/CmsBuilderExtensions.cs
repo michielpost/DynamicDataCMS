@@ -39,6 +39,7 @@ namespace QMS.Core.Services
                     GenerateAbstractProperties = true,
                     FlattenInheritanceHierarchy = true,
                 });
+                userSchema.Properties[nameof(CmsUser.Password)].Format = "password";
                 userSchema.Properties.Remove(nameof(CmsUser.PasswordEncrypted));
 
                 x.EntityGroups.Add(new EntityGroupConfiguration()
