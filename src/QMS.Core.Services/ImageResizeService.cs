@@ -112,17 +112,14 @@ namespace QMS.Core.Services
             if (newHeight < 1 || newHeight > image.Height)
                 newHeight = image.Height;
 
-            if (width.HasValue && height.HasValue)
-            {
 
-                if (((double)image.Height / height) > ((double)image.Width / width))
-                {
-                    newHeight = image.Height * width.Value / image.Width;
-                }
-                else
-                {
-                    newWidth = (image.Width * height.Value) / image.Height;
-                }
+            if (((double)image.Height / newHeight) > ((double)image.Width / newWidth))
+            {
+                newWidth = (image.Width * newHeight) / image.Height;
+            }
+            else
+            {
+                newHeight = image.Height * newWidth / image.Width;
             }
 
             image.Mutate(x => x.Resize(newWidth, newHeight));
