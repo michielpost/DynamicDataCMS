@@ -62,8 +62,12 @@ namespace QMS.Core.Services
             //Run interceptors before saving
             foreach(var interceptor in writeCmsItemInterceptors)
             {
-                await interceptor.InterceptAsync(item, cmsType, id, lang).ConfigureAwait(false);
+               item = await interceptor.InterceptAsync(item, cmsType, id, lang).ConfigureAwait(false);
             };
+
+            //Set id and type property, they might get lost during intercept
+            item.Id = id;
+            item.CmsType = cmsType;
 
             await Task.WhenAll(writeCmsItemProviders.Select(x => x.Write(item, cmsType, id, lang))).ConfigureAwait(false);
         }

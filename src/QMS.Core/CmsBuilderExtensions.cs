@@ -21,12 +21,5 @@ namespace QMS.Core
 
             return builder;
         }
-
-        public static CmsBuilder AddInterceptor<T>(this CmsBuilder builder) where T : class, IWriteCmsItemInterceptor
-        {
-            builder.Services.AddSingleton<IWriteCmsItemInterceptor, T>();
-
-            return builder;
-        }
     }
 }

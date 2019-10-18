@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataProviders", "DataProvid
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QMS.Storage.Interfaces", "src\QMS.Storage.Interfaces\QMS.Storage.Interfaces.csproj", "{C16DF40C-1991-4D4E-A7D8-FF3FB71A300A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QMS.Core.Auth", "src\QMS.Core.Auth\QMS.Core.Auth.csproj", "{12F16920-3C36-48A4-80AB-5949B7602F92}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{C16DF40C-1991-4D4E-A7D8-FF3FB71A300A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C16DF40C-1991-4D4E-A7D8-FF3FB71A300A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C16DF40C-1991-4D4E-A7D8-FF3FB71A300A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12F16920-3C36-48A4-80AB-5949B7602F92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12F16920-3C36-48A4-80AB-5949B7602F92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12F16920-3C36-48A4-80AB-5949B7602F92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12F16920-3C36-48A4-80AB-5949B7602F92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

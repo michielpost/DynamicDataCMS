@@ -11,6 +11,7 @@ Developer friendly, headless CMS based on JsonSchema standard
 - Paging and ordering in list view
 - Support for entities in multiple languages
 - Upload images and other assets
+- Optional user login and admin module
 - Generate JsonSchema from C# Models
 - Easy installation using NuGet packages
 
@@ -69,8 +70,6 @@ https://ned.im/noty/
 - Multiple versions of items (with start and end time)
 
 - Website SDK / Website usage example
-
-- Authentication and Authorization
 
 - Audit Trail (CosmosDB Change Feed / Blob Storage file)
 

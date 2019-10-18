@@ -21,8 +21,9 @@ namespace QMS.Core.Models
         public List<string> Styles { get; set; } = new List<string>();
 
         public List<EntityGroupConfiguration> EntityGroups { get; set; } = new List<EntityGroupConfiguration>();
+       
+        
         public IEnumerable<EntityGroupConfiguration> EntityGroupsInitialized => EntityGroups.Where(x => x.Entities.Any(e => !string.IsNullOrEmpty(e.Schema)));
-
 
         public IEnumerable<SchemaLocation> Entities => EntityGroups.SelectMany(x => x.Entities);
         public IEnumerable<SchemaLocation> EntitiesInitialized => EntityGroupsInitialized.SelectMany(x => x.Entities);

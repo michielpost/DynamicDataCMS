@@ -11,11 +11,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using QMS.Core;
+using QMS.Core.Auth;
+using QMS.Core.Auth.Models;
 using QMS.Core.Models;
 using QMS.Core.Services;
+using QMS.Core.Services.Extensions;
 using QMS.Storage.AzureStorage;
 using QMS.Storage.CosmosDB;
 using QMS.Storage.CosmosDB.Models;
+using QMS.Storage.Interfaces;
 using QMS.Web.Interceptor;
 
 namespace QMS.Web
@@ -33,6 +37,7 @@ namespace QMS.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.UseQms(Configuration)
+                .ConfigureQmsAuth() //Optional if you want user login
                 .AddInterceptor<ExampleInterceptor>()
                 //.ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
                 .ConfigureAzureStorage(() => new StorageConfiguration() { ReadFiles = true, ReadCmsItems = true });
@@ -57,6 +62,10 @@ namespace QMS.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            //Optional if you want authentication:
+            app.UseAuthentication();
+            app.UseMiddleware<QmsAuthenticatationMiddleware>();
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
@@ -78,10 +87,22 @@ namespace QMS.Web
             //}
 
             //Schemas
-            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            Task.Run(async () =>
             {
-                serviceScope.ServiceProvider.GetService<JsonSchemaService>().InitializeSchemas();
-            }
+                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                {
+                    await serviceScope.ServiceProvider.GetService<JsonSchemaService>().InitializeSchemas();
+
+                    //If using auth, insert first test user
+                    var dataService = serviceScope.ServiceProvider.GetService<DataProviderWrapperService>();
+                    var (_, total) = await dataService.List(Core.Auth.Controllers.AuthController.UserType, null, null);
+                    if (total == 0)
+                    {
+                        var cmsUser = new CmsUser { Email = "admin@admin.com", Password = "admin" };
+                        await dataService.Write(cmsUser.ToCmsItem(), Core.Auth.Controllers.AuthController.UserType, Guid.NewGuid(), null);
+                    }
+                }
+            });
         }
     }
 }

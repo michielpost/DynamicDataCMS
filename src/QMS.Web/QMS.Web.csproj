@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\QMS.Core.Auth\QMS.Core.Auth.csproj" />
     <ProjectReference Include="..\QMS.Core.Models\QMS.Core.Models.csproj" />
     <ProjectReference Include="..\QMS.Core.Services\QMS.Core.Services.csproj" />
     <ProjectReference Include="..\QMS.Core\QMS.Core.csproj" />
