@@ -35,8 +35,10 @@
     // Note: 1st parameter in callback is ALWAYS a reference to the current editor.
                 "search_autocomplete": function search(jseditor_editor, input, test) {
 
-          //Clear id when searching
-          jseditor_editor.parent.editors.id.setValue(null);
+          //Clear id when input is cleared
+          if (input.length < 1) {
+              jseditor_editor.parent.editors.id.setValue(null);
+          }
 
       var itemType = jseditor_editor.parent.options.itemType;
       var url = '@Url.Action("Search", "Api")' + '/'+ itemType + '?q=' + encodeURI(input);
