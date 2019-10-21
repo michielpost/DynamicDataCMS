@@ -23,7 +23,8 @@
           "format": "markdown",
           "options": {
             "simplemde": {
-              "spellChecker": false
+              "spellChecker": false,
+              "autorefresh": true
             }
           }
         }
