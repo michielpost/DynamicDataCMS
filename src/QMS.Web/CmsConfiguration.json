@@ -2,8 +2,8 @@
   "Title": "QMS4 Sample CMS",
   "Languages": [ "en-US", "nl-NL" ],
   "EditScripts": [ "/extra-script.js" ],
-  "Scripts": [ "/extra-script.js" ],
-  "Styles": [ "/extra-style.css" ],
+  "Scripts": [ "https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js" ],
+  "Styles": [ "https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css" ],
   "EntityGroups": [
     {
       "Name": "Pages",
@@ -61,6 +61,11 @@
               "DisplayName": "Severity"
             }
           ]
+        },
+        {
+          "Name": "Test",
+          "Key": "test",
+          "FileLocation": "schemas/test.schema.json"
         },
         {
           "Name": "Single Person",
