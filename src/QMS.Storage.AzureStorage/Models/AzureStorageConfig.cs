@@ -12,14 +12,14 @@ namespace QMS.Storage.AzureStorage.Models
         public string StorageAccount { get; set; }
         public string ContainerName { get; set; }
         public string AssetsContainerName { get; set; }
-        public AzureStorageLocation StorageLocation { get; set; }
+        public AzureStorageLocation StorageLocation { get; set; } = AzureStorageLocation.Tables;
 
     }
 
     public enum AzureStorageLocation
     {
-        Blob,
         Tables,
+        Blob,
         Both
     }
 }

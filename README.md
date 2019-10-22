@@ -1,7 +1,7 @@
 ![GitHub Actions status | Q42/QMS4](https://github.com/Q42/QMS4/workflows/ASP.NET%20Core%20CI/badge.svg)
 # QMS4
 Open source Q42 CMS   
-Developer friendly, headless CMS based on JsonSchema standard
+Developer friendly, headless and modular CMS based on JsonSchema standard
 
 ## Features
 - Headless CMS
@@ -24,22 +24,70 @@ Edit `Startup.cs` and add the following lines to `ConfigureServices`
 
 ```cs
 services.UseQms(Configuration)
+  .ConfigureAzureStorage(() => new StorageConfiguration() {  ReadCmsItems = true, ReadFiles = true });
+```
+## Modules
+QMS4 is a modular CMS and different modules are available:
+
+### CosmosDB Data Storage
+The CosmosDB module stores CmsItems to Azure CosmosDB. This module does not support storing file data. You can use the Azure Storage module for file data.
+```cs
+services.UseQms(Configuration)
   .ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
-  .ConfigureAzureStorage(() => new StorageConfiguration() { ReadFiles = true });
+  .ConfigureAzureStorage(() => new StorageConfiguration() {  ReadFiles = true }); //Optional if you need file storage.
 ```
 
-Add configuration to your appsettings.json
+Configuration:
 ```json
 "CosmosConfig": {
-    "Endpoint": "https://localhost:8081",
-    "Key": "CosmosDB-key"
-  },
-  "AzureStorageConfig": {
-    "StorageAccount": "UseDevelopmentStorage=true",
-    "ContainerName": "cms",
-    "AssetContainerName": "cms"
-  }
+  "Endpoint": "https://localhost:8081",
+  "Key": "CosmosDB-key"
+}
 ```
+
+### Azure Blob and Table Data Storage
+Stores data in Azure Tables and file data to Azure Blob Storage.
+
+```cs
+services.UseQms(Configuration)
+  .ConfigureAzureStorage(() => new StorageConfiguration() {  ReadCmsItems = true, ReadFiles = true });
+```
+
+Configuration:
+```json
+"AzureStorageConfig": {
+  "StorageAccount": "UseDevelopmentStorage=true", //Azure Storage connectionstring
+  "ContainerName": "cms",
+  "AssetContainerName": "cms",
+  "StorageLocation" : "Tables" //Tables / Blob / Both
+}
+```
+
+### Authentication
+Adds user login and user list to the CMS
+
+Add a reference to `QMS.Core.Auth` nuget package.
+```cs
+services.UseQms(Configuration)
+  .ConfigureQmsAuth()
+```
+
+In the Configure method in Startup.cs add:
+```cs
+app.UseAuthentication();
+app.UseMiddleware<QmsAuthenticatationMiddleware>();
+```
+
+See the example project to add a default first user to the user list.
+
+## Interceptors
+Allows you to modify the data before it's saved.
+```cs
+services.UseQms(Configuration)
+   .AddInterceptor<ExampleInterceptor>()
+```
+
+Interceptors need to implement the interface `IWriteCmsItemInterceptor`
 
 ## Installation Instructions for Development
 - Install CosmosDB emulator for Windows https://aka.ms/cosmosdb-emulator
