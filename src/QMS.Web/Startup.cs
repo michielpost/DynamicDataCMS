@@ -63,8 +63,8 @@ namespace QMS.Web
             app.UseStaticFiles();
 
             //Optional if you want authentication:
-            //app.UseAuthentication();
-            //app.UseMiddleware<QmsAuthenticatationMiddleware>();
+            app.UseAuthentication();
+            app.UseMiddleware<QmsAuthenticatationMiddleware>();
 
             app.UseRouting();
 
