@@ -57,29 +57,29 @@ namespace QMS.Core.Services
             return readFileProvider.ReadFile(cmsType, id, fieldName, lang);
         }
 
-        public async Task Write<T>(T item, string cmsType, Guid id, string? lang) where T : CmsItem
+        public async Task Write<T>(T item, string cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem
         {
             //Run interceptors before saving
             foreach(var interceptor in writeCmsItemInterceptors)
             {
-               item = await interceptor.InterceptAsync(item, cmsType, id, lang).ConfigureAwait(false);
+               item = await interceptor.InterceptAsync(item, cmsType, id, lang, currentUser).ConfigureAwait(false);
             };
 
             //Set id and type property, they might get lost during intercept
             item.Id = id;
             item.CmsType = cmsType;
 
-            await Task.WhenAll(writeCmsItemProviders.Select(x => x.Write(item, cmsType, id, lang))).ConfigureAwait(false);
+            await Task.WhenAll(writeCmsItemProviders.Select(x => x.Write(item, cmsType, id, lang, currentUser))).ConfigureAwait(false);
         }
 
-        public Task Delete(string cmsType, Guid id, string? lang)
+        public Task Delete(string cmsType, Guid id, string? lang, string? currentUser)
         {
-            return Task.WhenAll(writeCmsItemProviders.Select(x => x.Delete(cmsType, id, lang)));
+            return Task.WhenAll(writeCmsItemProviders.Select(x => x.Delete(cmsType, id, lang, currentUser)));
         }
 
-        public async Task<string> WriteFile(CmsFile file, string cmsType, Guid id, string fieldName, string? lang)
+        public async Task<string> WriteFile(CmsFile file, string cmsType, Guid id, string fieldName, string? lang, string? currentUser)
         {
-            var task = await Task.WhenAll(writeFileProviders.Select(x => x.WriteFile(file, cmsType, id, fieldName, lang))).ConfigureAwait(false);
+            var task = await Task.WhenAll(writeFileProviders.Select(x => x.WriteFile(file, cmsType, id, fieldName, lang, currentUser))).ConfigureAwait(false);
 
             return task.First();
         }

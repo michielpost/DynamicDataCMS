@@ -19,7 +19,8 @@ namespace QMS.Storage.Interfaces
         /// <param name="id"></param>
         /// <param name="fieldName"></param>
         /// <param name="lang"></param>
+        /// <param name="currentUser"></param>
         /// <returns>Return the filename</returns>
-        Task<string> WriteFile(CmsFile file, string cmsType, Guid id, string fieldName, string? lang);
+        Task<string> WriteFile(CmsFile file, string cmsType, Guid id, string fieldName, string? lang, string? currentUser);
     }
 }

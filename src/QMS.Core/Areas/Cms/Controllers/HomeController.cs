@@ -154,7 +154,7 @@ namespace QMS.Core.Controllers
         [Route("delete/{cmsType}/{id:guid}/{lang?}")]
         public async Task<IActionResult> DeleteConfirm([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang)
         {
-            await writeCmsItemService.Delete(cmsType, id, lang).ConfigureAwait(false);
+            await writeCmsItemService.Delete(cmsType, id, lang, this.User.Identity.Name).ConfigureAwait(false);
 
             return RedirectToAction("List", new { cmsType = cmsType });
         }

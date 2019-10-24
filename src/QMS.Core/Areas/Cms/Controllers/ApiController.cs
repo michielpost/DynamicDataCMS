@@ -40,7 +40,7 @@ namespace QMS.Core.Controllers
                 CmsType = cmsType,
                 Id = id
             };
-            await writeCmsItemService.Write(item, cmsType, id, lang).ConfigureAwait(false);
+            await writeCmsItemService.Write(item, cmsType, id, lang, this.User.Identity.Name).ConfigureAwait(false);
 
             return new OkObjectResult(item);
         }

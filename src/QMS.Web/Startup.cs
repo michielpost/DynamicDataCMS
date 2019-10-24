@@ -63,8 +63,8 @@ namespace QMS.Web
             app.UseStaticFiles();
 
             //Optional if you want authentication:
-            app.UseAuthentication();
-            app.UseMiddleware<QmsAuthenticatationMiddleware>();
+            //app.UseAuthentication();
+            //app.UseMiddleware<QmsAuthenticatationMiddleware>();
 
             app.UseRouting();
 
@@ -99,7 +99,7 @@ namespace QMS.Web
                     if (total == 0)
                     {
                         var cmsUser = new CmsUser { Email = "admin@admin.com", Password = "admin" };
-                        await dataService.Write(cmsUser.ToCmsItem(), CmsUser.DefaultCmsType, Guid.NewGuid(), null);
+                        await dataService.Write(cmsUser.ToCmsItem(), CmsUser.DefaultCmsType, Guid.NewGuid(), null, "system");
                     }
                 }
             });

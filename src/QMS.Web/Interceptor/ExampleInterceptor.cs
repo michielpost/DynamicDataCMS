@@ -12,7 +12,7 @@ namespace QMS.Web.Interceptor
 {
     public class ExampleInterceptor : IWriteCmsItemInterceptor
     {
-        public Task<T> InterceptAsync<T>(T item, string cmsType, Guid id, string? lang) where T : CmsItem
+        public Task<T> InterceptAsync<T>(T item, string cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem
         {
             return Task.FromResult(item);
             //using (var stream = new MemoryStream())

@@ -40,7 +40,7 @@ namespace QMS.Storage.AzureStorage
             }
         }
 
-        public async Task<string> WriteFile(CmsFile file, string cmsType, Guid id, string fieldName, string? lang)
+        public async Task<string> WriteFile(CmsFile file, string cmsType, Guid id, string fieldName, string? lang, string? currentUser)
         {
             string fileName = GenerateFileName(cmsType, id, fieldName, lang);
 

@@ -96,7 +96,7 @@ namespace QMS.Storage.AzureStorage
             }
         }
 
-        public async Task Write<T>(T item, string cmsType, Guid id, string? lang) where T : CmsItem
+        public async Task Write<T>(T item, string cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem
         {
             if (azureStorageConfig.StorageLocation == AzureStorageLocation.Tables
                || azureStorageConfig.StorageLocation == AzureStorageLocation.Both)
@@ -142,7 +142,7 @@ namespace QMS.Storage.AzureStorage
 
 
 
-        public async Task Delete(string cmsType, Guid id, string? lang)
+        public async Task Delete(string cmsType, Guid id, string? lang, string? currentUser)
         {
             if (azureStorageConfig.StorageLocation == AzureStorageLocation.Tables
               || azureStorageConfig.StorageLocation == AzureStorageLocation.Both)
