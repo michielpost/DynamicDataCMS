@@ -4,7 +4,9 @@
 }
 
 
-<h1>Delete @Model.CmsType - @Model.Id?</h1>
+<h1>Delete @Model.CmsType?</h1>
+
+@Html.DisplayFor(x => x.Data)
 
 @using (Html.BeginForm("DeleteConfirm", "Home", new { cmsType = Model.CmsType, id = Model.Id }, FormMethod.Post))
 {

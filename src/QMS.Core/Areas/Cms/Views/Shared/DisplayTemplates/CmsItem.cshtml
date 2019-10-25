@@ -1,0 +1,21 @@
+﻿@model CmsItem
+@{
+    if (Model == null)
+        return;
+
+    var cmsConfiguration = CmsConfiguration.Value;
+    var itemConfig = cmsConfiguration.Entities.Where(x => x.Key == Model.CmsType).FirstOrDefault();
+}
+
+<p>
+    <small>@Model.Id</small><br />
+
+    @foreach (var prop in itemConfig?.ListViewProperties ?? Enumerable.Empty<ListViewProperty>())
+    {
+        <text>@prop.DisplayName: @Model.AdditionalProperties.FirstOrDefault(x => x.Key == prop.Key).Value<br /></text>
+    }
+
+    Modified on: @Model.LastModifiedDate<br />
+    Modified by: @Model.LastModifiedBy<br />
+</p>
+
