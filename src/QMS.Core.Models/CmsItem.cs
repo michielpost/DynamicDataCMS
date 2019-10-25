@@ -17,6 +17,8 @@ namespace QMS.Core.Models
         [JsonPropertyName("cmstype")]
         public string CmsType { get; set; }
 
+        public string? LastModifiedBy { get; set; }
+
         public DateTimeOffset LastModifiedDate { get; set; } = DateTimeOffset.UtcNow;
 
         [JsonExtensionData]

@@ -1,7 +1,8 @@
 ![GitHub Actions status | Q42/QMS4](https://github.com/Q42/QMS4/workflows/ASP.NET%20Core%20CI/badge.svg)
 # QMS4
-Open source Q42 CMS   
-Developer friendly, headless and modular CMS based on JsonSchema standard
+Open source Q42 CMS  
+Developer friendly, headless and modular CMS based on JsonSchema standard  
+Runs on ASP.Net Core 3.0
 
 ## Features
 - Headless CMS

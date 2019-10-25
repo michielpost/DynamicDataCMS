@@ -12,7 +12,7 @@
 
     string GetSortOrder(string field)
     {
-        if(ViewBag.SortField == field)
+        if (ViewBag.SortField == field)
         {
             if (ViewBag.SortOrder == "Asc")
                 return "Desc";
@@ -34,6 +34,9 @@
             {
                 <th>
                     Id
+                </th>
+                <th>
+                    Modified By
                 </th>
             }
             @foreach (var column in Model.Schema.ListViewProperties)
@@ -59,6 +62,9 @@
                     <td>
                         @item.Id
                     </td>
+                    <td>
+                        @item.LastModifiedBy
+                    </td>
                 }
                 @foreach (var column in Model.Schema.ListViewProperties)
                 {
@@ -73,45 +79,45 @@
     </tbody>
 </table>
 
-@if(TotalPages > 1)
-{ 
+@if (TotalPages > 1)
+{
 
-<nav aria-label="Page navigation">
-    <ul class="pagination flex-wrap">
-        <li class="page-item @(EnablePrevious ? " " : " disabled" )">
-            <a asp-route-pageIndex="0" asp-route-sortOrder="@sortOrder" asp-route-sortField="@sortField"
-               class="page-link" aria-label="Frist">
-                <span aria-hidden="true">|&lt;</span>
-                <span class="sr-only">First</span>
-            </a>
-        </li>
-        <li class="page-item @(EnablePrevious ? " " : " disabled" )">
-            <a asp-route-pageIndex="@(Model.CurrentPage -2)" asp-route-sortOrder="@sortOrder" asp-route-sortField="@sortField"
-               class="page-link" aria-label="Next">
-                <span aria-hidden="true">&lt;</span>
-                <span class="sr-only">Next</span>
-            </a>
-        </li>
-        @for (var i = 1; i <= TotalPages; i++)
-        {
-        <li class="page-item @(i == Model.CurrentPage ? " active" : "" )">
-            <a asp-route-pageIndex="@(i-1)" asp-route-sortOrder="@sortOrder" asp-route-sortField="@sortField" class="page-link">@i</a>
-        </li>
-        }
-        <li class="page-item @(EnableNext ? " " : " disabled" )">
-            <a asp-route-pageIndex="@(Model.CurrentPage)" asp-route-sortOrder="@sortOrder" asp-route-sortField="@sortField"
-               class="page-link" aria-label="Previous">
-                <span aria-hidden="true">&gt;</span>
-                <span class="sr-only">Previous</span>
-            </a>
-        </li>
-        <li class="page-item @(EnableNext ? " " : " disabled" )">
-            <a asp-route-pageIndex="@(TotalPages-1)" asp-route-sortOrder="@sortOrder" asp-route-sortField="@sortField"
-               class="page-link" aria-label="Last">
-                <span aria-hidden="true">&gt;|</span>
-                <span class="sr-only">Last</span>
-            </a>
-        </li>
-    </ul>
-</nav>
+    <nav aria-label="Page navigation">
+        <ul class="pagination flex-wrap">
+            <li class="page-item @(EnablePrevious ? " " : " disabled" )">
+                <a asp-route-pageIndex="0" asp-route-sortOrder="@sortOrder" asp-route-sortField="@sortField"
+                   class="page-link" aria-label="Frist">
+                    <span aria-hidden="true">|&lt;</span>
+                    <span class="sr-only">First</span>
+                </a>
+            </li>
+            <li class="page-item @(EnablePrevious ? " " : " disabled" )">
+                <a asp-route-pageIndex="@(Model.CurrentPage -2)" asp-route-sortOrder="@sortOrder" asp-route-sortField="@sortField"
+                   class="page-link" aria-label="Next">
+                    <span aria-hidden="true">&lt;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+            @for (var i = 1; i <= TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.CurrentPage ? " active" : "" )">
+                    <a asp-route-pageIndex="@(i-1)" asp-route-sortOrder="@sortOrder" asp-route-sortField="@sortField" class="page-link">@i</a>
+                </li>
+            }
+            <li class="page-item @(EnableNext ? " " : " disabled" )">
+                <a asp-route-pageIndex="@(Model.CurrentPage)" asp-route-sortOrder="@sortOrder" asp-route-sortField="@sortField"
+                   class="page-link" aria-label="Previous">
+                    <span aria-hidden="true">&gt;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+            <li class="page-item @(EnableNext ? " " : " disabled" )">
+                <a asp-route-pageIndex="@(TotalPages-1)" asp-route-sortOrder="@sortOrder" asp-route-sortField="@sortField"
+                   class="page-link" aria-label="Last">
+                    <span aria-hidden="true">&gt;|</span>
+                    <span class="sr-only">Last</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 }

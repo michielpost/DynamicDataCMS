@@ -68,6 +68,7 @@ namespace QMS.Core.Services
             //Set id and type property, they might get lost during intercept
             item.Id = id;
             item.CmsType = cmsType;
+            item.LastModifiedBy = currentUser;
 
             await Task.WhenAll(writeCmsItemProviders.Select(x => x.Write(item, cmsType, id, lang, currentUser))).ConfigureAwait(false);
         }
