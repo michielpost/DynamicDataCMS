@@ -1,19 +1,12 @@
 {
   "type": "object",
-  "title": "",
+  "title": "vehicle",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "properties": {
-    "personId": {
-      "title": "test person",
-      "$ref": "https://localhost:44341/cms/api/enum/person"
-    },
     "photo": {
       "type": "array",
       "items": {
         "$ref": "#/definitions/photo"
-      },
-      "options": {
-        "collapsed": true
       },
       "propertyOrder": 3
     },
@@ -22,9 +15,6 @@
       "items": {
         "$ref": "#/definitions/person"
       },
-      "options": {
-        "collapsed": true
-      },
       "propertyOrder": 2
     },
     "vehicle": {
@@ -32,16 +22,10 @@
       "items": {
         "$ref": "#/definitions/vehicle"
       },
-      "options": {
-        "collapsed": true
-      },
       "propertyOrder": 1
     },
     "accidentDetails": {
       "$ref": "#/definitions/accidentDetails",
-      "options": {
-        "collapsed": true
-      },
       "propertyOrder": 0
     }
   },

@@ -37,19 +37,15 @@
 
     @if (Model.CmsConfiguration?.Languages?.Any() ?? false)
     {
-        <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link" href="@Url.Action("Edit", "Home", new { lang = "" })">Default Language</a>
-            </li>
-            @foreach (string lang in Model.CmsConfiguration?.Languages ?? Enumerable.Empty<string>())
-            {
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Edit", "Home", new { lang = @lang })">@lang</a>
-                </li>
-            }
-        </ul>
+        <a class="badge badge-secondary" href="@Url.Action("Edit", "Home", new { lang = "" })">Default Language</a>
+        @foreach (string lang in Model.CmsConfiguration?.Languages ?? Enumerable.Empty<string>())
+        {
+            <a class="badge badge-secondary" href="@Url.Action("Edit", "Home", new { lang = @lang })">@lang</a>
+        }
     }
 
+    <br />
+    <br />
     <button onclick="javascript:load()" class="btn btn-warning">Reload data</button>
     <button id="saveButton" onclick="javascript:save()" class="btn btn-primary">Save</button>
 
