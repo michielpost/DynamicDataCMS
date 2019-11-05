@@ -39,12 +39,12 @@ steps:
   displayName: 'Create NuGet Package - Release Version'
   inputs:
     command: pack
-    packDirectory: '$(Build.ArtifactStagingDirectory)/packages/releases'
+    packDirectory: '$(Build.ArtifactStagingDirectory)/packages'
     arguments: '--configuration $(buildConfiguration)'
     nobuild: true
     
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'QMS.Core'
+    ArtifactName: 'QMS4'
     publishLocation: 'Container'
