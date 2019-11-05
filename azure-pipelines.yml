@@ -38,10 +38,16 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: 'Create NuGet Package - Release Version'
   inputs:
-    command: pack
+    command: 'pack'
+    packagesToPack: '**/*.csproj'
     packDirectory: '$(Build.ArtifactStagingDirectory)/packages'
-    arguments: '--configuration $(buildConfiguration)'
     nobuild: true
+    includesymbols: true
+    includesource: true
+    versioningScheme: 'byPrereleaseNumber'
+    majorVersion: '0'
+    minorVersion: '0'
+    patchVersion: '2'
     
 - task: PublishBuildArtifacts@1
   inputs:
