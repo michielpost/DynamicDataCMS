@@ -9,7 +9,11 @@ namespace QMS.Storage.AzureStorage.Models
     /// </summary>
     public class AzureStorageConfig
     {
-        public string StorageAccount { get; set; }
+        /// <summary>
+        /// Shared Access Signature (use Azure Portal to create a new SAS token)
+        /// When null: uses development storage
+        /// </summary>
+        public string? SharedAccessSignature { get; set; }
         public string ContainerName { get; set; }
         public string AssetsContainerName { get; set; }
         public AzureStorageLocation StorageLocation { get; set; } = AzureStorageLocation.Tables;

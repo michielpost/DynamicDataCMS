@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.Storage;
+using Microsoft.Azure.Storage.Auth;
 using Microsoft.Azure.Storage.Blob;
 using Microsoft.Extensions.Options;
 using QMS.Storage.AzureStorage.Models;
@@ -54,7 +55,7 @@ namespace QMS.Storage.AzureStorage
             if (string.IsNullOrEmpty(containerName))
                 containerName = _config.ContainerName;
 
-            var storageAccount = CloudStorageAccount.Parse(_config.StorageAccount);
+            var storageAccount = string.IsNullOrWhiteSpace(_config.SharedAccessSignature) ? CloudStorageAccount.DevelopmentStorageAccount : new CloudStorageAccount(new StorageCredentials(_config.SharedAccessSignature), true);
 
             var blobClient = storageAccount.CreateCloudBlobClient();
             var blobContainer = blobClient.GetContainerReference(containerName);

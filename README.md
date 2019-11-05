@@ -57,7 +57,7 @@ services.UseQms(Configuration)
 Configuration:
 ```json
 "AzureStorageConfig": {
-  "StorageAccount": "UseDevelopmentStorage=true", //Azure Storage connectionstring
+  "SharedAccessSignature": "SAS Token generated in Azure Portal", //null to use development storage
   "ContainerName": "cms",
   "AssetContainerName": "cms",
   "StorageLocation" : "Tables" //Tables / Blob / Both
