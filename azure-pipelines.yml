@@ -42,7 +42,6 @@ steps:
     packagesToPack: '**/*.csproj'
     packDirectory: '$(Build.ArtifactStagingDirectory)/packages'
     nobuild: true
-    includesource: true
     versioningScheme: 'byPrereleaseNumber'
     majorVersion: '0'
     minorVersion: '0'
