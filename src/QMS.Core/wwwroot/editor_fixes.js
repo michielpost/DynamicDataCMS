@@ -2,18 +2,6 @@
     const isImage = editor.schema.links[0].mediaType == 'image';
 
     if (isImage) editor.uploader.setAttribute('accept', 'image/jpeg, image/png');
-
-    editor.uploader.onchange = () => {
-        setTimeout(() => {
-            const _btn = editor.container.querySelector('button.json-editor-btn-upload');
-            if (isImage) {
-                _btn.previousSibling.previousSibling.style.display = 'none';
-                _btn.previousSibling.style.display = 'none';
-            }
-            _btn.style.display = 'none';
-            _btn.click();
-        }, 100)
-    }
 };
 
 function editorChange() {

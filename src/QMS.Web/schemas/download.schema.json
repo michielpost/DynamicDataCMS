@@ -7,7 +7,8 @@
       "type": "string",
       "format": "url",
       "options": {
-        "upload": true
+        "upload": true,
+        "auto_upload": true
       },
       "links": [ {
         "href": "/cms/file/download/{{self}}",
