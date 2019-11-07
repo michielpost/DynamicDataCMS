@@ -22,7 +22,7 @@ namespace QMS.Storage.AzureStorage
         private async Task<CloudTable> GetCloudTableClient(string tableName)
         {
             // Retrieve storage account information from connection string.
-            CloudStorageAccount storageAccount = string.IsNullOrWhiteSpace(_config.SharedAccessSignature) ? CloudStorageAccount.DevelopmentStorageAccount : new CloudStorageAccount(new StorageCredentials(_config.SharedAccessSignature), true);
+            CloudStorageAccount storageAccount = string.IsNullOrWhiteSpace(_config.ConnectionString) ? CloudStorageAccount.DevelopmentStorageAccount : CloudStorageAccount.Parse(_config.ConnectionString);
 
             // Create a table client for interacting with the table service
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient(new TableClientConfiguration());

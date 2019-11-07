@@ -55,7 +55,7 @@ namespace QMS.Storage.AzureStorage
             if (string.IsNullOrEmpty(containerName))
                 containerName = _config.ContainerName;
 
-            var storageAccount = string.IsNullOrWhiteSpace(_config.SharedAccessSignature) ? CloudStorageAccount.DevelopmentStorageAccount : new CloudStorageAccount(new StorageCredentials(_config.SharedAccessSignature), true);
+            var storageAccount = string.IsNullOrWhiteSpace(_config.ConnectionString) ? CloudStorageAccount.DevelopmentStorageAccount : CloudStorageAccount.Parse(_config.ConnectionString);
 
             var blobClient = storageAccount.CreateCloudBlobClient();
             var blobContainer = blobClient.GetContainerReference(containerName);
