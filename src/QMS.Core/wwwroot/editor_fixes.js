@@ -19,6 +19,7 @@
 function editorChange() {
     for (let x in editor.editors) {
         const e = editor.editors[x];
+        if (e === null) continue;
         if (e._fixed) continue;
         e._fixed = true;
 
