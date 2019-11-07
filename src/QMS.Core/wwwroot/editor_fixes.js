@@ -22,8 +22,8 @@ function editorChange() {
         if (e._fixed) continue;
         e._fixed = true;
 
-        if (e.simplemde_instance)
-            markdownEditors.push(e.simplemde_instance);
+        if (e.schema.format == 'url' && e.schema && e.schema.links)
+            fixUploader(e);
     }
 }
 
