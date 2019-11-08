@@ -134,7 +134,7 @@ namespace QMS.Core.Controllers
             return Content(schema.ToJson());
         }
 
-        private string GetDisplayTitle(CmsItem x, MenuCmsItem menuCmsItem)
+        private string GetDisplayTitle(CmsItem x, MenuItem menuCmsItem)
         {
             List<string> titles = new List<string>();
 

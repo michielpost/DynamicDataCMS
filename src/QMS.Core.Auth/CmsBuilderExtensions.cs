@@ -52,9 +52,9 @@ namespace QMS.Core.Auth
                 x.MenuGroups.Add(new MenuGroup()
                 {
                      Name = "CMS",
-                     CmsItems = new System.Collections.Generic.List<MenuCmsItem>()
+                     MenuItems = new System.Collections.Generic.List<MenuItem>()
                      {
-                         new MenuCmsItem()
+                         new MenuItem()
                          {
                               Key = CmsUser.DefaultCmsType,
                               SchemaKey = CmsUser.DefaultCmsType,

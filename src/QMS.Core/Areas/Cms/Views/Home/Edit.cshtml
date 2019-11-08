@@ -37,11 +37,18 @@
 
     @if (Model.CmsConfiguration?.Languages?.Any() ?? false)
     {
-        <a class="badge badge-secondary" href="@Url.Action("Edit", "Home", new { lang = "" })">Default Language</a>
+        <a class="badge badge-secondary" href="@Url.Action("Edit", "Home", new { lang = "", id = Model.Id, cmsType = Model.CmsType })">Default Language</a>
         @foreach (string lang in Model.CmsConfiguration?.Languages ?? Enumerable.Empty<string>())
         {
-            <a class="badge badge-secondary" href="@Url.Action("Edit", "Home", new { lang = @lang })">@lang</a>
+            <a class="badge badge-secondary" href="@Url.Action("Edit", "Home", new { lang = @lang, id = Model.Id, cmsType = Model.CmsType })">@lang</a>
         }
+    }
+    <br />
+    <br />
+
+    @foreach(var node in Model.Nodes)
+    {
+        <h4>Node editor: @node.Name</h4>
     }
 
     <br />

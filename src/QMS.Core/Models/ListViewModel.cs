@@ -16,6 +16,6 @@ namespace QMS.Core.Models
         public int PageSize { get; set; }
 
         public SchemaLocation Schema { get; set; }
-        public MenuCmsItem MenuCmsItem { get; set; }
+        public MenuItem MenuCmsItem { get; set; }
     }
 }

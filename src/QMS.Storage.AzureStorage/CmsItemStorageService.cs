@@ -111,7 +111,7 @@ namespace QMS.Storage.AzureStorage
 
             //Write index file for paging and sorting
             var indexFileName = GenerateFileName(cmsType, "_index", lang);
-            var typeInfo = cmsConfiguration.MenuCmsItems.Where(x => x.Key == cmsType).FirstOrDefault();
+            var typeInfo = cmsConfiguration.MenuItems.Where(x => x.Key == cmsType).FirstOrDefault();
 
             if (typeInfo == null)
                 return;

@@ -24,7 +24,7 @@ namespace QMS.Core.Models
         public IEnumerable<SchemaLocation> SchemasInitialized => Schemas.Where(x => !string.IsNullOrEmpty(x.Schema));
 
         public List<MenuGroup> MenuGroups { get; set; } = new List<MenuGroup>();
-        public IEnumerable<MenuCmsItem> MenuCmsItems => MenuGroups.SelectMany(x => x.CmsItems);
+        public IEnumerable<MenuItem> MenuItems => MenuGroups.SelectMany(x => x.MenuItems);
 
     }
 
@@ -33,14 +33,17 @@ namespace QMS.Core.Models
         public string Name { get; set; }
         public int Order { get; set; }
 
-        public List<MenuCmsItem> CmsItems { get; set; } = new List<MenuCmsItem>();
+        public List<MenuItem> MenuItems { get; set; } = new List<MenuItem>();
     }
 
-    public class MenuCmsItem
+    public class MenuItem
     {
         public string Name { get; set; }
         public string Key { get; set; }
         public string? SchemaKey { get; set; }
+
+        public List<string> SchemaKeys { get; set; } = new List<string>();
+        public bool IsTree => SchemaKeys.Any();
 
         /// <summary>
         /// Indicates there can be only one instance
@@ -54,6 +57,8 @@ namespace QMS.Core.Models
         public int PageSize { get; set; } = 20;
 
         public List<ListViewProperty> ListViewProperties { get; set; } = new List<ListViewProperty>();
+
+
 
     }
 

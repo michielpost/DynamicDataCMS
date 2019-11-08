@@ -67,9 +67,9 @@ namespace QMS.Core.Services
             return cmsConfiguration.Schemas.Where(x => x.Key == schemaType).FirstOrDefault();
         }
 
-        public MenuCmsItem GetCmsType(string cmsType)
+        public MenuItem GetCmsType(string cmsType)
         {
-            return cmsConfiguration.MenuCmsItems.Where(x => x.Key == cmsType).FirstOrDefault();
+            return cmsConfiguration.MenuItems.Where(x => x.Key == cmsType).FirstOrDefault();
         }
 
         public CmsConfiguration GetCmsConfiguration()

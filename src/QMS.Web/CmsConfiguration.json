@@ -37,7 +37,7 @@
   "MenuGroups": [
     {
       "Name": "Pages",
-      "CmsItems": [
+      "MenuItems": [
         {
           "Name": "Homepage",
           "Key": "homepagetest",
@@ -60,19 +60,23 @@
               "DisplayName": "Title"
             }
           ]
-        }
-      ],
-      "CmsTreeItems": [
+        },
         {
-          "Name": "Page Tree",
-          "key": "pages",
-          "SchemaKeys": ["homepage", "contentpage"]
+          "Name": "Pages",
+          "Key": "pagetree",
+          "SchemaKeys": [ "homepage", "contentpage" ],
+          "ListViewProperties": [
+            {
+              "Key": "MetaTitle",
+              "DisplayName": "Title"
+            }
+          ]
         }
       ]
     },
     {
       "Name": "CMS Items",
-      "CmsItems": [
+      "MenuItems": [
         {
           "Name": "Person",
           "Key": "persontest",
@@ -124,7 +128,7 @@
     },
     {
       "Name": "Assets",
-      "CmsItems": [
+      "MenuItems": [
         {
           "Name": "Image",
           "Key": "imagetest",

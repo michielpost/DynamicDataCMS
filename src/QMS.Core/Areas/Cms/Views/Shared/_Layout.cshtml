@@ -55,7 +55,7 @@
 
                         <ul class="nav flex-column">
 
-                            @foreach (var schema in menuGroup.CmsItems)
+                            @foreach (var schema in menuGroup.MenuItems)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link" href="@Url.Action("List", new { cmstype = @schema.Key })">

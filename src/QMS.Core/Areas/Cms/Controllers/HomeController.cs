@@ -21,12 +21,14 @@ namespace QMS.Core.Controllers
         private readonly IReadCmsItem readCmsItemService;
         private readonly IWriteCmsItem writeCmsItemService;
         private readonly JsonSchemaService schemaService;
+        private readonly CmsTreeService cmsTreeService;
 
-        public HomeController(DataProviderWrapperService dataProviderService, JsonSchemaService schemaService)
+        public HomeController(DataProviderWrapperService dataProviderService, JsonSchemaService schemaService, CmsTreeService cmsTreeService)
         {
             this.readCmsItemService = dataProviderService;
             this.writeCmsItemService = dataProviderService;
             this.schemaService = schemaService;
+            this.cmsTreeService = cmsTreeService;
         }
 
         [HttpGet]
@@ -82,10 +84,78 @@ namespace QMS.Core.Controllers
                 return new NotFoundResult();
 
             var cmsMenuItem = schemaService.GetCmsType(cmsType);
-            if(cmsMenuItem == null || cmsMenuItem.SchemaKey == null)
+            if(cmsMenuItem == null)
                 return new NotFoundResult();
 
-            var schema = schemaService.GetSchema(cmsMenuItem.SchemaKey);
+            var schemaKey = cmsMenuItem.SchemaKey;
+            List<CmsTreeNode> nodes = new List<CmsTreeNode>();
+
+            if(cmsMenuItem.IsTree)
+            {
+                nodes = await cmsTreeService.GetCmsTreeNodes(cmsType, id, lang);
+                if(nodes.Any())
+                {
+                    schemaKey = nodes.First().CmsItemType;
+                }
+
+                if(schemaKey == null)
+                {
+                    //TODO: Forward to pick a schema
+                }
+            }
+
+            if (schemaKey == null)
+                return new NotFoundResult();
+
+            var schema = schemaService.GetSchema(schemaKey);
+            var data = await readCmsItemService.Read<CmsItem>(cmsType, id, lang).ConfigureAwait(false);
+
+            var model = new EditViewModel
+            {
+                CmsType = cmsType,
+                Id = id,
+                SchemaLocation = schema,
+                MenuCmsItem = cmsMenuItem,
+                CmsConfiguration = schemaService.GetCmsConfiguration(),
+                Language = lang,
+                Data = data,
+                Nodes = nodes
+            };
+            return View("Edit", model);
+
+        }
+
+        [Route("edittree/{cmsTreeType}/{**slug}")]
+        [HttpGet]
+        public async Task<IActionResult> EditTree([FromRoute]string cmsTreeType, [FromRoute]string slug, [FromQuery]string pageSchemaType, [FromQuery]string? lang)
+        {
+            var cmsMenuItem = schemaService.GetCmsType(cmsTreeType);
+            if (cmsMenuItem == null || !cmsMenuItem.SchemaKeys.Any())
+                return new NotFoundResult();
+
+            CmsTreeNode? cmsTreeItem = await cmsTreeService.GetCmsTreeNode(cmsTreeType, slug, lang).ConfigureAwait(false);
+
+            if (cmsTreeItem == null
+                || string.IsNullOrEmpty(cmsTreeItem.CmsItemType))
+            {
+                if (string.IsNullOrEmpty(pageSchemaType))
+                {
+                    //TODO: Return schema picker
+                }
+
+                cmsTreeItem = new CmsTreeNode { CmsItemId = Guid.NewGuid(), CmsItemType = pageSchemaType };
+            }
+
+            Guid? id = cmsTreeItem.CmsItemId;
+            if (!id.HasValue)
+                id = Guid.NewGuid();
+
+            return RedirectToAction("Edit", new { cmsType = cmsTreeType, id = id, lang = lang });
+        }
+
+        private async Task<IActionResult> ShowEditView(string cmsType, string schemaKey, string? lang, MenuItem cmsMenuItem, Guid id)
+        {
+            var schema = schemaService.GetSchema(schemaKey);
             var data = await readCmsItemService.Read<CmsItem>(cmsType, id, lang).ConfigureAwait(false);
 
             var model = new EditViewModel
@@ -98,7 +168,7 @@ namespace QMS.Core.Controllers
                 Language = lang,
                 Data = data
             };
-            return View(model);
+            return View("Edit", model);
         }
 
         /// <summary>
