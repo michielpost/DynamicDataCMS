@@ -70,7 +70,7 @@ namespace QMS.Core.Controllers
         [Produces("application/json")]
         public async Task<IReadOnlyList<SearchResult>> Search([FromRoute]string cmsType, [FromQuery]string? q)
         {
-            var schema = schemaService.GetSchema(cmsType);
+            var schema = schemaService.GetCmsType(cmsType);
             var (results, _) = await readCmsItemService.List(cmsType, null, null, searchQuery: q).ConfigureAwait(false);
 
             var searchResults = new List<SearchResult>();
@@ -97,7 +97,7 @@ namespace QMS.Core.Controllers
         [Produces("application/json")]
         public async Task<ExternalEnum> Enum([FromRoute]string cmsType)
         {
-            var schema = schemaService.GetSchema(cmsType);
+            var schema = schemaService.GetCmsType(cmsType);
             var list = await readCmsItemService.List(cmsType, null, null).ConfigureAwait(false);
 
             var result = new ExternalEnum
@@ -134,11 +134,11 @@ namespace QMS.Core.Controllers
             return Content(schema.ToJson());
         }
 
-        private string GetDisplayTitle(CmsItem x, SchemaLocation schema)
+        private string GetDisplayTitle(CmsItem x, MenuCmsItem menuCmsItem)
         {
             List<string> titles = new List<string>();
 
-            foreach(var prop in schema.ListViewProperties)
+            foreach(var prop in menuCmsItem.ListViewProperties)
             {
                 titles.Add(x.AdditionalProperties.FirstOrDefault(p => p.Key == prop.Key).Value.ToString());
             }

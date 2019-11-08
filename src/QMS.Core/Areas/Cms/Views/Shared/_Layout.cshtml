@@ -47,15 +47,15 @@
             <nav class="col-md-2 d-none d-md-block bg-light sidebar">
                 <div class="sidebar-sticky">
 
-                    @foreach (var entityGroup in cmsConfig.EntityGroupsInitialized.OrderBy(x => x.Order))
+                    @foreach (var menuGroup in cmsConfig.MenuGroups.OrderBy(x => x.Order))
                     {
                         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                            <span>@entityGroup.Name</span>
+                            <span>@menuGroup.Name</span>
                         </h6>
 
                         <ul class="nav flex-column">
 
-                            @foreach (var schema in entityGroup.EntitiesInitialized)
+                            @foreach (var schema in menuGroup.CmsItems)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link" href="@Url.Action("List", new { cmstype = @schema.Key })">

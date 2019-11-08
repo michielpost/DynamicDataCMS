@@ -1,34 +1,16 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Example",
+  "title": "Tijdlijn",
   "type": "object",
   "format": "categories",
-  "basicCategoryTitle": "Main",
-  "required": [
-    "title"
-  ],
+  "basicCategoryTitle": "Tijdlijn",
+  "required": [ "title" ],
   "properties": {
     "title": {
       "type": "string",
       "title": "Titel",
       "minLength": 1
-    },
-    "bo_content": {
-      "type": "object",
-      "title": "Content",
-      "properties": {
-        "description": {
-          "title": "Tekst",
-          "type": "string",
-          "format": "markdown",
-          "options": {
-            "simplemde": {
-              "spellChecker": false,
-              "autorefresh": true
-            }
-          }
-        }
-      }
     }
+
   }
 }

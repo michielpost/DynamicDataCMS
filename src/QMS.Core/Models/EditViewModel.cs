@@ -9,6 +9,7 @@ namespace QMS.Core.Models
     {
         public string CmsType { get; set; }
         public Guid Id { get; set; }
+        public MenuCmsItem MenuCmsItem { get; set; }
         public SchemaLocation SchemaLocation { get; set; }
         public CmsItem? Data { get; set; }
         public CmsConfiguration CmsConfiguration { get; set; }

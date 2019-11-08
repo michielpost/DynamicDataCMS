@@ -43,19 +43,25 @@ namespace QMS.Core.Auth
                 userSchema.Properties[nameof(CmsUser.Password)].Format = "password";
                 userSchema.Properties.Remove(nameof(CmsUser.PasswordEncrypted));
 
-                x.EntityGroups.Add(new EntityGroupConfiguration()
+                x.Schemas.Add(new SchemaLocation
+                {
+                    Key = CmsUser.DefaultCmsType,
+                    Schema = userSchema.ToJson(),
+                });
+
+                x.MenuGroups.Add(new MenuGroup()
                 {
                      Name = "CMS",
-                     Entities = new System.Collections.Generic.List<SchemaLocation>()
+                     CmsItems = new System.Collections.Generic.List<MenuCmsItem>()
                      {
-                         new SchemaLocation()
+                         new MenuCmsItem()
                          {
                               Key = CmsUser.DefaultCmsType,
+                              SchemaKey = CmsUser.DefaultCmsType,
                               ListViewProperties = new List<ListViewProperty>() {
                                   new ListViewProperty() { DisplayName = nameof(CmsUser.Email), Key = nameof(CmsUser.Email) }
                               },
                               Name = "Users",
-                              Schema = userSchema.ToJson()
                          }
                      }
                 });

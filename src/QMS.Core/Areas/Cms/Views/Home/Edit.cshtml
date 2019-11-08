@@ -1,6 +1,6 @@
 ﻿@model EditViewModel
 @{
-    ViewData["Title"] = Model.SchemaLocation.Name;
+    ViewData["Title"] = Model.MenuCmsItem.Name;
 }
 
 @section ScriptsHead
@@ -33,7 +33,7 @@
     }
 }
 <div>
-    <h1 class="display-4">@Model.SchemaLocation.Name</h1>
+    <h1 class="display-4">@Model.MenuCmsItem.Name</h1>
 
     @if (Model.CmsConfiguration?.Languages?.Any() ?? false)
     {

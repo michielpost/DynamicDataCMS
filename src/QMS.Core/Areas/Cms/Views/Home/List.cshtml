@@ -2,7 +2,7 @@
 @model ListViewModel
 
 @{
-    ViewData["Title"] = Model.Schema.Name + " Overview";
+    ViewData["Title"] = Model.MenuCmsItem.Name + " Overview";
 
     int TotalPages = (int)Math.Ceiling(decimal.Divide(Model.TotalPages, Model.PageSize));
     bool EnablePrevious = Model.CurrentPage > 1;
@@ -22,15 +22,15 @@
     }
 }
 
-<h1>@Model.Schema.Name Overview</h1>
+<h1>@Model.MenuCmsItem.Name Overview</h1>
 
 <p>
-    @Html.ActionLink("Create New " + @Model.Schema.Name, "Create", new { cmstype = Model.CmsType }, new { @class = "btn btn-primary", role = "button" })
+    @Html.ActionLink("Create New " + @Model.MenuCmsItem.Name, "Create", new { cmstype = Model.CmsType }, new { @class = "btn btn-primary", role = "button" })
 </p>
 <table class="table">
     <thead>
         <tr>
-            @if (!Model.Schema.ListViewProperties.Any())
+            @if (!Model.MenuCmsItem.ListViewProperties.Any())
             {
                 <th>
                     Id
@@ -39,7 +39,7 @@
                     Modified By
                 </th>
             }
-            @foreach (var column in Model.Schema.ListViewProperties)
+            @foreach (var column in Model.MenuCmsItem.ListViewProperties)
             {
                 @if (readCmsItem.CanSort)
                 {
@@ -57,7 +57,7 @@
         @foreach (var item in Model.Items)
         {
             <tr>
-                @if (!Model.Schema.ListViewProperties.Any())
+                @if (!Model.MenuCmsItem.ListViewProperties.Any())
                 {
                     <td>
                         @item.Id
@@ -66,7 +66,7 @@
                         @item.LastModifiedBy
                     </td>
                 }
-                @foreach (var column in Model.Schema.ListViewProperties)
+                @foreach (var column in Model.MenuCmsItem.ListViewProperties)
                 {
                     <td>@item.AdditionalProperties.FirstOrDefault(x => x.Key == column.Key).Value</td>
                 }

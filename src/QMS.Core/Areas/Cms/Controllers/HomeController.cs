@@ -39,8 +39,12 @@ namespace QMS.Core.Controllers
         [HttpGet]
         public async Task<IActionResult> List([FromRoute]string cmsType, [FromQuery]string? sortField, [FromQuery]string? sortOrder, [FromQuery]int pageIndex, [FromQuery]string? q)
         {
-            var schema = schemaService.GetSchema(cmsType);
-            int pageSize = schema.PageSize;
+            var cmsMenuItem = schemaService.GetCmsType(cmsType);
+            if (cmsMenuItem == null || cmsMenuItem.SchemaKey == null)
+                return new NotFoundResult();
+
+            var schema = schemaService.GetSchema(cmsMenuItem.SchemaKey);
+            int pageSize = cmsMenuItem.PageSize;
             if (pageSize <= 0)
                 pageSize = 20;
 
@@ -49,7 +53,7 @@ namespace QMS.Core.Controllers
             ViewBag.SortField = sortField;
             ViewBag.SortOrder = sortOrder;
 
-            if (schema.IsSingleton)
+            if (cmsMenuItem.IsSingleton)
             {
                 if (results.Any())
                     return RedirectToAction("Edit", new { cmsType = cmsType, id = results.First().Id });
@@ -61,6 +65,7 @@ namespace QMS.Core.Controllers
             {
                 CmsType = cmsType,
                 Schema = schema,
+                MenuCmsItem = cmsMenuItem,
                 Items = results,
                 TotalPages = total,
                 CurrentPage = pageIndex + 1,
@@ -76,7 +81,11 @@ namespace QMS.Core.Controllers
             if (id == Guid.Empty)
                 return new NotFoundResult();
 
-            var schema = schemaService.GetSchema(cmsType);
+            var cmsMenuItem = schemaService.GetCmsType(cmsType);
+            if(cmsMenuItem == null || cmsMenuItem.SchemaKey == null)
+                return new NotFoundResult();
+
+            var schema = schemaService.GetSchema(cmsMenuItem.SchemaKey);
             var data = await readCmsItemService.Read<CmsItem>(cmsType, id, lang).ConfigureAwait(false);
 
             var model = new EditViewModel
@@ -84,6 +93,7 @@ namespace QMS.Core.Controllers
                 CmsType = cmsType,
                 Id = id,
                 SchemaLocation = schema,
+                MenuCmsItem = cmsMenuItem,
                 CmsConfiguration = schemaService.GetCmsConfiguration(),
                 Language = lang,
                 Data = data
@@ -111,7 +121,6 @@ namespace QMS.Core.Controllers
             var schema = new SchemaLocation()
             {
                 Key = "_dynamic",
-                Name = "Dynamic",
                 Schema = jsonSchema.ToJson()
             };
 
@@ -137,12 +146,17 @@ namespace QMS.Core.Controllers
         [Route("delete/{cmsType}/{id:guid}/{lang?}")]
         public async Task<IActionResult> Delete([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang)
         {
-            var schema = schemaService.GetSchema(cmsType);
+            var cmsMenuItem = schemaService.GetCmsType(cmsType);
+            if (cmsMenuItem == null || cmsMenuItem.SchemaKey == null)
+                return new NotFoundResult();
+
+            var schema = schemaService.GetSchema(cmsMenuItem.SchemaKey);
             var data = await readCmsItemService.Read<CmsItem>(cmsType, id, lang).ConfigureAwait(false);
 
             var model = new EditViewModel
             {
                 CmsType = cmsType,
+                MenuCmsItem = cmsMenuItem,
                 Id = id,
                 SchemaLocation = schema,
                 Data = data

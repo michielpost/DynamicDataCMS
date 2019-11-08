@@ -4,15 +4,45 @@
   "EditScripts": [ "/extra-script.js" ],
   "Scripts": [ "https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js" ],
   "Styles": [ "https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css" ],
-  "EntityGroups": [
+  "Schemas": [
+    {
+      "Key": "homepage",
+      "Uri": "https://localhost:44341/cms/api/schema/QMS.Web/QMS.Web.Models.Pages.HomePage"
+    },
+    {
+      "Key": "contentpage",
+      "Uri": "https://localhost:44341/cms/api/schema/QMS.Web/QMS.Web.Models.Pages.ContentPage"
+    },
+    {
+      "Key": "person",
+      "FileLocation": "schemas/person.schema.json"
+    },
+    {
+      "Key": "vehicle",
+      "FileLocation": "schemas/vehicle.schema.json"
+    },
+    {
+      "Key": "test",
+      "FileLocation": "schemas/test.schema.json"
+    },
+    {
+      "Key": "image",
+      "FileLocation": "schemas/image.schema.json"
+    },
+    {
+      "Key": "download",
+      "FileLocation": "schemas/download.schema.json"
+    }
+  ],
+  "MenuGroups": [
     {
       "Name": "Pages",
-      "Entities": [
+      "CmsItems": [
         {
           "Name": "Homepage",
-          "Key": "homepage",
+          "Key": "homepagetest",
+          "SchemaKey": "homepage",
           "IsSingleton": true,
-          "Uri": "https://localhost:44341/cms/api/schema/QMS.Web/QMS.Web.Models.Pages.HomePage",
           "ListViewProperties": [
             {
               "Key": "MetaTitle",
@@ -22,8 +52,8 @@
         },
         {
           "Name": "ContentPage",
-          "Key": "contentpage",
-          "Uri": "https://localhost:44341/cms/api/schema/QMS.Web/QMS.Web.Models.Pages.ContentPage",
+          "Key": "contentpagetest",
+          "SchemaKey": "contentpage",
           "ListViewProperties": [
             {
               "Key": "metaTitle",
@@ -31,15 +61,22 @@
             }
           ]
         }
+      ],
+      "CmsTreeItems": [
+        {
+          "Name": "Page Tree",
+          "key": "pages",
+          "SchemaKeys": ["homepage", "contentpage"]
+        }
       ]
     },
     {
       "Name": "CMS Items",
-      "Entities": [
+      "CmsItems": [
         {
           "Name": "Person",
-          "Key": "person",
-          "FileLocation": "schemas/person.schema.json",
+          "Key": "persontest",
+          "SchemaKey": "person",
           "ListViewProperties": [
             {
               "Key": "firstName",
@@ -53,8 +90,8 @@
         },
         {
           "Name": "Vehicle",
-          "Key": "vehicle",
-          "FileLocation": "schemas/vehicle.schema.json",
+          "Key": "vehicletest",
+          "SchemaKey": "vehicle",
           "ListViewProperties": [
             {
               "Key": "accidentDetails.Severity",
@@ -64,14 +101,14 @@
         },
         {
           "Name": "Test",
-          "Key": "test",
-          "FileLocation": "schemas/test.schema.json"
+          "Key": "testtest",
+          "SchemaKey": "test"
         },
         {
           "Name": "Single Person",
           "Key": "singleton-person",
+          "SchemaKey": "person",
           "IsSingleton": true,
-          "FileLocation": "schemas/person.schema.json",
           "ListViewProperties": [
             {
               "Key": "firstName",
@@ -87,11 +124,11 @@
     },
     {
       "Name": "Assets",
-      "Entities": [
+      "CmsItems": [
         {
           "Name": "Image",
-          "Key": "image",
-          "FileLocation": "schemas/image.schema.json",
+          "Key": "imagetest",
+          "SchemaKey": "image",
           "ListViewProperties": [
             {
               "Key": "name",
@@ -101,8 +138,8 @@
         },
         {
           "Name": "Downloads",
-          "Key": "download",
-          "FileLocation": "schemas/download.schema.json",
+          "Key": "downloadtest",
+          "SchemaKey": "download",
           "ListViewProperties": [
             {
               "Key": "name",
@@ -112,7 +149,5 @@
         }
       ]
     }
-
   ]
-
 }
