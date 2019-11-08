@@ -26,7 +26,7 @@ namespace QMS.Core.Services
             var document = await dataProvider.Read<CmsTreeItem>(cmsTreeType, Guid.Empty, lang);
             document ??= new CmsTreeItem();
 
-            var slugParts = slug.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            List<string> slugParts = GetSlugList(slug);
 
             document.Root = CreateOrUpdateNode(document.Root, slugParts, node);
 
@@ -35,10 +35,17 @@ namespace QMS.Core.Services
             return document;
         }
 
+        private static List<string> GetSlugList(string slug)
+        {
+            var slugParts = slug.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            slugParts.Insert(0, "/");
+            return slugParts;
+        }
+
         private CmsTreeNode CreateOrUpdateNode(CmsTreeNode? currentNode, IEnumerable<string> slugParts, CmsTreeNode nodeToAdd)
         {
             if (currentNode == null)
-                currentNode = new CmsTreeNode { Name = slugParts.First() };
+                currentNode = new CmsTreeNode { Name = slugParts.FirstOrDefault() };
 
             var newSlug = slugParts.Skip(1);
 
@@ -49,6 +56,11 @@ namespace QMS.Core.Services
 
                 if(childNode == null)
                     currentNode.Children.Add(newChildNode);
+            }
+            else
+            {
+                currentNode = nodeToAdd;
+                currentNode.Name = slugParts.FirstOrDefault();
             }
 
             return currentNode;
@@ -69,7 +81,7 @@ namespace QMS.Core.Services
             if (treeItem == null || treeItem.Root == null)
                 return null;
 
-            var slugParts = slug.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            List<string> slugParts = GetSlugList(slug);
 
             if (!slugParts.Any())
                 return treeItem.Root;
@@ -82,15 +94,26 @@ namespace QMS.Core.Services
         private CmsTreeNode? FindChildNode(CmsTreeNode node, IEnumerable<string> slugParts)
         {
             if (!slugParts.Any())
-                return node;
-
-           var currentPart = slugParts.First();
-           var childNode = node.Children.Where(x => x.Name == currentPart).FirstOrDefault();
-
-            if (childNode == null)
                 return null;
 
-            return FindChildNode(childNode, slugParts.Skip(1));
+           var currentPart = slugParts.First();
+            if (node.Name == currentPart)
+            {
+                var nextSlugs = slugParts.Skip(1);
+                if(nextSlugs.Any())
+                {
+                    var childNode = node.Children.Where(x => x.Name == nextSlugs.First()).FirstOrDefault();
+
+                    if (childNode == null)
+                        return null;
+
+                    return FindChildNode(childNode, nextSlugs);
+                }
+
+                return node;
+            }
+
+            return null;
         }
 
         private List<CmsTreeNode> FindChildNodes(CmsTreeNode node, Guid id)

@@ -64,13 +64,7 @@
         {
           "Name": "Pages",
           "Key": "pagetree",
-          "SchemaKeys": [ "homepage", "contentpage" ],
-          "ListViewProperties": [
-            {
-              "Key": "MetaTitle",
-              "DisplayName": "Title"
-            }
-          ]
+          "SchemaKeys": [ "homepage", "contentpage" ]
         }
       ]
     },
