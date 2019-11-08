@@ -78,7 +78,7 @@ namespace QMS.Core.Controllers
 
         [Route("edit/{cmsType}/{id}/{lang?}")]
         [HttpGet]
-        public async Task<IActionResult> Edit([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang)
+        public async Task<IActionResult> Edit([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang, [FromQuery]string? treeItemSchemaKey)
         {
             if (id == Guid.Empty)
                 return new NotFoundResult();
@@ -93,12 +93,15 @@ namespace QMS.Core.Controllers
             if(cmsMenuItem.IsTree)
             {
                 nodes = await cmsTreeService.GetCmsTreeNodes(cmsType, id, lang);
-                if(nodes.Any())
+                if (nodes.Any())
                 {
                     schemaKey = nodes.First().CmsItemType;
                 }
+                else
+                    schemaKey = treeItemSchemaKey;
 
-                if(schemaKey == null)
+
+                if (schemaKey == null)
                 {
                     //TODO: Forward to pick a schema
                 }
@@ -108,6 +111,9 @@ namespace QMS.Core.Controllers
                 return new NotFoundResult();
 
             var schema = schemaService.GetSchema(schemaKey);
+            if (schema == null)
+                return new NotFoundResult();
+
             var data = await readCmsItemService.Read<CmsItem>(cmsType, id, lang).ConfigureAwait(false);
 
             var model = new EditViewModel
@@ -127,7 +133,7 @@ namespace QMS.Core.Controllers
 
         [Route("edittree/{cmsTreeType}/{**slug}")]
         [HttpGet]
-        public async Task<IActionResult> EditTree([FromRoute]string cmsTreeType, [FromRoute]string slug, [FromQuery]string pageSchemaType, [FromQuery]string? lang)
+        public async Task<IActionResult> EditTree([FromRoute]string cmsTreeType, [FromRoute]string slug, [FromQuery]string treeItemSchemaKey, [FromQuery]string? lang)
         {
             var cmsMenuItem = schemaService.GetCmsType(cmsTreeType);
             if (cmsMenuItem == null || !cmsMenuItem.SchemaKeys.Any())
@@ -135,40 +141,22 @@ namespace QMS.Core.Controllers
 
             CmsTreeNode? cmsTreeItem = await cmsTreeService.GetCmsTreeNode(cmsTreeType, slug, lang).ConfigureAwait(false);
 
-            if (cmsTreeItem == null
-                || string.IsNullOrEmpty(cmsTreeItem.CmsItemType))
+            if (cmsTreeItem == null || string.IsNullOrEmpty(cmsTreeItem.CmsItemType))
             {
-                if (string.IsNullOrEmpty(pageSchemaType))
+                if (string.IsNullOrEmpty(treeItemSchemaKey))
                 {
                     //TODO: Return schema picker
+                    return View(cmsMenuItem);
                 }
 
-                cmsTreeItem = new CmsTreeNode { CmsItemId = Guid.NewGuid(), CmsItemType = pageSchemaType };
+                cmsTreeItem = new CmsTreeNode { CmsItemId = Guid.NewGuid(), CmsItemType = treeItemSchemaKey };
             }
 
             Guid? id = cmsTreeItem.CmsItemId;
             if (!id.HasValue)
                 id = Guid.NewGuid();
 
-            return RedirectToAction("Edit", new { cmsType = cmsTreeType, id = id, lang = lang });
-        }
-
-        private async Task<IActionResult> ShowEditView(string cmsType, string schemaKey, string? lang, MenuItem cmsMenuItem, Guid id)
-        {
-            var schema = schemaService.GetSchema(schemaKey);
-            var data = await readCmsItemService.Read<CmsItem>(cmsType, id, lang).ConfigureAwait(false);
-
-            var model = new EditViewModel
-            {
-                CmsType = cmsType,
-                Id = id,
-                SchemaLocation = schema,
-                MenuCmsItem = cmsMenuItem,
-                CmsConfiguration = schemaService.GetCmsConfiguration(),
-                Language = lang,
-                Data = data
-            };
-            return View("Edit", model);
+            return RedirectToAction("Edit", new { cmsType = cmsTreeType, id = id, lang = lang, treeItemSchemaKey = treeItemSchemaKey });
         }
 
         /// <summary>

@@ -1,0 +1,16 @@
+﻿@model MenuItem
+
+@{
+    ViewData["Title"] = Model.Name + " Picker";
+
+}
+
+<h1>@Model.Name Picker</h1>
+
+<div>
+    <p>Pick a model</p>
+    @foreach (var t in Model.SchemaKeys)
+    {
+<p> @Html.ActionLink("Create " + t, "Edit", new { id = Guid.NewGuid(), cmstype = Model.Key, treeItemSchemaKey = t }) </p>
+    }
+</div>
