@@ -21,6 +21,39 @@ namespace QMS.Core.Services
             return dataProvider.Read<CmsTreeItem>(cmsTreeType, Guid.Empty, lang);
         }
 
+        public async Task<CmsTreeItem?> CreateOrUpdateCmsTreeNode(string cmsTreeType, string slug, CmsTreeNode node, string? lang, string? currentUser)
+        {
+            var document = await dataProvider.Read<CmsTreeItem>(cmsTreeType, Guid.Empty, lang);
+            document ??= new CmsTreeItem();
+
+            var slugParts = slug.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+
+            document.Root = CreateOrUpdateNode(document.Root, slugParts, node);
+
+            await dataProvider.Write<CmsTreeItem>(document, cmsTreeType, Guid.Empty, lang, currentUser);
+
+            return document;
+        }
+
+        private CmsTreeNode CreateOrUpdateNode(CmsTreeNode? currentNode, IEnumerable<string> slugParts, CmsTreeNode nodeToAdd)
+        {
+            if (currentNode == null)
+                currentNode = new CmsTreeNode { Name = slugParts.First() };
+
+            var newSlug = slugParts.Skip(1);
+
+            if (newSlug.Any())
+            {
+                CmsTreeNode? childNode = currentNode.Children.Where(x => x.Name == newSlug.FirstOrDefault()).FirstOrDefault();
+                CmsTreeNode newChildNode = CreateOrUpdateNode(childNode, newSlug, nodeToAdd);
+
+                if(childNode == null)
+                    currentNode.Children.Add(newChildNode);
+            }
+
+            return currentNode;
+        }
+
         public async Task<List<CmsTreeNode>> GetCmsTreeNodes(string cmsTreeType, Guid id, string? lang)
         {
             var treeItem = await GetCmsTreeItem(cmsTreeType, lang).ConfigureAwait(false);
