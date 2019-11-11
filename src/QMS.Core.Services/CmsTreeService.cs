@@ -28,7 +28,38 @@ namespace QMS.Core.Services
 
             List<string> slugParts = GetSlugList(slug);
 
-            document.Root = CreateOrUpdateNode(document.Root, slugParts, node);
+            var all = document.Nodes;
+
+            // Add empty nodes to support full structure
+            List<Guid> nodeTreeIds = new List<Guid>();
+            foreach (var part in slugParts)
+            {
+                var lastNode = nodeTreeIds.LastOrDefault();
+
+                var current = all.FirstOrDefault(x => x.Name == part && x.ParentId == lastNode);
+                if (current == null)
+                {
+                    current = new CmsTreeNode
+                    {
+                        Name = part,
+                        ParentId = lastNode
+                    };
+                    all.Add(current);
+                }
+
+                nodeTreeIds.Add(current.NodeId);
+            }
+
+
+            var existing = all.Where(x => x.GetSlug(all) == slug).FirstOrDefault();
+            if (existing != null)
+                document.Nodes.Remove(existing);
+
+            if(nodeTreeIds.Count >1)
+                node.ParentId = nodeTreeIds[^2];
+
+            node.Name = slugParts.Last();
+            document.Nodes.Add(node);
 
             await dataProvider.Write<CmsTreeItem>(document, cmsTreeType, Guid.Empty, lang, currentUser);
 
@@ -42,93 +73,26 @@ namespace QMS.Core.Services
             return slugParts;
         }
 
-        private CmsTreeNode CreateOrUpdateNode(CmsTreeNode? currentNode, IEnumerable<string> slugParts, CmsTreeNode nodeToAdd)
-        {
-            if (currentNode == null)
-                currentNode = new CmsTreeNode { Name = slugParts.FirstOrDefault() };
-
-            var newSlug = slugParts.Skip(1);
-
-            if (newSlug.Any())
-            {
-                CmsTreeNode? childNode = currentNode.Children.Where(x => x.Name == newSlug.FirstOrDefault()).FirstOrDefault();
-                CmsTreeNode newChildNode = CreateOrUpdateNode(childNode, newSlug, nodeToAdd);
-
-                if(childNode == null)
-                    currentNode.Children.Add(newChildNode);
-            }
-            else
-            {
-                currentNode = nodeToAdd;
-                currentNode.Name = slugParts.FirstOrDefault();
-            }
-
-            return currentNode;
-        }
-
-        public async Task<List<CmsTreeNode>> GetCmsTreeNodes(string cmsTreeType, Guid id, string? lang)
+        public async Task<List<CmsTreeNode>> GetCmsTreeNodes(string cmsTreeType, Guid cmsItemId, string? lang)
         {
             var treeItem = await GetCmsTreeItem(cmsTreeType, lang).ConfigureAwait(false);
-            if (treeItem == null || treeItem.Root == null)
+            if (treeItem == null)
                 return new List<CmsTreeNode>();
 
-            return FindChildNodes(treeItem.Root, id);
+            return treeItem.Nodes.Where(x => x.CmsItemId == cmsItemId).ToList();
         }
 
         public async Task<CmsTreeNode?> GetCmsTreeNode(string cmsTreeType, string slug, string? lang)
         {
             var treeItem = await GetCmsTreeItem(cmsTreeType, lang).ConfigureAwait(false);
-            if (treeItem == null || treeItem.Root == null)
+            if (treeItem == null)
                 return null;
 
-            List<string> slugParts = GetSlugList(slug);
+            var all = treeItem.Nodes;
 
-            if (!slugParts.Any())
-                return treeItem.Root;
-
-            var childNode = FindChildNode(treeItem.Root, slugParts);
-            
-            return childNode;
+            return treeItem.Nodes.Where(x => x.GetSlug(all) == slug).FirstOrDefault();
         }
 
-        private CmsTreeNode? FindChildNode(CmsTreeNode node, IEnumerable<string> slugParts)
-        {
-            if (!slugParts.Any())
-                return null;
 
-           var currentPart = slugParts.First();
-            if (node.Name == currentPart)
-            {
-                var nextSlugs = slugParts.Skip(1);
-                if(nextSlugs.Any())
-                {
-                    var childNode = node.Children.Where(x => x.Name == nextSlugs.First()).FirstOrDefault();
-
-                    if (childNode == null)
-                        return null;
-
-                    return FindChildNode(childNode, nextSlugs);
-                }
-
-                return node;
-            }
-
-            return null;
-        }
-
-        private List<CmsTreeNode> FindChildNodes(CmsTreeNode node, Guid id)
-        {
-            var result = new List<CmsTreeNode>();
-
-            if (node.CmsItemId == id)
-                result.Add(node);
-
-            foreach (var child in node.Children)
-            {
-                result.AddRange(FindChildNodes(child, id));
-            }
-
-            return result;
-        }
     }
 }
