@@ -20,7 +20,9 @@ namespace QMS.Core.Auth
 
         public Task Invoke(HttpContext context)
         {
-            if (!context.Request.Path.ToString().StartsWith("/cms"))
+            if (!context.Request.Path.ToString().ToLowerInvariant().StartsWith("/cms")
+                || context.Request.Path.ToString().ToLowerInvariant().StartsWith("/cms/image")
+                || context.Request.Path.ToString().ToLowerInvariant().StartsWith("/cms/api/schema"))
             {
                 // Let the request pass for non-cms routes
                 return next(context);
