@@ -135,24 +135,6 @@ namespace QMS.Core.Controllers
         [HttpGet]
         public async Task<IActionResult> EditTree([FromRoute]string cmsTreeType, [FromRoute]string slug, [FromQuery]string treeItemSchemaKey, [FromQuery]string? lang)
         {
-            await cmsTreeService.CreateOrUpdateCmsTreeNode(cmsTreeType, "/", new CmsTreeNode
-            {
-                CmsItemId = Guid.NewGuid(),
-                CmsItemType = "contentpage"
-            }, lang, "system");
-
-            await cmsTreeService.CreateOrUpdateCmsTreeNode(cmsTreeType, "/test", new CmsTreeNode
-            {
-                CmsItemId = Guid.NewGuid(),
-                CmsItemType = "contentpage"
-            }, lang, "system");
-
-            await cmsTreeService.CreateOrUpdateCmsTreeNode(cmsTreeType, "/test/dit/is/diep", new CmsTreeNode
-            {
-                CmsItemId = Guid.NewGuid(),
-                CmsItemType = "contentpage"
-            }, lang, "system");
-
             slug ??= string.Empty;
             slug = "/" + slug;
 

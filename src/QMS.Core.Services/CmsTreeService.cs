@@ -31,7 +31,7 @@ namespace QMS.Core.Services
             var all = document.Nodes;
 
             // Add empty nodes to support full structure
-            List<Guid> nodeTreeIds = new List<Guid>();
+            List<Guid?> nodeTreeIds = new List<Guid?>();
             foreach (var part in slugParts)
             {
                 var lastNode = nodeTreeIds.LastOrDefault();
@@ -58,6 +58,7 @@ namespace QMS.Core.Services
             if(nodeTreeIds.Count >1)
                 node.ParentId = nodeTreeIds[^2];
 
+            node.NodeId = existing!.NodeId;
             node.Name = slugParts.Last();
             document.Nodes.Add(node);
 

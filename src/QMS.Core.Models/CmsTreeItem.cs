@@ -29,7 +29,7 @@ namespace QMS.Core.Models
         {
             var slug = this.GetSlugArray(all);
 
-            return string.Join("/", slug);
+            return "/" + string.Join("/", slug);
         }
 
         public List<string?> GetSlugArray(List<CmsTreeNode> all)
@@ -47,9 +47,7 @@ namespace QMS.Core.Models
                 
             }
 
-            if (this.Name == "/")
-                sb.Add(string.Empty);
-            else
+            if (this.Name != "/")
                 sb.Add(this.Name);
 
             return sb;
