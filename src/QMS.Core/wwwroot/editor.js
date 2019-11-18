@@ -38,7 +38,9 @@
                 return result.title;
             },
             "onSubmit_autocomplete": function onSubmitValue(jseditor_editor, result) {
-                jseditor_editor.parent.editors.id.setValue(result.id);
+                if (result) {
+                    jseditor_editor.parent.editors.id.setValue(result.id);
+                }
             },
             "renderResult_autocomplete": function (jseditor_editor, result, props) {
                 return ['<li ' + props + '>',
