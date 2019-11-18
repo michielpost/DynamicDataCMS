@@ -42,7 +42,13 @@ namespace QMS.Core.Controllers
         public async Task<IActionResult> List([FromRoute]string cmsType, [FromQuery]string? sortField, [FromQuery]string? sortOrder, [FromQuery]int pageIndex, [FromQuery]string? q)
         {
             var cmsMenuItem = schemaService.GetCmsType(cmsType);
-            if (cmsMenuItem == null || cmsMenuItem.SchemaKey == null)
+            if (cmsMenuItem == null)
+                return new NotFoundResult();
+
+            if (cmsMenuItem.IsTree)
+                return await ListTree(cmsType, null);
+
+            if (cmsMenuItem.SchemaKey == null)
                 return new NotFoundResult();
 
             var schema = schemaService.GetSchema(cmsMenuItem.SchemaKey);
@@ -73,6 +79,29 @@ namespace QMS.Core.Controllers
                 CurrentPage = pageIndex + 1,
                 PageSize = pageSize
             };
+            return View(model);
+        }
+
+        public async Task<IActionResult> ListTree(string cmsType, string? lang)
+        {
+            var cmsMenuItem = schemaService.GetCmsType(cmsType);
+            if (cmsMenuItem == null || !cmsMenuItem.IsTree)
+                return new NotFoundResult();
+
+            var (results, total) = await readCmsItemService.List(cmsType, null, null).ConfigureAwait(false);
+            var treeItem = await cmsTreeService.GetCmsTreeItem(cmsType, lang);
+
+            if (treeItem == null)
+                return new NotFoundResult();
+
+            var model = new ListTreeViewModel
+            {
+                CmsType = cmsType,
+                MenuCmsItem = cmsMenuItem,
+                CmsTreeItem = treeItem,
+                Items = results,
+            };
+
             return View(model);
         }
 

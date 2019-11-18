@@ -1,0 +1,17 @@
+﻿@inject QMS.Storage.Interfaces.IReadCmsItem readCmsItem;
+@model ListTreeViewModel
+
+@{
+    ViewData["Title"] = Model.MenuCmsItem.Name + " Overview";
+}
+
+<h1>@Model.MenuCmsItem.Name Overview</h1>
+
+<ol>
+    @foreach (var treeItem in Model.CmsTreeItem.Nodes.Where(x => !x.ParentId.HasValue))
+    {
+
+
+
+    }
+</ol>
