@@ -7,11 +7,11 @@
 
 <h1>@Model.MenuCmsItem.Name Overview</h1>
 
-<ol>
-    @foreach (var treeItem in Model.CmsTreeItem.Nodes.Where(x => !x.ParentId.HasValue))
+<ul>
+    @foreach (var treeItem in Model.CmsTreeItem.Nodes.OrderBy(x => x.GetSlug(Model.CmsTreeItem.Nodes)))
     {
-
-
-
+    <li>
+        @treeItem.GetSlug(Model.CmsTreeItem.Nodes) <br>
+    </li>
     }
-</ol>
+</ul>

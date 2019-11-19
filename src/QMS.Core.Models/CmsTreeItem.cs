@@ -25,11 +25,17 @@ namespace QMS.Core.Models
             return all.Where(x => x.ParentId == this.NodeId);
         }
 
+        private string? _fullSlug;
         public string GetSlug(List<CmsTreeNode> all)
         {
-            var slug = this.GetSlugArray(all);
+            if (_fullSlug == null)
+            {
+                var slug = this.GetSlugArray(all);
 
-            return "/" + string.Join("/", slug);
+                _fullSlug = "/" + string.Join("/", slug);
+            }
+
+            return _fullSlug;
         }
 
         public List<string?> GetSlugArray(List<CmsTreeNode> all)

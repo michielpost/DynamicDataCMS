@@ -102,7 +102,7 @@ namespace QMS.Core.Controllers
                 Items = results,
             };
 
-            return View(model);
+            return View("ListTree", model);
         }
 
         [Route("edit/{cmsType}/{id}/{lang?}")]
