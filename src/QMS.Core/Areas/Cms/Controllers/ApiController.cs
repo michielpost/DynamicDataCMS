@@ -21,18 +21,20 @@ namespace QMS.Core.Controllers
         private readonly IReadCmsItem readCmsItemService;
         private readonly IWriteCmsItem writeCmsItemService;
         private readonly JsonSchemaService schemaService;
+        private readonly CmsTreeService cmsTreeService;
 
-        public ApiController(DataProviderWrapperService dataProviderService, JsonSchemaService schemaService)
+        public ApiController(DataProviderWrapperService dataProviderService, JsonSchemaService schemaService, CmsTreeService cmsTreeService)
         {
             this.readCmsItemService = dataProviderService;
             this.writeCmsItemService = dataProviderService;
             this.schemaService = schemaService;
+            this.cmsTreeService = cmsTreeService;
         }
 
         [HttpPost]
         [Route("save/{cmsType}/{id}/{lang?}")]
         [Produces("application/json")]
-        public async Task<ActionResult> Save([FromRoute]string cmsType, [FromRoute]Guid id, [FromBody] CmsItemPostModel value, [FromRoute]string? lang)
+        public async Task<ActionResult> Save([FromRoute]string cmsType, [FromRoute]Guid id, [FromBody] CmsItemPostModel value, [FromRoute]string? lang, [FromQuery]string? treeItemSchemaKey, [FromQuery]Guid? treeNodeId)
         {
             CmsItem item = new CmsItem
             {
@@ -41,6 +43,11 @@ namespace QMS.Core.Controllers
                 Id = id
             };
             await writeCmsItemService.Write(item, cmsType, id, lang, this.User.Identity.Name).ConfigureAwait(false);
+
+            if(treeNodeId.HasValue)
+            {
+                await cmsTreeService.SetCmsTreeNodeType(cmsType, treeNodeId.Value, treeItemSchemaKey, id, lang, this.User.Identity.Name);
+            }
 
             return new OkObjectResult(item);
         }

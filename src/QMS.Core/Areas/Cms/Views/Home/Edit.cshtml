@@ -14,10 +14,10 @@
 @section Scripts
 {
     <script type="text/javascript">
-        var searchApiUrl = '@Url.Action("Search", "Api")';
-        var fileUploadUrl = '@Url.Action("Upload", "File", new { cmsType = Model.CmsType, id = Model.Id, lang = Model.Language })';
-        var saveUrl = '@Url.Action("Save", "Api", new { cmsType = Model.CmsType, id = Model.Id, lang = Model.Language })';
-        var loadUrl = '@Url.Action("Load", "Api", new { cmsType = Model.CmsType, id = Model.Id, lang = Model.Language })';
+        var searchApiUrl = '@Html.Raw(Url.Action("Search", "Api"))';
+        var fileUploadUrl = '@Html.Raw(Url.Action("Upload", "File", new { cmsType = Model.CmsType, id = Model.Id, lang = Model.Language }))';
+        var saveUrl = '@Html.Raw(Url.Action("Save", "Api", new { cmsType = Model.CmsType, id = Model.Id, lang = Model.Language, treeItemSchemaKey = Model.TreeItemSchemaKey, treeNodeId = Model.TreeNodeId }))';
+        var loadUrl = '@Html.Raw(Url.Action("Load", "Api", new { cmsType = Model.CmsType, id = Model.Id, lang = Model.Language }))';
         var schemaJson = @Html.Raw(Model.SchemaLocation.Schema?.ToString());
         var setData = @((Model.Data != null).ToString().ToLowerInvariant());
         var data = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Data));
@@ -37,10 +37,10 @@
 
     @if (Model.CmsConfiguration?.Languages?.Any() ?? false)
     {
-        <a class="badge badge-secondary" href="@Url.Action("Edit", "Home", new { lang = "", id = Model.Id, cmsType = Model.CmsType })">Default Language</a>
+        <a class="badge badge-secondary" href="@Url.Action("Edit", "Home", new { lang = "", id = Model.Id, cmsType = Model.CmsType, treeItemSchemaKey = Model.TreeItemSchemaKey, treeNodeId = Model.TreeNodeId })">Default Language</a>
         @foreach (string lang in Model.CmsConfiguration?.Languages ?? Enumerable.Empty<string>())
         {
-            <a class="badge badge-secondary" href="@Url.Action("Edit", "Home", new { lang = @lang, id = Model.Id, cmsType = Model.CmsType })">@lang</a>
+            <a class="badge badge-secondary" href="@Url.Action("Edit", "Home", new { lang = @lang, id = Model.Id, cmsType = Model.CmsType, treeItemSchemaKey = Model.TreeItemSchemaKey, treeNodeId = Model.TreeNodeId })">@lang</a>
         }
     }
     <br />

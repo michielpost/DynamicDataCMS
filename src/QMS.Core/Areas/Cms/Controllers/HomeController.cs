@@ -107,7 +107,7 @@ namespace QMS.Core.Controllers
 
         [Route("edit/{cmsType}/{id}/{lang?}")]
         [HttpGet]
-        public async Task<IActionResult> Edit([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang, [FromQuery]string? treeItemSchemaKey)
+        public async Task<IActionResult> Edit([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang, [FromQuery]string? treeItemSchemaKey, [FromQuery]Guid? treeNodeId)
         {
             if (id == Guid.Empty)
                 return new NotFoundResult();
@@ -154,7 +154,9 @@ namespace QMS.Core.Controllers
                 CmsConfiguration = schemaService.GetCmsConfiguration(),
                 Language = lang,
                 Data = data,
-                Nodes = nodes
+                Nodes = nodes,
+                TreeItemSchemaKey = treeItemSchemaKey,
+                TreeNodeId = treeNodeId
             };
             return View("Edit", model);
 
@@ -162,7 +164,7 @@ namespace QMS.Core.Controllers
 
         [Route("edittree/{cmsTreeType}/{**slug}")]
         [HttpGet]
-        public async Task<IActionResult> EditTree([FromRoute]string cmsTreeType, [FromRoute]string slug, [FromQuery]string treeItemSchemaKey, [FromQuery]string? lang)
+        public async Task<IActionResult> EditTree([FromRoute]string cmsTreeType, [FromRoute]string slug, [FromQuery]string? treeItemSchemaKey, [FromQuery]string? lang)
         {
             slug ??= string.Empty;
             slug = "/" + slug;
@@ -177,7 +179,16 @@ namespace QMS.Core.Controllers
             {
                 if (string.IsNullOrEmpty(treeItemSchemaKey))
                 {
-                    return View(cmsMenuItem);
+                    EditTreeViewModel vm = new EditTreeViewModel
+                    {
+                        MenuCmsItem = cmsMenuItem,
+                        CmsType = cmsTreeType,
+                        Language = lang,
+                        TreeItemSchemaKey = treeItemSchemaKey,
+                        TreeNodeId = cmsTreeItem?.NodeId
+                    };
+
+                    return View(vm);
                 }
 
                 cmsTreeItem = new CmsTreeNode { CmsItemId = Guid.NewGuid(), CmsItemType = treeItemSchemaKey };
@@ -187,7 +198,7 @@ namespace QMS.Core.Controllers
             if (!id.HasValue)
                 id = Guid.NewGuid();
 
-            return RedirectToAction("Edit", new { cmsType = cmsTreeType, id = id, lang = lang, treeItemSchemaKey = treeItemSchemaKey });
+            return RedirectToAction("Edit", new { cmsType = cmsTreeType, id = id, lang = lang, treeItemSchemaKey = treeItemSchemaKey, treeNodeId = cmsTreeItem.NodeId });
         }
 
         /// <summary>

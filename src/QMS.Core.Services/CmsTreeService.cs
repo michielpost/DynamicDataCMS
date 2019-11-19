@@ -18,12 +18,30 @@ namespace QMS.Core.Services
 
         public Task<CmsTreeItem?> GetCmsTreeItem(string cmsTreeType, string? lang)
         {
-            return dataProvider.Read<CmsTreeItem>(cmsTreeType, Guid.Empty, lang);
+            return dataProvider.Read<CmsTreeItem>(cmsTreeType, Guid.Empty, lang: null);
         }
 
-        public async Task<CmsTreeItem?> CreateOrUpdateCmsTreeNode(string cmsTreeType, string slug, CmsTreeNode node, string? lang, string? currentUser)
+        public async Task<CmsTreeItem> SetCmsTreeNodeType(string cmsTreeType, Guid nodeId, string cmsItemType, Guid cmsItemId, string? lang, string? currentUser)
         {
-            var document = await dataProvider.Read<CmsTreeItem>(cmsTreeType, Guid.Empty, lang);
+            var document = await GetCmsTreeItem(cmsTreeType, lang).ConfigureAwait(false);
+
+            if (document == null)
+                throw new Exception("Tree item not found");
+
+            //Get node
+            var existing = document.Nodes.Where(x => x.NodeId == nodeId).FirstOrDefault();
+
+            existing.CmsItemType = cmsItemType;
+            existing.CmsItemId = cmsItemId;
+
+            await dataProvider.Write<CmsTreeItem>(document, cmsTreeType, Guid.Empty, lang: null, currentUser).ConfigureAwait(false);
+
+            return document;
+        }
+
+        public async Task<CmsTreeItem?> CreateOrUpdateCmsTreeNodeForSlug(string cmsTreeType, string slug, CmsTreeNode node, string? lang, string? currentUser)
+        {
+            var document = await GetCmsTreeItem(cmsTreeType, lang).ConfigureAwait(false);
             document ??= new CmsTreeItem();
 
             List<string> slugParts = GetSlugList(slug);
@@ -62,7 +80,7 @@ namespace QMS.Core.Services
             node.Name = slugParts.Last();
             document.Nodes.Add(node);
 
-            await dataProvider.Write<CmsTreeItem>(document, cmsTreeType, Guid.Empty, lang, currentUser);
+            await dataProvider.Write<CmsTreeItem>(document, cmsTreeType, Guid.Empty, lang: null, currentUser).ConfigureAwait(false);
 
             return document;
         }

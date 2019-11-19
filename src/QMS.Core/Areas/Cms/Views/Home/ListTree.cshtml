@@ -11,7 +11,16 @@
     @foreach (var treeItem in Model.CmsTreeItem.Nodes.OrderBy(x => x.GetSlug(Model.CmsTreeItem.Nodes)))
     {
     <li>
-        @treeItem.GetSlug(Model.CmsTreeItem.Nodes) <br>
+        @treeItem.GetSlug(Model.CmsTreeItem.Nodes)
+        @if (treeItem.CmsItemId.HasValue)
+        {
+            @Html.ActionLink("Edit " + treeItem.CmsItemType, "EditTree", "Home", new { cmsTreeType = Model.CmsType, slug = treeItem.GetSlug(Model.CmsTreeItem.Nodes).TrimStart('/'), treeItemSchemaKey = treeItem.CmsItemType })<br>
+        }
+        else
+        {
+            @Html.ActionLink("Create", "EditTree", "Home", new { cmsTreeType = Model.CmsType, slug = treeItem.GetSlug(Model.CmsTreeItem.Nodes).TrimStart('/'), treeItemSchemaKey = treeItem.CmsItemType })<br>
+
+        }
     </li>
     }
 </ul>
