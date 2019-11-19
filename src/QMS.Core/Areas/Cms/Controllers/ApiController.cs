@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QMS.Core.Models;
 using QMS.Core.Services;
-using QMS.Core.Models;
 using QMS.Storage.Interfaces;
 using NJsonSchema;
 
@@ -44,7 +42,7 @@ namespace QMS.Core.Controllers
             };
             await writeCmsItemService.Write(item, cmsType, id, lang, this.User.Identity.Name).ConfigureAwait(false);
 
-            if(treeNodeId.HasValue)
+            if(treeNodeId.HasValue && treeItemSchemaKey != null)
             {
                 await cmsTreeService.SetCmsTreeNodeType(cmsType, treeNodeId.Value, treeItemSchemaKey, id, lang, this.User.Identity.Name);
             }
