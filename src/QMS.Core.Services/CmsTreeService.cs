@@ -92,13 +92,22 @@ namespace QMS.Core.Services
             return slugParts;
         }
 
-        public async Task<List<CmsTreeNode>> GetCmsTreeNodes(string cmsTreeType, Guid cmsItemId, string? lang)
+        public async Task<List<CmsTreeNode>> GetCmsTreeNodesForCmsItemId(string cmsTreeType, Guid cmsItemId, string? lang)
         {
             var treeItem = await GetCmsTreeItem(cmsTreeType, lang).ConfigureAwait(false);
             if (treeItem == null)
                 return new List<CmsTreeNode>();
 
             return treeItem.Nodes.Where(x => x.CmsItemId == cmsItemId).ToList();
+        }
+
+        public async Task<List<CmsTreeNode>> GetCmsTreeNodesForNodeId(string cmsTreeType, Guid nodeId, string? lang)
+        {
+            var treeItem = await GetCmsTreeItem(cmsTreeType, lang).ConfigureAwait(false);
+            if (treeItem == null)
+                return new List<CmsTreeNode>();
+
+            return treeItem.Nodes.Where(x => x.NodeId == nodeId).ToList();
         }
 
         public async Task<CmsTreeNode?> GetCmsTreeNode(string cmsTreeType, string slug, string? lang)

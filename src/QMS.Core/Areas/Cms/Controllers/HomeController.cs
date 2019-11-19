@@ -121,13 +121,17 @@ namespace QMS.Core.Controllers
 
             if(cmsMenuItem.IsTree)
             {
-                nodes = await cmsTreeService.GetCmsTreeNodes(cmsType, id, lang);
+                nodes = await cmsTreeService.GetCmsTreeNodesForCmsItemId(cmsType, id, lang);
                 if (nodes.Any())
                 {
                     schemaKey = nodes.First().CmsItemType;
                 }
                 else
+                {
                     schemaKey = treeItemSchemaKey;
+                    if (treeNodeId.HasValue)
+                        nodes = await cmsTreeService.GetCmsTreeNodesForNodeId(cmsType, treeNodeId.Value, lang);
+                }
 
 
                 if (schemaKey == null)
