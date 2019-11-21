@@ -7,14 +7,17 @@
       "type": "string",
       "format": "url",
       "options": {
-        "upload": true,
-        "auto_upload": true
+        "upload": {
+          "auto_upload": true,
+          "upload_handler": "uploadHandler"
+        }
       },
-      "links": [ {
-        "href": "/cms/file/download/{{self}}",
-        "mediaType": "link",
-        "rel": ""
-      }
+      "links": [
+        {
+          "href": "/cms/file/download/{{self}}",
+          "mediaType": "link",
+          "rel": ""
+        }
       ]
     },
     "name": {

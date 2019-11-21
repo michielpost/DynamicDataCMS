@@ -1,24 +1,16 @@
-﻿function fixUploader(editor) {
-    const isImage = editor.schema.links[0].mediaType == 'image';
-
-    if (isImage) editor.uploader.setAttribute('accept', 'image/jpeg, image/png');
-};
-
-function editorChange() {
-    for (let x in editor.editors) {
-        const e = editor.editors[x];
-        if (e === null) continue;
-        if (e._fixed) continue;
-        e._fixed = true;
-
-        if (e.schema.format == 'url' && e.schema && e.schema.links)
-            fixUploader(e);
+﻿function editorChange() {
+    var tabs = document.getElementsByClassName("tab-pane");
+    if (tabs && tabs.length > 0) {
+        tabs[0].classList.add("active");
     }
 }
 
 addEventListener('DOMContentLoaded', () => {
-    if (!window.editor) return;
-    window.editor.on('change', editorChange);
+    if (!window.editor)
+        return;
+
+    editorChange();
+    window.editor.on('ready', editorChange);
 });
 
 
