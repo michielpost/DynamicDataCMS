@@ -104,7 +104,7 @@
         },
         {
           "Name": "Single Person",
-          "Key": "singleton-person",
+          "Key": "singletonperson",
           "SchemaKey": "person",
           "IsSingleton": true,
           "ListViewProperties": [

@@ -47,12 +47,12 @@
                 <td>
                     @if (treeItem.CmsItemId.HasValue)
                     {
-                        @Html.ActionLink("Edit", "EditTree", "Home", new { cmsTreeType = Model.CmsType, slug = treeItem.GetSlug(Model.CmsTreeItem.Nodes).TrimStart('/'), treeItemSchemaKey = treeItem.CmsItemType })<br>
+                        @Html.ActionLink("Edit", "EditTree", "Home", new { cmsTreeType = Model.CmsType, slug = treeItem.GetSlug(Model.CmsTreeItem.Nodes).TrimStart('/'), treeItemSchemaKey = treeItem.CmsItemType }) <text> | </text>
+                        @Html.ActionLink("Delete", "Delete", new { id =treeItem.CmsItemId, cmstype = Model.CmsType })
                     }
                     else
                     {
-                        @Html.ActionLink("Create", "EditTree", "Home", new { cmsTreeType = Model.CmsType, slug = treeItem.GetSlug(Model.CmsTreeItem.Nodes).TrimStart('/'), treeItemSchemaKey = treeItem.CmsItemType })<br>
-
+                        @Html.ActionLink("Create", "EditTree", "Home", new { cmsTreeType = Model.CmsType, slug = treeItem.GetSlug(Model.CmsTreeItem.Nodes).TrimStart('/'), treeItemSchemaKey = treeItem.CmsItemType })
                     }
                 </td>
             </tr>
