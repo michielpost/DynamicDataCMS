@@ -53,7 +53,6 @@
     window.JSONEditor.defaults.callbacks.button = {
         "clear": function (jseditor, e) {
             var field = jseditor.options.field;
-            console.log(jseditor.parent.editors[field]);
             jseditor.parent.editors[field].setValue('');
             jseditor.parent.editors[field].deactivate();
             jseditor.parent.editors[field].activate();
@@ -61,27 +60,28 @@
     };
 
     // Specify upload handler
-    JSONEditor.defaults.options.upload = function (type, file, cbs) {
-        console.log(type);
-        fileUploadUrl += '?fieldName=' + type.substr(5); //remote root. from typename
-        var formData = new FormData();
-        formData.set("file", file, file.name);
+    JSONEditor.defaults.callbacks.upload = {
+        "uploadHandler" : function (jseditor, type, file, cbs) {
+            fileUploadUrl += '?fieldName=' + type.substr(5); //remote root. from typename
+            var formData = new FormData();
+            formData.set("file", file, file.name);
 
-        fetch(fileUploadUrl, { // Your POST endpoint
-            method: 'POST',
-            //headers: {
-            //  // Content-Type may need to be completely **omitted**
-            //  // or you may need something
-            //  "Content-Type": "multipart/form-data"
-            //},
-            body: formData // This is your file object
-        }).then(
-            response => response.json() // if the response is a JSON object
-        ).then(
-            filename => { console.log(filename); cbs.success(filename); } // Handle the success response object
-        ).catch(
-            error => console.log(error) // Handle the error response object
-        );
+            fetch(fileUploadUrl, { // Your POST endpoint
+                method: 'POST',
+                //headers: {
+                //  // Content-Type may need to be completely **omitted**
+                //  // or you may need something
+                //  "Content-Type": "multipart/form-data"
+                //},
+                body: formData // This is your file object
+            }).then(
+                response => response.json() // if the response is a JSON object
+            ).then(
+                filename => { cbs.success(filename); } // Handle the success response object
+            ).catch(
+                error => console.log(error) // Handle the error response object
+            );
+        }
     };
 
     // Initialize the editor
@@ -111,9 +111,6 @@ function save() {
     }
 
     var data = editor.getValue();
-
-    //console.log('saving');
-    //alert(data);
 
     fetch(saveUrl, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
