@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using QMS.Core.Services;
+using SixLabors.ImageSharp;
 
 namespace QMS.Core.Areas.Cms.Controllers
 {
@@ -20,6 +21,12 @@ namespace QMS.Core.Areas.Cms.Controllers
         public ImageController(ImageResizeService imageService)
         {
             _imageService = imageService;
+        }
+
+        [Route("image")]
+        public IActionResult NoImage()
+        {
+            return Redirect("~/_content/QMS.Core/transparant.png");
         }
 
         //[ResponseCache(Duration = 60 * 60 * 24 * 365, Location = ResponseCacheLocation.Any)]
