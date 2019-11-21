@@ -39,7 +39,7 @@ namespace QMS.Core.Services
             return document;
         }
 
-        public async Task<CmsTreeItem?> CreateOrUpdateCmsTreeNodeForSlug(string cmsTreeType, string slug, CmsTreeNode node, string? lang, string? currentUser)
+        public async Task<CmsTreeNode> CreateOrUpdateCmsTreeNodeForSlug(string cmsTreeType, string slug, CmsTreeNode node, string? lang, string? currentUser)
         {
             var document = await GetCmsTreeItem(cmsTreeType, lang).ConfigureAwait(false);
             document ??= new CmsTreeItem();
@@ -82,7 +82,7 @@ namespace QMS.Core.Services
 
             await dataProvider.Write<CmsTreeItem>(document, cmsTreeType, Guid.Empty, lang: null, currentUser).ConfigureAwait(false);
 
-            return document;
+            return node;
         }
 
         private static List<string> GetSlugList(string slug)

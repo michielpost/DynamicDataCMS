@@ -171,31 +171,30 @@ namespace QMS.Core.Controllers
         public async Task<IActionResult> EditTree([FromRoute]string cmsTreeType, [FromRoute]string slug, [FromQuery]string? treeItemSchemaKey, [FromQuery]string? lang)
         {
             slug ??= string.Empty;
+            slug = slug.TrimStart('/');
             slug = "/" + slug;
+           
 
             var cmsMenuItem = schemaService.GetCmsType(cmsTreeType);
             if (cmsMenuItem == null || !cmsMenuItem.SchemaKeys.Any())
                 return new NotFoundResult();
 
             CmsTreeNode? cmsTreeItem = await cmsTreeService.GetCmsTreeNode(cmsTreeType, slug, lang).ConfigureAwait(false);
+            if(cmsTreeItem == null)
+                cmsTreeItem = await cmsTreeService.CreateOrUpdateCmsTreeNodeForSlug(cmsTreeType, slug, new CmsTreeNode() { CmsItemId = Guid.NewGuid() }, lang, this.User.Identity.Name);
 
-            if (cmsTreeItem == null || string.IsNullOrEmpty(cmsTreeItem.CmsItemType))
+            if (string.IsNullOrEmpty(cmsTreeItem.CmsItemType) && string.IsNullOrEmpty(treeItemSchemaKey))
             {
-                if (string.IsNullOrEmpty(treeItemSchemaKey))
+                EditTreeViewModel vm = new EditTreeViewModel
                 {
-                    EditTreeViewModel vm = new EditTreeViewModel
-                    {
-                        MenuCmsItem = cmsMenuItem,
-                        CmsType = cmsTreeType,
-                        Language = lang,
-                        TreeItemSchemaKey = treeItemSchemaKey,
-                        TreeNodeId = cmsTreeItem?.NodeId
-                    };
+                    MenuCmsItem = cmsMenuItem,
+                    CmsType = cmsTreeType,
+                    Language = lang,
+                    TreeItemSchemaKey = treeItemSchemaKey,
+                    TreeNodeId = cmsTreeItem?.NodeId
+                };
 
-                    return View(vm);
-                }
-
-                cmsTreeItem = new CmsTreeNode { CmsItemId = Guid.NewGuid(), CmsItemType = treeItemSchemaKey };
+                return View(vm);
             }
 
             Guid? id = cmsTreeItem.CmsItemId;
