@@ -7,20 +7,41 @@
 
 <h1>@Model.MenuCmsItem.Name Overview</h1>
 
-<ul>
-    @foreach (var treeItem in Model.CmsTreeItem.Nodes.OrderBy(x => x.GetSlug(Model.CmsTreeItem.Nodes)))
-    {
-    <li>
-        @treeItem.GetSlug(Model.CmsTreeItem.Nodes)
-        @if (treeItem.CmsItemId.HasValue)
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Url
+            </th>
+            <th>
+                Type
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var treeItem in Model.CmsTreeItem.Nodes.OrderBy(x => x.GetSlug(Model.CmsTreeItem.Nodes)))
         {
-            @Html.ActionLink("Edit " + treeItem.CmsItemType, "EditTree", "Home", new { cmsTreeType = Model.CmsType, slug = treeItem.GetSlug(Model.CmsTreeItem.Nodes).TrimStart('/'), treeItemSchemaKey = treeItem.CmsItemType })<br>
-        }
-        else
-        {
-            @Html.ActionLink("Create", "EditTree", "Home", new { cmsTreeType = Model.CmsType, slug = treeItem.GetSlug(Model.CmsTreeItem.Nodes).TrimStart('/'), treeItemSchemaKey = treeItem.CmsItemType })<br>
+            <tr>
+               
+                <td>
+                    @treeItem.GetSlug(Model.CmsTreeItem.Nodes)
+                </td>
+                <td>
+                    @treeItem.CmsItemType
+                </td>
+                <td>
+                    @if (treeItem.CmsItemId.HasValue)
+                    {
+                        @Html.ActionLink("Edit", "EditTree", "Home", new { cmsTreeType = Model.CmsType, slug = treeItem.GetSlug(Model.CmsTreeItem.Nodes).TrimStart('/'), treeItemSchemaKey = treeItem.CmsItemType })<br>
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Create", "EditTree", "Home", new { cmsTreeType = Model.CmsType, slug = treeItem.GetSlug(Model.CmsTreeItem.Nodes).TrimStart('/'), treeItemSchemaKey = treeItem.CmsItemType })<br>
 
+                    }
+                </td>
+            </tr>
         }
-    </li>
-    }
-</ul>
+    </tbody>
+</table>
