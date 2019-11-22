@@ -247,31 +247,76 @@ namespace QMS.Core.Controllers
 
         [HttpGet]
         [Route("delete/{cmsType}/{id:guid}/{lang?}")]
-        public async Task<IActionResult> Delete([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang)
+        public async Task<IActionResult> Delete([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang, [FromQuery]string? treeItemSchemaKey, [FromQuery]Guid? treeNodeId)
         {
-            var cmsMenuItem = schemaService.GetCmsType(cmsType);
-            if (cmsMenuItem == null || cmsMenuItem.SchemaKey == null)
+
+            if (id == Guid.Empty)
                 return new NotFoundResult();
 
-            var schema = schemaService.GetSchema(cmsMenuItem.SchemaKey);
+            var cmsMenuItem = schemaService.GetCmsType(cmsType);
+            if (cmsMenuItem == null)
+                return new NotFoundResult();
+
+            var schemaKey = cmsMenuItem.SchemaKey;
+            List<CmsTreeNode> nodes = new List<CmsTreeNode>();
+
+            if (cmsMenuItem.IsTree)
+            {
+                nodes = await cmsTreeService.GetCmsTreeNodesForCmsItemId(cmsType, id, lang);
+                if (nodes.Any())
+                {
+                    schemaKey = nodes.First().CmsItemType;
+                }
+                else
+                {
+                    schemaKey = treeItemSchemaKey;
+                    if (treeNodeId.HasValue)
+                        nodes = await cmsTreeService.GetCmsTreeNodesForNodeId(cmsType, treeNodeId.Value, lang);
+                }
+
+
+                if (schemaKey == null)
+                {
+                    //TODO: Forward to pick a schema
+                }
+            }
+
+            if (schemaKey == null)
+                return new NotFoundResult();
+
+            var schema = schemaService.GetSchema(schemaKey);
+            if (schema == null)
+                return new NotFoundResult();
+
             var data = await readCmsItemService.Read<CmsItem>(cmsType, id, lang).ConfigureAwait(false);
 
             var model = new EditViewModel
             {
                 CmsType = cmsType,
-                MenuCmsItem = cmsMenuItem,
                 Id = id,
                 SchemaLocation = schema,
-                Data = data
+                MenuCmsItem = cmsMenuItem,
+                CmsConfiguration = schemaService.GetCmsConfiguration(),
+                Language = lang,
+                Data = data,
+                Nodes = nodes,
+                TreeItemSchemaKey = treeItemSchemaKey,
+                TreeNodeId = treeNodeId
             };
+
             return View("Delete", model);
         }
 
         [HttpPost]
         [Route("delete/{cmsType}/{id:guid}/{lang?}")]
-        public async Task<IActionResult> DeleteConfirm([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang)
+        public async Task<IActionResult> DeleteConfirm([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang, [FromQuery]string? treeItemSchemaKey, [FromQuery]Guid? treeNodeId)
         {
             await writeCmsItemService.Delete(cmsType, id, lang, this.User.Identity.Name).ConfigureAwait(false);
+
+            if (treeNodeId.HasValue)
+            {
+                await cmsTreeService.ClearCmsTreeNode(cmsType, treeNodeId.Value, lang, this.User.Identity.Name).ConfigureAwait(false);
+            }
 
             return RedirectToAction("List", new { cmsType = cmsType });
         }
