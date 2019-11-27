@@ -77,7 +77,11 @@
             }).then(
                 response => response.json() // if the response is a JSON object
             ).then(
-                filename => { cbs.success(filename); } // Handle the success response object
+                filename => {
+                    cbs.success(filename);
+                    var event = new CustomEvent('uploadFinished', { detail: filename });
+                    document.dispatchEvent(event);
+                } // Handle the success response object
             ).catch(
                 error => console.log(error) // Handle the error response object
             );

@@ -20,7 +20,7 @@ namespace QMS.Module.Micrio
             //Add micrio script to CmsConfiguration.EditScripts
             services.PostConfigure<CmsConfiguration>(x =>
             {
-                x.EditScripts.Add("~/_content/QMS.Module.Micrio/qms.micrio.js");
+                x.EditScripts.Add("/_content/QMS.Module.Micrio/qms.micrio.js");
             });
 
             return builder;
