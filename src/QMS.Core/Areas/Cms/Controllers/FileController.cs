@@ -10,7 +10,7 @@ using QMS.Core.Models;
 using QMS.Core.Services;
 using QMS.Storage.Interfaces;
 
-namespace QMS.Core.Controllers
+namespace QMS.Core.Areas.Cms.Controllers
 {
     /// <summary>
     /// Handles uploading and downloading files
