@@ -30,9 +30,11 @@ namespace QMS.Module.Micrio.Areas.Cms.Controllers
         [HttpPost]
         [Route("add")]
         [Produces("application/json")]
-        public async Task<ActionResult<MicrioResponse>> Add([FromBody] string imageUrl)
+        public async Task<ActionResult<MicrioResponse>> Add([FromBody] string imageId)
         {
             var httpClient = httpClientFactory.CreateClient();
+
+            string imageUrl = Url.Action("NoImage", "Image", new { Area = "Cms"}, this.Request.Scheme);
 
             var url = $"https://micr.io/api/external/newImage?apiKey={micrioConfig.ApiKey}&userId={micrioConfig.UserId}&imageUrl={imageUrl}&folderShortId={micrioConfig.FolderShortId}";
             var response = await httpClient.PostAsync(url, new StringContent(string.Empty));

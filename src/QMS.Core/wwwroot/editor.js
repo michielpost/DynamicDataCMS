@@ -79,7 +79,7 @@
             ).then(
                 filename => {
                     cbs.success(filename);
-                    var event = new CustomEvent('uploadFinished', { detail: filename });
+                    var event = new CustomEvent('uploadFinished', { detail: { id: filename, editor: jseditor } });
                     document.dispatchEvent(event);
                 } // Handle the success response object
             ).catch(
