@@ -34,7 +34,7 @@ namespace QMS.Module.Micrio.Areas.Cms.Controllers
         {
             var httpClient = httpClientFactory.CreateClient();
 
-            string imageUrl = Url.Action("NoImage", "Image", new { Area = "Cms"}, this.Request.Scheme);
+            string imageUrl = Url.Action("NoImage", "Image", new { Area = "Cms"}, this.Request.Scheme) + "/" + imageId;
 
             var url = $"https://micr.io/api/external/newImage?apiKey={micrioConfig.ApiKey}&userId={micrioConfig.UserId}&imageUrl={imageUrl}&folderShortId={micrioConfig.FolderShortId}";
             var response = await httpClient.PostAsync(url, new StringContent(string.Empty));
