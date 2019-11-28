@@ -7,11 +7,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QMS.Core.Models;
 using QMS.Core.Services;
-using QMS.Core.Models;
 using QMS.Storage.Interfaces;
 using NJsonSchema;
 
-namespace QMS.Core.Controllers
+namespace QMS.Core.Areas.Cms.Controllers
 {
     [Area("cms")]
     [Route("[area]/api")]

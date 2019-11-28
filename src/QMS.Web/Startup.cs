@@ -16,6 +16,7 @@ using QMS.Core.Auth.Models;
 using QMS.Core.Models;
 using QMS.Core.Services;
 using QMS.Core.Services.Extensions;
+using QMS.Module.Micrio;
 using QMS.Storage.AzureStorage;
 using QMS.Storage.CosmosDB;
 using QMS.Storage.CosmosDB.Models;
@@ -38,6 +39,7 @@ namespace QMS.Web
         {
             services.UseQms(Configuration)
                 .ConfigureQmsAuth() //Optional if you want user login
+                .ConfigureMicrio() //Optional, if you want to have support to upload images to micr.io
                 .AddInterceptor<ExampleInterceptor>()
                 //.ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
                 .ConfigureAzureStorage(() => new StorageConfiguration() { ReadFiles = true, ReadCmsItems = true });
