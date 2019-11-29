@@ -48,11 +48,9 @@
 
     @foreach(var node in Model.Nodes)
     {
-        <h4>Node editor: @node.Name</h4>
+        <p>slug: @node.Name</p>
     }
 
-    <br />
-    <br />
     <button onclick="javascript:load()" class="btn btn-warning">Reload data</button>
     <button id="saveButton" onclick="javascript:save()" class="btn btn-primary">Save</button>
 
