@@ -13,6 +13,7 @@
     <ProjectReference Include="..\QMS.Core.Models\QMS.Core.Models.csproj" />
     <ProjectReference Include="..\QMS.Core.Services\QMS.Core.Services.csproj" />
     <ProjectReference Include="..\QMS.Core\QMS.Core.csproj" />
+    <ProjectReference Include="..\QMS.Module.Micrio\QMS.Module.Micrio.csproj" />
     <ProjectReference Include="..\QMS.Storage.AzureStorage\QMS.Storage.AzureStorage.csproj" />
     <ProjectReference Include="..\QMS.Storage.CosmosDB\QMS.Storage.CosmosDB.csproj" />
     <ProjectReference Include="..\QMS.Storage.Interfaces\QMS.Storage.Interfaces.csproj" />

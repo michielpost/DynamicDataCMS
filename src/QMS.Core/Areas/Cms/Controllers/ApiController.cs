@@ -9,7 +9,7 @@ using QMS.Core.Services;
 using QMS.Storage.Interfaces;
 using NJsonSchema;
 
-namespace QMS.Core.Controllers
+namespace QMS.Core.Areas.Cms.Controllers
 {
     [Area("cms")]
     [Route("[area]/api")]

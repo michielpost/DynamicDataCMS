@@ -12,7 +12,7 @@ using NJsonSchema;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 
-namespace QMS.Core.Controllers
+namespace QMS.Core.Areas.Cms.Controllers
 {
     [Area("cms")]
     [Route("[area]")]
@@ -22,13 +22,15 @@ namespace QMS.Core.Controllers
         private readonly IWriteCmsItem writeCmsItemService;
         private readonly JsonSchemaService schemaService;
         private readonly CmsTreeService cmsTreeService;
+        private readonly IHttpClientFactory httpClientFactory;
 
-        public HomeController(DataProviderWrapperService dataProviderService, JsonSchemaService schemaService, CmsTreeService cmsTreeService)
+        public HomeController(DataProviderWrapperService dataProviderService, JsonSchemaService schemaService, IHttpClientFactory clientFactory, CmsTreeService cmsTreeService)
         {
             this.readCmsItemService = dataProviderService;
             this.writeCmsItemService = dataProviderService;
             this.schemaService = schemaService;
             this.cmsTreeService = cmsTreeService;
+            this.httpClientFactory = clientFactory;
         }
 
         [HttpGet]
@@ -216,7 +218,7 @@ namespace QMS.Core.Controllers
             if (string.IsNullOrEmpty(url))
                 return new NotFoundResult();
 
-            var httpClient = new HttpClient();
+            var httpClient = httpClientFactory.CreateClient();
             var json = await httpClient.GetStringAsync(url).ConfigureAwait(false);
 
             var jsonSchema = JsonSchema.FromSampleJson(json);

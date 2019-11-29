@@ -9,7 +9,8 @@
       "options": {
         "upload": {
           "auto_upload": true,
-          "upload_handler": "uploadHandler"
+          "upload_handler": "uploadHandler",
+          "micrioField": "micrioId"
         }
       },
       "links": [
@@ -20,6 +21,7 @@
         }
       ]
     },
+
     "clear_image": {
       "type": "button",
       "title": "Clear Image",
@@ -30,6 +32,10 @@
           "action": "clear"
         }
       }
+    },
+    "micrioId": {
+      "type": "string",
+      "readonly": true
     },
     "name": {
       "type": "string",
