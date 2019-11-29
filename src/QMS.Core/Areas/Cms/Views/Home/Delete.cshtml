@@ -1,6 +1,6 @@
 ﻿@model EditViewModel
 @{
-    ViewData["Title"] = Model.SchemaLocation.Name;
+    ViewData["Title"] = Model.MenuCmsItem.Name;
 }
 
 
@@ -8,7 +8,7 @@
 
 @Html.DisplayFor(x => x.Data)
 
-@using (Html.BeginForm("DeleteConfirm", "Home", new { cmsType = Model.CmsType, id = Model.Id }, FormMethod.Post))
+@using (Html.BeginForm("DeleteConfirm", "Home", new { cmsType = Model.CmsType, id = Model.Id, treeItemSchemaKey = Model.TreeItemSchemaKey, treeNodeId = Model.TreeNodeId }, FormMethod.Post))
 {
     <input type="submit" value="Delete" />
 }

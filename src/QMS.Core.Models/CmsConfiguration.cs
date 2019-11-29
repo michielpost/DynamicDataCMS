@@ -20,31 +20,30 @@ namespace QMS.Core.Models
         public List<string> Scripts { get; set; } = new List<string>();
         public List<string> Styles { get; set; } = new List<string>();
 
-        public List<EntityGroupConfiguration> EntityGroups { get; set; } = new List<EntityGroupConfiguration>();
-       
-        
-        public IEnumerable<EntityGroupConfiguration> EntityGroupsInitialized => EntityGroups.Where(x => x.Entities.Any(e => !string.IsNullOrEmpty(e.Schema)));
+        public List<SchemaLocation> Schemas { get; set; } = new List<SchemaLocation>();
+        public IEnumerable<SchemaLocation> SchemasInitialized => Schemas.Where(x => !string.IsNullOrEmpty(x.Schema));
 
-        public IEnumerable<SchemaLocation> Entities => EntityGroups.SelectMany(x => x.Entities);
-        public IEnumerable<SchemaLocation> EntitiesInitialized => EntityGroupsInitialized.SelectMany(x => x.Entities);
+        public List<MenuGroup> MenuGroups { get; set; } = new List<MenuGroup>();
+        public IEnumerable<MenuItem> MenuItems => MenuGroups.SelectMany(x => x.MenuItems);
 
     }
 
-    public class EntityGroupConfiguration
+    public class MenuGroup
     {
         public string Name { get; set; }
         public int Order { get; set; }
 
-        public List<SchemaLocation> Entities { get; set; } = new List<SchemaLocation>();
-        public IEnumerable<SchemaLocation> EntitiesInitialized => Entities.Where(x => !string.IsNullOrEmpty(x.Schema));
+        public List<MenuItem> MenuItems { get; set; } = new List<MenuItem>();
     }
 
-    public class SchemaLocation
+    public class MenuItem
     {
         public string Name { get; set; }
         public string Key { get; set; }
-        public Uri? Uri { get; set; }
-        public string? FileLocation { get; set; }
+        public string? SchemaKey { get; set; }
+
+        public List<string> SchemaKeys { get; set; } = new List<string>();
+        public bool IsTree => SchemaKeys.Any();
 
         /// <summary>
         /// Indicates there can be only one instance
@@ -57,10 +56,19 @@ namespace QMS.Core.Models
         /// </summary>
         public int PageSize { get; set; } = 20;
 
-        public string? Schema { get; set; }
-
         public List<ListViewProperty> ListViewProperties { get; set; } = new List<ListViewProperty>();
 
+
+
+    }
+
+    public class SchemaLocation
+    {
+        public string Key { get; set; }
+        public Uri? Uri { get; set; }
+        public string? FileLocation { get; set; }
+
+        public string? Schema { get; set; }
     }
 
     public class ListViewProperty

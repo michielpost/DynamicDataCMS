@@ -9,6 +9,7 @@ Runs on ASP.Net Core 3.0
 - Support for multiple datastore plugins (CosmosDB, Azure Storage (Blob / Tables))
 - JsonSchema used to describe entities
 - View and edit entities
+- Create (multiple) page tree's
 - Paging and ordering in list view
 - Support for entities in multiple languages
 - Upload images and other assets
@@ -112,13 +113,11 @@ https://ned.im/noty/
 
 
 ## Roadmap
+- Website SDK / Website usage example
+
 - Searching in list view
 
-- Pages and url tree
-
 - Multiple versions of items (with start and end time)
-
-- Website SDK / Website usage example
 
 - Audit Trail (CosmosDB Change Feed / Blob Storage file)
 

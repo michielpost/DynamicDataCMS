@@ -32,7 +32,7 @@ namespace QMS.Core.Services
             var httpClient = clientFactory.CreateClient();
 
             //TODO: Cache schemas
-            foreach (var location in cmsConfiguration.Entities.Where(x => x.Schema == null))
+            foreach (var location in cmsConfiguration.Schemas.Where(x => x.Schema == null))
             {
                 try
                 {
@@ -54,7 +54,7 @@ namespace QMS.Core.Services
                 }
             }
 
-            return cmsConfiguration.EntitiesInitialized;
+            return cmsConfiguration.SchemasInitialized;
         }
 
         public Task InitializeSchemas()
@@ -62,9 +62,14 @@ namespace QMS.Core.Services
            return GetSchemas();
         }
 
-        public SchemaLocation GetSchema(string cmsType)
+        public SchemaLocation GetSchema(string schemaType)
         {
-            return cmsConfiguration.Entities.Where(x => x.Key == cmsType).FirstOrDefault();
+            return cmsConfiguration.Schemas.Where(x => x.Key == schemaType).FirstOrDefault();
+        }
+
+        public MenuItem GetCmsType(string cmsType)
+        {
+            return cmsConfiguration.MenuItems.Where(x => x.Key == cmsType).FirstOrDefault();
         }
 
         public CmsConfiguration GetCmsConfiguration()

@@ -36,7 +36,7 @@ namespace QMS.Storage.CosmosDB
             string whereClause = string.Empty;
             if (!string.IsNullOrEmpty(searchQuery))
             {
-                var typeInfo = cmsConfiguration.Entities.Where(x => x.Key == cmsType).FirstOrDefault();
+                var typeInfo = cmsConfiguration.MenuItems.Where(x => x.Key == cmsType).FirstOrDefault();
 
                 StringBuilder sb = new StringBuilder();
                 sb.Append("AND (");

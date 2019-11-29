@@ -26,6 +26,7 @@ namespace QMS.Core.Services
             services.Configure<CmsConfiguration>(cmsConfig);
 
             services.AddTransient<JsonSchemaService>();
+            services.AddTransient<CmsTreeService>();
             services.AddTransient<ImageResizeService>();
             services.AddTransient<DataProviderWrapperService>();
 

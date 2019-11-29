@@ -4,7 +4,7 @@
         return;
 
     var cmsConfiguration = CmsConfiguration.Value;
-    var itemConfig = cmsConfiguration.Entities.Where(x => x.Key == Model.CmsType).FirstOrDefault();
+    var itemConfig = cmsConfiguration.MenuItems.Where(x => x.Key == Model.CmsType).FirstOrDefault();
 }
 
 <p>

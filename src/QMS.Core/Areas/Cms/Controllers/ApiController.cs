@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QMS.Core.Models;
 using QMS.Core.Services;
@@ -20,18 +19,20 @@ namespace QMS.Core.Areas.Cms.Controllers
         private readonly IReadCmsItem readCmsItemService;
         private readonly IWriteCmsItem writeCmsItemService;
         private readonly JsonSchemaService schemaService;
+        private readonly CmsTreeService cmsTreeService;
 
-        public ApiController(DataProviderWrapperService dataProviderService, JsonSchemaService schemaService)
+        public ApiController(DataProviderWrapperService dataProviderService, JsonSchemaService schemaService, CmsTreeService cmsTreeService)
         {
             this.readCmsItemService = dataProviderService;
             this.writeCmsItemService = dataProviderService;
             this.schemaService = schemaService;
+            this.cmsTreeService = cmsTreeService;
         }
 
         [HttpPost]
         [Route("save/{cmsType}/{id}/{lang?}")]
         [Produces("application/json")]
-        public async Task<ActionResult> Save([FromRoute]string cmsType, [FromRoute]Guid id, [FromBody] CmsItemPostModel value, [FromRoute]string? lang)
+        public async Task<ActionResult> Save([FromRoute]string cmsType, [FromRoute]Guid id, [FromBody] CmsItemPostModel value, [FromRoute]string? lang, [FromQuery]string? treeItemSchemaKey, [FromQuery]Guid? treeNodeId)
         {
             CmsItem item = new CmsItem
             {
@@ -40,6 +41,11 @@ namespace QMS.Core.Areas.Cms.Controllers
                 Id = id
             };
             await writeCmsItemService.Write(item, cmsType, id, lang, this.User.Identity.Name).ConfigureAwait(false);
+
+            if(treeNodeId.HasValue && treeItemSchemaKey != null)
+            {
+                await cmsTreeService.SetCmsTreeNodeType(cmsType, treeNodeId.Value, treeItemSchemaKey, id, lang, this.User.Identity.Name);
+            }
 
             return new OkObjectResult(item);
         }
@@ -69,7 +75,7 @@ namespace QMS.Core.Areas.Cms.Controllers
         [Produces("application/json")]
         public async Task<IReadOnlyList<SearchResult>> Search([FromRoute]string cmsType, [FromQuery]string? q)
         {
-            var schema = schemaService.GetSchema(cmsType);
+            var schema = schemaService.GetCmsType(cmsType);
             var (results, _) = await readCmsItemService.List(cmsType, null, null, searchQuery: q).ConfigureAwait(false);
 
             var searchResults = new List<SearchResult>();
@@ -96,7 +102,7 @@ namespace QMS.Core.Areas.Cms.Controllers
         [Produces("application/json")]
         public async Task<ExternalEnum> Enum([FromRoute]string cmsType)
         {
-            var schema = schemaService.GetSchema(cmsType);
+            var schema = schemaService.GetCmsType(cmsType);
             var list = await readCmsItemService.List(cmsType, null, null).ConfigureAwait(false);
 
             var result = new ExternalEnum
@@ -133,11 +139,11 @@ namespace QMS.Core.Areas.Cms.Controllers
             return Content(schema.ToJson());
         }
 
-        private string GetDisplayTitle(CmsItem x, SchemaLocation schema)
+        private string GetDisplayTitle(CmsItem x, MenuItem menuCmsItem)
         {
             List<string> titles = new List<string>();
 
-            foreach(var prop in schema.ListViewProperties)
+            foreach(var prop in menuCmsItem.ListViewProperties)
             {
                 titles.Add(x.AdditionalProperties.FirstOrDefault(p => p.Key == prop.Key).Value.ToString());
             }

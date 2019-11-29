@@ -33,7 +33,7 @@ namespace QMS.Storage.AzureStorage
 
         public async Task<(IReadOnlyList<CmsItem> results, int total)> List(string cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0, string? searchQuery = null)
         {
-            var typeInfo = cmsConfiguration.Entities.Where(x => x.Key == cmsType).FirstOrDefault();
+            var typeInfo = cmsConfiguration.Schemas.Where(x => x.Key == cmsType).FirstOrDefault();
 
             //Get index file
             var indexFileName = GenerateFileName(cmsType, "_index", null);
@@ -111,7 +111,7 @@ namespace QMS.Storage.AzureStorage
 
             //Write index file for paging and sorting
             var indexFileName = GenerateFileName(cmsType, "_index", lang);
-            var typeInfo = cmsConfiguration.Entities.Where(x => x.Key == cmsType).FirstOrDefault();
+            var typeInfo = cmsConfiguration.MenuItems.Where(x => x.Key == cmsType).FirstOrDefault();
 
             if (typeInfo == null)
                 return;

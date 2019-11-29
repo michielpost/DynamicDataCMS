@@ -5,17 +5,13 @@ using System.Threading.Tasks;
 
 namespace QMS.Core.Models
 {
-    public class ListViewModel
+    public class ListTreeViewModel
     {
         public string CmsType { get; set; }
 
         public IReadOnlyList<CmsItem> Items { get; set; }
 
-        public int TotalPages { get; set; }
-        public int CurrentPage { get; set; }
-        public int PageSize { get; set; }
-
-        public SchemaLocation Schema { get; set; }
+        public CmsTreeItem CmsTreeItem { get; set; }
         public MenuItem MenuCmsItem { get; set; }
     }
 }
