@@ -82,6 +82,9 @@ app.UseMiddleware<QmsAuthenticatationMiddleware>();
 
 See the example project to add a default first user to the user list.
 
+### Micrio
+[Micrio Module documentation](src/QMS.Module.Micrio)
+
 ## Interceptors
 Allows you to modify the data before it's saved.
 ```cs
