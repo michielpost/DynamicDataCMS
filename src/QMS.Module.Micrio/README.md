@@ -1,5 +1,5 @@
 # Micrio Module
-The Micrio module allows you to submit file uploads to Micrio and retreive a Micrio short id. The short id can be stored in your json document and used to view the uploaded image in Micrio.
+The Micrio module allows you to submit file uploads to https://micr.io and retreive a Micrio short id. The short id can be stored in your json document and used to view the uploaded image in Micrio.
 
 ## Usage
 - Register for a micr.io account
