@@ -21,9 +21,10 @@ function submitToMicrio(e) {
     ).then(
         micrioResponse => {
             console.log(micrioResponse);
-            if (jseditor_editor.parent.editors[micrioField]) {
-                jseditor_editor.parent.editors[micrioField].setValue(micrioResponse.shortId);
+            if (!jseditor_editor.parent.editors[micrioField]) {
+                jseditor_editor.parent.addObjectProperty(micrioField);
             }
+            jseditor_editor.parent.editors[micrioField].setValue(micrioResponse.shortId);
         } // Handle the success response object
     ).catch(
         error => console.log(error) // Handle the error response object
