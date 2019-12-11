@@ -32,6 +32,9 @@ namespace QMS.Module.Micrio.Areas.Cms.Controllers
         [Produces("application/json")]
         public async Task<ActionResult<MicrioResponse>> Add([FromBody] string imageId)
         {
+            if (!this.micrioConfig.IsValid())
+                throw new Exception("Micrio config is not valid.");
+
             var httpClient = httpClientFactory.CreateClient();
 
             string imageUrl = Url.Action("NoImage", "Image", new { Area = "Cms"}, this.Request.Scheme) + "/" + imageId;

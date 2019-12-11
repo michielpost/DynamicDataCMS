@@ -8,6 +8,14 @@ namespace QMS.Module.Micrio.Models
     {
         public string ApiKey { get; set; }
         public string UserId { get; set; }
-        public string? FolderShortId { get; set; }
+        public string FolderShortId { get; set; }
+
+
+        public bool IsValid()
+        {
+            return !string.IsNullOrEmpty(ApiKey)
+                && !string.IsNullOrEmpty(UserId)
+                && !string.IsNullOrEmpty(FolderShortId);
+        }
     }
 }

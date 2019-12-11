@@ -9,7 +9,8 @@ The Micrio module allows you to submit file uploads to Micrio and retreive a Mic
 ```json
   "MicrioConfig": {
     "ApiKey": "YOUR_API_KEY",
-    "UserId": "YOUR_USER_ID"
+    "UserId": "YOUR_USER_ID",
+    "FolderShortId": "folderShortId"
   }
 ```
 
@@ -27,8 +28,8 @@ Add a micrioField to the uploader options:
 ```
 Add the micrioId field to the document:
 ```json
-"id": {
-          "type": "string",
-          "readonly": true
-    }
+"micrioId": {
+        "type": "string",
+        "readonly": true
+      }
 ```
