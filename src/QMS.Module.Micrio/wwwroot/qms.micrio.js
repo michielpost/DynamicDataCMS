@@ -8,7 +8,7 @@ function submitToMicrio(e) {
     if (!micrioField)
         return;
 
-    var micrioUrl = '/cms/api/micrio/add';
+    var micrioUrl = '/cms/micrio/add';
     fetch(micrioUrl, { // Your POST endpoint
         method: 'POST',
         headers: {

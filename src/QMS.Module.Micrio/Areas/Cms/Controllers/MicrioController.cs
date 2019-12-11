@@ -14,7 +14,7 @@ using QMS.Module.Micrio.Models;
 namespace QMS.Module.Micrio.Areas.Cms.Controllers
 {
     [Area("cms")]
-    [Route("[area]/api/micrio")]
+    [Route("[area]/micrio")]
     [ApiController]
     public class MicrioController : ControllerBase
     {
@@ -42,15 +42,23 @@ namespace QMS.Module.Micrio.Areas.Cms.Controllers
             var url = $"https://micr.io/api/external/newImage?apiKey={micrioConfig.ApiKey}&userId={micrioConfig.UserId}&imageUrl={imageUrl}&folderShortId={micrioConfig.FolderShortId}";
             var response = await httpClient.PostAsync(url, new StringContent(string.Empty));
 
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
                 var resultString = await response.Content.ReadAsStringAsync();
                 var result = JsonSerializer.Deserialize<MicrioResponse>(resultString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
                 return result;
             }
+            else
+            {
+                var content = await response.Content.ReadAsStringAsync();
 
-            return new NotFoundResult();
+                if (response.Content != null)
+                    response.Content.Dispose();
+
+                throw new Exception("Error submitting to Micr.io: " + content);
+            }
+            
         }
       
     }
