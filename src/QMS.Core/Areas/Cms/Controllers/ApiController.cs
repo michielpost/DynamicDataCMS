@@ -71,10 +71,13 @@ namespace QMS.Core.Areas.Cms.Controllers
         }
 
         [HttpGet]
-        [Route("search/{cmsType}")]
+        [Route("search/{cmsType?}")]
         [Produces("application/json")]
-        public async Task<IReadOnlyList<SearchResult>> Search([FromRoute]string cmsType, [FromQuery]string? q)
+        public async Task<IReadOnlyList<SearchResult>> Search([FromRoute]string? cmsType, [FromQuery]string? q)
         {
+            if (cmsType == null)
+                return Enumerable.Empty<SearchResult>().ToList();
+
             var schema = schemaService.GetCmsType(cmsType);
             var (results, _) = await readCmsItemService.List(cmsType, null, null, searchQuery: q).ConfigureAwait(false);
 
