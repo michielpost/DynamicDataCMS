@@ -27,7 +27,7 @@
       "title": "Other person",
       "type": "object",
       "options": {
-        "itemType": "person"
+        "itemType": "persontest"
       },
       "properties": {
         "text": {

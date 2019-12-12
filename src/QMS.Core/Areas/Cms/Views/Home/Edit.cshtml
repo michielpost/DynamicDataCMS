@@ -14,7 +14,7 @@
 @section Scripts
 {
     <script type="text/javascript">
-        var searchApiUrl = '@Html.Raw(Url.Action("Search", "Api"))';
+        var searchApiUrl = '@Html.Raw(Url.Action("Search", "Api", new { cmsType = string.Empty }))';
         var fileUploadUrl = '@Html.Raw(Url.Action("Upload", "File", new { cmsType = Model.CmsType, id = Model.Id, lang = Model.Language }))';
         var saveUrl = '@Html.Raw(Url.Action("Save", "Api", new { cmsType = Model.CmsType, id = Model.Id, lang = Model.Language, treeItemSchemaKey = Model.TreeItemSchemaKey, treeNodeId = Model.TreeNodeId }))';
         var loadUrl = '@Html.Raw(Url.Action("Load", "Api", new { cmsType = Model.CmsType, id = Model.Id, lang = Model.Language }))';
