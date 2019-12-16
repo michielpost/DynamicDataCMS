@@ -25,3 +25,23 @@ addEventListener('DOMContentLoaded', () => {
         }
     }
 })();
+
+
+function jsonLoaded() {
+    if (!window.editor)
+        return;
+
+    showProperties(window.editor.schema.properties, window.editor.editors.root);
+}
+
+function showProperties(schema, editor)
+{
+    for (var propertyName in schema) {
+        editor.addObjectProperty(propertyName);
+
+        if (schema[propertyName].properties)
+            showProperties(schema[propertyName].properties, editor.editors[propertyName]);
+
+        //you can get the value like this: myObject[propertyName]
+    }
+}

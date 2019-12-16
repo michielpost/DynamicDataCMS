@@ -98,6 +98,7 @@
     if (setData) {
         editor.on('ready', function () {
             editor.setValue(data);
+            jsonLoaded();
         });
     }
 })();
