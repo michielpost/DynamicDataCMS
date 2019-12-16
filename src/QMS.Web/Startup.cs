@@ -16,6 +16,7 @@ using QMS.Core.Auth.Models;
 using QMS.Core.Models;
 using QMS.Core.Services;
 using QMS.Core.Services.Extensions;
+using QMS.Core.Web.Helpers;
 using QMS.Module.Micrio;
 using QMS.Storage.AzureStorage;
 using QMS.Storage.CosmosDB;
@@ -45,6 +46,9 @@ namespace QMS.Web
                 .ConfigureAzureStorage(() => new StorageConfiguration() { ReadFiles = true, ReadCmsItems = true });
 
             services.AddControllersWithViews();
+
+            //Handle routes from the page tree
+            services.AddSingleton<PageTreeRoutes>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,6 +79,8 @@ namespace QMS.Web
                 endpoints.MapControllerRoute(
                     name: "cms",
                     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapDynamicControllerRoute<PageTreeRoutes>("{**slug}");
 
                 endpoints.MapControllerRoute(
                     name: "default",

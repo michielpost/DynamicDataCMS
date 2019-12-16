@@ -16,17 +16,15 @@ namespace QMS.Core.Services
             this.dataProvider = dataProvider;
         }
 
-        public Task<CmsTreeItem?> GetCmsTreeItem(string cmsTreeType, string? lang)
+        public async Task<CmsTreeItem> GetCmsTreeItem(string cmsTreeType, string? lang)
         {
-            return dataProvider.Read<CmsTreeItem>(cmsTreeType, Guid.Empty, lang: null);
+            var treeItem = await dataProvider.Read<CmsTreeItem>(cmsTreeType, Guid.Empty, lang: null);
+            return treeItem ?? new CmsTreeItem();
         }
 
         public async Task<CmsTreeItem> SetCmsTreeNodeType(string cmsTreeType, Guid nodeId, string cmsItemType, Guid cmsItemId, string? lang, string? currentUser)
         {
             var document = await GetCmsTreeItem(cmsTreeType, lang).ConfigureAwait(false);
-
-            if (document == null)
-                throw new Exception("Tree item not found");
 
             //Get node
             var existing = document.Nodes.Where(x => x.NodeId == nodeId).FirstOrDefault();
@@ -42,9 +40,6 @@ namespace QMS.Core.Services
         public async Task<CmsTreeItem> ClearCmsTreeNode(string cmsTreeType, Guid nodeId, string? lang, string? currentUser)
         {
             var document = await GetCmsTreeItem(cmsTreeType, lang).ConfigureAwait(false);
-
-            if (document == null)
-                throw new Exception("Tree item not found");
 
             //Get node
             var existing = document.Nodes.Where(x => x.NodeId == nodeId).FirstOrDefault();
@@ -70,9 +65,6 @@ namespace QMS.Core.Services
         public async Task<int> TreeShake(string cmsTreeType, string? lang, string? currentUser)
         {
             var document = await GetCmsTreeItem(cmsTreeType, lang).ConfigureAwait(false);
-            if (document == null)
-                return 0;
-
             var potential = document.Nodes.Where(x => !x.CmsItemId.HasValue);
             var allParentIds = document.Nodes.Select(x => x.ParentId);
 
@@ -91,7 +83,6 @@ namespace QMS.Core.Services
         public async Task<CmsTreeNode> CreateOrUpdateCmsTreeNodeForSlug(string cmsTreeType, string slug, CmsTreeNode node, string? lang, string? currentUser)
         {
             var document = await GetCmsTreeItem(cmsTreeType, lang).ConfigureAwait(false);
-            document ??= new CmsTreeItem();
 
             List<string> slugParts = GetSlugList(slug);
 
