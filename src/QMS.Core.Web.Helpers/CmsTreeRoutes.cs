@@ -62,9 +62,4 @@ namespace QMS.Core.Web.Helpers
 			return uri;
 		}
 	}
-
-	public class TestModel
-	{
-		public string Name { get; set; }
-	}
 }
