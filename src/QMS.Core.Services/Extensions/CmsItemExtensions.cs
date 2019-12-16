@@ -14,7 +14,7 @@ namespace QMS.Core.Services.Extensions
             return JsonSerializer.Deserialize<T>(json);
         }
 
-        public static T ToObject<T>(this object obj) where T : class
+        public static T ToObject<T>(this object obj) where T : CmsItem
         {
             var json = JsonSerializer.Serialize(obj);
             return JsonSerializer.Deserialize<T>(json);

@@ -81,10 +81,6 @@ namespace QMS.Web
                     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapDynamicControllerRoute<PageTreeRoutes>("{**slug}");
-
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
 
