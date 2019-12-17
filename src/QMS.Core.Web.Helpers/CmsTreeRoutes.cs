@@ -41,7 +41,8 @@ namespace QMS.Core.Web.Helpers
 							{
 								{  "controller", cmsTreeNode.CmsItemType },
 								{  "action", "Index" },
-								{  "cmsItem", cmsItem },
+								{  "area", null },
+								{  "cmsItemId", cmsTreeNode.CmsItemId.Value },
 							};
 					}
 				}

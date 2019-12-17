@@ -9,7 +9,7 @@ namespace QMS.Web.Controllers
 {
     public class ContentPageController : Controller
     {
-        public IActionResult Index(CmsItem cmsItem)
+        public IActionResult Index(Guid cmsItemId)
         {
             return View();
         }
