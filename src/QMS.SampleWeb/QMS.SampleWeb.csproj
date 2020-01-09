@@ -9,16 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QMS.Core.Models\QMS.Core.Models.csproj" />
-    <ProjectReference Include="..\QMS.Core.Services\QMS.Core.Services.csproj" />
     <ProjectReference Include="..\QMS.Core.Web.Helpers\QMS.Core.Web.Helpers.csproj" />
     <ProjectReference Include="..\QMS.Core\QMS.Core.csproj" />
     <ProjectReference Include="..\QMS.Storage.AzureStorage\QMS.Storage.AzureStorage.csproj" />
-    <ProjectReference Include="..\QMS.Storage.Interfaces\QMS.Storage.Interfaces.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
