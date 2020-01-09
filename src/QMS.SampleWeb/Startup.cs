@@ -61,14 +61,7 @@ namespace QMS.SampleWeb
                 endpoints.MapDynamicControllerRoute<PageTreeRoutes>("{**slug}");
             });
 
-
-            //Cosmos
-            //using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            //{
-            //    serviceScope.ServiceProvider.GetService<CosmosService>().InitializeContainer();
-            //}
-
-            //Schemas
+            //Initialize Schemas
             Task.Run(async () =>
             {
                 using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
