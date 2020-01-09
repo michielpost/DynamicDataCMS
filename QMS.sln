@@ -25,7 +25,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{8FF4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QMS.Module.Micrio", "src\QMS.Module.Micrio\QMS.Module.Micrio.csproj", "{A4990FDA-CEB1-4326-9367-37D856983A92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QMS.Core.Web.Helpers", "src\QMS.Core.Web.Helpers\QMS.Core.Web.Helpers.csproj", "{E63523CB-B31C-4EAF-AE92-BA5BF731D664}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QMS.Core.Web.Helpers", "src\QMS.Core.Web.Helpers\QMS.Core.Web.Helpers.csproj", "{E63523CB-B31C-4EAF-AE92-BA5BF731D664}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QMS.SampleWeb", "src\QMS.SampleWeb\QMS.SampleWeb.csproj", "{66AE9BE5-B01B-4C55-AC94-284AF992C1BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +75,10 @@ Global
 		{E63523CB-B31C-4EAF-AE92-BA5BF731D664}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E63523CB-B31C-4EAF-AE92-BA5BF731D664}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E63523CB-B31C-4EAF-AE92-BA5BF731D664}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66AE9BE5-B01B-4C55-AC94-284AF992C1BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66AE9BE5-B01B-4C55-AC94-284AF992C1BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66AE9BE5-B01B-4C55-AC94-284AF992C1BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66AE9BE5-B01B-4C55-AC94-284AF992C1BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

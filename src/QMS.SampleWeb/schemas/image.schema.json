@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Image",
+  "type": "object",
+  "properties": {
+    "file": {
+      "type": "string",
+      "format": "url",
+      "options": {
+        "upload": {
+          "auto_upload": true,
+          "upload_handler": "uploadHandler"
+        }
+      },
+      "links": [
+        {
+          "href": "/cms/image/{{self}}?w=100&h=100",
+          "mediaType": "image",
+          "rel": "view"
+        }
+      ]
+    },
+    "clear_image": {
+      "type": "button",
+      "title": "Clear Image",
+      "options": {
+        "field": "file",
+        "button": {
+          "align": "left",
+          "action": "clear"
+        }
+      }
+    },
+    "name": {
+      "type": "string",
+      "description": "Name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description"
+    }
+  }
+}

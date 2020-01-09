@@ -1,5 +1,5 @@
 {
-  "Title": "QMS4 Sample CMS",
+  "Title": "QMS4 Development CMS",
   "Languages": [ "en-US", "nl-NL" ],
   "EditScripts": [ "/extra-script.js" ],
   "Scripts": [ "https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js" ],

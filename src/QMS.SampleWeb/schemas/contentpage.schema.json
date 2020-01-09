@@ -1,0 +1,47 @@
+{
+  "type": "object",
+  "title": "Content Page",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "intro": {
+      "type": "string",
+      "format": "markdown",
+      "options": {
+        "simplemde": {
+          "spellChecker": false,
+          "autorefresh": true
+        }
+      }
+    },
+    "blocks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/contentblock"
+      }
+    }
+  },
+  "definitions": {
+    "contentblock": {
+      "type": "object",
+      "title": "Content Block",
+      "multiple": true,
+      "properties": {
+        "text": {
+          "type": "string",
+          "format": "markdown",
+          "options": {
+            "simplemde": {
+              "spellChecker": false,
+              "autorefresh": true
+            }
+          }
+        }
+      },
+      "plural_title": "Content Blocks"
+    }
+  }
+}

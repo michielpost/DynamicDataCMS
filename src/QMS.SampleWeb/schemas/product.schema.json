@@ -1,0 +1,62 @@
+{
+  "$id": "https://example.com/person.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Product",
+  "type": "object",
+  "required": [ "name" ],
+  "options": {
+    "disable_edit_json": false
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The product name.",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string",
+      "format": "markdown",
+      "options": {
+        "simplemde": {
+          "spellChecker": false,
+          "autorefresh": true
+        }
+      }
+    },
+    "stock": {
+      "description": "Age in years which must be equal to or greater than zero.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "category_link": {
+      "description": "Link to a category",
+      "title": "Category",
+      "type": "object",
+      "options": {
+        "itemType": "categoryitem"
+      },
+      "properties": {
+        "text": {
+          "type": "string",
+          "format": "autocomplete",
+          "title": "Name",
+          "description": "Enter a text of minimum 3 characters.",
+          "options": {
+            "grid_columns": 6,
+            "autocomplete": {
+              "search": "search_autocomplete",
+              "getResultValue": "getResultValue_autocomplete",
+              "renderResult": "renderResult_autocomplete",
+              "onSubmit": "onSubmit_autocomplete",
+              "autoSelect": true
+            }
+          }
+        },
+        "id": {
+          "type": "string",
+          "readonly": true
+        }
+      }
+    }
+  }
+}
