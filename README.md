@@ -4,6 +4,8 @@ Open source Q42 CMS
 Developer friendly, headless and modular CMS based on JsonSchema standard  
 Runs on ASP.Net Core 3.0
 
+## Live Demo: https://qms4.azurewebsites.net/cms
+
 ## Features
 - Headless CMS
 - Support for multiple datastore plugins (CosmosDB, Azure Storage (Blob / Tables))
