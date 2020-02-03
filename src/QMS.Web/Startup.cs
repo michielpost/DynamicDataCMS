@@ -68,11 +68,11 @@ namespace QMS.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            //Optional if you want authentication:
-            app.UseAuthentication();
-            app.UseMiddleware<QmsAuthenticatationMiddleware>();
-
             app.UseRouting();
+
+            //Optional if you want authentication:
+            app.UseAuthentication();  // Must be after UseRouting()
+            app.UseMiddleware<QmsAuthenticatationMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
