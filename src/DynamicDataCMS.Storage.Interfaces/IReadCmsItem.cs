@@ -1,9 +1,9 @@
-﻿using DynamicDataCms.Core.Models;
+﻿using DynamicDataCMS.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DynamicDataCms.Storage.Interfaces
+namespace DynamicDataCMS.Storage.Interfaces
 {
     /// <summary>
     /// Interface that defines Read operations on CmsItems

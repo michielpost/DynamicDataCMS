@@ -1,18 +1,18 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using DynamicDataCms.Core;
-using DynamicDataCms.Core.Models;
-using DynamicDataCms.Storage.CosmosDB.Models;
-using DynamicDataCms.Storage.Interfaces;
+using DynamicDataCMS.Core;
+using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Storage.CosmosDB.Models;
+using DynamicDataCMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DynamicDataCms.Storage.CosmosDB
+namespace DynamicDataCMS.Storage.CosmosDB
 {
     /// <summary>
-    /// Configure all services in the DynamicDataCms.Storage.CosmosDB package
+    /// Configure all services in the DynamicDataCMS.Storage.CosmosDB package
     /// </summary>
     public static class CmsBuilderExtensions
     {

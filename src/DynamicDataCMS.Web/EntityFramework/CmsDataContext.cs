@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using DynamicDataCms.Web.Models;
+using DynamicDataCMS.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DynamicDataCms.Web.EntityFramework
+namespace DynamicDataCMS.Web.EntityFramework
 {
     public class CmsDataContext : DbContext
     {

@@ -8,10 +8,10 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using DynamicDataCms.Core.Models;
-using DynamicDataCms.Module.Micrio.Models;
+using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Module.Micrio.Models;
 
-namespace DynamicDataCms.Module.Micrio.Areas.Cms.Controllers
+namespace DynamicDataCMS.Module.Micrio.Areas.Cms.Controllers
 {
     [Area("cms")]
     [Route("[area]/micrio")]

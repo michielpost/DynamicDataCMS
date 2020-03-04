@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using DynamicDataCms.Core.Models;
-using DynamicDataCms.Storage.Interfaces;
+using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Storage.Interfaces;
 using System;
 
-namespace DynamicDataCms.Storage.EntityFramework
+namespace DynamicDataCMS.Storage.EntityFramework
 {
     /// <summary>
-    /// Configure all services in the DynamicDataCms.Storage.EntityFramework package
+    /// Configure all services in the DynamicDataCMS.Storage.EntityFramework package
     /// </summary>
     public static class CmsBuilderExtensions
     {

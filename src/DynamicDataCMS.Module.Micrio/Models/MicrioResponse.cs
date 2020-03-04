@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DynamicDataCms.Module.Micrio.Models
+namespace DynamicDataCMS.Module.Micrio.Models
 {
     public class MicrioResponse
     {

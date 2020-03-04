@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using DynamicDataCms.Core;
-using DynamicDataCms.Core.Models;
-using DynamicDataCms.Storage.Interfaces;
+using DynamicDataCMS.Core;
+using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Storage.Interfaces;
 
-namespace DynamicDataCms.Core.Services
+namespace DynamicDataCMS.Core.Services
 {
     /// <summary>
     /// Configure the CMS

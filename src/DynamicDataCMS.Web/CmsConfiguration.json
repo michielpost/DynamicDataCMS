@@ -7,19 +7,19 @@
   "Schemas": [
     {
       "Key": "homepage",
-      "Uri": "https://localhost:44341/cms/api/schema/DynamicDataCms.Web/DynamicDataCms.Web.Models.Pages.HomePage"
+      "Uri": "https://localhost:44341/cms/api/schema/DynamicDataCMS.Web/DynamicDataCMS.Web.Models.Pages.HomePage"
     },
     {
       "Key": "contentpage",
-      "Uri": "https://localhost:44341/cms/api/schema/DynamicDataCms.Web/DynamicDataCms.Web.Models.Pages.ContentPage"
+      "Uri": "https://localhost:44341/cms/api/schema/DynamicDataCMS.Web/DynamicDataCMS.Web.Models.Pages.ContentPage"
     },
     {
       "Key": "studentschema",
-      "Uri": "https://localhost:44341/cms/api/schema/DynamicDataCms.Web/DynamicDataCms.Web.Models.Student"
+      "Uri": "https://localhost:44341/cms/api/schema/DynamicDataCMS.Web/DynamicDataCMS.Web.Models.Student"
     },
     {
       "Key": "bookschema",
-      "Uri": "https://localhost:44341/cms/api/schema/DynamicDataCms.Web/DynamicDataCms.Web.Models.Book"
+      "Uri": "https://localhost:44341/cms/api/schema/DynamicDataCMS.Web/DynamicDataCMS.Web.Models.Book"
     },
     {
       "Key": "person",

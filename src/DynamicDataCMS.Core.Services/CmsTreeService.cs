@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DynamicDataCms.Core.Models;
+using DynamicDataCMS.Core.Models;
 
-namespace DynamicDataCms.Core.Services
+namespace DynamicDataCMS.Core.Services
 {
     public class CmsTreeService
     {

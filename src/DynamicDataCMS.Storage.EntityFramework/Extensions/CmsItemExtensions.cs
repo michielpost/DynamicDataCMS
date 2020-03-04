@@ -1,10 +1,10 @@
-﻿using DynamicDataCms.Core.Models;
+﻿using DynamicDataCMS.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 
-namespace DynamicDataCms.Storage.EntityFramework.Extensions
+namespace DynamicDataCMS.Storage.EntityFramework.Extensions
 {
     public static class CmsItemExtensions
     {

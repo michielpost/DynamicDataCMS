@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DynamicDataCms.Web.Models.Molecules
+namespace DynamicDataCMS.Web.Models.Molecules
 {
 	public class CarouselSlide
 	{

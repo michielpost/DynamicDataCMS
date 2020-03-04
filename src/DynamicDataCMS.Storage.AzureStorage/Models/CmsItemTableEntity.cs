@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace DynamicDataCms.Storage.AzureStorage.Models
+namespace DynamicDataCMS.Storage.AzureStorage.Models
 {
     public class CmsItemTableEntity : TableEntity
     {

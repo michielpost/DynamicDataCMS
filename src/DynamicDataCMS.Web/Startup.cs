@@ -11,24 +11,24 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using DynamicDataCms.Core;
-using DynamicDataCms.Core.Auth;
-using DynamicDataCms.Core.Auth.Models;
-using DynamicDataCms.Core.Models;
-using DynamicDataCms.Core.Services;
-using DynamicDataCms.Core.Services.Extensions;
-using DynamicDataCms.Core.Web.Helpers;
-using DynamicDataCms.Module.Micrio;
-using DynamicDataCms.Storage.AzureStorage;
-using DynamicDataCms.Storage.CosmosDB;
-using DynamicDataCms.Storage.CosmosDB.Models;
-using DynamicDataCms.Storage.Interfaces;
-using DynamicDataCms.Web.EntityFramework;
-using DynamicDataCms.Web.Interceptor;
-using DynamicDataCms.Storage.EntityFramework;
-using DynamicDataCms.Web.Models;
+using DynamicDataCMS.Core;
+using DynamicDataCMS.Core.Auth;
+using DynamicDataCMS.Core.Auth.Models;
+using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Core.Services;
+using DynamicDataCMS.Core.Services.Extensions;
+using DynamicDataCMS.Core.Web.Helpers;
+using DynamicDataCMS.Module.Micrio;
+using DynamicDataCMS.Storage.AzureStorage;
+using DynamicDataCMS.Storage.CosmosDB;
+using DynamicDataCMS.Storage.CosmosDB.Models;
+using DynamicDataCMS.Storage.Interfaces;
+using DynamicDataCMS.Web.EntityFramework;
+using DynamicDataCMS.Web.Interceptor;
+using DynamicDataCMS.Storage.EntityFramework;
+using DynamicDataCMS.Web.Models;
 
-namespace DynamicDataCms.Web
+namespace DynamicDataCMS.Web
 {
     public class Startup
     {

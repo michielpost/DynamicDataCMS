@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DynamicDataCms.Web.Models.Enums
+namespace DynamicDataCMS.Web.Models.Enums
 {
 	public enum BackgroundColor
 	{

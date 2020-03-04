@@ -1,14 +1,14 @@
 ﻿using Microsoft.Extensions.Options;
-using DynamicDataCms.Core.Models;
-using DynamicDataCms.Storage.CosmosDB.Extensions;
-using DynamicDataCms.Storage.CosmosDB.Models;
-using DynamicDataCms.Storage.Interfaces;
+using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Storage.CosmosDB.Extensions;
+using DynamicDataCMS.Storage.CosmosDB.Models;
+using DynamicDataCMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DynamicDataCms.Storage.CosmosDB
+namespace DynamicDataCMS.Storage.CosmosDB
 {
     /// <summary>
     /// CosmosDB does not serialize with System.Text.Json, this wrapper converts the System.Text.json objects to newtonsoft compatible objects

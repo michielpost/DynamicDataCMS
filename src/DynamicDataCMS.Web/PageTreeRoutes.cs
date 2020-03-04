@@ -1,11 +1,11 @@
-﻿using DynamicDataCms.Core.Services;
-using DynamicDataCms.Core.Web.Helpers;
+﻿using DynamicDataCMS.Core.Services;
+using DynamicDataCMS.Core.Web.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DynamicDataCms.Web
+namespace DynamicDataCMS.Web
 {
     public class PageTreeRoutes : CmsTreeRoutes
     {

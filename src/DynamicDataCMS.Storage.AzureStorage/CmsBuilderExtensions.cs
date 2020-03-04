@@ -1,17 +1,17 @@
 ﻿using Microsoft.Extensions.Configuration;
-using DynamicDataCms.Storage.AzureStorage.Models;
+using DynamicDataCMS.Storage.AzureStorage.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using DynamicDataCms.Storage.Interfaces;
-using DynamicDataCms.Core;
-using DynamicDataCms.Core.Models;
+using DynamicDataCMS.Storage.Interfaces;
+using DynamicDataCMS.Core;
+using DynamicDataCMS.Core.Models;
 
-namespace DynamicDataCms.Storage.AzureStorage
+namespace DynamicDataCMS.Storage.AzureStorage
 {
     /// <summary>
-    /// Configure all services in the DynamicDataCms.Storage.AzureStorage package
+    /// Configure all services in the DynamicDataCMS.Storage.AzureStorage package
     /// </summary>
     public static class CmsBuilderExtensions
     {

@@ -1,11 +1,11 @@
-﻿using DynamicDataCms.Core.Models;
+﻿using DynamicDataCMS.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace DynamicDataCms.Core.Auth.Models
+namespace DynamicDataCMS.Core.Auth.Models
 {
     public class CmsUser
     {

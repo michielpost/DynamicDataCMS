@@ -1,12 +1,12 @@
-﻿using DynamicDataCms.Core.Models;
-using DynamicDataCms.Storage.Interfaces;
+﻿using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DynamicDataCms.Core.Services
+namespace DynamicDataCMS.Core.Services
 {
     /// <summary>
     /// Wraps dataprovider calls because there can be multiple interface implementations

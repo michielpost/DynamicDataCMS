@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using DynamicDataCms.Core.Models;
-using DynamicDataCms.Module.Micrio.Models;
+using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Module.Micrio.Models;
 using System.Collections.Generic;
 
-namespace DynamicDataCms.Module.Micrio
+namespace DynamicDataCMS.Module.Micrio
 {
     /// <summary>
     /// Configure the Micrio Module
@@ -20,7 +20,7 @@ namespace DynamicDataCms.Module.Micrio
             //Add micrio script to CmsConfiguration.EditScripts
             services.PostConfigure<CmsConfiguration>(x =>
             {
-                x.EditScripts.Add("/_content/DynamicDataCms.Module.Micrio/qms.micrio.js");
+                x.EditScripts.Add("/_content/DynamicDataCMS.Module.Micrio/qms.micrio.js");
             });
 
             return builder;

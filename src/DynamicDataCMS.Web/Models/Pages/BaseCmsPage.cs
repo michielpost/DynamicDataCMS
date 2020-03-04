@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DynamicDataCms.Web.Models.Pages
+namespace DynamicDataCMS.Web.Models.Pages
 {
     public abstract class BaseCmsPage
     {

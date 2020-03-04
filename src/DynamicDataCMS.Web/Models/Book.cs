@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace DynamicDataCms.Web.Models
+namespace DynamicDataCMS.Web.Models
 {
     public class Book
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using DynamicDataCms.Core.Models;
+using DynamicDataCMS.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace DynamicDataCms.Core.Services
+namespace DynamicDataCMS.Core.Services
 {
     public class JsonSchemaService
     {

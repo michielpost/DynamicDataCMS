@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
-using DynamicDataCms.Web.Models.Components;
+using DynamicDataCMS.Web.Models.Components;
 
-namespace DynamicDataCms.Web.Models.Pages
+namespace DynamicDataCMS.Web.Models.Pages
 {
 	[DisplayName("Contentpagina")]
 	public class ContentPage : BaseCmsPage

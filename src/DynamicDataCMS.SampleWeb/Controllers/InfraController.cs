@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DynamicDataCms.Core.Models;
-using DynamicDataCms.SampleWeb.Infrastructure;
+using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.SampleWeb.Infrastructure;
 
-namespace DynamicDataCms.SampleWeb.Controllers
+namespace DynamicDataCMS.SampleWeb.Controllers
 {
     public class InfraController : Controller
     {

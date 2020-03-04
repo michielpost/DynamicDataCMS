@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
-using DynamicDataCms.Core.Models;
-using DynamicDataCms.Storage.CosmosDB.Models;
+using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Storage.CosmosDB.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 
-namespace DynamicDataCms.Storage.CosmosDB.Extensions
+namespace DynamicDataCMS.Storage.CosmosDB.Extensions
 {
     internal static class CosmosCmsItemExtensions
     {

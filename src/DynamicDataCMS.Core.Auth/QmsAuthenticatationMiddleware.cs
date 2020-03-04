@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DynamicDataCms.Core.Auth
+namespace DynamicDataCMS.Core.Auth
 {
     public class QmsAuthenticatationMiddleware
     {

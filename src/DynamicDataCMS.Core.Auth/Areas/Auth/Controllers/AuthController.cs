@@ -4,18 +4,18 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DynamicDataCms.Core.Models;
-using DynamicDataCms.Storage.Interfaces;
+using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Storage.Interfaces;
 using System.Net.Http;
 using System.Text.Json;
-using DynamicDataCms.Core.Services;
-using DynamicDataCms.Core.Auth.Models;
+using DynamicDataCMS.Core.Services;
+using DynamicDataCMS.Core.Auth.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
-using DynamicDataCms.Core.Services.Extensions;
+using DynamicDataCMS.Core.Services.Extensions;
 
-namespace DynamicDataCms.Core.Auth.Controllers
+namespace DynamicDataCMS.Core.Auth.Controllers
 {
     [Area("auth")]
     [Route("[area]")]

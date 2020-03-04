@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace DynamicDataCms.Web.Models.Components
+namespace DynamicDataCMS.Web.Models.Components
 {
 	//[Display(Name = ("Header"))]
 	public class HomepageHeaderComponent

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DynamicDataCms.Core.Models
+namespace DynamicDataCMS.Core.Models
 {
     /// <summary>
     /// Holds all CMS Configuration (schemas)

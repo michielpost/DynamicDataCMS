@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using DynamicDataCms.Core.Models;
-using DynamicDataCms.Core.Services;
+using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DynamicDataCms.Core
+namespace DynamicDataCMS.Core
 {
     public static class IWebHostBuilderExtensions
     {

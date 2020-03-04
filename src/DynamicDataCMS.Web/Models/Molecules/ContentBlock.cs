@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace DynamicDataCms.Web.Models.Molecules
+namespace DynamicDataCMS.Web.Models.Molecules
 {
 	[DisplayName("Content blok")]
 	public class ContentBlock

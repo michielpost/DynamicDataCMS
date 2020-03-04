@@ -1,14 +1,14 @@
 ﻿using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.Options;
-using DynamicDataCms.Core.Models;
-using DynamicDataCms.Storage.AzureStorage.Models;
+using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Storage.AzureStorage.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace DynamicDataCms.Storage.AzureStorage
+namespace DynamicDataCMS.Storage.AzureStorage
 {
     public class AzureTableService
     {

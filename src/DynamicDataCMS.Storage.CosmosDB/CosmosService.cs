@@ -2,9 +2,9 @@
 using Microsoft.Azure.Cosmos.Fluent;
 using Microsoft.Azure.Cosmos.Linq;
 using Microsoft.Extensions.Options;
-using DynamicDataCms.Core.Models;
-using DynamicDataCms.Storage.CosmosDB.Models;
-using DynamicDataCms.Storage.Interfaces;
+using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Storage.CosmosDB.Models;
+using DynamicDataCMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace DynamicDataCms.Storage.CosmosDB
+namespace DynamicDataCMS.Storage.CosmosDB
 {
     /// <summary>
     /// Implements read and write interface for CmsItems for CosmosDB storage

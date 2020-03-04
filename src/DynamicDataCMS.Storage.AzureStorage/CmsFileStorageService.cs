@@ -1,12 +1,12 @@
-﻿using DynamicDataCms.Core.Models;
-using DynamicDataCms.Storage.Interfaces;
+﻿using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DynamicDataCms.Storage.AzureStorage
+namespace DynamicDataCMS.Storage.AzureStorage
 {
     /// <summary>
     /// Implements read and write interface for files for Azure Blob Storage

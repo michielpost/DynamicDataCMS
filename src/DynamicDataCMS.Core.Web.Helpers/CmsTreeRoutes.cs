@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Routing;
-using DynamicDataCms.Core.Models;
-using DynamicDataCms.Core.Services;
-using DynamicDataCms.Storage.Interfaces;
+using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Core.Services;
+using DynamicDataCMS.Storage.Interfaces;
 
-namespace DynamicDataCms.Core.Web.Helpers
+namespace DynamicDataCMS.Core.Web.Helpers
 {
 	public abstract class CmsTreeRoutes : DynamicRouteValueTransformer
 	{

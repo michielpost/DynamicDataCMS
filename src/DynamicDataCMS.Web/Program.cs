@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using DynamicDataCms.Web.EntityFramework;
+using DynamicDataCMS.Web.EntityFramework;
 
-namespace DynamicDataCms.Web
+namespace DynamicDataCMS.Web
 {
     public class Program
     {

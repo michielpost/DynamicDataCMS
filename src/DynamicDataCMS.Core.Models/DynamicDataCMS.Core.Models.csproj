@@ -7,7 +7,7 @@
     <WarningsAsErrors>CS8600;CS8602;CS8602;CS8603;CS8625;CS8613</WarningsAsErrors>
     <Authors>Q42</Authors>
     <Company>Q42</Company>
-    <Product>DynamicDataCms</Product>
+    <Product>DynamicDataCMS</Product>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>$(DOTNET_BUILD_VERSION)</Version>
     <RepositoryType>git</RepositoryType>

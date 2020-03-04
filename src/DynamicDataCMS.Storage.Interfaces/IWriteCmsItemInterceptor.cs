@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using DynamicDataCms.Core.Models;
+using DynamicDataCMS.Core.Models;
 
-namespace DynamicDataCms.Storage.Interfaces
+namespace DynamicDataCMS.Storage.Interfaces
 {
     public interface IWriteCmsItemInterceptor
     {

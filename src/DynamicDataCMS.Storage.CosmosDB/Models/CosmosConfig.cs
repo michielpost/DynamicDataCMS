@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DynamicDataCms.Storage.CosmosDB.Models
+namespace DynamicDataCMS.Storage.CosmosDB.Models
 {
     /// <summary>
-    /// Configuration that is needed for DynamicDataCms.Storage.CosmosDB package
+    /// Configuration that is needed for DynamicDataCMS.Storage.CosmosDB package
     /// </summary>
     public class CosmosConfig
     {

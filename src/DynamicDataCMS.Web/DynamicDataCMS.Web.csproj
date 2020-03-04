@@ -9,16 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DynamicDataCms.Core.Auth\DynamicDataCms.Core.Auth.csproj" />
-    <ProjectReference Include="..\DynamicDataCms.Core.Models\DynamicDataCms.Core.Models.csproj" />
-    <ProjectReference Include="..\DynamicDataCms.Core.Services\DynamicDataCms.Core.Services.csproj" />
-    <ProjectReference Include="..\DynamicDataCms.Core.Web.Helpers\DynamicDataCms.Core.Web.Helpers.csproj" />
-    <ProjectReference Include="..\DynamicDataCms.Core\DynamicDataCms.Core.csproj" />
-    <ProjectReference Include="..\DynamicDataCms.Module.Micrio\DynamicDataCms.Module.Micrio.csproj" />
-    <ProjectReference Include="..\DynamicDataCms.Storage.AzureStorage\DynamicDataCms.Storage.AzureStorage.csproj" />
-    <ProjectReference Include="..\DynamicDataCms.Storage.CosmosDB\DynamicDataCms.Storage.CosmosDB.csproj" />
-    <ProjectReference Include="..\DynamicDataCms.Storage.EntityFramework\DynamicDataCms.Storage.EntityFramework.csproj" />
-    <ProjectReference Include="..\DynamicDataCms.Storage.Interfaces\DynamicDataCms.Storage.Interfaces.csproj" />
+    <ProjectReference Include="..\DynamicDataCMS.Core.Auth\DynamicDataCMS.Core.Auth.csproj" />
+    <ProjectReference Include="..\DynamicDataCMS.Core.Models\DynamicDataCMS.Core.Models.csproj" />
+    <ProjectReference Include="..\DynamicDataCMS.Core.Services\DynamicDataCMS.Core.Services.csproj" />
+    <ProjectReference Include="..\DynamicDataCMS.Core.Web.Helpers\DynamicDataCMS.Core.Web.Helpers.csproj" />
+    <ProjectReference Include="..\DynamicDataCMS.Core\DynamicDataCMS.Core.csproj" />
+    <ProjectReference Include="..\DynamicDataCMS.Module.Micrio\DynamicDataCMS.Module.Micrio.csproj" />
+    <ProjectReference Include="..\DynamicDataCMS.Storage.AzureStorage\DynamicDataCMS.Storage.AzureStorage.csproj" />
+    <ProjectReference Include="..\DynamicDataCMS.Storage.CosmosDB\DynamicDataCMS.Storage.CosmosDB.csproj" />
+    <ProjectReference Include="..\DynamicDataCMS.Storage.EntityFramework\DynamicDataCMS.Storage.EntityFramework.csproj" />
+    <ProjectReference Include="..\DynamicDataCMS.Storage.Interfaces\DynamicDataCMS.Storage.Interfaces.csproj" />
   </ItemGroup>
 
   <ItemGroup>

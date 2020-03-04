@@ -2,14 +2,14 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NJsonSchema;
-using DynamicDataCms.Core;
-using DynamicDataCms.Core.Auth;
-using DynamicDataCms.Core.Auth.Models;
-using DynamicDataCms.Core.Models;
-using DynamicDataCms.Core.Services;
+using DynamicDataCMS.Core;
+using DynamicDataCMS.Core.Auth;
+using DynamicDataCMS.Core.Auth.Models;
+using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Core.Services;
 using System.Collections.Generic;
 
-namespace DynamicDataCms.Core.Auth
+namespace DynamicDataCMS.Core.Auth
 {
     /// <summary>
     /// Configure the CMS

@@ -1,4 +1,4 @@
-﻿@inject DynamicDataCms.Core.Services.JsonSchemaService JsonSchemaService
+﻿@inject DynamicDataCMS.Core.Services.JsonSchemaService JsonSchemaService
 @{
     var cmsConfig = JsonSchemaService.GetCmsConfiguration();
     ViewData["Title"] = cmsConfig.Title;

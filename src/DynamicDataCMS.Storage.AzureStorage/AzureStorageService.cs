@@ -2,7 +2,7 @@
 using Microsoft.Azure.Storage.Auth;
 using Microsoft.Azure.Storage.Blob;
 using Microsoft.Extensions.Options;
-using DynamicDataCms.Storage.AzureStorage.Models;
+using DynamicDataCMS.Storage.AzureStorage.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace DynamicDataCms.Storage.AzureStorage
+namespace DynamicDataCMS.Storage.AzureStorage
 {
     /// <summary>
     /// Azure Storage helper service

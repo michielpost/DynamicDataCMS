@@ -1,13 +1,13 @@
-﻿using DynamicDataCms.Core.Models;
-using DynamicDataCms.Core.Services;
+﻿using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DynamicDataCms.Core.Services.Extensions;
+using DynamicDataCMS.Core.Services.Extensions;
 using System.Dynamic;
 
-namespace DynamicDataCms.SampleWeb.Infrastructure
+namespace DynamicDataCMS.SampleWeb.Infrastructure
 {
     public class SampleDataGenerator
     {

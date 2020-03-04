@@ -1,4 +1,4 @@
-![GitHub Actions status | Q42/DynamicDataCms](https://github.com/Q42/DynamicDataCms/workflows/ASP.NET%20Core%20CI/badge.svg)
+![GitHub Actions status | Q42/DynamicDataCMS](https://github.com/Q42/DynamicDataCMS/workflows/ASP.NET%20Core%20CI/badge.svg)
 # DynamicDataCMS
 Open source Q42 CMS  
 Developer friendly, headless and modular CMS based on JsonSchema standard  
@@ -20,10 +20,10 @@ Runs on ASP.Net Core 3.1
 - Easy installation using NuGet packages
 
 ## Installation Instructions
-Install `DynamicDataCms.Core` and one of the storage providers from NuGet:
-- `DynamicDataCms.Storage.CosmosDB`
-- `DynamicDataCms.Storage.AzureStorage` 
-- `DynamicDataCms.Storage.EntityFramework`
+Install `DynamicDataCMS.Core` and one of the storage providers from NuGet:
+- `DynamicDataCMS.Storage.CosmosDB`
+- `DynamicDataCMS.Storage.AzureStorage` 
+- `DynamicDataCMS.Storage.EntityFramework`
 
 Edit `Startup.cs` and add the following lines to `ConfigureServices`   
 
@@ -82,7 +82,7 @@ The CMS can now read and write the type `MyModel` from `MyCustomDataContext`. It
 ### Authentication
 Adds user login and user list to the CMS
 
-Add a reference to `DynamicDataCms.Core.Auth` nuget package.
+Add a reference to `DynamicDataCMS.Core.Auth` nuget package.
 ```cs
 services.UseDynamicDataCMS(Configuration)
   .ConfigureDynamicDataCMSAuth()
@@ -97,7 +97,7 @@ app.UseMiddleware<DynamicDataCMSAuthenticatationMiddleware>();
 See the example project to add a default first user to the user list.
 
 ### Micrio
-[Micrio Module documentation](src/DynamicDataCms.Module.Micrio)
+[Micrio Module documentation](src/DynamicDataCMS.Module.Micrio)
 
 ## Interceptors
 Allows you to modify the data before it's saved.

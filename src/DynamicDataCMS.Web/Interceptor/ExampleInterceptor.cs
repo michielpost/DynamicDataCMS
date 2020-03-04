@@ -1,6 +1,6 @@
-﻿using DynamicDataCms.Core.Models;
-using DynamicDataCms.Storage.Interfaces;
-using DynamicDataCms.Web.Models.Pages;
+﻿using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Storage.Interfaces;
+using DynamicDataCMS.Web.Models.Pages;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace DynamicDataCms.Web.Interceptor
+namespace DynamicDataCMS.Web.Interceptor
 {
     public class ExampleInterceptor : IWriteCmsItemInterceptor
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace DynamicDataCms.Web.Models.Components
+namespace DynamicDataCMS.Web.Models.Components
 {
 	[DisplayName("Tekst component")]
 	public class TextComponent : BaseComponent

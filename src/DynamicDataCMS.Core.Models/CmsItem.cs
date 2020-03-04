@@ -4,7 +4,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace DynamicDataCms.Core.Models
+namespace DynamicDataCMS.Core.Models
 {
     /// <summary>
     /// Single CmsDataItem (single language)

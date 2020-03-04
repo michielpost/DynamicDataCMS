@@ -1,4 +1,4 @@
-namespace DynamicDataCms.Web.Models.Components
+namespace DynamicDataCMS.Web.Models.Components
 {
 	public interface IBaseComponent
 	{

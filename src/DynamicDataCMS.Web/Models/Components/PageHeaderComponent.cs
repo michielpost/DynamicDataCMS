@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace DynamicDataCms.Web.Models.Components
+namespace DynamicDataCMS.Web.Models.Components
 {
 	[DisplayName("Pagina header")]
 	public class PageHeaderComponent

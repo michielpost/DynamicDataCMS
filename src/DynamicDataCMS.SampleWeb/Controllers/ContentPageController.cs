@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DynamicDataCms.Core.Models;
-using DynamicDataCms.Core.Services;
-using DynamicDataCms.SampleWeb.Infrastructure;
-using DynamicDataCms.Storage.Interfaces;
+using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Core.Services;
+using DynamicDataCMS.SampleWeb.Infrastructure;
+using DynamicDataCMS.Storage.Interfaces;
 
-namespace DynamicDataCms.SampleWeb.Controllers
+namespace DynamicDataCMS.SampleWeb.Controllers
 {
     public class ContentPageController : Controller
     {

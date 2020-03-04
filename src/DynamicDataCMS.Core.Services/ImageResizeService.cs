@@ -1,4 +1,4 @@
-﻿using DynamicDataCms.Storage.Interfaces;
+﻿using DynamicDataCMS.Storage.Interfaces;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.PixelFormats;
@@ -10,7 +10,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DynamicDataCms.Core.Services
+namespace DynamicDataCMS.Core.Services
 {
     /// <summary>
     /// Handles all the image resizing

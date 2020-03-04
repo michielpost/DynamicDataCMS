@@ -1,9 +1,9 @@
-using DynamicDataCms.Web.Models.Components;
+using DynamicDataCMS.Web.Models.Components;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace DynamicDataCms.Web.Models.Pages
+namespace DynamicDataCMS.Web.Models.Pages
 {
 	[DisplayName("Homepage")]
 	public class HomePage : BaseCmsPage

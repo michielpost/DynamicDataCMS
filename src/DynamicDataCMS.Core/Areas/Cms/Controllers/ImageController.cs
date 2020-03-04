@@ -4,10 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DynamicDataCms.Core.Services;
+using DynamicDataCMS.Core.Services;
 using SixLabors.ImageSharp;
 
-namespace DynamicDataCms.Core.Areas.Cms.Controllers
+namespace DynamicDataCMS.Core.Areas.Cms.Controllers
 {
     /// <summary>
     /// Endpoint that returns resized images
@@ -26,7 +26,7 @@ namespace DynamicDataCms.Core.Areas.Cms.Controllers
         [Route("image")]
         public IActionResult NoImage()
         {
-            return Redirect("~/_content/DynamicDataCms.Core/transparant.png");
+            return Redirect("~/_content/DynamicDataCMS.Core/transparant.png");
         }
 
         //[ResponseCache(Duration = 60 * 60 * 24 * 365, Location = ResponseCacheLocation.Any)]

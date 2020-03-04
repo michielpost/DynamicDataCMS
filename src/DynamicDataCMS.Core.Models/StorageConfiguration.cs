@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DynamicDataCms.Core.Models
+namespace DynamicDataCMS.Core.Models
 {
     public class StorageConfiguration
     {

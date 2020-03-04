@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using DynamicDataCms.Core.Models;
-using DynamicDataCms.Core.Services;
-using DynamicDataCms.Storage.Interfaces;
+using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Core.Services;
+using DynamicDataCMS.Storage.Interfaces;
 
-namespace DynamicDataCms.Core.Areas.Cms.Controllers
+namespace DynamicDataCMS.Core.Areas.Cms.Controllers
 {
     /// <summary>
     /// Handles uploading and downloading files

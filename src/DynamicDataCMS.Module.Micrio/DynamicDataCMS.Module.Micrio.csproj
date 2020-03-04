@@ -10,7 +10,7 @@
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
     <Authors>Q42</Authors>
     <Company>Q42</Company>
-    <Product>DynamicDataCms</Product>
+    <Product>DynamicDataCMS</Product>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>$(DOTNET_BUILD_VERSION)</Version>
     <RepositoryType>git</RepositoryType>
@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DynamicDataCms.Core.Models\DynamicDataCms.Core.Models.csproj" />
+    <ProjectReference Include="..\DynamicDataCMS.Core.Models\DynamicDataCMS.Core.Models.csproj" />
   </ItemGroup>
 
 </Project>

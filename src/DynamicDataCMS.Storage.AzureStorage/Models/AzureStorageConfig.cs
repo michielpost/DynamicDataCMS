@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DynamicDataCms.Storage.AzureStorage.Models
+namespace DynamicDataCMS.Storage.AzureStorage.Models
 {
     /// <summary>
-    /// Configuration that is needed for DynamicDataCms.Storage.AzureStorage package
+    /// Configuration that is needed for DynamicDataCMS.Storage.AzureStorage package
     /// </summary>
     public class AzureStorageConfig
     {

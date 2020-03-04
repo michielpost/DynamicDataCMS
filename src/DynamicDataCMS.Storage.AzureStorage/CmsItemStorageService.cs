@@ -1,8 +1,8 @@
 ﻿using Microsoft.Azure.Storage.Blob;
 using Microsoft.Extensions.Options;
-using DynamicDataCms.Core.Models;
-using DynamicDataCms.Storage.AzureStorage.Models;
-using DynamicDataCms.Storage.Interfaces;
+using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Storage.AzureStorage.Models;
+using DynamicDataCMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace DynamicDataCms.Storage.AzureStorage
+namespace DynamicDataCMS.Storage.AzureStorage
 {
     public class CmsItemStorageService : IReadCmsItem, IWriteCmsItem
     {

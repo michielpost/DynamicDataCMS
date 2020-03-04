@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DynamicDataCms.Storage.CosmosDB.Models
+namespace DynamicDataCMS.Storage.CosmosDB.Models
 {
     /// <summary>
     /// CmsItem for CosmosDB based on Newtonsoft.Json

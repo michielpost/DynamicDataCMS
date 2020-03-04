@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using DynamicDataCms.Core;
-using DynamicDataCms.Core.Models;
-using DynamicDataCms.Storage.Interfaces;
+using DynamicDataCMS.Core;
+using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DynamicDataCms.Core
+namespace DynamicDataCMS.Core
 {
     public static class CmsBuilderExtensions
     {

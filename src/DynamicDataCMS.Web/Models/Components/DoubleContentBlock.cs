@@ -1,8 +1,8 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using DynamicDataCms.Web.Models.Molecules;
+using DynamicDataCMS.Web.Models.Molecules;
 
-namespace DynamicDataCms.Web.Models.Components
+namespace DynamicDataCMS.Web.Models.Components
 {
 	[DisplayName("Dubbel content blok")]
 	public class DoubleContentBlock : IBaseComponent

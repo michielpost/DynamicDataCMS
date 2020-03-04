@@ -1,15 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using DynamicDataCms.Core.Models;
-using DynamicDataCms.Storage.Interfaces;
+using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
 using System.Linq.Dynamic.Core;
-using DynamicDataCms.Storage.EntityFramework.Extensions;
+using DynamicDataCMS.Storage.EntityFramework.Extensions;
 
-namespace DynamicDataCms.Storage.EntityFramework
+namespace DynamicDataCMS.Storage.EntityFramework
 {
     public class DatabaseService<Context, Model> : IReadCmsItem, IWriteCmsItem where Context : DbContext where Model : class
     {

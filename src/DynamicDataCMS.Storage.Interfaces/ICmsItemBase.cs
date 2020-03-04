@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DynamicDataCms.Storage.Interfaces
+namespace DynamicDataCMS.Storage.Interfaces
 {
     public interface ICmsItemBase
     {
