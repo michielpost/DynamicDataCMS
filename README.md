@@ -2,13 +2,13 @@
 # QMS4
 Open source Q42 CMS  
 Developer friendly, headless and modular CMS based on JsonSchema standard  
-Runs on ASP.Net Core 3.0
+Runs on ASP.Net Core 3.1
 
 ## Live Demo: https://qms4.azurewebsites.net/cms
 
 ## Features
 - Headless CMS
-- Support for multiple datastore plugins (CosmosDB, Azure Storage (Blob / Tables))
+- Support for multiple datastore plugins (MS SQL, CosmosDB, Azure Storage (Blob / Tables))
 - JsonSchema used to describe entities
 - View and edit entities
 - Create (multiple) page tree's
@@ -20,9 +20,10 @@ Runs on ASP.Net Core 3.0
 - Easy installation using NuGet packages
 
 ## Installation Instructions
-Install `QMS.Core` and `QMS.Storage.CosmosDB` from NuGet
-
-Optional: `QMS.Storage.AzureStorage` 
+Install `QMS.Core` and one of the storage providers from NuGet:
+- `QMS.Storage.CosmosDB`
+- `QMS.Storage.AzureStorage` 
+- `QMS.Storage.EntityFramework`
 
 Edit `Startup.cs` and add the following lines to `ConfigureServices`   
 
@@ -66,6 +67,17 @@ Configuration:
   "StorageLocation" : "Tables" //Tables / Blob / Both
 }
 ```
+
+### MS SQL using Entity Framework
+Stores data in MS SQL. Make sure you already have your own working EntityFramework DataContext.
+
+```cs
+services.UseQms(Configuration)
+  .ConfigureEntityFramework<MyCustomDataContext, MyModel>()
+```
+
+The CMS can now read and write the type `MyModel` from `MyCustomDataContext`. It only knows how to save this model. Make sure to name your cmsType `MyModel` in `CmsConfiguration.json`
+
 
 ### Authentication
 Adds user login and user list to the CMS

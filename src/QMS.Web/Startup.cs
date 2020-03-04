@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,7 +23,10 @@ using QMS.Storage.AzureStorage;
 using QMS.Storage.CosmosDB;
 using QMS.Storage.CosmosDB.Models;
 using QMS.Storage.Interfaces;
+using QMS.Web.EntityFramework;
 using QMS.Web.Interceptor;
+using QMS.Storage.EntityFramework;
+using QMS.Web.Models;
 
 namespace QMS.Web
 {
@@ -38,17 +42,22 @@ namespace QMS.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<CmsDataContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.UseQms(Configuration)
                 .ConfigureQmsAuth() //Optional if you want user login
                 .ConfigureMicrio() //Optional, if you want to have support to upload images to micr.io
                 .AddInterceptor<ExampleInterceptor>()
                 //.ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
+                .ConfigureEntityFramework<CmsDataContext, Student>()
+                .ConfigureEntityFramework<CmsDataContext, Book>()
                 .ConfigureAzureStorage(() => new StorageConfiguration() { ReadFiles = true, ReadCmsItems = true });
 
             services.AddControllersWithViews();
 
             //Handle routes from the page tree
-            services.AddSingleton<PageTreeRoutes>();
+            services.AddTransient<PageTreeRoutes>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,5 +1,7 @@
-﻿using QMS.Core.Models;
+﻿using Microsoft.Extensions.Options;
+using QMS.Core.Models;
 using QMS.Storage.CosmosDB.Extensions;
+using QMS.Storage.CosmosDB.Models;
 using QMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -14,12 +16,16 @@ namespace QMS.Storage.CosmosDB
     public class CosmosWrapperService : IReadCmsItem, IWriteCmsItem
     {
         internal readonly CosmosService _cosmosService;
+        private readonly CosmosConfig cosmosConfig;
 
-        public bool CanSort => true;
+        public bool CanSort(string cmsType) => true;
+        public bool HandlesType(string cmsType) => !cosmosConfig.ExcludedTypes.Contains(cmsType);
 
-        public CosmosWrapperService(CosmosService cosmosService)
+
+        public CosmosWrapperService(CosmosService cosmosService, IOptions<CosmosConfig> cosmosConfig)
         {
             _cosmosService = cosmosService;
+            this.cosmosConfig = cosmosConfig.Value;
         }
         public async Task<(IReadOnlyList<CmsItem> results, int total)> List(string cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0, string? searchQuery = null)
         {

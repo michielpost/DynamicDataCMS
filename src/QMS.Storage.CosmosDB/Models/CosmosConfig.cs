@@ -13,5 +13,10 @@ namespace QMS.Storage.CosmosDB.Models
         public string Key { get; set; }
         public string DatabaseId { get; set; } = "qmsdb";
         public string ContainerId { get; set; } = "qms-container";
+
+        /// <summary>
+        /// Types that should not be saved by this provider
+        /// </summary>
+        public List<string> ExcludedTypes { get; set; } = new List<string>();
     }
 }

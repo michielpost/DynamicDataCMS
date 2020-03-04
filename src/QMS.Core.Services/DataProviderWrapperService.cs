@@ -20,36 +20,52 @@ namespace QMS.Core.Services
     {
         private readonly IReadFile readFileProvider;
         private readonly IEnumerable<IWriteFile> writeFileProviders;
-        private readonly IReadCmsItem readCmsItemProvider;
+        private readonly IEnumerable<IReadCmsItem> readCmsItemProviders;
         private readonly IEnumerable<IWriteCmsItem> writeCmsItemProviders;
         private readonly IEnumerable<IWriteCmsItemInterceptor> writeCmsItemInterceptors;
 
         public DataProviderWrapperService(IReadFile readFileProvider,
            IEnumerable<IWriteFile> writeFileProviders,
-           IReadCmsItem readCmsItemProvider,
+           IEnumerable<IReadCmsItem> readCmsItemProviders,
            IEnumerable<IWriteCmsItem> writeCmsItemProviders,
            IEnumerable<IWriteCmsItemInterceptor> writeCmsItemInterceptors
            )
         {
             this.readFileProvider = readFileProvider;
             this.writeFileProviders = writeFileProviders;
-            this.readCmsItemProvider = readCmsItemProvider;
+            this.readCmsItemProviders = readCmsItemProviders;
             this.writeCmsItemProviders = writeCmsItemProviders;
 
             this.writeCmsItemInterceptors = writeCmsItemInterceptors;
         }
 
 
-        public bool CanSort => readCmsItemProvider.CanSort;
+        public bool HandlesType(string cmsType) => true;
+
+        public bool CanSort(string cmsType)
+        {
+            IReadCmsItem firstReadProdiver = GetReadProvider(cmsType);
+            return firstReadProdiver.CanSort(cmsType);
+        }
+
+        private IReadCmsItem GetReadProvider(string cmsType)
+        {
+            var readProvider = readCmsItemProviders.Where(x => x.HandlesType(cmsType)).FirstOrDefault();
+            if (readProvider == null)
+                throw new Exception($"No read provider found that can handle type {cmsType}");
+            return readProvider;
+        }
 
         public Task<(IReadOnlyList<CmsItem> results, int total)> List(string cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0, string? searchQuery = null)
         {
-            return readCmsItemProvider.List(cmsType, sortField, sortOrder, pageSize, pageIndex, searchQuery);
+            IReadCmsItem firstReadProdiver = GetReadProvider(cmsType);
+            return firstReadProdiver.List(cmsType, sortField, sortOrder, pageSize, pageIndex, searchQuery);
         }
 
         public Task<T?> Read<T>(string cmsType, Guid id, string? lang) where T : CmsItem
         {
-           return readCmsItemProvider.Read<T>(cmsType, id, lang);
+            IReadCmsItem firstReadProdiver = GetReadProvider(cmsType);
+            return firstReadProdiver.Read<T>(cmsType, id, lang);
         }
 
         public Task<CmsFile?> ReadFile(string cmsType, Guid id, string fieldName, string? lang)
@@ -70,12 +86,12 @@ namespace QMS.Core.Services
             item.CmsType = cmsType;
             item.LastModifiedBy = currentUser;
 
-            await Task.WhenAll(writeCmsItemProviders.Select(x => x.Write(item, cmsType, id, lang, currentUser))).ConfigureAwait(false);
+            await Task.WhenAll(writeCmsItemProviders.Where(x => x.HandlesType(cmsType)).Select(x => x.Write(item, cmsType, id, lang, currentUser))).ConfigureAwait(false);
         }
 
         public Task Delete(string cmsType, Guid id, string? lang, string? currentUser)
         {
-            return Task.WhenAll(writeCmsItemProviders.Select(x => x.Delete(cmsType, id, lang, currentUser)));
+            return Task.WhenAll(writeCmsItemProviders.Where(x => x.HandlesType(cmsType)).Select(x => x.Delete(cmsType, id, lang, currentUser)));
         }
 
         public async Task<string> WriteFile(CmsFile file, string cmsType, Guid id, string fieldName, string? lang, string? currentUser)
@@ -84,5 +100,7 @@ namespace QMS.Core.Services
 
             return task.First();
         }
+
+       
     }
 }

@@ -20,7 +20,9 @@ namespace QMS.Storage.AzureStorage
         private readonly CmsConfiguration cmsConfiguration;
         private readonly AzureStorageConfig azureStorageConfig;
 
-        public bool CanSort => true;
+        public bool CanSort(string cmsType) => true;
+        public bool HandlesType(string cmsType) => !azureStorageConfig.ExcludedTypes.Contains(cmsType);
+
 
         public CmsItemStorageService(AzureStorageService azureStorageService, AzureTableService tableService, IOptions<CmsConfiguration> cmsConfiguration, IOptions<AzureStorageConfig> azureStorageConfig)
         {

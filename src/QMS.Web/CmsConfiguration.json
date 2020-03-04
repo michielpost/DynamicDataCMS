@@ -14,6 +14,14 @@
       "Uri": "https://localhost:44341/cms/api/schema/QMS.Web/QMS.Web.Models.Pages.ContentPage"
     },
     {
+      "Key": "studentschema",
+      "Uri": "https://localhost:44341/cms/api/schema/QMS.Web/QMS.Web.Models.Student"
+    },
+    {
+      "Key": "bookschema",
+      "Uri": "https://localhost:44341/cms/api/schema/QMS.Web/QMS.Web.Models.Book"
+    },
+    {
       "Key": "person",
       "FileLocation": "schemas/person.schema.json"
     },
@@ -83,6 +91,32 @@
             {
               "Key": "lastName",
               "DisplayName": "Lastname"
+            }
+          ]
+        },
+        {
+          "Name": "Student",
+          "Key": "student",
+          "SchemaKey": "studentschema",
+          "ListViewProperties": [
+            {
+              "Key": "Name",
+              "DisplayName": "Name"
+            }
+          ]
+        },
+        {
+          "Name": "Book",
+          "Key": "book",
+          "SchemaKey": "bookschema",
+          "ListViewProperties": [
+            {
+              "Key": "Name",
+              "DisplayName": "Name"
+            },
+            {
+              "Key": "Author",
+              "DisplayName": "Author"
             }
           ]
         },

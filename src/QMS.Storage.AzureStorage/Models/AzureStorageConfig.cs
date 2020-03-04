@@ -18,6 +18,11 @@ namespace QMS.Storage.AzureStorage.Models
         public string AssetsContainerName { get; set; }
         public AzureStorageLocation StorageLocation { get; set; } = AzureStorageLocation.Tables;
 
+        /// <summary>
+        /// Types that should not be saved by this provider
+        /// </summary>
+        public List<string> ExcludedTypes { get; set; } = new List<string>();
+
     }
 
     public enum AzureStorageLocation

@@ -41,7 +41,7 @@
             }
             @foreach (var column in Model.MenuCmsItem.ListViewProperties)
             {
-                @if (readCmsItem.CanSort)
+                @if (readCmsItem.CanSort(Model.CmsType))
                 {
                     <th>@Html.ActionLink(column.DisplayName, "List", "Home", new { sortField = column.Key, sortOrder = GetSortOrder(column.Key) })</th>
                 }
