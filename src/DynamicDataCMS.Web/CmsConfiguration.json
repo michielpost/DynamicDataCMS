@@ -1,0 +1,185 @@
+{
+  "Title": "DynamicDataCMS Development CMS",
+  "Languages": [ "en-US", "nl-NL" ],
+  "EditScripts": [ "/extra-script.js" ],
+  "Scripts": [ "https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js" ],
+  "Styles": [ "https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css" ],
+  "Schemas": [
+    {
+      "Key": "homepage",
+      "Uri": "https://localhost:44341/cms/api/schema/DynamicDataCms.Web/DynamicDataCms.Web.Models.Pages.HomePage"
+    },
+    {
+      "Key": "contentpage",
+      "Uri": "https://localhost:44341/cms/api/schema/DynamicDataCms.Web/DynamicDataCms.Web.Models.Pages.ContentPage"
+    },
+    {
+      "Key": "studentschema",
+      "Uri": "https://localhost:44341/cms/api/schema/DynamicDataCms.Web/DynamicDataCms.Web.Models.Student"
+    },
+    {
+      "Key": "bookschema",
+      "Uri": "https://localhost:44341/cms/api/schema/DynamicDataCms.Web/DynamicDataCms.Web.Models.Book"
+    },
+    {
+      "Key": "person",
+      "FileLocation": "schemas/person.schema.json"
+    },
+    {
+      "Key": "vehicle",
+      "FileLocation": "schemas/vehicle.schema.json"
+    },
+    {
+      "Key": "test",
+      "FileLocation": "schemas/test.schema.json"
+    },
+    {
+      "Key": "image",
+      "FileLocation": "schemas/image.schema.json"
+    },
+    {
+      "Key": "download",
+      "FileLocation": "schemas/download.schema.json"
+    }
+  ],
+  "MenuGroups": [
+    {
+      "Name": "Pages",
+      "MenuItems": [
+        {
+          "Name": "Homepage",
+          "Key": "homepagetest",
+          "SchemaKey": "homepage",
+          "IsSingleton": true,
+          "ListViewProperties": [
+            {
+              "Key": "MetaTitle",
+              "DisplayName": "Title"
+            }
+          ]
+        },
+        {
+          "Name": "ContentPage",
+          "Key": "contentpagetest",
+          "SchemaKey": "contentpage",
+          "ListViewProperties": [
+            {
+              "Key": "metaTitle",
+              "DisplayName": "Title"
+            }
+          ]
+        },
+        {
+          "Name": "Pages",
+          "Key": "pagetree",
+          "SchemaKeys": [ "homepage", "contentpage" ]
+        }
+      ]
+    },
+    {
+      "Name": "CMS Items",
+      "MenuItems": [
+        {
+          "Name": "Person",
+          "Key": "persontest",
+          "SchemaKey": "person",
+          "ListViewProperties": [
+            {
+              "Key": "firstName",
+              "DisplayName": "Firstname"
+            },
+            {
+              "Key": "lastName",
+              "DisplayName": "Lastname"
+            }
+          ]
+        },
+        {
+          "Name": "Student",
+          "Key": "student",
+          "SchemaKey": "studentschema",
+          "ListViewProperties": [
+            {
+              "Key": "Name",
+              "DisplayName": "Name"
+            }
+          ]
+        },
+        {
+          "Name": "Book",
+          "Key": "book",
+          "SchemaKey": "bookschema",
+          "ListViewProperties": [
+            {
+              "Key": "Name",
+              "DisplayName": "Name"
+            },
+            {
+              "Key": "Author",
+              "DisplayName": "Author"
+            }
+          ]
+        },
+        {
+          "Name": "Vehicle",
+          "Key": "vehicletest",
+          "SchemaKey": "vehicle",
+          "ListViewProperties": [
+            {
+              "Key": "accidentDetails.Severity",
+              "DisplayName": "Severity"
+            }
+          ]
+        },
+        {
+          "Name": "Test",
+          "Key": "testtest",
+          "SchemaKey": "test"
+        },
+        {
+          "Name": "Single Person",
+          "Key": "singletonperson",
+          "SchemaKey": "person",
+          "IsSingleton": true,
+          "ListViewProperties": [
+            {
+              "Key": "firstName",
+              "DisplayName": "Firstname"
+            },
+            {
+              "Key": "lastName",
+              "DisplayName": "Lastname"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Assets",
+      "MenuItems": [
+        {
+          "Name": "Image",
+          "Key": "imagetest",
+          "SchemaKey": "image",
+          "ListViewProperties": [
+            {
+              "Key": "name",
+              "DisplayName": "Name"
+            }
+          ]
+        },
+        {
+          "Name": "Downloads",
+          "Key": "downloadtest",
+          "SchemaKey": "download",
+          "ListViewProperties": [
+            {
+              "Key": "name",
+              "DisplayName": "Name"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

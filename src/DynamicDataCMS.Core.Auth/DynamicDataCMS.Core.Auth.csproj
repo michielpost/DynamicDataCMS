@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RazorLangVersion>3.0</RazorLangVersion>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <WarningsAsErrors>CS8600;CS8602;CS8602;CS8603;CS8625;CS8613</WarningsAsErrors>
+    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+    <Authors>Q42</Authors>
+    <Company>Q42</Company>
+    <Product>DynamicDataCms</Product>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>$(DOTNET_BUILD_VERSION)</Version>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/Q42/DynamicDataCMS</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Q42/DynamicDataCMS</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="3.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DynamicDataCms.Core.Models\DynamicDataCms.Core.Models.csproj" />
+    <ProjectReference Include="..\DynamicDataCms.Core.Services\DynamicDataCms.Core.Services.csproj" />
+    <ProjectReference Include="..\DynamicDataCms.Storage.Interfaces\DynamicDataCms.Storage.Interfaces.csproj" />
+  </ItemGroup>
+
+
+</Project>

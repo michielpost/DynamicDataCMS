@@ -1,0 +1,79 @@
+{
+  "Title": "DynamicDataCMS Sample CMS",
+  "Languages": [ "en-US", "nl-NL" ],
+  "Scripts": [ "https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js" ],
+  "Styles": [ "https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css" ],
+  "Schemas": [
+    {
+      "Key": "contentpage",
+      "FileLocation": "schemas/contentpage.schema.json"
+    },
+    {
+      "Key": "image",
+      "FileLocation": "schemas/image.schema.json"
+    },
+    {
+      "Key": "product",
+      "FileLocation": "schemas/product.schema.json"
+    },
+    {
+      "Key": "category",
+      "FileLocation": "schemas/category.schema.json"
+    }
+  ],
+  "MenuGroups": [
+    {
+      "Name": "Pages",
+      "MenuItems": [
+        {
+          "Name": "Pages",
+          "Key": "pagetree",
+          "SchemaKeys": [ "contentpage" ]
+        },
+        {
+          "Name": "Singleton page",
+          "Key": "singletonpage",
+          "SchemaKey": "contentpage",
+          "IsSingleton": true,
+          "ListViewProperties": [
+            {
+              "Key": "title",
+              "DisplayName": "Title"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "CMS Items",
+      "MenuItems": [
+        {
+          "Name": "Products",
+          "Key": "productitem",
+          "SchemaKey": "product",
+          "ListViewProperties": [
+            {
+              "Key": "name",
+              "DisplayName": "Name"
+            },
+            {
+              "Key": "stock",
+              "DisplayName": "Stock"
+            }
+          ]
+        },
+        {
+          "Name": "Categories",
+          "Key": "categoryitem",
+          "SchemaKey": "category",
+          "ListViewProperties": [
+            {
+              "Key": "name",
+              "DisplayName": "Name"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

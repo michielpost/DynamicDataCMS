@@ -1,5 +1,5 @@
-![GitHub Actions status | Q42/QMS4](https://github.com/Q42/QMS4/workflows/ASP.NET%20Core%20CI/badge.svg)
-# QMS4
+![GitHub Actions status | Q42/DynamicDataCms](https://github.com/Q42/DynamicDataCms/workflows/ASP.NET%20Core%20CI/badge.svg)
+# DynamicDataCMS
 Open source Q42 CMS  
 Developer friendly, headless and modular CMS based on JsonSchema standard  
 Runs on ASP.Net Core 3.1
@@ -20,24 +20,24 @@ Runs on ASP.Net Core 3.1
 - Easy installation using NuGet packages
 
 ## Installation Instructions
-Install `QMS.Core` and one of the storage providers from NuGet:
-- `QMS.Storage.CosmosDB`
-- `QMS.Storage.AzureStorage` 
-- `QMS.Storage.EntityFramework`
+Install `DynamicDataCms.Core` and one of the storage providers from NuGet:
+- `DynamicDataCms.Storage.CosmosDB`
+- `DynamicDataCms.Storage.AzureStorage` 
+- `DynamicDataCms.Storage.EntityFramework`
 
 Edit `Startup.cs` and add the following lines to `ConfigureServices`   
 
 ```cs
-services.UseQms(Configuration)
+services.UseDynamicDataCMS(Configuration)
   .ConfigureAzureStorage(() => new StorageConfiguration() {  ReadCmsItems = true, ReadFiles = true });
 ```
 ## Modules
-QMS4 is a modular CMS and different modules are available:
+DynamicDataCMS is a modular CMS and different modules are available:
 
 ### CosmosDB Data Storage
 The CosmosDB module stores CmsItems to Azure CosmosDB. This module does not support storing file data. You can use the Azure Storage module for file data.
 ```cs
-services.UseQms(Configuration)
+services.UseDynamicDataCMS(Configuration)
   .ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
   .ConfigureAzureStorage(() => new StorageConfiguration() {  ReadFiles = true }); //Optional if you need file storage.
 ```
@@ -54,7 +54,7 @@ Configuration:
 Stores data in Azure Tables and file data to Azure Blob Storage.
 
 ```cs
-services.UseQms(Configuration)
+services.UseDynamicDataCMS(Configuration)
   .ConfigureAzureStorage(() => new StorageConfiguration() {  ReadCmsItems = true, ReadFiles = true });
 ```
 
@@ -72,7 +72,7 @@ Configuration:
 Stores data in MS SQL. Make sure you already have your own working EntityFramework DataContext.
 
 ```cs
-services.UseQms(Configuration)
+services.UseDynamicDataCMS(Configuration)
   .ConfigureEntityFramework<MyCustomDataContext, MyModel>()
 ```
 
@@ -82,27 +82,27 @@ The CMS can now read and write the type `MyModel` from `MyCustomDataContext`. It
 ### Authentication
 Adds user login and user list to the CMS
 
-Add a reference to `QMS.Core.Auth` nuget package.
+Add a reference to `DynamicDataCms.Core.Auth` nuget package.
 ```cs
-services.UseQms(Configuration)
-  .ConfigureQmsAuth()
+services.UseDynamicDataCMS(Configuration)
+  .ConfigureDynamicDataCMSAuth()
 ```
 
 In the Configure method in Startup.cs add:
 ```cs
 app.UseAuthentication();
-app.UseMiddleware<QmsAuthenticatationMiddleware>();
+app.UseMiddleware<DynamicDataCMSAuthenticatationMiddleware>();
 ```
 
 See the example project to add a default first user to the user list.
 
 ### Micrio
-[Micrio Module documentation](src/QMS.Module.Micrio)
+[Micrio Module documentation](src/DynamicDataCms.Module.Micrio)
 
 ## Interceptors
 Allows you to modify the data before it's saved.
 ```cs
-services.UseQms(Configuration)
+services.UseDynamicDataCMS(Configuration)
    .AddInterceptor<ExampleInterceptor>()
 ```
 
@@ -112,7 +112,7 @@ Interceptors need to implement the interface `IWriteCmsItemInterceptor`
 - Install CosmosDB emulator for Windows https://aka.ms/cosmosdb-emulator
 - Install Azure Storage Emulator https://docs.microsoft.com/nl-nl/azure/storage/common/storage-use-emulator
 - Optional (not needed when using emulators): Edit appsettings.json with Cosmos Endpoint and Key
-- Run QMS4
+- Run DynamicDataCMS
 - Navigate to https://localhost:44341/cms
 
 ## Dependencies

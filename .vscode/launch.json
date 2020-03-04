@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/QMS.Web/bin/Debug/netcoreapp2.2/QMS.Web.dll",
+            "program": "${workspaceFolder}/src/DynamicDataCms.Web/bin/Debug/netcoreapp2.2/DynamicDataCms.Web.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/QMS.Web",
+            "cwd": "${workspaceFolder}/src/DynamicDataCms.Web",
             "stopAtEntry": false,
             // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {
