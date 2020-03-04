@@ -16,7 +16,7 @@ namespace DynamicDataCMS.Core.Auth
     /// </summary>
     public static class CmsBuilderExtensions
     {
-        public static CmsBuilder ConfigureQmsAuth(this CmsBuilder builder)
+        public static CmsBuilder ConfigureDynamicDataCmsAuth(this CmsBuilder builder)
         {
             var Configuration = builder.Configuration;
             var services = builder.Services;

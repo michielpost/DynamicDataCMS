@@ -45,8 +45,8 @@ namespace DynamicDataCMS.Web
             services.AddDbContext<CmsDataContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.UseQms(Configuration)
-                .ConfigureQmsAuth() //Optional if you want user login
+            services.UseDynamicDataCMS(Configuration)
+                .ConfigureDynamicDataCmsAuth() //Optional if you want user login
                 .ConfigureMicrio() //Optional, if you want to have support to upload images to micr.io
                 .AddInterceptor<ExampleInterceptor>()
                 //.ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
@@ -81,7 +81,7 @@ namespace DynamicDataCMS.Web
 
             //Optional if you want authentication:
             app.UseAuthentication();  // Must be after UseRouting()
-            app.UseMiddleware<QmsAuthenticatationMiddleware>();
+            app.UseMiddleware<DynamicDataCmsAuthenticatationMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

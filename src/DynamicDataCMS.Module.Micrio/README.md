@@ -15,7 +15,7 @@ The Micrio module allows you to submit file uploads to https://micr.io and retre
 ```
 
 - Reference the DynamicDataCMS.Module.Micrio NuGet package
-- Add `.ConfigureMicrio()` to the UseQms in Startup.cs
+- Add `.ConfigureMicrio()` to the UseDynamicDataCMS in Startup.cs
 - Changes needed in the schema:
 Add a micrioField to the uploader options:
 ```json

@@ -29,7 +29,7 @@ namespace DynamicDataCMS.SampleWeb
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.UseQms(Configuration)
+            services.UseDynamicDataCMS(Configuration)
                .ConfigureAzureStorage(() => new StorageConfiguration() { ReadFiles = true, ReadCmsItems = true });
 
             services.AddTransient<SampleDataGenerator>();

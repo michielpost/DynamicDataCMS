@@ -12,11 +12,11 @@ namespace DynamicDataCMS.Core
 {
     public static class IWebHostBuilderExtensions
     {
-        public static CmsBuilder UseQms(this IServiceCollection services, IConfiguration configuration)
+        public static CmsBuilder UseDynamicDataCMS(this IServiceCollection services, IConfiguration configuration)
         {
             var builder = new CmsBuilder(services, configuration)
                 .ConfigureCoreCms()
-                .ConfigureQmsServices();
+                .ConfigureDynamicDataCmsServices();
 
             return builder;
         }

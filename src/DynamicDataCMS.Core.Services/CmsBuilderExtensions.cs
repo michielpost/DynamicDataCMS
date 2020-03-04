@@ -11,7 +11,7 @@ namespace DynamicDataCMS.Core.Services
     /// </summary>
     public static class CmsBuilderExtensions
     {
-        public static CmsBuilder ConfigureQmsServices(this CmsBuilder builder, string cmsConfigFileName = "CmsConfiguration.json")
+        public static CmsBuilder ConfigureDynamicDataCmsServices(this CmsBuilder builder, string cmsConfigFileName = "CmsConfiguration.json")
         {
             var Configuration = builder.Configuration;
             var services = builder.Services;

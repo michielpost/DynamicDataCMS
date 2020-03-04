@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace DynamicDataCMS.Core.Auth
 {
-    public class QmsAuthenticatationMiddleware
+    public class DynamicDataCmsAuthenticatationMiddleware
     {
 
         private readonly RequestDelegate next;
 
-        public QmsAuthenticatationMiddleware(RequestDelegate next)
+        public DynamicDataCmsAuthenticatationMiddleware(RequestDelegate next)
         {
             this.next = next;
         }
