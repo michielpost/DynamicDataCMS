@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <WarningsAsErrors>CS8600;CS8602;CS8602;CS8603;CS8625;CS8613</WarningsAsErrors>
+    <Authors>Q42</Authors>
+    <Company>Q42</Company>
+    <Product>DynamicDataCMS</Product>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>$(DOTNET_BUILD_VERSION)</Version>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/Q42/DynamicDataCMS</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Q42/DynamicDataCMS</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.6.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DynamicDataCMS.Storage.Interfaces\DynamicDataCMS.Storage.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>
