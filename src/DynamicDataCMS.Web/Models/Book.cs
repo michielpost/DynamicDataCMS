@@ -10,7 +10,6 @@ namespace DynamicDataCMS.Web.Models
     public class Book
     {
         [Key]
-        [NJsonSchema.Annotations.JsonSchemaIgnore]
         [JsonPropertyName("id")]
         public Guid Id { get; set; }
 

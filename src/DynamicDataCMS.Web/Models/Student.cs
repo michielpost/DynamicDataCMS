@@ -10,7 +10,6 @@ namespace DynamicDataCMS.Web.Models
     public class Student
     {
         [Key]
-        [NJsonSchema.Annotations.JsonSchemaIgnore]
         [JsonPropertyName("id")]
         public Guid Id { get; set; }
 

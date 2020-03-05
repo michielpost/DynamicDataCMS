@@ -139,6 +139,10 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
                 FlattenInheritanceHierarchy = true,
             });
 
+            //Always remove Id property, it is managed by the CMS
+            schema.Properties.Remove("Id");
+            schema.Properties.Remove("id");
+
             return Content(schema.ToJson());
         }
 
