@@ -13,7 +13,7 @@ addEventListener('DOMContentLoaded', () => {
     window.editor.on('ready', editorChange);
 });
 
-
+//hide broken images
 (function () {
     var allimgs = document.images;
     for (var i = 0; i < allimgs.length; i++) {
@@ -34,6 +34,7 @@ function jsonLoaded() {
     showProperties(window.editor.schema.properties, window.editor.editors.root);
 }
 
+//show properties that are in the schema but not in the json data
 function showProperties(schema, editor)
 {
     for (var propertyName in schema) {
