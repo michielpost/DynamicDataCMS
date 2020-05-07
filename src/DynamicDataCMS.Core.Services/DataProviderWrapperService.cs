@@ -40,15 +40,15 @@ namespace DynamicDataCMS.Core.Services
         }
 
 
-        public bool HandlesType(string cmsType) => true;
+        public bool HandlesType(CmsType cmsType) => true;
 
-        public bool CanSort(string cmsType)
+        public bool CanSort(CmsType cmsType)
         {
             IReadCmsItem firstReadProdiver = GetReadProvider(cmsType);
             return firstReadProdiver.CanSort(cmsType);
         }
 
-        private IReadCmsItem GetReadProvider(string cmsType)
+        private IReadCmsItem GetReadProvider(CmsType cmsType)
         {
             var readProvider = readCmsItemProviders.Where(x => x.HandlesType(cmsType)).FirstOrDefault();
             if (readProvider == null)
@@ -56,24 +56,24 @@ namespace DynamicDataCMS.Core.Services
             return readProvider;
         }
 
-        public Task<(IReadOnlyList<CmsItem> results, int total)> List(string cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0, string? searchQuery = null)
+        public Task<(IReadOnlyList<CmsItem> results, int total)> List(CmsType cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0, string? searchQuery = null)
         {
             IReadCmsItem firstReadProdiver = GetReadProvider(cmsType);
             return firstReadProdiver.List(cmsType, sortField, sortOrder, pageSize, pageIndex, searchQuery);
         }
 
-        public Task<T?> Read<T>(string cmsType, Guid id, string? lang) where T : CmsItem
+        public Task<T?> Read<T>(CmsType cmsType, Guid id, string? lang) where T : CmsItem
         {
             IReadCmsItem firstReadProdiver = GetReadProvider(cmsType);
             return firstReadProdiver.Read<T>(cmsType, id, lang);
         }
 
-        public Task<CmsFile?> ReadFile(string cmsType, Guid id, string fieldName, string? lang)
+        public Task<CmsFile?> ReadFile(CmsType cmsType, Guid id, string fieldName, string? lang)
         {
             return readFileProvider.ReadFile(cmsType, id, fieldName, lang);
         }
 
-        public async Task Write<T>(T item, string cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem
+        public async Task Write<T>(T item, CmsType cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem
         {
             //Run interceptors before saving
             foreach(var interceptor in writeCmsItemInterceptors)
@@ -89,12 +89,12 @@ namespace DynamicDataCMS.Core.Services
             await Task.WhenAll(writeCmsItemProviders.Where(x => x.HandlesType(cmsType)).Select(x => x.Write(item, cmsType, id, lang, currentUser))).ConfigureAwait(false);
         }
 
-        public Task Delete(string cmsType, Guid id, string? lang, string? currentUser)
+        public Task Delete(CmsType cmsType, Guid id, string? lang, string? currentUser)
         {
             return Task.WhenAll(writeCmsItemProviders.Where(x => x.HandlesType(cmsType)).Select(x => x.Delete(cmsType, id, lang, currentUser)));
         }
 
-        public async Task<string> WriteFile(CmsFile file, string cmsType, Guid id, string fieldName, string? lang, string? currentUser)
+        public async Task<string> WriteFile(CmsFile file, CmsType cmsType, Guid id, string fieldName, string? lang, string? currentUser)
         {
             var task = await Task.WhenAll(writeFileProviders.Select(x => x.WriteFile(file, cmsType, id, fieldName, lang, currentUser))).ConfigureAwait(false);
 

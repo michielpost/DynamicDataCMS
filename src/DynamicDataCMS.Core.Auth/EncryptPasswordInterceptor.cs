@@ -11,7 +11,7 @@ namespace DynamicDataCMS.Core.Auth
 {
     public class EncryptPasswordInterceptor : IWriteCmsItemInterceptor
     {
-        public Task<T> InterceptAsync<T>(T item, string cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem
+        public Task<T> InterceptAsync<T>(T item, CmsType cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem
         {
             //Only do this for the auth controller
             if(cmsType == CmsUser.DefaultCmsType)

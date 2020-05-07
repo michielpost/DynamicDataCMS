@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DynamicDataCMS.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,6 +7,6 @@ namespace DynamicDataCMS.Storage.Interfaces
 {
     public interface ICmsItemBase
     {
-        bool HandlesType(string cmsType);
+        bool HandlesType(CmsType cmsType);
     }
 }

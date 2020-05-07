@@ -27,16 +27,16 @@ namespace DynamicDataCMS.Storage.CosmosDB
             this.cosmosConfig = cosmosConfig.Value;
             this.cmsConfiguration = cmsConfiguration.Value;
         }
-        internal async Task<(IReadOnlyList<CosmosCmsItem> results, int total)> List(string cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0, string? searchQuery = null)
+        internal async Task<(IReadOnlyList<CosmosCmsItem> results, int total)> List(CmsType cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0, string? searchQuery = null)
         {
             Container container = GetContainer();
-            var totalItems = await container.GetItemLinqQueryable<CosmosCmsItem>().Where(x => x.CmsType == cmsType).CountAsync().ConfigureAwait(false);
+            var totalItems = await container.GetItemLinqQueryable<CosmosCmsItem>().Where(x => x.CmsType == cmsType.Value).CountAsync().ConfigureAwait(false);
             int totalResults = totalItems.Resource;
 
             string whereClause = string.Empty;
             if (!string.IsNullOrEmpty(searchQuery))
             {
-                var typeInfo = cmsConfiguration.MenuItems.Where(x => x.Key == cmsType).FirstOrDefault();
+                var typeInfo = cmsConfiguration.MenuItems.Where(x => x.Key == cmsType.Value).FirstOrDefault();
 
                 StringBuilder sb = new StringBuilder();
                 sb.Append("AND (");

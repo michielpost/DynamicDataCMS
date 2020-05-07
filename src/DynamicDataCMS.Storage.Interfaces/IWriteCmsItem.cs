@@ -11,7 +11,7 @@ namespace DynamicDataCMS.Storage.Interfaces
     /// </summary>
     public interface IWriteCmsItem : ICmsItemBase
     {
-        Task Write<T>(T item, string cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem;
-        Task Delete(string cmsType, Guid id, string? lang, string? currentUser);
+        Task Write<T>(T item, CmsType cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem;
+        Task Delete(CmsType cmsType, Guid id, string? lang, string? currentUser);
     }
 }

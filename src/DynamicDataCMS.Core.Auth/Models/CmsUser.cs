@@ -9,7 +9,8 @@ namespace DynamicDataCMS.Core.Auth.Models
 {
     public class CmsUser
     {
-        public static string DefaultCmsType = "cmsUser";
+        public static CmsType DefaultCmsType = "cmsUser";
+        public static CmsSchemaType DefaultCmsSchemaType = "cmsUser";
 
         [Display(Name = "Email")]
         [Required] 

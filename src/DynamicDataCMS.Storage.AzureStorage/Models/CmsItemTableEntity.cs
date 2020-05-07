@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Cosmos.Table;
+﻿using DynamicDataCMS.Core.Models;
+using Microsoft.Azure.Cosmos.Table;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,9 +15,9 @@ namespace DynamicDataCMS.Storage.AzureStorage.Models
 
         }
 
-        public CmsItemTableEntity(string id, string cmsType)
+        public CmsItemTableEntity(string id, CmsType cmsType)
         {
-            PartitionKey = cmsType;
+            PartitionKey = cmsType.ToString();
             RowKey = id.ToString();
         }
 

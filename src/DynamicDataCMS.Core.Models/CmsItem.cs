@@ -15,7 +15,7 @@ namespace DynamicDataCMS.Core.Models
         public Guid Id { get; set; }
 
         [JsonPropertyName("cmstype")]
-        public string CmsType { get; set; }
+        public CmsType CmsType { get; set; }
 
         public string? LastModifiedBy { get; set; }
 

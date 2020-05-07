@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DynamicDataCMS.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -17,6 +18,6 @@ namespace DynamicDataCMS.Storage.CosmosDB.Models
         /// <summary>
         /// Types that should not be saved by this provider
         /// </summary>
-        public List<string> ExcludedTypes { get; set; } = new List<string>();
+        public List<CmsType> ExcludedTypes { get; set; } = new List<CmsType>();
     }
 }

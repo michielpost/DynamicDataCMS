@@ -1,7 +1,9 @@
-﻿using System;
+﻿using DynamicDataCMS.Core.Models.JsonConverters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace DynamicDataCMS.Core.Models
 {
@@ -13,7 +15,7 @@ namespace DynamicDataCMS.Core.Models
         /// <summary>
         /// CMS Title to show in layout
         /// </summary>
-        public string Title { get; set; }
+        public string Title { get; set; } = "Dynamic Data CMS";
 
         public List<string> Languages { get; set; } = new List<string>();
         public List<string> EditScripts { get; set; } = new List<string>();
@@ -39,9 +41,14 @@ namespace DynamicDataCMS.Core.Models
     public class MenuItem
     {
         public string Name { get; set; }
+
+        //Should be CmsType, but JsonConverter is not supported for config files
         public string Key { get; set; }
+
+        //Should be CmsSchemaType, but JsonConverter is not supported for config files
         public string? SchemaKey { get; set; }
 
+        //Should be CmsSchemaType, but JsonConverter is not supported for config files
         public List<string> SchemaKeys { get; set; } = new List<string>();
         public bool IsTree => SchemaKeys.Any();
 
@@ -64,6 +71,7 @@ namespace DynamicDataCMS.Core.Models
 
     public class SchemaLocation
     {
+        //Should be CmsSchemaType, but JsonConverter is not supported for config files
         public string Key { get; set; }
         public Uri? Uri { get; set; }
         public string? FileLocation { get; set; }

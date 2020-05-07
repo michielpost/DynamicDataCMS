@@ -52,7 +52,7 @@ namespace DynamicDataCMS.Storage.AzureStorage
             }
             try
             {
-                var table = await GetCloudTableClient(cmsItem.CmsType);
+                var table = await GetCloudTableClient(cmsItem.CmsType.ToString());
 
                 CmsItemTableEntity entity = new CmsItemTableEntity(GetIdForItem(cmsItem.Id, lang), cmsItem.CmsType)
                 {
@@ -74,14 +74,14 @@ namespace DynamicDataCMS.Storage.AzureStorage
             }
         }
 
-        public async Task DeleteEntityAsync(string cmsType, Guid id, string? lang)
+        public async Task DeleteEntityAsync(CmsType cmsType, Guid id, string? lang)
         {
             try
             {
                 CmsItemTableEntity? resultEntity = await GetCmsItemTableEntity(cmsType, id, lang);
                 if (resultEntity != null)
                 {
-                    var table = await GetCloudTableClient(cmsType);
+                    var table = await GetCloudTableClient(cmsType.ToString());
                     TableOperation deleteOperation = TableOperation.Delete(resultEntity);
                     TableResult result = await table.ExecuteAsync(deleteOperation);
                 }
@@ -92,7 +92,7 @@ namespace DynamicDataCMS.Storage.AzureStorage
             }
         }
 
-        public async Task<T?> GetEntityAsync<T>(string cmsType, Guid id, string? lang) where T : CmsItem
+        public async Task<T?> GetEntityAsync<T>(CmsType cmsType, Guid id, string? lang) where T : CmsItem
         {
             try
             {
@@ -111,11 +111,11 @@ namespace DynamicDataCMS.Storage.AzureStorage
             }
         }
 
-        private async Task<CmsItemTableEntity?> GetCmsItemTableEntity(string cmsType, Guid id, string? lang)
+        private async Task<CmsItemTableEntity?> GetCmsItemTableEntity(CmsType cmsType, Guid id, string? lang)
         {
-            var table = await GetCloudTableClient(cmsType);
+            var table = await GetCloudTableClient(cmsType.ToString());
 
-            TableOperation retreiveOperation = TableOperation.Retrieve<CmsItemTableEntity>(cmsType, GetIdForItem(id, lang));
+            TableOperation retreiveOperation = TableOperation.Retrieve<CmsItemTableEntity>(cmsType.ToString(), GetIdForItem(id, lang));
             TableResult result = await table.ExecuteAsync(retreiveOperation);
 
             CmsItemTableEntity? resultEntity = result.Result as CmsItemTableEntity;

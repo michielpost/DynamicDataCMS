@@ -45,7 +45,7 @@ namespace DynamicDataCMS.Core.Auth
 
                 x.Schemas.Add(new SchemaLocation
                 {
-                    Key = CmsUser.DefaultCmsType,
+                    Key = CmsUser.DefaultCmsSchemaType.ToString(),
                     Schema = userSchema.ToJson(),
                 });
 
@@ -56,8 +56,8 @@ namespace DynamicDataCMS.Core.Auth
                      {
                          new MenuItem()
                          {
-                              Key = CmsUser.DefaultCmsType,
-                              SchemaKey = CmsUser.DefaultCmsType,
+                              Key = CmsUser.DefaultCmsType.ToString(),
+                              SchemaKey = CmsUser.DefaultCmsSchemaType.ToString(),
                               ListViewProperties = new List<ListViewProperty>() {
                                   new ListViewProperty() { DisplayName = nameof(CmsUser.Email), Key = nameof(CmsUser.Email) }
                               },

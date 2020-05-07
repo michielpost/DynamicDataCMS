@@ -18,8 +18,8 @@ namespace DynamicDataCMS.Storage.CosmosDB
         internal readonly CosmosService _cosmosService;
         private readonly CosmosConfig cosmosConfig;
 
-        public bool CanSort(string cmsType) => true;
-        public bool HandlesType(string cmsType) => !cosmosConfig.ExcludedTypes.Contains(cmsType);
+        public bool CanSort(CmsType cmsType) => true;
+        public bool HandlesType(CmsType cmsType) => !cosmosConfig.ExcludedTypes.Contains(cmsType);
 
 
         public CosmosWrapperService(CosmosService cosmosService, IOptions<CosmosConfig> cosmosConfig)
@@ -27,26 +27,26 @@ namespace DynamicDataCMS.Storage.CosmosDB
             _cosmosService = cosmosService;
             this.cosmosConfig = cosmosConfig.Value;
         }
-        public async Task<(IReadOnlyList<CmsItem> results, int total)> List(string cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0, string? searchQuery = null)
+        public async Task<(IReadOnlyList<CmsItem> results, int total)> List(CmsType cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0, string? searchQuery = null)
         {
-            var result = await _cosmosService.List(cmsType, sortField, sortOrder, pageSize, pageIndex, searchQuery).ConfigureAwait(false);
+            var result = await _cosmosService.List(cmsType.ToString(), sortField, sortOrder, pageSize, pageIndex, searchQuery).ConfigureAwait(false);
             return (result.results.Select(x => x.ToCmsItem()).ToList(), result.total);
         }
 
-        public Task Write<T>(T item, string cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem
+        public Task Write<T>(T item, CmsType cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem
         {
-            return _cosmosService.Write(item.ToCosmosCmsItem(), cmsType, id, lang);
+            return _cosmosService.Write(item.ToCosmosCmsItem(), cmsType.ToString(), id, lang);
         }
 
-        public Task Delete(string cmsType, Guid id, string? lang, string? currentUser)
+        public Task Delete(CmsType cmsType, Guid id, string? lang, string? currentUser)
         {
-            return _cosmosService.Delete(cmsType, id, lang);
+            return _cosmosService.Delete(cmsType.ToString(), id, lang);
 
         }
 
-        public async Task<T?> Read<T>(string partitionKey, Guid documentId, string? lang) where T : CmsItem
+        public async Task<T?> Read<T>(CmsType cmsType, Guid id, string? lang) where T : CmsItem
         {
-            var result = await _cosmosService.Read(partitionKey, documentId, lang).ConfigureAwait(false);
+            var result = await _cosmosService.Read(cmsType.ToString(), id, lang).ConfigureAwait(false);
             return result?.ToCmsItem<T>();
         }
     }

@@ -20,7 +20,7 @@ namespace DynamicDataCMS.Storage.AzureStorage
             this.azureStorageService = azureStorageService;
         }
 
-        public async Task<CmsFile?> ReadFile(string cmsType, Guid id, string fieldName, string? lang)
+        public async Task<CmsFile?> ReadFile(CmsType cmsType, Guid id, string fieldName, string? lang)
         {
             string fileName = GenerateFileName(cmsType, id, fieldName, lang);
 
@@ -40,7 +40,7 @@ namespace DynamicDataCMS.Storage.AzureStorage
             }
         }
 
-        public async Task<string> WriteFile(CmsFile file, string cmsType, Guid id, string fieldName, string? lang, string? currentUser)
+        public async Task<string> WriteFile(CmsFile file, CmsType cmsType, Guid id, string fieldName, string? lang, string? currentUser)
         {
             string fileName = GenerateFileName(cmsType, id, fieldName, lang);
 
@@ -49,7 +49,7 @@ namespace DynamicDataCMS.Storage.AzureStorage
             return fileName;
         }
 
-        private static string GenerateFileName(string cmsType, Guid id, string fieldName, string? lang)
+        private static string GenerateFileName(CmsType cmsType, Guid id, string fieldName, string? lang)
         {
             string fileName = $"{cmsType}/{id}/{lang}/{fieldName}";
             if (string.IsNullOrEmpty(lang))

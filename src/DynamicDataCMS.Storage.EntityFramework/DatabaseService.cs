@@ -13,7 +13,7 @@ namespace DynamicDataCMS.Storage.EntityFramework
 {
     public class DatabaseService<Context, Model> : IReadCmsItem, IWriteCmsItem where Context : DbContext where Model : class
     {
-        public bool CanSort(string cmsType) => true;
+        public bool CanSort(CmsType cmsType) => true;
 
         private readonly Context dbContext;
 
@@ -22,12 +22,12 @@ namespace DynamicDataCMS.Storage.EntityFramework
             this.dbContext = dbContext;
         }
 
-        public bool HandlesType(string cmsType)
+        public bool HandlesType(CmsType cmsType)
         {
-            return typeof(Model).Name.Equals(cmsType, StringComparison.InvariantCultureIgnoreCase);
+            return typeof(Model).Name.Equals(cmsType.ToString(), StringComparison.InvariantCultureIgnoreCase);
         }
 
-        public async Task<(IReadOnlyList<CmsItem> results, int total)> List(string cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0, string? searchQuery = null)
+        public async Task<(IReadOnlyList<CmsItem> results, int total)> List(CmsType cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0, string? searchQuery = null)
         {
             IQueryable<Model> returnItems = dbContext.Set<Model>();
             if (sortField != null)
@@ -53,7 +53,7 @@ namespace DynamicDataCMS.Storage.EntityFramework
 
        
 
-        public async Task<T?> Read<T>(string cmsType, Guid id, string? lang) where T : CmsItem
+        public async Task<T?> Read<T>(CmsType cmsType, Guid id, string? lang) where T : CmsItem
         {
             var item = await dbContext.Set<Model>().FindAsync(id).ConfigureAwait(false);
             if(item != null)
@@ -62,7 +62,7 @@ namespace DynamicDataCMS.Storage.EntityFramework
             return item?.ToObject<T>();
         }
 
-        public async Task Write<T>(T item, string cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem
+        public async Task Write<T>(T item, CmsType cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem
         {
             var dbObj = item.ToObject<Model>();
 
@@ -76,7 +76,7 @@ namespace DynamicDataCMS.Storage.EntityFramework
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task Delete(string cmsType, Guid id, string? lang, string? currentUser)
+        public async Task Delete(CmsType cmsType, Guid id, string? lang, string? currentUser)
         {
             var dbObj = await dbContext.Set<Model>().FindAsync(id).ConfigureAwait(false);
             dbContext.Set<Model>().Remove(dbObj);

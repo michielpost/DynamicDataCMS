@@ -10,10 +10,10 @@ namespace DynamicDataCMS.Storage.Interfaces
     /// </summary>
     public interface IReadCmsItem : ICmsItemBase
     {
-        bool CanSort(string cmsType);
+        bool CanSort(CmsType cmsType);
 
-        Task<T?> Read<T>(string cmsType, Guid id, string? lang) where T : CmsItem;
-        Task<(IReadOnlyList<CmsItem> results, int total)> List(string cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0, string? searchQuery = null);
+        Task<T?> Read<T>(CmsType cmsType, Guid id, string? lang) where T : CmsItem;
+        Task<(IReadOnlyList<CmsItem> results, int total)> List(CmsType cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0, string? searchQuery = null);
     }
 
    

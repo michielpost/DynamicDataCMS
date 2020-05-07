@@ -20,8 +20,8 @@ namespace DynamicDataCMS.Storage.AzureStorage
         private readonly CmsConfiguration cmsConfiguration;
         private readonly AzureStorageConfig azureStorageConfig;
 
-        public bool CanSort(string cmsType) => true;
-        public bool HandlesType(string cmsType) => !azureStorageConfig.ExcludedTypes.Contains(cmsType);
+        public bool CanSort(CmsType cmsType) => true;
+        public bool HandlesType(CmsType cmsType) => !azureStorageConfig.ExcludedTypes.Contains(cmsType);
 
 
         public CmsItemStorageService(AzureStorageService azureStorageService, AzureTableService tableService, IOptions<CmsConfiguration> cmsConfiguration, IOptions<AzureStorageConfig> azureStorageConfig)
@@ -33,10 +33,8 @@ namespace DynamicDataCMS.Storage.AzureStorage
 
         }
 
-        public async Task<(IReadOnlyList<CmsItem> results, int total)> List(string cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0, string? searchQuery = null)
+        public async Task<(IReadOnlyList<CmsItem> results, int total)> List(CmsType cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0, string? searchQuery = null)
         {
-            var typeInfo = cmsConfiguration.Schemas.Where(x => x.Key == cmsType).FirstOrDefault();
-
             //Get index file
             var indexFileName = GenerateFileName(cmsType, "_index", null);
 
@@ -83,7 +81,7 @@ namespace DynamicDataCMS.Storage.AzureStorage
             //return (result, total);
         }
 
-        public Task<T?> Read<T>(string cmsType, Guid id, string? lang) where T : CmsItem
+        public Task<T?> Read<T>(CmsType cmsType, Guid id, string? lang) where T : CmsItem
         {
             if (azureStorageConfig.StorageLocation == AzureStorageLocation.Tables
                 || azureStorageConfig.StorageLocation == AzureStorageLocation.Both)
@@ -98,7 +96,7 @@ namespace DynamicDataCMS.Storage.AzureStorage
             }
         }
 
-        public async Task Write<T>(T item, string cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem
+        public async Task Write<T>(T item, CmsType cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem
         {
             if (azureStorageConfig.StorageLocation == AzureStorageLocation.Tables
                || azureStorageConfig.StorageLocation == AzureStorageLocation.Both)
@@ -113,7 +111,7 @@ namespace DynamicDataCMS.Storage.AzureStorage
 
             //Write index file for paging and sorting
             var indexFileName = GenerateFileName(cmsType, "_index", lang);
-            var typeInfo = cmsConfiguration.MenuItems.Where(x => x.Key == cmsType).FirstOrDefault();
+            var typeInfo = cmsConfiguration.MenuItems.Where(x => x.Key == cmsType.Value).FirstOrDefault();
 
             if (typeInfo == null)
                 return;
@@ -145,7 +143,7 @@ namespace DynamicDataCMS.Storage.AzureStorage
 
 
 
-        public async Task Delete(string cmsType, Guid id, string? lang, string? currentUser)
+        public async Task Delete(CmsType cmsType, Guid id, string? lang, string? currentUser)
         {
             if (azureStorageConfig.StorageLocation == AzureStorageLocation.Tables
               || azureStorageConfig.StorageLocation == AzureStorageLocation.Both)
@@ -187,11 +185,11 @@ namespace DynamicDataCMS.Storage.AzureStorage
             await azureStorageService.WriteFileAsJson(indexFile, indexFileName);
         }
 
-        public static string GenerateFileName(string cmsType, Guid id, string? lang)
+        public static string GenerateFileName(CmsType cmsType, Guid id, string? lang)
         {
             return GenerateFileName(cmsType, id.ToString(), lang);
         }
-        public static string GenerateFileName(string cmsType, string id, string? lang)
+        public static string GenerateFileName(CmsType cmsType, string id, string? lang)
         {
             string fileName = $"{cmsType}/{id}.json";
             if (!string.IsNullOrEmpty(lang))
