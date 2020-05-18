@@ -22,6 +22,7 @@ namespace DynamicDataCMS.Core.Auth
         {
             if (!context.Request.Path.ToString().ToLowerInvariant().StartsWith("/cms")
                 || context.Request.Path.ToString().ToLowerInvariant().StartsWith("/cms/image")
+                || context.Request.Path.ToString().ToLowerInvariant().StartsWith("/cms/file/download")
                 || context.Request.Path.ToString().ToLowerInvariant().StartsWith("/cms/api/schema"))
             {
                 // Let the request pass for non-cms routes
