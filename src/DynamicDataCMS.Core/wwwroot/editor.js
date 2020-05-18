@@ -8,45 +8,43 @@
     JSONEditor.defaults.options.disable_properties = true;
     //JSONEditor.defaults.options.show_opt_in = true;
 
-    JSONEditor.defaults.callbacks = {
-        "autocomplete": {
-            // This is callback functions for the "autocomplete" editor
-            // Note: 1st parameter in callback is ALWAYS a reference to the current editor.
-            "search_autocomplete": function search(jseditor_editor, input, test) {
+    JSONEditor.defaults.callbacks.autocomplete = {
+        // This is callback functions for the "autocomplete" editor
+        // Note: 1st parameter in callback is ALWAYS a reference to the current editor.
+        "search_autocomplete": function search(jseditor_editor, input) {
 
-                //Clear id when input is cleared
-                if (input.length < 1) {
-                    jseditor_editor.parent.editors.id.setValue(null);
-                }
-
-                var itemType = jseditor_editor.parent.options.itemType;
-                var url = searchApiUrl + '/' + itemType + '?q=' + encodeURI(input);
-
-                return new Promise(function (resolve) {
-                    if (input.length < 3) {
-                        return resolve([]);
-                    }
-
-                    fetch(url).then(function (response) {
-                        return response.json();
-                    }).then(function (data) {
-                        resolve(data);
-                    });
-                });
-            },
-            "getResultValue_autocomplete": function getResultValue(jseditor_editor, result) {
-                return result.title;
-            },
-            "onSubmit_autocomplete": function onSubmitValue(jseditor_editor, result) {
-                if (result) {
-                    jseditor_editor.parent.editors.id.setValue(result.id);
-                }
-            },
-            "renderResult_autocomplete": function (jseditor_editor, result, props) {
-                return ['<li ' + props + '>',
-                '<div class="title">' + result.title + '</div>',
-                    '</li>'].join('');
+            //Clear id when input is cleared
+            if (input.length < 1) {
+                jseditor_editor.parent.editors.id.setValue(null);
             }
+
+            var itemType = jseditor_editor.parent.options.itemType;
+            var url = searchApiUrl + '/' + itemType + '?q=' + encodeURI(input);
+
+            return new Promise(function (resolve) {
+                if (input.length < 3) {
+                    return resolve([]);
+                }
+
+                fetch(url).then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    resolve(data);
+                });
+            });
+        },
+        "getResultValue_autocomplete": function getResultValue(jseditor_editor, result) {
+            return result.title;
+        },
+        "onSubmit_autocomplete": function onSubmitValue(jseditor_editor, result) {
+            if (result) {
+                jseditor_editor.parent.editors.id.setValue(result.id);
+            }
+        },
+        "renderResult_autocomplete": function (jseditor_editor, result, props) {
+            return ['<li ' + props + '>',
+            '<div class="title">' + result.title + '</div>',
+                '</li>'].join('');
         }
     };
 
@@ -61,7 +59,7 @@
 
     // Specify upload handler
     JSONEditor.defaults.callbacks.upload = {
-        "uploadHandler" : function (jseditor, type, file, cbs) {
+        "uploadHandler": function (jseditor, type, file, cbs) {
             var currentFileUploadUrl = fileUploadUrl + '?fieldName=' + type.substr(5); //remote root. from typename
             var formData = new FormData();
             formData.set("file", file, file.name);
