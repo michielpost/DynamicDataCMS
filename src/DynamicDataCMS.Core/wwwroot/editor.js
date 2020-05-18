@@ -62,11 +62,11 @@
     // Specify upload handler
     JSONEditor.defaults.callbacks.upload = {
         "uploadHandler" : function (jseditor, type, file, cbs) {
-            fileUploadUrl += '?fieldName=' + type.substr(5); //remote root. from typename
+            var currentFileUploadUrl = fileUploadUrl + '?fieldName=' + type.substr(5); //remote root. from typename
             var formData = new FormData();
             formData.set("file", file, file.name);
 
-            fetch(fileUploadUrl, { // Your POST endpoint
+            fetch(currentFileUploadUrl, { // Your POST endpoint
                 method: 'POST',
                 //headers: {
                 //  // Content-Type may need to be completely **omitted**
