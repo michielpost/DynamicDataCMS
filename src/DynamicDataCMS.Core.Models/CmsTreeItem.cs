@@ -30,7 +30,7 @@ namespace DynamicDataCMS.Core.Models
         {
             if (_fullSlug == null)
             {
-                var slug = this.GetSlugArray(all);
+                var slug = this.GetSlugArray(all, new HashSet<Guid>());
 
                 _fullSlug = "/" + string.Join("/", slug);
             }
@@ -38,16 +38,19 @@ namespace DynamicDataCMS.Core.Models
             return _fullSlug;
         }
 
-        public List<string?> GetSlugArray(List<CmsTreeNode> all)
+        public List<string?> GetSlugArray(List<CmsTreeNode> all, HashSet<Guid> visited)
         {
             List<string?> sb = new List<string?>();
 
-            if (this.ParentId.HasValue)
+
+            if (this.ParentId.HasValue && !visited.Contains(this.ParentId.Value))
             {
+                visited.Add(this.ParentId.Value);
                 var parent = all.Find(x => x.NodeId == this.ParentId);
+                
                 if (parent != null)
                 {
-                    var parentSlug = parent.GetSlugArray(all);
+                    var parentSlug = parent.GetSlugArray(all, visited);
                     sb.AddRange(parentSlug);
                 }
                 

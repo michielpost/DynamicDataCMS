@@ -54,7 +54,7 @@
                 <td>
                     @if (Model.MenuCmsItem.HideUrl)
                     {
-                        int level = treeItem.GetSlugArray(Model.CmsTreeItem.Nodes).Count;
+                        int level = treeItem.GetSlugArray(Model.CmsTreeItem.Nodes, new HashSet<Guid>()).Count;
                         @Html.Raw(string.Concat(Enumerable.Repeat("&nbsp;", level * 3))) @treeItem.Name
                     }
                     else
