@@ -13,5 +13,6 @@ namespace DynamicDataCMS.Core.Models
 
         public CmsTreeItem CmsTreeItem { get; set; }
         public MenuItem MenuCmsItem { get; set; }
+
     }
 }

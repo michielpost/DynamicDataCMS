@@ -48,6 +48,11 @@ namespace DynamicDataCMS.Core.Models
         //Should be CmsSchemaType, but JsonConverter is not supported for config files
         public string? SchemaKey { get; set; }
 
+        /// <summary>
+        /// Hides the URL and shows just the name
+        /// </summary>
+        public bool HideUrl { get; set; }
+
         //Should be CmsSchemaType, but JsonConverter is not supported for config files
         public List<string> SchemaKeys { get; set; } = new List<string>();
         public bool IsTree => SchemaKeys.Any();
