@@ -27,13 +27,16 @@ namespace DynamicDataCMS.Core.Services
             var document = await GetCmsTreeItem(cmsTreeType, lang).ConfigureAwait(false);
 
             //Get node
-            var existing = document.Nodes.Where(x => x.NodeId == nodeId).FirstOrDefault();
+            CmsTreeNode? existing = document.Nodes.Where(x => x.NodeId == nodeId).FirstOrDefault();
 
-            existing.CmsItemType = cmsItemType;
-            existing.CmsItemId = cmsItemId;
+            if (existing != null)
+            {
+                existing.CmsItemType = cmsItemType;
+                existing.CmsItemId = cmsItemId;
 
-            await dataProvider.Write<CmsTreeItem>(document, cmsTreeType, Guid.Empty, lang: null, currentUser).ConfigureAwait(false);
-
+                await dataProvider.Write<CmsTreeItem>(document, cmsTreeType, Guid.Empty, lang: null, currentUser).ConfigureAwait(false);
+            }
+            
             return document;
         }
 
