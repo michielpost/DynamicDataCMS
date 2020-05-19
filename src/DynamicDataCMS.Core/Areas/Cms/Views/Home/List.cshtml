@@ -25,7 +25,7 @@
 <h1>@Model.MenuCmsItem.Name Overview</h1>
 
 <p>
-    @Html.ActionLink("Create New " + @Model.MenuCmsItem.Name, "Create", new { cmstype = Model.CmsType }, new { @class = "btn btn-primary", role = "button" })
+    @Html.ActionLink("Create New " + @Model.MenuCmsItem.Name, "Create", new { Area = "Cms", cmstype = Model.CmsType }, new { @class = "btn btn-primary", role = "button" })
 </p>
 <table class="table">
     <thead>
@@ -43,7 +43,7 @@
             {
                 @if (readCmsItem.CanSort(Model.CmsType))
                 {
-                    <th>@Html.ActionLink(column.DisplayName, "List", "Home", new { sortField = column.Key, sortOrder = GetSortOrder(column.Key) })</th>
+                    <th>@Html.ActionLink(column.DisplayName, "List", "Home", new { Area = "Cms", sortField = column.Key, sortOrder = GetSortOrder(column.Key) })</th>
                 }
                 else
                 {
@@ -71,8 +71,8 @@
                     <td>@item.AdditionalProperties.FirstOrDefault(x => x.Key == column.Key).Value</td>
                 }
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id, cmstype = item.CmsType }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id, cmstype = item.CmsType })
+                    @Html.ActionLink("Edit", "Edit", new { Area = "Cms", id = item.Id, cmstype = item.CmsType }) |
+                    @Html.ActionLink("Delete", "Delete", new { Area = "Cms", id = item.Id, cmstype = item.CmsType })
                 </td>
             </tr>
         }

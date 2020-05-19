@@ -58,7 +58,7 @@
                             @foreach (var schema in menuGroup.MenuItems)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link" href="@Url.Action("List", new { cmstype = @schema.Key })">
+                                    <a class="nav-link" href="@Url.Action("List", new { Area = "Cms", cmstype = @schema.Key })">
                                         @schema.Name
                                     </a>
                                 </li>
