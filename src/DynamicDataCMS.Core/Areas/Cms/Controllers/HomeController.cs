@@ -90,7 +90,6 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
             if (cmsMenuItem == null || !cmsMenuItem.IsTree)
                 return new NotFoundResult();
 
-            var (results, total) = await readCmsItemService.List(cmsType, null, null).ConfigureAwait(false);
             var treeItem = await cmsTreeService.GetCmsTreeItem(cmsType, lang);
 
             if (treeItem == null)
@@ -101,7 +100,6 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
                 CmsType = cmsType,
                 MenuCmsItem = cmsMenuItem,
                 CmsTreeItem = treeItem,
-                Items = results,
             };
 
             return View("ListTree", model);
