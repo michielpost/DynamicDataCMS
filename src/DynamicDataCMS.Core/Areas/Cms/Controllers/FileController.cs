@@ -73,11 +73,10 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
             return new JsonResult("No file submitted");
         }
 
-        [ResponseCache(Duration = 60 * 60 * 24 * 365, Location = ResponseCacheLocation.Any)]
-        [Route("download/{cmsType}/{id}/{fieldName}/{lang?}")]
-        public async Task<IActionResult> Download([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang, [FromRoute]string fieldName)
+        [Route("download/{**fileName}")]
+        public async Task<IActionResult> Download([FromRoute]string fileName)
         {
-            var file = await readFileService.ReadFile(cmsType, id, fieldName, lang).ConfigureAwait(false);
+            var file = await readFileService.ReadFile(fileName).ConfigureAwait(false);
             if(file == null)
                 return NotFound();
 

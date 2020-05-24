@@ -9,6 +9,6 @@ namespace DynamicDataCMS.Storage.Interfaces
     /// </summary>
     public interface IReadFile
     {
-        Task<CmsFile?> ReadFile(CmsType cmsType, Guid id, string fieldName, string? lang);
+        Task<CmsFile?> ReadFile(string fileName);
     }
 }

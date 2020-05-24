@@ -30,13 +30,13 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
         }
 
         //[ResponseCache(Duration = 60 * 60 * 24 * 365, Location = ResponseCacheLocation.Any)]
-        [Route("image/{cmsType}/{id}/{fieldName}/{lang?}")]
-        public async Task<IActionResult> GetById([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang, [FromRoute]string fieldName, 
+        [Route("image/{**fileName}")]
+        public async Task<IActionResult> GetById([FromRoute]string fileName, 
             int? w = null, int? h = null, bool cover = false, int? quality = null)
         {
             try
             {
-                var image = await _imageService.GetImageAsync(cmsType, id, fieldName, lang, w, h, cover, quality).ConfigureAwait(false);
+                var image = await _imageService.GetImageAsync(fileName, w, h, cover, quality).ConfigureAwait(false);
                 if(image == null)
                     return NotFound();
 

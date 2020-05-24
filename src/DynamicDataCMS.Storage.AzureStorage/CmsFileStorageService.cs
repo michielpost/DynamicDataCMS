@@ -20,10 +20,8 @@ namespace DynamicDataCMS.Storage.AzureStorage
             this.azureStorageService = azureStorageService;
         }
 
-        public async Task<CmsFile?> ReadFile(CmsType cmsType, Guid id, string fieldName, string? lang)
+        public async Task<CmsFile?> ReadFile(string fileName)
         {
-            string fileName = GenerateFileName(cmsType, id, fieldName, lang);
-
             // get original file
             var blob = await azureStorageService.GetFileReference(fileName).ConfigureAwait(false);
 

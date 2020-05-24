@@ -26,11 +26,11 @@ namespace DynamicDataCMS.Core.Services
         }
 
 
-        public async Task<byte[]?> GetImageAsync(string cmsType, Guid id, string fieldName, string? lang,
+        public async Task<byte[]?> GetImageAsync(string fileName,
             int? width = null, int? height = null, bool cover = false, int? quality = null)
         {
             quality = quality ?? compressionQuality;
-            var cmsFile = await readFileService.ReadFile(cmsType, id, fieldName, lang).ConfigureAwait(false);
+            var cmsFile = await readFileService.ReadFile(fileName).ConfigureAwait(false);
 
             if (cmsFile == null)
                 return null;

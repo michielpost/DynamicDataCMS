@@ -68,9 +68,9 @@ namespace DynamicDataCMS.Core.Services
             return firstReadProdiver.Read<T>(cmsType, id, lang);
         }
 
-        public Task<CmsFile?> ReadFile(CmsType cmsType, Guid id, string fieldName, string? lang)
+        public Task<CmsFile?> ReadFile(string fileName)
         {
-            return readFileProvider.ReadFile(cmsType, id, fieldName, lang);
+            return readFileProvider.ReadFile(fileName);
         }
 
         public async Task Write<T>(T item, CmsType cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem
