@@ -10,10 +10,10 @@ namespace DynamicDataCMS.Core.Models
         public string title { get; set; }
         public string type { get; set; }
         public List<string> @enum { get; set; }
-        public Options options { get; set; }
+        public EnumOptions options { get; set; }
     }
 
-    public class Options
+    public class EnumOptions
     {
         public List<string> enum_titles { get; set; }
     }

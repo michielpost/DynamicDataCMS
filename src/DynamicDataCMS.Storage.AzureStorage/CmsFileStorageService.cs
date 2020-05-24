@@ -1,5 +1,7 @@
 ﻿using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Storage.AzureStorage.Models;
 using DynamicDataCMS.Storage.Interfaces;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,10 +16,12 @@ namespace DynamicDataCMS.Storage.AzureStorage
     public class CmsFileStorageService : IReadFile, IWriteFile
     {
         private readonly AzureStorageService azureStorageService;
+        private readonly AzureStorageConfig storageConfig;
 
-        public CmsFileStorageService(AzureStorageService azureStorageService)
+        public CmsFileStorageService(AzureStorageService azureStorageService, IOptions<AzureStorageConfig> storageConfig)
         {
             this.azureStorageService = azureStorageService;
+            this.storageConfig = storageConfig.Value;
         }
 
         public async Task<CmsFile?> ReadFile(string fileName)
@@ -47,11 +51,15 @@ namespace DynamicDataCMS.Storage.AzureStorage
             return fileName;
         }
 
-        private static string GenerateFileName(CmsType cmsType, Guid id, string fieldName, string? lang)
+        private string GenerateFileName(CmsType cmsType, Guid id, string fieldName, string? lang)
         {
             string fileName = $"{cmsType}/{id}/{lang}/{fieldName}";
             if (string.IsNullOrEmpty(lang))
                 fileName = $"{cmsType}/{id}/{fieldName}";
+
+            if (storageConfig.GenerateUniqueFileName)
+                fileName = $"{fileName}/{Guid.NewGuid()}";
+
             return fileName;
         }
     }

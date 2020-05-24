@@ -113,7 +113,7 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
                 title = cmsType,
                 type = "string",
                 @enum = list.results.Select(x => x.Id.ToString()).ToList(),
-                options = new Options
+                options = new EnumOptions
                 {
                      enum_titles = list.results.Select(x => GetDisplayTitle(x, schema)).ToList()
                 }

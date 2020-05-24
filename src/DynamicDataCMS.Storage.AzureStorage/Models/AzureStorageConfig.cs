@@ -24,6 +24,7 @@ namespace DynamicDataCMS.Storage.AzureStorage.Models
         /// </summary>
         public List<CmsType> ExcludedTypes { get; set; } = new List<CmsType>();
 
+        public bool GenerateUniqueFileName { get; set; } = true;
     }
 
     public enum AzureStorageLocation
