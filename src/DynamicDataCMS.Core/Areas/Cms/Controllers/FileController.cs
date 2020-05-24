@@ -74,6 +74,7 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
         }
 
         [Route("download/{**fileName}")]
+        [ResponseCache(Duration = 60 * 60 * 24 * 365, Location = ResponseCacheLocation.Any)]
         public async Task<IActionResult> Download([FromRoute]string fileName)
         {
             var file = await readFileService.ReadFile(fileName).ConfigureAwait(false);
