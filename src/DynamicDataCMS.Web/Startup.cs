@@ -23,6 +23,7 @@ using DynamicDataCMS.Storage.AzureStorage;
 using DynamicDataCMS.Storage.CosmosDB;
 using DynamicDataCMS.Storage.CosmosDB.Models;
 using DynamicDataCMS.Storage.Interfaces;
+using DynamicDataCMS.Storage.SiaSkynet;
 using DynamicDataCMS.Web.EntityFramework;
 using DynamicDataCMS.Web.Interceptor;
 using DynamicDataCMS.Storage.EntityFramework;
@@ -52,7 +53,8 @@ namespace DynamicDataCMS.Web
                 //.ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
                 .ConfigureEntityFramework<CmsDataContext, Student>()
                 .ConfigureEntityFramework<CmsDataContext, Book>()
-                .ConfigureAzureStorage(() => new StorageConfiguration() { ReadFiles = true, ReadCmsItems = true });
+                .ConfigureSiaSkynet()
+                .ConfigureAzureStorage(() => new StorageConfiguration() { ReadFiles = false, ReadCmsItems = true, WriteFiles = false });
 
             services.AddControllersWithViews();
 

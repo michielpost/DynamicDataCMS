@@ -19,6 +19,7 @@
     <ProjectReference Include="..\DynamicDataCMS.Storage.CosmosDB\DynamicDataCMS.Storage.CosmosDB.csproj" />
     <ProjectReference Include="..\DynamicDataCMS.Storage.EntityFramework\DynamicDataCMS.Storage.EntityFramework.csproj" />
     <ProjectReference Include="..\DynamicDataCMS.Storage.Interfaces\DynamicDataCMS.Storage.Interfaces.csproj" />
+    <ProjectReference Include="..\DynamicDataCMS.Storage.SiaSkynet\DynamicDataCMS.Storage.SiaSkynet.csproj" />
   </ItemGroup>
 
   <ItemGroup>

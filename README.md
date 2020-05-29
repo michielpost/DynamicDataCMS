@@ -96,6 +96,15 @@ app.UseMiddleware<DynamicDataCMSAuthenticatationMiddleware>();
 
 See the example project to add a default first user to the user list.
 
+### Sia Skynet
+Stores data on Sia Skynet, a free decentralized CDN and file sharing platform
+https://siasky.net
+
+```cs
+services.UseDynamicDataCMS(Configuration)
+  .ConfigureSiaSkynet();
+```
+
 ### Micrio
 [Micrio Module documentation](src/DynamicDataCMS.Module.Micrio)
 
