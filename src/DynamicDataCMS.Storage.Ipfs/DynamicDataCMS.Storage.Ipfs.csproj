@@ -16,6 +16,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Ipfs.Http.Client" Version="0.33.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DynamicDataCMS.Storage.Interfaces\DynamicDataCMS.Storage.Interfaces.csproj" />
   </ItemGroup>
 </Project>
