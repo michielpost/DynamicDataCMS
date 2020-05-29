@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicDataCMS.Storage.Enti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicDataCMS.Storage.SiaSkynet", "src\DynamicDataCMS.Storage.SiaSkynet\DynamicDataCMS.Storage.SiaSkynet.csproj", "{60429F28-5394-4DA5-9CED-D11989704D0F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicDataCMS.Storage.Ipfs", "src\DynamicDataCMS.Storage.Ipfs\DynamicDataCMS.Storage.Ipfs.csproj", "{A9E095BE-D395-4982-969A-3CA1783D4114}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,10 @@ Global
 		{60429F28-5394-4DA5-9CED-D11989704D0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60429F28-5394-4DA5-9CED-D11989704D0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60429F28-5394-4DA5-9CED-D11989704D0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9E095BE-D395-4982-969A-3CA1783D4114}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9E095BE-D395-4982-969A-3CA1783D4114}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9E095BE-D395-4982-969A-3CA1783D4114}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9E095BE-D395-4982-969A-3CA1783D4114}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,6 +108,7 @@ Global
 		{A4990FDA-CEB1-4326-9367-37D856983A92} = {8FF48155-3E67-4BE2-BE20-4C10DC69471F}
 		{E20F5952-85BF-42B9-9929-90D95A8A0036} = {63E0E146-5C7E-4972-A9F4-19EE05240997}
 		{60429F28-5394-4DA5-9CED-D11989704D0F} = {63E0E146-5C7E-4972-A9F4-19EE05240997}
+		{A9E095BE-D395-4982-969A-3CA1783D4114} = {63E0E146-5C7E-4972-A9F4-19EE05240997}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0FA8DACF-68AA-4284-8D97-7B747732AC7C}
