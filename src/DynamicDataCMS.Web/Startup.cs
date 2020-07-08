@@ -47,6 +47,7 @@ namespace DynamicDataCMS.Web
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.UseDynamicDataCMS(Configuration)
+                .UseJsonEditor()
                 .ConfigureDynamicDataCmsAuth() //Optional if you want user login
                 .ConfigureMicrio() //Optional, if you want to have support to upload images to micr.io
                 .AddInterceptor<ExampleInterceptor>()
