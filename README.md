@@ -38,6 +38,7 @@ DynamicDataCMS is a modular CMS and different modules are available:
 The CosmosDB module stores CmsItems to Azure CosmosDB. This module does not support storing file data. You can use the Azure Storage module for file data.
 ```cs
 services.UseDynamicDataCMS(Configuration)
+  ..UseJsonEditor()
   .ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
   .ConfigureAzureStorage(() => new StorageConfiguration() {  ReadFiles = true }); //Optional if you need file storage.
 ```

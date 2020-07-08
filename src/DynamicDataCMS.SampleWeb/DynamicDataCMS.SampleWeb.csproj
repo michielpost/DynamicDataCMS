@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DynamicDataCMS.Core.Web.Helpers\DynamicDataCMS.Core.Web.Helpers.csproj" />
     <ProjectReference Include="..\DynamicDataCMS.Core\DynamicDataCMS.Core.csproj" />
+    <ProjectReference Include="..\DynamicDataCMS.Editors.JsonEditor\DynamicDataCMS.Editors.JsonEditor.csproj" />
     <ProjectReference Include="..\DynamicDataCMS.Storage.AzureStorage\DynamicDataCMS.Storage.AzureStorage.csproj" />
   </ItemGroup>
 
