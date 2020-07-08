@@ -6,7 +6,7 @@
 }
 
 <script type="text/javascript">
-        var createUrl = '@Html.Raw(Url.Action("EditTree", "Home", new { Area = "Cms", cmsTreeType = Model.CmsType }, this.Context.Request.Scheme))' + '/';
+        var createUrl = '@Html.Raw(Url.Action("EditTree", "Edit", new { Area = "Cms", cmsTreeType = Model.CmsType }, this.Context.Request.Scheme))' + '/';
 </script>
 
 <h1>@Model.MenuCmsItem.Name Overview</h1>
@@ -27,7 +27,7 @@
 @if (Model.MenuCmsItem.SchemaKey != null)
 {
     <p>
-        @Html.ActionLink("Create New " + @Model.MenuCmsItem.Name, "Create", new { Area = "Cms", cmstype = Model.CmsType }, new { @class = "btn btn-primary", role = "button" })
+        @Html.ActionLink("Create New " + @Model.MenuCmsItem.Name, "Create", "Edit", new { Area = "Cms", cmstype = Model.CmsType }, new { @class = "btn btn-primary", role = "button" })
     </p>
 }
 
@@ -73,18 +73,18 @@
                 {
                     if (string.IsNullOrEmpty(treeItem.CmsItemType))
                     {
-                        @Html.ActionLink("Edit", "EditTree", "Home", new { Area = "Cms", cmsTreeType = Model.CmsType, slug = treeItem.GetSlug(Model.CmsTreeItem.Nodes).TrimStart('/'), treeItemSchemaKey = treeItem.CmsItemType }) <text> | </text>
+                        @Html.ActionLink("Edit", "EditTree", "Edit", new { Area = "Cms", cmsTreeType = Model.CmsType, slug = treeItem.GetSlug(Model.CmsTreeItem.Nodes).TrimStart('/'), treeItemSchemaKey = treeItem.CmsItemType }) <text> | </text>
                     }
                     else
                     {
-                        @Html.ActionLink("Edit", "Edit", "Home", new { Area = "Cms", cmsType = Model.CmsType, id = treeItem.CmsItemId, treeItemSchemaKey = treeItem.CmsItemType, treeNodeId = treeItem.NodeId }) <text> | </text>
+                        @Html.ActionLink("Edit", "Edit", "Edit", new { Area = "Cms", cmsType = Model.CmsType, id = treeItem.CmsItemId, treeItemSchemaKey = treeItem.CmsItemType, treeNodeId = treeItem.NodeId }) <text> | </text>
                     }
 
-                    @Html.ActionLink("Delete", "Delete", new { Area = "Cms", id = treeItem.CmsItemId, cmstype = Model.CmsType, treeItemSchemaKey = treeItem.CmsItemType, treeNodeId = treeItem.NodeId })
+                    @Html.ActionLink("Delete", "Delete", "Delete", new { Area = "Cms", id = treeItem.CmsItemId, cmstype = Model.CmsType, treeItemSchemaKey = treeItem.CmsItemType, treeNodeId = treeItem.NodeId })
                 }
                 else
                 {
-                    @Html.ActionLink("Create", "EditTree", "Home", new { Area = "Cms", cmsTreeType = Model.CmsType, slug = treeItem.GetSlug(Model.CmsTreeItem.Nodes).TrimStart('/'), treeItemSchemaKey = treeItem.CmsItemType })
+                    @Html.ActionLink("Create", "EditTree", "Edit", new { Area = "Cms", cmsTreeType = Model.CmsType, slug = treeItem.GetSlug(Model.CmsTreeItem.Nodes).TrimStart('/'), treeItemSchemaKey = treeItem.CmsItemType })
                 }
             </td>
             </tr>

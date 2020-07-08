@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -8,43 +9,44 @@ using DynamicDataCMS.Core.Services;
 using DynamicDataCMS.Storage.Interfaces;
 using System.Net.Http;
 using NJsonSchema;
+using System.Text.Json.Serialization;
 using System.Text.Json;
-using DynamicDataCMS.Editors.JsonEditor.Models;
 
-namespace DynamicDataCMS.Editors.JsonEditor.Areas.Cms.Controllers
+namespace DynamicDataCMS.Core.Areas.Cms.Controllers
 {
     [Area("cms")]
     [Route("[area]")]
-    public class JsonEditorController : Controller
+    public class DeleteController : Controller
     {
         private readonly IReadCmsItem readCmsItemService;
+        private readonly IWriteCmsItem writeCmsItemService;
         private readonly JsonSchemaService schemaService;
         private readonly CmsTreeService cmsTreeService;
-        private readonly IHttpClientFactory httpClientFactory;
 
-        public JsonEditorController(DataProviderWrapperService dataProviderService, JsonSchemaService schemaService, IHttpClientFactory clientFactory, CmsTreeService cmsTreeService)
+        public DeleteController(DataProviderWrapperService dataProviderService, JsonSchemaService schemaService, CmsTreeService cmsTreeService)
         {
             this.readCmsItemService = dataProviderService;
+            this.writeCmsItemService = dataProviderService;
             this.schemaService = schemaService;
             this.cmsTreeService = cmsTreeService;
-            this.httpClientFactory = clientFactory;
         }
 
-        [Route("jsoneditor/edit/{cmsType}/{id}/{lang?}")]
         [HttpGet]
-        public async Task<IActionResult> Edit([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang, [FromQuery]string? treeItemSchemaKey, [FromQuery]Guid? treeNodeId)
+        [Route("delete/{cmsType}/{id:guid}/{lang?}")]
+        public async Task<IActionResult> Delete([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang, [FromQuery]string? treeItemSchemaKey, [FromQuery]Guid? treeNodeId)
         {
+
             if (id == Guid.Empty)
                 return new NotFoundResult();
 
             var cmsMenuItem = schemaService.GetCmsType(cmsType);
-            if(cmsMenuItem == null)
+            if (cmsMenuItem == null)
                 return new NotFoundResult();
 
             var schemaKey = cmsMenuItem.SchemaKey;
             List<CmsTreeNode> nodes = new List<CmsTreeNode>();
 
-            if(cmsMenuItem.IsTree)
+            if (cmsMenuItem.IsTree)
             {
                 nodes = await cmsTreeService.GetCmsTreeNodesForCmsItemId(cmsType, id, lang);
                 if (nodes.Any())
@@ -87,44 +89,23 @@ namespace DynamicDataCMS.Editors.JsonEditor.Areas.Cms.Controllers
                 TreeItemSchemaKey = treeItemSchemaKey,
                 TreeNodeId = treeNodeId
             };
-            return View(nameof(JsonEditor), model);
 
+            return View("Delete", model);
         }
 
-        /// <summary>
-        /// Dynamic Edit endpoint, accepts any json url and generates an editor
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        [Route("edit/_dynamic")]
-        [HttpGet]
-        public async Task<IActionResult> EditDynamic([FromQuery]string url)
+        [HttpPost]
+        [Route("delete/{cmsType}/{id:guid}/{lang?}")]
+        public async Task<IActionResult> DeleteConfirm([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang, [FromQuery]string? treeItemSchemaKey, [FromQuery]Guid? treeNodeId)
         {
-            if (string.IsNullOrEmpty(url))
-                return new NotFoundResult();
+            await writeCmsItemService.Delete(cmsType, id, lang, this.User.Identity.Name).ConfigureAwait(false);
 
-            var httpClient = httpClientFactory.CreateClient();
-            var json = await httpClient.GetStringAsync(url).ConfigureAwait(false);
-
-            var jsonSchema = JsonSchema.FromSampleJson(json);
-
-            var schema = new SchemaLocation()
+            if (treeNodeId.HasValue)
             {
-                Key = "_dynamic",
-                Schema = jsonSchema.ToJson()
-            };
+                await cmsTreeService.ClearCmsTreeNode(cmsType, treeNodeId.Value, lang, this.User.Identity.Name).ConfigureAwait(false);
+            }
 
-            var model = new EditViewModel
-            {
-                CmsType = "_dynamic",
-                Id = Guid.NewGuid(),
-                SchemaLocation = schema,
-                CmsConfiguration = schemaService.GetCmsConfiguration(),
-                Data = JsonSerializer.Deserialize<CmsItem>(json)
-            };
-            return View(nameof(JsonEditor), model);
+            return RedirectToAction("List", "List", new { cmsType = cmsType });
         }
-
 
     }
 }

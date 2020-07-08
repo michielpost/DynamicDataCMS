@@ -37,10 +37,10 @@
 
     @if (Model.CmsConfiguration?.Languages?.Any() ?? false)
     {
-        <a class="badge badge-secondary" href="@Url.Action("Edit", "Home", new { lang = "", id = Model.Id, cmsType = Model.CmsType, treeItemSchemaKey = Model.TreeItemSchemaKey, treeNodeId = Model.TreeNodeId })">Default Language</a>
+        <a class="badge badge-secondary" href="@Url.Action("Edit", "Edit", new { lang = "", id = Model.Id, cmsType = Model.CmsType, treeItemSchemaKey = Model.TreeItemSchemaKey, treeNodeId = Model.TreeNodeId })">Default Language</a>
         @foreach (string lang in Model.CmsConfiguration?.Languages ?? Enumerable.Empty<string>())
         {
-            <a class="badge badge-secondary" href="@Url.Action("Edit", "Home", new { lang = @lang, id = Model.Id, cmsType = Model.CmsType, treeItemSchemaKey = Model.TreeItemSchemaKey, treeNodeId = Model.TreeNodeId })">@lang</a>
+            <a class="badge badge-secondary" href="@Url.Action("Edit", "Edit", new { lang = @lang, id = Model.Id, cmsType = Model.CmsType, treeItemSchemaKey = Model.TreeItemSchemaKey, treeNodeId = Model.TreeNodeId })">@lang</a>
         }
     }
     <br />

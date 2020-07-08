@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -8,29 +9,32 @@ using DynamicDataCMS.Core.Services;
 using DynamicDataCMS.Storage.Interfaces;
 using System.Net.Http;
 using NJsonSchema;
+using System.Text.Json.Serialization;
 using System.Text.Json;
-using DynamicDataCMS.Editors.JsonEditor.Models;
 
-namespace DynamicDataCMS.Editors.JsonEditor.Areas.Cms.Controllers
+namespace DynamicDataCMS.Core.Areas.Cms.Controllers
 {
     [Area("cms")]
     [Route("[area]")]
-    public class JsonEditorController : Controller
+    public class EditController : Controller
     {
         private readonly IReadCmsItem readCmsItemService;
+        private readonly IWriteCmsItem writeCmsItemService;
         private readonly JsonSchemaService schemaService;
         private readonly CmsTreeService cmsTreeService;
         private readonly IHttpClientFactory httpClientFactory;
 
-        public JsonEditorController(DataProviderWrapperService dataProviderService, JsonSchemaService schemaService, IHttpClientFactory clientFactory, CmsTreeService cmsTreeService)
+        public EditController(DataProviderWrapperService dataProviderService, JsonSchemaService schemaService, IHttpClientFactory clientFactory, CmsTreeService cmsTreeService)
         {
             this.readCmsItemService = dataProviderService;
+            this.writeCmsItemService = dataProviderService;
             this.schemaService = schemaService;
             this.cmsTreeService = cmsTreeService;
             this.httpClientFactory = clientFactory;
         }
 
-        [Route("jsoneditor/edit/{cmsType}/{id}/{lang?}")]
+     
+        [Route("edit/{cmsType}/{id}/{lang?}")]
         [HttpGet]
         public async Task<IActionResult> Edit([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang, [FromQuery]string? treeItemSchemaKey, [FromQuery]Guid? treeNodeId)
         {
@@ -72,23 +76,45 @@ namespace DynamicDataCMS.Editors.JsonEditor.Areas.Cms.Controllers
             if (schema == null)
                 return new NotFoundResult();
 
-            var data = await readCmsItemService.Read<CmsItem>(cmsType, id, lang).ConfigureAwait(false);
+            return RedirectToAction("Edit", "JsonEditor", this.Request.RouteValues);
+        }
 
-            var model = new EditViewModel
+        [Route("edittree/{cmsTreeType}/{**slug}")]
+        [HttpGet]
+        public async Task<IActionResult> EditTree([FromRoute]string cmsTreeType, [FromRoute]string slug, [FromQuery]string? treeItemSchemaKey, [FromQuery]string? lang)
+        {
+            slug ??= string.Empty;
+            slug = slug.TrimStart('/');
+            slug = "/" + slug;
+           
+
+            var cmsMenuItem = schemaService.GetCmsType(cmsTreeType);
+            if (cmsMenuItem == null || !cmsMenuItem.SchemaKeys.Any())
+                return new NotFoundResult();
+
+            CmsTreeNode? cmsTreeItem = await cmsTreeService.GetCmsTreeNode(cmsTreeType, slug, lang).ConfigureAwait(false);
+            if(cmsTreeItem == null)
+                cmsTreeItem = await cmsTreeService.CreateOrUpdateCmsTreeNodeForSlug(cmsTreeType, slug, new CmsTreeNode() { CmsItemId = Guid.NewGuid() }, lang, this.User.Identity.Name);
+
+            if (string.IsNullOrEmpty(cmsTreeItem.CmsItemType) && string.IsNullOrEmpty(treeItemSchemaKey))
             {
-                CmsType = cmsType,
-                Id = id,
-                SchemaLocation = schema,
-                MenuCmsItem = cmsMenuItem,
-                CmsConfiguration = schemaService.GetCmsConfiguration(),
-                Language = lang,
-                Data = data,
-                Nodes = nodes,
-                TreeItemSchemaKey = treeItemSchemaKey,
-                TreeNodeId = treeNodeId
-            };
-            return View(nameof(JsonEditor), model);
+                EditTreeViewModel vm = new EditTreeViewModel
+                {
+                    MenuCmsItem = cmsMenuItem,
+                    CmsType = cmsTreeType,
+                    Language = lang,
+                    TreeItemSchemaKey = treeItemSchemaKey,
+                    TreeNodeId = cmsTreeItem?.NodeId
+                };
 
+                return View(vm);
+            }
+
+            Guid? id = cmsTreeItem.CmsItemId;
+            if (!id.HasValue)
+                id = Guid.NewGuid();
+
+            return RedirectToAction("Edit", new { cmsType = cmsTreeType, id = id, lang = lang, treeItemSchemaKey = treeItemSchemaKey, treeNodeId = cmsTreeItem.NodeId });
         }
 
         /// <summary>
@@ -122,9 +148,15 @@ namespace DynamicDataCMS.Editors.JsonEditor.Areas.Cms.Controllers
                 CmsConfiguration = schemaService.GetCmsConfiguration(),
                 Data = JsonSerializer.Deserialize<CmsItem>(json)
             };
-            return View(nameof(JsonEditor), model);
+            return View(nameof(Edit), model);
         }
 
-
+        [Route("create/{cmsType}")]
+        [HttpGet]
+        public IActionResult Create([FromRoute]string cmsType)
+        {
+            return RedirectToAction("Edit", new { cmsType = cmsType, id = Guid.NewGuid() });
+        }
+       
     }
 }
