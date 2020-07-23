@@ -76,7 +76,7 @@ namespace DynamicDataCMS.Core.Services
         public async Task Write<T>(T item, CmsType cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem
         {
             //Run interceptors before saving
-            foreach(var interceptor in writeCmsItemInterceptors)
+            foreach(var interceptor in writeCmsItemInterceptors.Where(x => x.HandlesType(cmsType)))
             {
                item = await interceptor.InterceptAsync(item, cmsType, id, lang, currentUser).ConfigureAwait(false);
             };

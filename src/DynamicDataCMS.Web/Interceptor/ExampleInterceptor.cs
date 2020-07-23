@@ -12,6 +12,11 @@ namespace DynamicDataCMS.Web.Interceptor
 {
     public class ExampleInterceptor : IWriteCmsItemInterceptor
     {
+        public bool HandlesType(CmsType cmsType)
+        {
+            return true;
+        }
+
         public Task<T> InterceptAsync<T>(T item, CmsType cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem
         {
             return Task.FromResult(item);

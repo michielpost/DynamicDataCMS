@@ -11,21 +11,21 @@ namespace DynamicDataCMS.Core.Auth
 {
     public class EncryptPasswordInterceptor : IWriteCmsItemInterceptor
     {
-        public Task<T> InterceptAsync<T>(T item, CmsType cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem
+        public bool HandlesType(CmsType cmsType)
         {
             //Only do this for the auth controller
-            if(cmsType == CmsUser.DefaultCmsType)
-            {
-                var cmsUser = item.ToObject<CmsUser>();
+            return CmsUser.DefaultCmsType.Value == cmsType.Value;
+        }
 
-                //Encrypt password
-                cmsUser.PasswordEncrypted = BCrypt.Net.BCrypt.HashPassword(cmsUser.Password);
-                cmsUser.Password = string.Empty; //Do not store original password
+        public Task<T> InterceptAsync<T>(T item, CmsType cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem
+        {
+            var cmsUser = item.ToObject<CmsUser>();
 
-                item = cmsUser.ToObject<T>();
+            //Encrypt password
+            cmsUser.PasswordEncrypted = BCrypt.Net.BCrypt.HashPassword(cmsUser.Password);
+            cmsUser.Password = string.Empty; //Do not store original password
 
-                return Task.FromResult(item);
-            }
+            item = cmsUser.ToObject<T>();
 
             return Task.FromResult(item);
         }
