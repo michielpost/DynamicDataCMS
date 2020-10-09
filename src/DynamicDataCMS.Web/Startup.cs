@@ -43,8 +43,8 @@ namespace DynamicDataCMS.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CmsDataContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<CmsDataContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.UseDynamicDataCMS(Configuration)
                 .UseJsonEditor()
@@ -52,8 +52,8 @@ namespace DynamicDataCMS.Web
                 .ConfigureMicrio() //Optional, if you want to have support to upload images to micr.io
                 .AddInterceptor<ExampleInterceptor>()
                 //.ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
-                .ConfigureEntityFramework<CmsDataContext, Student>()
-                .ConfigureEntityFramework<CmsDataContext, Book>()
+                //.ConfigureEntityFramework<CmsDataContext, Student>()
+                //.ConfigureEntityFramework<CmsDataContext, Book>()
                 .ConfigureSiaSkynet()
                 .ConfigureAzureStorage(() => new StorageConfiguration() { ReadFiles = false, ReadCmsItems = true, WriteFiles = false });
 
