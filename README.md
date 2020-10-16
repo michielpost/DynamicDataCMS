@@ -16,6 +16,7 @@ Runs on ASP.Net Core 3.1
 - Support for entities in multiple languages
 - Upload images and other assets
 - Optional user login and admin module
+- Optional Azure AD authentication module
 - Generate JsonSchema from C# Models
 - Easy installation using NuGet packages
 
@@ -96,6 +97,9 @@ app.UseMiddleware<DynamicDataCMSAuthenticatationMiddleware>();
 ```
 
 See the example project to add a default first user to the user list.
+
+It's also possible to use Microsft Azure AD:  
+[Azure AD documentation](src/DynamicDataCMS.Module.Auth.AzureAD)
 
 ### Sia Skynet
 Stores data on Sia Skynet, a free decentralized CDN and file sharing platform

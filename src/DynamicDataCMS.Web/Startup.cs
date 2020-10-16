@@ -28,6 +28,7 @@ using DynamicDataCMS.Web.EntityFramework;
 using DynamicDataCMS.Web.Interceptor;
 using DynamicDataCMS.Storage.EntityFramework;
 using DynamicDataCMS.Web.Models;
+using DynamicDataCMS.Modules.Auth.AzureAD;
 
 namespace DynamicDataCMS.Web
 {
@@ -49,6 +50,7 @@ namespace DynamicDataCMS.Web
             services.UseDynamicDataCMS(Configuration)
                 .UseJsonEditor()
                 .ConfigureDynamicDataCmsAuth() //Optional if you want user login
+                //.ConfigureDynamicDataCmsAuthAzureAD() //Optional if you want user login using Azure AD
                 .ConfigureMicrio() //Optional, if you want to have support to upload images to micr.io
                 .AddInterceptor<ExampleInterceptor>()
                 //.ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
