@@ -32,7 +32,8 @@ namespace DynamicDataCMS.Core.Auth
             if (!context.User.Identity.IsAuthenticated)
             {
                 // The user is not authenticated, redirect to default authetication
-                return context.ChallengeAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                return context.ChallengeAsync();
+                //return context.ChallengeAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             }
 
             return next(context);
