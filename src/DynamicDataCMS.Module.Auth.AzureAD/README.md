@@ -18,8 +18,8 @@ The Azure AD Authentication module allows you to sign in using Azure AD. The Use
 }
 ```
 
-- Reference the DynamicDataCMS.Module.Micrio NuGet package
-- Add `.ConfigureMicrio()` to the UseDynamicDataCMS in Startup.cs
+- Reference the DynamicDataCMS.Module.Auth.AzureAD NuGet package
+- Add `.ConfigureDynamicDataCmsAuthAzureAD()` to the UseDynamicDataCMS in Startup.cs
 - Changes needed in the schema:
 Add a micrioField to the uploader options:
 ```json
