@@ -64,47 +64,19 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var treeItem in Model.CmsTreeItem.Nodes)
+        @if (string.IsNullOrEmpty(searchQuery))
         {
-            <tr>
-
-                <td>
-                    @if (Model.MenuCmsItem.HideUrl)
-                    {
-                        int level = treeItem.GetSlugArray(Model.CmsTreeItem.Nodes, new HashSet<Guid>()).Count;
-                        @Html.Raw(string.Concat(Enumerable.Repeat("&nbsp;", level * 3))) @treeItem.Name
-                    }
-                    else
-                    {
-                        @treeItem.GetSlug(Model.CmsTreeItem.Nodes)
-                    }
-                </td>
-                @if (showItemType)
-                {
-                    <td>
-                        @treeItem.CmsItemType
-                    </td>
-                }
-                <td>
-                    @if (treeItem.CmsItemId.HasValue)
-                    {
-                        if (string.IsNullOrEmpty(treeItem.CmsItemType))
-                        {
-                            @Html.ActionLink("Edit", "EditTree", "Edit", new { Area = "Cms", cmsTreeType = Model.CmsType, slug = treeItem.GetSlug(Model.CmsTreeItem.Nodes).TrimStart('/'), treeItemSchemaKey = treeItem.CmsItemType }) <text> | </text>
-                        }
-                        else
-                        {
-                            @Html.ActionLink("Edit", "Edit", "Edit", new { Area = "Cms", cmsType = Model.CmsType, id = treeItem.CmsItemId, treeItemSchemaKey = treeItem.CmsItemType, treeNodeId = treeItem.NodeId }) <text> | </text>
-                        }
-
-                        @Html.ActionLink("Delete", "Delete", "Delete", new { Area = "Cms", id = treeItem.CmsItemId, cmstype = Model.CmsType, treeItemSchemaKey = treeItem.CmsItemType, treeNodeId = treeItem.NodeId })
-                    }
-                    else
-                    {
-                        @Html.ActionLink("Create", "EditTree", "Edit", new { Area = "Cms", cmsTreeType = Model.CmsType, slug = treeItem.GetSlug(Model.CmsTreeItem.Nodes).TrimStart('/'), treeItemSchemaKey = treeItem.CmsItemType })
-                    }
-                </td>
-            </tr>
+            foreach (var treeItem in Model.CmsTreeItem.Nodes.Where(x => !x.ParentId.HasValue))
+            {
+                @await Html.PartialAsync("_TreeNode", new ListTreeItemViewModel(treeItem, Model))
+            }
+        }
+        else
+        {
+            foreach (var treeItem in Model.CmsTreeItem.Nodes)
+            {
+                @await Html.PartialAsync("_TreeNode", new ListTreeItemViewModel(treeItem, Model, hideChildNodes: true))
+            }
         }
     </tbody>
 </table>
