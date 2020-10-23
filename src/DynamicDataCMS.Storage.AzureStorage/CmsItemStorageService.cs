@@ -39,7 +39,7 @@ namespace DynamicDataCMS.Storage.AzureStorage
             var indexFileName = GenerateFileName(cmsType, "_index", null);
 
             //Get current index file
-            var indexFile = await azureStorageService.ReadFileAsJson<List<CmsItem>>(indexFileName).ConfigureAwait(false);
+            (var indexFile, _) = await azureStorageService.ReadFileAsJsonAsync<List<CmsItem>>(indexFileName).ConfigureAwait(false);
             indexFile = indexFile ?? new List<CmsItem>();
 
             var returnItems = indexFile.AsQueryable();
@@ -56,43 +56,33 @@ namespace DynamicDataCMS.Storage.AzureStorage
                 else
                     returnItems = returnItems.OrderByDescending(x => x.AdditionalProperties[sortField].ToString());
             }
+            else
+            {
+                //Default sort by CreatedDate
+                returnItems = returnItems.OrderBy(x => x.CreatedDate);
+            }
 
             return (returnItems.Skip(pageSize * pageIndex).Take(pageSize).ToList(), indexFile.Count);
-
-            //var directoryInfo = await azureStorageService.GetFilesFromDirectory(cmsType).ConfigureAwait(false);
-
-            //List<CmsItem> result = new List<CmsItem>();
-
-            //foreach(var file in directoryInfo.Skip(pageSize * pageIndex).Take(pageSize))
-            //{
-            //    if (file is CloudBlockBlob cloudBlockBlob)
-            //    {
-            //        string fileName = cloudBlockBlob.Name
-            //            .Replace($"{cmsType}/", "")
-            //            .Replace(".json", "");
-            //        var cmsItem = await Read(cmsType, fileName, null).ConfigureAwait(false);
-            //        if(cmsItem != null)
-            //            result.Add(cmsItem);
-            //    }
-            //}
-
-            //var total = directoryInfo.Count();
-
-            //return (result, total);
         }
 
-        public Task<T?> Read<T>(CmsType cmsType, Guid id, string? lang) where T : CmsItem
+        public async Task<T?> Read<T>(CmsType cmsType, Guid id, string? lang) where T : CmsItem
         {
             if (azureStorageConfig.StorageLocation == AzureStorageLocation.Tables
                 || azureStorageConfig.StorageLocation == AzureStorageLocation.Both)
             {
-                return tableService.GetEntityAsync<T>(cmsType, id, lang);
+                return await tableService.GetEntityAsync<T>(cmsType, id, lang);
             }
             else
             {
                 var fileName = GenerateFileName(cmsType, id, lang);
 
-                return azureStorageService.ReadFileAsJson<T>(fileName);
+                (var file, DateTimeOffset? createdDate) = await azureStorageService.ReadFileAsJsonAsync<T>(fileName);
+
+                //Set the CreatedDate
+                if (file != null && createdDate.HasValue)
+                    file.CreatedDate = createdDate.Value;
+
+                return file;
             }
         }
 
@@ -101,12 +91,12 @@ namespace DynamicDataCMS.Storage.AzureStorage
             if (azureStorageConfig.StorageLocation == AzureStorageLocation.Tables
                || azureStorageConfig.StorageLocation == AzureStorageLocation.Both)
             {
-                await tableService.InsertOrMergeEntityAsync<T>(item, lang);
+                await tableService.InsertOrMergeEntityAsync<T>(item, lang).ConfigureAwait(false);
             }
             else
             {
                 var fileName = GenerateFileName(cmsType, id, lang);
-                await azureStorageService.WriteFileAsJson(item, fileName);
+                await azureStorageService.WriteFileAsJson(item, fileName).ConfigureAwait(false);
             }
 
             //Write index file for paging and sorting
@@ -117,11 +107,12 @@ namespace DynamicDataCMS.Storage.AzureStorage
                 return;
 
             //Get current index file
-            var indexFile = await azureStorageService.ReadFileAsJson<List<CmsItem>>(indexFileName).ConfigureAwait(false);
+            (var indexFile, _) = await azureStorageService.ReadFileAsJsonAsync<List<CmsItem>>(indexFileName).ConfigureAwait(false);
             indexFile = indexFile ?? new List<CmsItem>();
 
             //Remove existing item
-            indexFile.Remove(indexFile.Where(x => x.Id == item.Id).FirstOrDefault());
+            CmsItem? oldItem = indexFile.Where(x => x.Id == item.Id).FirstOrDefault();
+            indexFile.Remove(oldItem);
 
             var indexItem = new CmsItem { 
                 Id = id, 
@@ -129,6 +120,9 @@ namespace DynamicDataCMS.Storage.AzureStorage
                 LastModifiedBy = item.LastModifiedBy,
                 LastModifiedDate = item.LastModifiedDate 
             };
+
+            if (oldItem != null)
+                indexItem.CreatedDate = oldItem.CreatedDate;
 
             foreach (var prop in typeInfo.ListViewProperties)
             {
@@ -138,7 +132,7 @@ namespace DynamicDataCMS.Storage.AzureStorage
 
             indexFile.Add(indexItem);
 
-            await azureStorageService.WriteFileAsJson(indexFile, indexFileName);
+            await azureStorageService.WriteFileAsJson(indexFile, indexFileName).ConfigureAwait(false);
         }
 
 
@@ -148,12 +142,12 @@ namespace DynamicDataCMS.Storage.AzureStorage
             if (azureStorageConfig.StorageLocation == AzureStorageLocation.Tables
               || azureStorageConfig.StorageLocation == AzureStorageLocation.Both)
             {
-                await tableService.DeleteEntityAsync(cmsType, id, lang);
+                await tableService.DeleteEntityAsync(cmsType, id, lang).ConfigureAwait(false);
 
                 //Delete all translations
                 foreach(var cmsLang in cmsConfiguration.Languages)
                 {
-                    await tableService.DeleteEntityAsync(cmsType, id, cmsLang);
+                    await tableService.DeleteEntityAsync(cmsType, id, cmsLang).ConfigureAwait(false);
                 }
             }
             else
@@ -177,12 +171,12 @@ namespace DynamicDataCMS.Storage.AzureStorage
             //Write index file for paging and sorting
             var indexFileName = GenerateFileName(cmsType, "_index", lang);
             //Get current index file
-            var indexFile = await azureStorageService.ReadFileAsJson<List<CmsItem>>(indexFileName).ConfigureAwait(false);
+            (var indexFile, _) = await azureStorageService.ReadFileAsJsonAsync<List<CmsItem>>(indexFileName).ConfigureAwait(false);
             indexFile = indexFile ?? new List<CmsItem>();
 
             //Remove existing item
             indexFile.Remove(indexFile.Where(x => x.Id == id).FirstOrDefault());
-            await azureStorageService.WriteFileAsJson(indexFile, indexFileName);
+            await azureStorageService.WriteFileAsJson(indexFile, indexFileName).ConfigureAwait(false);
         }
 
         public static string GenerateFileName(CmsType cmsType, Guid id, string? lang)
