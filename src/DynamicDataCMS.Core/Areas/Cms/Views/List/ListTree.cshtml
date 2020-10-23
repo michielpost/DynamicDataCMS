@@ -68,14 +68,14 @@
         {
             foreach (var treeItem in Model.CmsTreeItem.Nodes.Where(x => !x.ParentId.HasValue))
             {
-                @await Html.PartialAsync("_TreeNode", new ListTreeItemViewModel(treeItem, Model))
+                @await Html.PartialAsync("~/Areas/Cms/Views/List/_TreeNode.cshtml", new ListTreeItemViewModel(treeItem, Model))
             }
         }
         else
         {
             foreach (var treeItem in Model.CmsTreeItem.Nodes)
             {
-                @await Html.PartialAsync("_TreeNode", new ListTreeItemViewModel(treeItem, Model, hideChildNodes: true))
+                @await Html.PartialAsync("~/Areas/Cms/Views/List/_TreeNode.cshtml", new ListTreeItemViewModel(treeItem, Model, hideChildNodes: true))
             }
         }
     </tbody>

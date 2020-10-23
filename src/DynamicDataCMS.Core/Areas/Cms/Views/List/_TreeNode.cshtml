@@ -51,6 +51,6 @@
 {
     foreach (var childItem in Model.PageModel.CmsTreeItem.Nodes.Where(x => x.ParentId == treeItem.NodeId))
     {
-        @await Html.PartialAsync("_TreeNode", new ListTreeItemViewModel(childItem, Model.PageModel))
+        @await Html.PartialAsync("~/Areas/Cms/Views/List/_TreeNode.cshtml", new ListTreeItemViewModel(childItem, Model.PageModel))
     }
 }
