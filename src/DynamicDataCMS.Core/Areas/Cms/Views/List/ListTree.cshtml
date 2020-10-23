@@ -64,7 +64,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var treeItem in Model.CmsTreeItem.Nodes.OrderBy(x => x.GetSlug(Model.CmsTreeItem.Nodes)))
+        @foreach (var treeItem in Model.CmsTreeItem.Nodes)
         {
             <tr>
 

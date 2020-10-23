@@ -87,7 +87,12 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
                 return new NotFoundResult();
 
             if (!string.IsNullOrEmpty(q))
-                treeItem.Nodes = treeItem.Nodes.Where(x => x.Name?.Contains(q, StringComparison.InvariantCultureIgnoreCase) ?? false).ToList();
+                treeItem.Nodes = treeItem.Nodes
+                    .Where(x => x.Name?.Contains(q, StringComparison.InvariantCultureIgnoreCase) ?? false)
+                    .ToList();
+
+            //Order
+            treeItem.Nodes = treeItem.Nodes.OrderBy(x => x.GetSlug(treeItem.Nodes)).ToList();
 
             var model = new ListTreeViewModel
             {
