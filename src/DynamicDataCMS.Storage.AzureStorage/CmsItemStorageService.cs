@@ -45,7 +45,7 @@ namespace DynamicDataCMS.Storage.AzureStorage
             var returnItems = indexFile.AsQueryable();
             if (!string.IsNullOrEmpty(searchQuery))
             {
-                returnItems = returnItems.Where(x => string.Join(" ", x.AdditionalProperties.Values.Select(x => x.ToString().ToLowerInvariant())).Contains(searchQuery!.ToLowerInvariant()));
+                returnItems = returnItems.Where(x => string.Join(" ", x.AdditionalProperties.Values.Select(x => x.ToString().ToLowerInvariant())).Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase));
             }
 
             if (sortField != null)

@@ -33,12 +33,16 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
         [HttpGet]
         public async Task<IActionResult> List([FromRoute]string cmsType, [FromQuery]string? sortField, [FromQuery]string? sortOrder, [FromQuery]int pageIndex, [FromQuery]string? q)
         {
+            ViewBag.SortField = sortField;
+            ViewBag.SortOrder = sortOrder;
+            ViewBag.SearchQuery = q;
+
             var cmsMenuItem = schemaService.GetCmsType(cmsType);
             if (cmsMenuItem == null)
                 return new NotFoundResult();
 
             if (cmsMenuItem.IsTree)
-                return await ListTree(cmsType, null);
+                return await ListTree(cmsType, null, q);
 
             if (cmsMenuItem.SchemaKey == null)
                 return new NotFoundResult();
@@ -49,9 +53,6 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
                 pageSize = 20;
 
             var (results, total) = await readCmsItemService.List(cmsType, sortField, sortOrder, pageSize: pageSize, pageIndex, q).ConfigureAwait(false);
-
-            ViewBag.SortField = sortField;
-            ViewBag.SortOrder = sortOrder;
 
             if (cmsMenuItem.IsSingleton)
             {
@@ -74,7 +75,7 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> ListTree(string cmsType, string? lang)
+        public async Task<IActionResult> ListTree(string cmsType, string? lang, string? q)
         {
             var cmsMenuItem = schemaService.GetCmsType(cmsType);
             if (cmsMenuItem == null || !cmsMenuItem.IsTree)
@@ -84,6 +85,9 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
 
             if (treeItem == null)
                 return new NotFoundResult();
+
+            if (!string.IsNullOrEmpty(q))
+                treeItem.Nodes = treeItem.Nodes.Where(x => x.Name?.Contains(q, StringComparison.InvariantCultureIgnoreCase) ?? false).ToList();
 
             var model = new ListTreeViewModel
             {

@@ -13,6 +13,7 @@ Runs on ASP.Net Core 3.1
 - View and edit entities
 - Create (multiple) page tree's
 - Paging and ordering in list view
+- Search
 - Support for entities in multiple languages
 - Upload images and other assets
 - Optional user login and admin module

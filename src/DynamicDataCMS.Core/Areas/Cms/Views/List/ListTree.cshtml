@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = Model.MenuCmsItem.Name + " Overview";
+    string searchQuery = ViewBag.SearchQuery;
     var showItemType = Model.MenuCmsItem.SchemaKey == null && Model.MenuCmsItem.SchemaKeys.Count > 1;
 }
 
@@ -24,12 +25,28 @@
     </div>
 }
 
-@if (Model.MenuCmsItem.SchemaKey != null)
-{
-    <p>
-        @Html.ActionLink("Create New " + @Model.MenuCmsItem.Name, "Create", "Edit", new { Area = "Cms", cmstype = Model.CmsType }, new { @class = "btn btn-primary", role = "button" })
-    </p>
-}
+
+
+<div class="row">
+    <div class="col-sm">
+        @if (Model.MenuCmsItem.SchemaKey != null)
+        {
+            <p>
+                @Html.ActionLink("Create New " + @Model.MenuCmsItem.Name, "Create", "Edit", new { Area = "Cms", cmstype = Model.CmsType }, new { @class = "btn btn-primary", role = "button" })
+            </p>
+        }
+    </div>
+    <div class="col-sm">
+    </div>
+    <div class="col-sm">
+        <!-- Search form -->
+        <form class="form-inline d-flex justify-content-center md-form form-sm" id="searchForm">
+            <input class="form-control form-control-sm mr-3 w-75" name="q" type="text" placeholder="Search"
+                   aria-label="Search" value="@searchQuery">
+            <i class="fas fa-search" aria-hidden="true" onclick="document.getElementById('searchForm').submit();"></i>
+        </form>
+    </div>
+</div>
 
 <table class="table">
     <thead>
@@ -68,25 +85,25 @@
                         @treeItem.CmsItemType
                     </td>
                 }
-            <td>
-                @if (treeItem.CmsItemId.HasValue)
-                {
-                    if (string.IsNullOrEmpty(treeItem.CmsItemType))
+                <td>
+                    @if (treeItem.CmsItemId.HasValue)
                     {
-                        @Html.ActionLink("Edit", "EditTree", "Edit", new { Area = "Cms", cmsTreeType = Model.CmsType, slug = treeItem.GetSlug(Model.CmsTreeItem.Nodes).TrimStart('/'), treeItemSchemaKey = treeItem.CmsItemType }) <text> | </text>
+                        if (string.IsNullOrEmpty(treeItem.CmsItemType))
+                        {
+                            @Html.ActionLink("Edit", "EditTree", "Edit", new { Area = "Cms", cmsTreeType = Model.CmsType, slug = treeItem.GetSlug(Model.CmsTreeItem.Nodes).TrimStart('/'), treeItemSchemaKey = treeItem.CmsItemType }) <text> | </text>
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Edit", "Edit", "Edit", new { Area = "Cms", cmsType = Model.CmsType, id = treeItem.CmsItemId, treeItemSchemaKey = treeItem.CmsItemType, treeNodeId = treeItem.NodeId }) <text> | </text>
+                        }
+
+                        @Html.ActionLink("Delete", "Delete", "Delete", new { Area = "Cms", id = treeItem.CmsItemId, cmstype = Model.CmsType, treeItemSchemaKey = treeItem.CmsItemType, treeNodeId = treeItem.NodeId })
                     }
                     else
                     {
-                        @Html.ActionLink("Edit", "Edit", "Edit", new { Area = "Cms", cmsType = Model.CmsType, id = treeItem.CmsItemId, treeItemSchemaKey = treeItem.CmsItemType, treeNodeId = treeItem.NodeId }) <text> | </text>
+                        @Html.ActionLink("Create", "EditTree", "Edit", new { Area = "Cms", cmsTreeType = Model.CmsType, slug = treeItem.GetSlug(Model.CmsTreeItem.Nodes).TrimStart('/'), treeItemSchemaKey = treeItem.CmsItemType })
                     }
-
-                    @Html.ActionLink("Delete", "Delete", "Delete", new { Area = "Cms", id = treeItem.CmsItemId, cmstype = Model.CmsType, treeItemSchemaKey = treeItem.CmsItemType, treeNodeId = treeItem.NodeId })
-                }
-                else
-                {
-                    @Html.ActionLink("Create", "EditTree", "Edit", new { Area = "Cms", cmsTreeType = Model.CmsType, slug = treeItem.GetSlug(Model.CmsTreeItem.Nodes).TrimStart('/'), treeItemSchemaKey = treeItem.CmsItemType })
-                }
-            </td>
+                </td>
             </tr>
         }
     </tbody>

@@ -4,6 +4,8 @@
 @{
     ViewData["Title"] = Model.MenuCmsItem.Name + " Overview";
 
+    string searchQuery = ViewBag.SearchQuery;
+
     int TotalPages = (int)Math.Ceiling(decimal.Divide(Model.TotalPages, Model.PageSize));
     bool EnablePrevious = Model.CurrentPage > 1;
     bool EnableNext = Model.CurrentPage < TotalPages;
@@ -24,9 +26,28 @@
 
 <h1>@Model.MenuCmsItem.Name Overview</h1>
 
-<p>
-    @Html.ActionLink("Create New " + @Model.MenuCmsItem.Name, "Create", "Edit", new { Area = "Cms", cmstype = Model.CmsType }, new { @class = "btn btn-primary", role = "button" })
-</p>
+
+
+
+
+<div class="row">
+    <div class="col-sm">
+        <p>
+            @Html.ActionLink("Create New " + @Model.MenuCmsItem.Name, "Create", "Edit", new { Area = "Cms", cmstype = Model.CmsType }, new { @class = "btn btn-primary", role = "button" })
+        </p>
+    </div>
+    <div class="col-sm">
+    </div>
+    <div class="col-sm">
+        <!-- Search form -->
+        <form class="form-inline d-flex justify-content-center md-form form-sm" id="searchForm">
+            <input class="form-control form-control-sm mr-3 w-75" name="q" type="text" placeholder="Search"
+                    aria-label="Search" value="@searchQuery">
+            <i class="fas fa-search" aria-hidden="true" onclick="document.getElementById('searchForm').submit();"></i>
+        </form>
+    </div>
+</div>
+
 <table class="table">
     <thead>
         <tr>
