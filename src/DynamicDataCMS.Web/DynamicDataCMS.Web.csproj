@@ -9,13 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DynamicDataCMS.Core.Auth\DynamicDataCMS.Core.Auth.csproj" />
     <ProjectReference Include="..\DynamicDataCMS.Core.Models\DynamicDataCMS.Core.Models.csproj" />
     <ProjectReference Include="..\DynamicDataCMS.Core.Services\DynamicDataCMS.Core.Services.csproj" />
     <ProjectReference Include="..\DynamicDataCMS.Core.Web.Helpers\DynamicDataCMS.Core.Web.Helpers.csproj" />
     <ProjectReference Include="..\DynamicDataCMS.Core\DynamicDataCMS.Core.csproj" />
     <ProjectReference Include="..\DynamicDataCMS.Editors.JsonEditor\DynamicDataCMS.Editors.JsonEditor.csproj" />
-    <ProjectReference Include="..\DynamicDataCMS.Module.Auth.AzureAD\DynamicDataCMS.Modules.Auth.AzureAD.csproj" />
+    <ProjectReference Include="..\DynamicDataCMS.Module.Auth.AzureAD\DynamicDataCMS.Module.Auth.AzureAD.csproj" />
+    <ProjectReference Include="..\DynamicDataCMS.Module.Auth.Basic\DynamicDataCMS.Module.Auth.Basic.csproj" />
     <ProjectReference Include="..\DynamicDataCMS.Module.Micrio\DynamicDataCMS.Module.Micrio.csproj" />
     <ProjectReference Include="..\DynamicDataCMS.Storage.AzureStorage\DynamicDataCMS.Storage.AzureStorage.csproj" />
     <ProjectReference Include="..\DynamicDataCMS.Storage.CosmosDB\DynamicDataCMS.Storage.CosmosDB.csproj" />

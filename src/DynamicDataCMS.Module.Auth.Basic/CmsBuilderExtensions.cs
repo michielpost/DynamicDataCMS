@@ -3,20 +3,19 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NJsonSchema;
 using DynamicDataCMS.Core;
-using DynamicDataCMS.Core.Auth;
-using DynamicDataCMS.Core.Auth.Models;
 using DynamicDataCMS.Core.Models;
 using DynamicDataCMS.Core.Services;
 using System.Collections.Generic;
+using DynamicDataCMS.Module.Auth.Basic.Models;
 
-namespace DynamicDataCMS.Core.Auth
+namespace DynamicDataCMS.Module.Auth.Basic
 {
     /// <summary>
     /// Configure the CMS
     /// </summary>
     public static class CmsBuilderExtensions
     {
-        public static CmsBuilder ConfigureDynamicDataCmsAuth(this CmsBuilder builder)
+        public static CmsBuilder ConfigureDynamicDataCmsAuthBasic(this CmsBuilder builder)
         {
             var Configuration = builder.Configuration;
             var services = builder.Services;

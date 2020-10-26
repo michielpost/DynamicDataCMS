@@ -1,13 +1,13 @@
-﻿using DynamicDataCMS.Core.Auth.Models;
-using DynamicDataCMS.Core.Models;
+﻿using DynamicDataCMS.Core.Models;
 using DynamicDataCMS.Core.Services.Extensions;
+using DynamicDataCMS.Module.Auth.Basic.Models;
 using DynamicDataCMS.Storage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DynamicDataCMS.Core.Auth
+namespace DynamicDataCMS.Module.Auth.Basic
 {
     public class EncryptPasswordInterceptor : IWriteCmsItemInterceptor
     {

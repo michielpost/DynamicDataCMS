@@ -6,14 +6,14 @@ using DynamicDataCMS.Core;
 using DynamicDataCMS.Core.Models;
 using DynamicDataCMS.Core.Services;
 using System.Collections.Generic;
-using DynamicDataCMS.Modules.Auth.AzureAD.Models;
+using DynamicDataCMS.Module.Auth.AzureAD.Models;
 using Microsoft.Identity.Web;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using System.Threading.Tasks;
 using System.Data;
 using DynamicDataCMS.Storage.Interfaces;
 
-namespace DynamicDataCMS.Modules.Auth.AzureAD
+namespace DynamicDataCMS.Module.Auth.AzureAD
 {
     /// <summary>
     /// Configure the CMS

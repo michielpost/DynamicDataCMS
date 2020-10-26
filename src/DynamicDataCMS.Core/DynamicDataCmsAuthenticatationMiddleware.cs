@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DynamicDataCMS.Core.Auth
+namespace DynamicDataCMS.Core
 {
     public class DynamicDataCmsAuthenticatationMiddleware
     {

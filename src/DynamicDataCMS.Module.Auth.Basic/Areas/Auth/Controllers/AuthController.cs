@@ -9,13 +9,13 @@ using DynamicDataCMS.Storage.Interfaces;
 using System.Net.Http;
 using System.Text.Json;
 using DynamicDataCMS.Core.Services;
-using DynamicDataCMS.Core.Auth.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using DynamicDataCMS.Core.Services.Extensions;
+using DynamicDataCMS.Module.Auth.Basic.Models;
 
-namespace DynamicDataCMS.Core.Auth.Controllers
+namespace DynamicDataCMS.Module.Auth.Basic.Controllers
 {
     [Area("auth")]
     [Route("[area]")]

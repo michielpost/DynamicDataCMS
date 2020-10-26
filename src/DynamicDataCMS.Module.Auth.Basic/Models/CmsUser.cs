@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace DynamicDataCMS.Core.Auth.Models
+namespace DynamicDataCMS.Module.Auth.Basic.Models
 {
     public class CmsUser
     {

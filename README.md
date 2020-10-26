@@ -88,7 +88,7 @@ Adds user login and user list to the CMS
 Add a reference to `DynamicDataCMS.Core.Auth` nuget package.
 ```cs
 services.UseDynamicDataCMS(Configuration)
-  .ConfigureDynamicDataCMSAuth()
+  .ConfigureDynamicDataCMSAuthBasic()
 ```
 
 In the Configure method in Startup.cs add:
