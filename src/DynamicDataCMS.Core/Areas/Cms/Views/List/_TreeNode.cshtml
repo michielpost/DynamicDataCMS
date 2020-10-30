@@ -3,9 +3,9 @@
 @{
     var treeItem = Model.Node;
     var showItemType = Model.PageModel.MenuCmsItem.SchemaKey == null && Model.PageModel.MenuCmsItem.SchemaKeys.Count > 1;
+    var parentId = Model.Node.ParentId.HasValue ? Model.Node.ParentId.ToString() : "treeroot";
 }
-<tr>
-
+<tr id="@Model.Node.NodeId" class="@parentId">
     <td>
         @if (Model.PageModel.MenuCmsItem.HideUrl)
         {

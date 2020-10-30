@@ -6,6 +6,11 @@
     var showItemType = Model.MenuCmsItem.SchemaKey == null && Model.MenuCmsItem.SchemaKeys.Count > 1;
 }
 
+@section ScriptsHead
+{
+    <script src="~/_content/DynamicDataCMS.Core/treetable.js" type="text/javascript"></script>
+}
+
 <script type="text/javascript">
         var createUrl = '@Html.Raw(Url.Action("EditTree", "Edit", new { Area = "Cms", cmsTreeType = Model.CmsType }, this.Context.Request.Scheme))' + '/';
 </script>
@@ -48,21 +53,21 @@
     </div>
 </div>
 
-<table class="table">
+<table class="table" id="treetable">
     <thead>
-        <tr>
-            <th>
-                @(Model.MenuCmsItem.HideUrl ? "Title" : "Url")
-            </th>
-            @if (showItemType)
-            {
+            <tr>
                 <th>
-                    Type
+                    @(Model.MenuCmsItem.HideUrl ? "Title" : "Url")
                 </th>
-            }
-            <th></th>
-        </tr>
-    </thead>
+                @if (showItemType)
+                {
+                    <th>
+                        Type
+                    </th>
+                }
+                <th></th>
+            </tr>
+        </thead>
     <tbody>
         @if (string.IsNullOrEmpty(searchQuery))
         {
