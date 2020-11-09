@@ -29,6 +29,7 @@ using DynamicDataCMS.Web.Models;
 using DynamicDataCMS.Module.Auth.AzureAD;
 using DynamicDataCMS.Module.Auth.Basic.Models;
 using DynamicDataCMS.Module.Auth.Basic;
+using DynamicDataCMS.Storage.Ipfs;
 
 namespace DynamicDataCMS.Web
 {
@@ -63,6 +64,7 @@ namespace DynamicDataCMS.Web
                    //.ConfigureEntityFramework<CmsDataContext, Student>()
                    //.ConfigureEntityFramework<CmsDataContext, Book>()
                    .ConfigureSiaSkynet()
+                   //.ConfigureIpfs()
                    .ConfigureAzureStorage(() => new StorageConfiguration() { ReadFiles = false, ReadCmsItems = true, WriteFiles = false });
 
 

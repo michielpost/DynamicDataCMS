@@ -3,26 +3,26 @@ using System;
 using DynamicDataCMS.Storage.Interfaces;
 using DynamicDataCMS.Core;
 using DynamicDataCMS.Core.Models;
-using DynamicDataCMS.Storage.SiaSkynet.Models;
+using DynamicDataCMS.Storage.Ipfs.Models;
 
-namespace DynamicDataCMS.Storage.SiaSkynet
+namespace DynamicDataCMS.Storage.Ipfs
 {
     /// <summary>
-    /// Configure all services in the DynamicDataCMS.Storage.SiaSkynet package
+    /// Configure all services in the DynamicDataCMS.Storage.Ipfs package
     /// </summary>
     public static class CmsBuilderExtensions
     {
-        public static CmsBuilder ConfigureSiaSkynet(this CmsBuilder builder)
+        public static CmsBuilder ConfigureIpfs(this CmsBuilder builder)
         {
-            return builder.ConfigureSiaSkynet(() => new StorageConfiguration { WriteFiles = true, ReadFiles = true });
+            return builder.ConfigureIpfs(() => new StorageConfiguration { WriteFiles = true, ReadFiles = true });
         }
 
-        public static CmsBuilder ConfigureSiaSkynet(this CmsBuilder builder, Func<StorageConfiguration> storageConfigFunc)
+        public static CmsBuilder ConfigureIpfs(this CmsBuilder builder, Func<StorageConfiguration> storageConfigFunc)
         {
             var services = builder.Services;
             var Configuration = builder.Configuration;
 
-            services.Configure<SkynetConfig>(Configuration.GetSection(nameof(SkynetConfig)));
+            services.Configure<IpfsConfig>(Configuration.GetSection(nameof(IpfsConfig)));
 
             StorageConfiguration storageConfig = storageConfigFunc();
 

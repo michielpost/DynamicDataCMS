@@ -111,6 +111,16 @@ services.UseDynamicDataCMS(Configuration)
   .ConfigureSiaSkynet();
 ```
 
+### IPFS
+Stores data on IPFS (InterPlanetary File System), hosted on the distributed web
+https://ipfs.io
+
+```cs
+services.UseDynamicDataCMS(Configuration)
+  .ConfigureIpfs();
+```
+Host can be set in config, uses localhost as default.
+
 ### Micrio
 [Micrio Module documentation](src/DynamicDataCMS.Module.Micrio)
 
