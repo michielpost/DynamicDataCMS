@@ -102,3 +102,27 @@ body {
 .border-bottom {
     border-bottom: 1px solid #e5e5e5;
 }
+
+/*
+ * TreeTable
+ */
+
+td:first-child {
+    padding-left: var(--depth );
+}
+
+tbody .expanded .treetoggle::before {
+    transform: rotate(90deg);
+}
+
+tbody .treetoggle::before {
+    content: "\25B6";
+    color: black;
+    display: inline-block;
+}
+
+tbody .treetoggle-invisible::before {
+    content: "\25B6";
+    color:transparent;
+    display: inline-block;
+}

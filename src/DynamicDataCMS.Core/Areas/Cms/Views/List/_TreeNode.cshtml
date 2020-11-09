@@ -1,0 +1,53 @@
+﻿@model ListTreeItemViewModel
+
+@{
+    var treeItem = Model.Node;
+    var showItemType = Model.PageModel.MenuCmsItem.SchemaKey == null && Model.PageModel.MenuCmsItem.SchemaKeys.Count > 1;
+    var parentIdForTree = Model.Node.ParentId.HasValue ? Model.Node.ParentId.ToString() : "treeroot";
+    if (Model.HideChildNodes)
+        parentIdForTree = string.Empty;
+}
+<tr id="@Model.Node.NodeId" class="@parentIdForTree">
+    <td>
+        @if (Model.PageModel.MenuCmsItem.HideUrl)
+        {
+            @treeItem.Name
+        }
+        else
+        {
+            @treeItem.GetSlug(Model.PageModel.CmsTreeItem.Nodes)
+        }
+    </td>
+    @if (showItemType)
+    {
+        <td>
+            @treeItem.CmsItemType
+        </td>
+    }
+    <td>
+        @if (treeItem.CmsItemId.HasValue)
+        {
+            if (string.IsNullOrEmpty(treeItem.CmsItemType))
+            {
+                @Html.ActionLink("Edit", "EditTree", "Edit", new { Area = "Cms", cmsTreeType = Model.PageModel.CmsType, slug = treeItem.GetSlug(Model.PageModel.CmsTreeItem.Nodes).TrimStart('/'), treeItemSchemaKey = treeItem.CmsItemType }) <text> | </text>
+            }
+            else
+            {
+                @Html.ActionLink("Edit", "Edit", "Edit", new { Area = "Cms", cmsType = Model.PageModel.CmsType, id = treeItem.CmsItemId, treeItemSchemaKey = treeItem.CmsItemType, treeNodeId = treeItem.NodeId }) <text> | </text>
+            }
+
+            @Html.ActionLink("Delete", "Delete", "Delete", new { Area = "Cms", id = treeItem.CmsItemId, cmstype = Model.PageModel.CmsType, treeItemSchemaKey = treeItem.CmsItemType, treeNodeId = treeItem.NodeId })
+        }
+        else
+        {
+            @Html.ActionLink("Create", "EditTree", "Edit", new { Area = "Cms", cmsTreeType = Model.PageModel.CmsType, slug = treeItem.GetSlug(Model.PageModel.CmsTreeItem.Nodes).TrimStart('/'), treeItemSchemaKey = treeItem.CmsItemType })
+        }
+    </td>
+</tr>
+@if (!Model.HideChildNodes)
+{
+    foreach (var childItem in Model.PageModel.CmsTreeItem.Nodes.Where(x => x.ParentId == treeItem.NodeId))
+    {
+        @await Html.PartialAsync("~/Areas/Cms/Views/List/_TreeNode.cshtml", new ListTreeItemViewModel(childItem, Model.PageModel))
+    }
+}

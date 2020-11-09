@@ -17,7 +17,7 @@ namespace DynamicDataCMS.Web
         {
             var host = CreateHostBuilder(args).Build();
 
-            CreateDbIfNotExists(host);
+            //CreateDbIfNotExists(host);
 
             host.Run();
         }

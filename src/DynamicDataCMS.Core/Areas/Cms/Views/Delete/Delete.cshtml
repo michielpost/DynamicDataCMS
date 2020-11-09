@@ -1,0 +1,14 @@
+﻿@model EditViewModel
+@{
+    ViewData["Title"] = Model.MenuCmsItem.Name;
+}
+
+
+<h1>Delete @Model.CmsType?</h1>
+
+@Html.DisplayFor(x => x.Data)
+
+@using (Html.BeginForm("DeleteConfirm", "Delete", new { cmsType = Model.CmsType, id = Model.Id, treeItemSchemaKey = Model.TreeItemSchemaKey, treeNodeId = Model.TreeNodeId }, FormMethod.Post))
+{
+    <input type="submit" value="Delete" />
+}

@@ -17,6 +17,8 @@ namespace DynamicDataCMS.Core.Models
         [JsonPropertyName("cmstype")]
         public CmsType CmsType { get; set; }
 
+        public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.UtcNow;
+
         public string? LastModifiedBy { get; set; }
 
         public DateTimeOffset LastModifiedDate { get; set; } = DateTimeOffset.UtcNow;

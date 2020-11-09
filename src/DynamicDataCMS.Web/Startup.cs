@@ -12,8 +12,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using DynamicDataCMS.Core;
-using DynamicDataCMS.Core.Auth;
-using DynamicDataCMS.Core.Auth.Models;
 using DynamicDataCMS.Core.Models;
 using DynamicDataCMS.Core.Services;
 using DynamicDataCMS.Core.Services.Extensions;
@@ -28,6 +26,9 @@ using DynamicDataCMS.Web.EntityFramework;
 using DynamicDataCMS.Web.Interceptor;
 using DynamicDataCMS.Storage.EntityFramework;
 using DynamicDataCMS.Web.Models;
+using DynamicDataCMS.Module.Auth.AzureAD;
+using DynamicDataCMS.Module.Auth.Basic.Models;
+using DynamicDataCMS.Module.Auth.Basic;
 
 namespace DynamicDataCMS.Web
 {
@@ -43,18 +44,46 @@ namespace DynamicDataCMS.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CmsDataContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<CmsDataContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.UseDynamicDataCMS(Configuration)
-                .ConfigureDynamicDataCmsAuth() //Optional if you want user login
-                .ConfigureMicrio() //Optional, if you want to have support to upload images to micr.io
-                .AddInterceptor<ExampleInterceptor>()
-                //.ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
-                .ConfigureEntityFramework<CmsDataContext, Student>()
-                .ConfigureEntityFramework<CmsDataContext, Book>()
+            bool defaultSetup = true;
+            bool cosmosDb = false;
+            bool azureAd = false;
+
+            //Default Azure Storage Setup
+            if (defaultSetup)
+                services.UseDynamicDataCMS(Configuration)
+                   .UseJsonEditor()
+                   .ConfigureDynamicDataCmsAuthBasic() //Optional if you want user login
+                   //.ConfigureDynamicDataCmsAuthAzureAD() //Optional if you want user login using Azure AD
+                   .ConfigureMicrio() //Optional, if you want to have support to upload images to micr.io
+                   .AddInterceptor<ExampleInterceptor>()
+                   //.ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
+                   //.ConfigureEntityFramework<CmsDataContext, Student>()
+                   //.ConfigureEntityFramework<CmsDataContext, Book>()
+                   .ConfigureSiaSkynet()
+                   .ConfigureAzureStorage(() => new StorageConfiguration() { ReadFiles = false, ReadCmsItems = true, WriteFiles = false });
+
+
+            //Azure AD Authentication setup
+            if (azureAd)
+                services.UseDynamicDataCMS(Configuration)
+                .UseJsonEditor()
+                .ConfigureDynamicDataCmsAuthAzureAD() //Optional if you want user login using Azure AD
                 .ConfigureSiaSkynet()
                 .ConfigureAzureStorage(() => new StorageConfiguration() { ReadFiles = false, ReadCmsItems = true, WriteFiles = false });
+
+            //CossmosDB setup
+            if (cosmosDb)
+                services.UseDynamicDataCMS(Configuration)
+                    .UseJsonEditor()
+                    .ConfigureDynamicDataCmsAuthAzureAD() //Optional if you want user login using Azure AD
+                    .ConfigureSiaSkynet()
+                    .ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
+                    .ConfigureEntityFramework<CmsDataContext, Student>()
+                    .ConfigureEntityFramework<CmsDataContext, Book>();
+
 
             services.AddControllersWithViews();
 

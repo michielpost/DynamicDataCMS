@@ -13,9 +13,11 @@ Runs on ASP.Net Core 3.1
 - View and edit entities
 - Create (multiple) page tree's
 - Paging and ordering in list view
+- Search
 - Support for entities in multiple languages
 - Upload images and other assets
 - Optional user login and admin module
+- Optional Azure AD authentication module
 - Generate JsonSchema from C# Models
 - Easy installation using NuGet packages
 
@@ -38,6 +40,7 @@ DynamicDataCMS is a modular CMS and different modules are available:
 The CosmosDB module stores CmsItems to Azure CosmosDB. This module does not support storing file data. You can use the Azure Storage module for file data.
 ```cs
 services.UseDynamicDataCMS(Configuration)
+  ..UseJsonEditor()
   .ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
   .ConfigureAzureStorage(() => new StorageConfiguration() {  ReadFiles = true }); //Optional if you need file storage.
 ```
@@ -85,7 +88,7 @@ Adds user login and user list to the CMS
 Add a reference to `DynamicDataCMS.Core.Auth` nuget package.
 ```cs
 services.UseDynamicDataCMS(Configuration)
-  .ConfigureDynamicDataCMSAuth()
+  .ConfigureDynamicDataCMSAuthBasic()
 ```
 
 In the Configure method in Startup.cs add:
@@ -95,6 +98,9 @@ app.UseMiddleware<DynamicDataCMSAuthenticatationMiddleware>();
 ```
 
 See the example project to add a default first user to the user list.
+
+It's also possible to use Microsft Azure AD:  
+[Azure AD documentation](src/DynamicDataCMS.Module.Auth.AzureAD)
 
 ### Sia Skynet
 Stores data on Sia Skynet, a free decentralized CDN and file sharing platform

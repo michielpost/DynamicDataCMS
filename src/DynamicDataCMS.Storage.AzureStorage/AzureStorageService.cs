@@ -112,7 +112,7 @@ namespace DynamicDataCMS.Storage.AzureStorage
             return blobReference;
         }
 
-        public async Task<T?> ReadFileAsJson<T>(string fileName) where T : class
+        public async Task<(T? file, DateTimeOffset? createdDate)> ReadFileAsJsonAsync<T>(string fileName) where T : class
         {
             try
             {
@@ -128,7 +128,7 @@ namespace DynamicDataCMS.Storage.AzureStorage
 
                     var cmsItem = JsonSerializer.Deserialize<T>(json);
 
-                    return cmsItem;
+                    return (cmsItem, blob.Properties.Created);
                 }
             }
             catch (FileNotFoundException)

@@ -30,6 +30,7 @@ namespace DynamicDataCMS.SampleWeb
         public void ConfigureServices(IServiceCollection services)
         {
             services.UseDynamicDataCMS(Configuration)
+                .UseJsonEditor()
                .ConfigureAzureStorage(() => new StorageConfiguration() { ReadFiles = true, ReadCmsItems = true });
 
             services.AddTransient<SampleDataGenerator>();
