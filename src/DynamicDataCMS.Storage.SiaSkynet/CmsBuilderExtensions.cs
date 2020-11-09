@@ -3,6 +3,7 @@ using System;
 using DynamicDataCMS.Storage.Interfaces;
 using DynamicDataCMS.Core;
 using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Storage.SiaSkynet.Models;
 
 namespace DynamicDataCMS.Storage.SiaSkynet
 {
@@ -19,6 +20,9 @@ namespace DynamicDataCMS.Storage.SiaSkynet
         public static CmsBuilder ConfigureSiaSkynet(this CmsBuilder builder, Func<StorageConfiguration> storageConfigFunc)
         {
             var services = builder.Services;
+            var Configuration = builder.Configuration;
+
+            services.Configure<SkynetConfig>(Configuration.GetSection(nameof(SkynetConfig)));
 
             StorageConfiguration storageConfig = storageConfigFunc();
 

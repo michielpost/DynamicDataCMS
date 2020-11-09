@@ -3,6 +3,7 @@ using System;
 using DynamicDataCMS.Storage.Interfaces;
 using DynamicDataCMS.Core;
 using DynamicDataCMS.Core.Models;
+using DynamicDataCMS.Storage.Ipfs.Models;
 
 namespace DynamicDataCMS.Storage.Ipfs
 {
@@ -19,6 +20,9 @@ namespace DynamicDataCMS.Storage.Ipfs
         public static CmsBuilder ConfigureIpfs(this CmsBuilder builder, Func<StorageConfiguration> storageConfigFunc)
         {
             var services = builder.Services;
+            var Configuration = builder.Configuration;
+
+            services.Configure<IpfsConfig>(Configuration.GetSection(nameof(IpfsConfig)));
 
             StorageConfiguration storageConfig = storageConfigFunc();
 

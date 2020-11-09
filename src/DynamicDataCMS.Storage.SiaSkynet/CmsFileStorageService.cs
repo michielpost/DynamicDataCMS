@@ -1,5 +1,7 @@
 ﻿using DynamicDataCMS.Core.Models;
 using DynamicDataCMS.Storage.Interfaces;
+using DynamicDataCMS.Storage.SiaSkynet.Models;
+using Microsoft.Extensions.Options;
 using SiaSkynet;
 using System;
 using System.IO;
@@ -15,9 +17,12 @@ namespace DynamicDataCMS.Storage.SiaSkynet
     {
         private SiaSkynetClient _client;
 
-        public CmsFileStorageService()
+        public CmsFileStorageService(IOptions<SkynetConfig> skynetConfig)
         {
-            _client = new SiaSkynetClient();
+            if (!string.IsNullOrEmpty(skynetConfig.Value.BaseUrl))
+                _client = new SiaSkynetClient(skynetConfig.Value.BaseUrl);
+            else
+                _client = new SiaSkynetClient();
         }
 
         public async Task<CmsFile?> ReadFile(string fileName)

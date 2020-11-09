@@ -1,9 +1,12 @@
 ﻿using DynamicDataCMS.Core.Models;
 using DynamicDataCMS.Storage.Interfaces;
+using DynamicDataCMS.Storage.Ipfs.Models;
 using Ipfs.Http;
+using Microsoft.Extensions.Options;
 using System;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DynamicDataCMS.Storage.Ipfs
@@ -15,14 +18,19 @@ namespace DynamicDataCMS.Storage.Ipfs
     {
         private IpfsClient _client;
 
-        public CmsFileStorageService()
+        public CmsFileStorageService(IOptions<IpfsConfig> ipfsConfig)
         {
-            _client = new IpfsClient();
+            if (!string.IsNullOrEmpty(ipfsConfig.Value.Host))
+                _client = new IpfsClient(ipfsConfig.Value.Host);
+            else
+                _client = new IpfsClient();
         }
 
         public async Task<CmsFile?> ReadFile(string fileName)
         {
-            var response = await _client.FileSystem.ReadFileAsync(fileName);
+            //FileSystem.ReadFileAsyn does a GET, but should be a POST
+            //var response = await _client.FileSystem.ReadFileAsync(fileName);
+            var response = await _client.PostDownloadAsync("cat", default(CancellationToken), fileName);
             using (MemoryStream ms = new MemoryStream())
             {
                 response.CopyTo(ms);
@@ -38,7 +46,7 @@ namespace DynamicDataCMS.Storage.Ipfs
             {
                 var response = await _client.FileSystem.AddAsync(stream, fieldName);
 
-                return response.ToLink().Name;
+                return response.ToLink().Id.ToString();
             }
         }
 
