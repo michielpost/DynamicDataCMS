@@ -8,9 +8,12 @@ namespace DynamicDataCMS.Core.Models.JsonConverters
 {
     public class CmsSchemaTypeJsonConverter : JsonConverter<CmsSchemaType>
     {
-        public override CmsSchemaType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override CmsSchemaType? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string value = reader.GetString();
+            string? value = reader.GetString();
+            if (value == null)
+                return null;
+
             return new CmsSchemaType(value);
         }
 

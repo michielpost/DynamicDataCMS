@@ -137,15 +137,20 @@ namespace DynamicDataCMS.Web
             {
                 using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
-                    await serviceScope.ServiceProvider.GetService<JsonSchemaService>().InitializeSchemas();
+                    var schemaService = serviceScope.ServiceProvider.GetService<JsonSchemaService>();
+                    if(schemaService != null)
+                        await schemaService.InitializeSchemas();
 
                     //If using auth, insert first test user
                     var dataService = serviceScope.ServiceProvider.GetService<DataProviderWrapperService>();
-                    var (_, total) = await dataService.List(CmsUser.DefaultCmsType, null, null);
-                    if (total == 0)
+                    if (dataService != null)
                     {
-                        var cmsUser = new CmsUser { Email = "admin@admin.com", Password = "admin" };
-                        await dataService.Write(cmsUser.ToCmsItem(), CmsUser.DefaultCmsType, Guid.NewGuid(), null, "system");
+                        var (_, total) = await dataService.List(CmsUser.DefaultCmsType, null, null);
+                        if (total == 0)
+                        {
+                            var cmsUser = new CmsUser { Email = "admin@admin.com", Password = "admin" };
+                            await dataService.Write(cmsUser.ToCmsItem(), CmsUser.DefaultCmsType, Guid.NewGuid(), null, "system");
+                        }
                     }
                 }
             });

@@ -34,7 +34,7 @@
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" asp-area="Cms" asp-controller="Home" asp-action="Index">@cmsConfig.Title</a>
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
-                @if (this.Context.User.Identity.IsAuthenticated)
+                @if (this.Context.User.Identity?.IsAuthenticated ?? false)
                 {
                     <a class="nav-link" asp-area="Auth" asp-controller="Auth" asp-action="Logout">Sign out</a>
                 }

@@ -64,7 +64,7 @@
           "SchemaKey": "contentpage",
           "ListViewProperties": [
             {
-              "Key": "metaTitle",
+              "Key": "MetaTitle",
               "DisplayName": "Title"
             }
           ]
