@@ -149,7 +149,7 @@ namespace DynamicDataCMS.Web
                         if (total == 0)
                         {
                             var cmsUser = new CmsUser { Email = "admin@admin.com", Password = "admin" };
-                            await dataService.Write(cmsUser.ToCmsItem(), CmsUser.DefaultCmsType, Guid.NewGuid(), null, "system");
+                            await dataService.Write(cmsUser.ToCmsItem()!, CmsUser.DefaultCmsType, Guid.NewGuid(), null, "system");
                         }
                     }
                 }
