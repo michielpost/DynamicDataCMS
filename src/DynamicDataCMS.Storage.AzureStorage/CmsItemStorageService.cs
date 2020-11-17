@@ -116,7 +116,8 @@ namespace DynamicDataCMS.Storage.AzureStorage
 
             //Remove existing item
             CmsItem? oldItem = indexFile.Where(x => x.Id == item.Id).FirstOrDefault();
-            indexFile.Remove(oldItem);
+            if(oldItem != null)
+                indexFile.Remove(oldItem);
 
             var indexItem = new CmsItem { 
                 Id = id, 
@@ -179,8 +180,13 @@ namespace DynamicDataCMS.Storage.AzureStorage
             indexFile = indexFile ?? new List<CmsItem>();
 
             //Remove existing item
-            indexFile.Remove(indexFile.Where(x => x.Id == id).FirstOrDefault());
-            await azureStorageService.WriteFileAsJson(indexFile, indexFileName).ConfigureAwait(false);
+            var existing = indexFile.Where(x => x.Id == id).FirstOrDefault();
+            if (existing != null)
+            {
+                indexFile.Remove(existing);
+
+                await azureStorageService.WriteFileAsJson(indexFile, indexFileName).ConfigureAwait(false);
+            }
         }
 
         public static string GenerateFileName(CmsType cmsType, Guid id, string? lang)

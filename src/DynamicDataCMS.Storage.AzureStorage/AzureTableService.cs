@@ -98,7 +98,7 @@ namespace DynamicDataCMS.Storage.AzureStorage
             {
                 CmsItemTableEntity? resultEntity = await GetCmsItemTableEntity(cmsType, id, lang);
 
-                if (resultEntity != null)
+                if (resultEntity != null && resultEntity.JsonData != null)
                 {
                     return JsonSerializer.Deserialize<T>(resultEntity.JsonData);
                 }

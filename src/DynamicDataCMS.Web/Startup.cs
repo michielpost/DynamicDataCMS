@@ -49,6 +49,7 @@ namespace DynamicDataCMS.Web
             //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             bool defaultSetup = true;
+            bool sia = false;
             bool cosmosDb = false;
             bool azureAd = false;
 
@@ -58,7 +59,7 @@ namespace DynamicDataCMS.Web
                    .UseJsonEditor()
                    .ConfigureDynamicDataCmsAuthBasic() //Optional if you want user login
                    //.ConfigureDynamicDataCmsAuthAzureAD() //Optional if you want user login using Azure AD
-                   .ConfigureMicrio() //Optional, if you want to have support to upload images to micr.io
+                   //.ConfigureMicrio() //Optional, if you want to have support to upload images to micr.io
                    .AddInterceptor<ExampleInterceptor>()
                    //.ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
                    //.ConfigureEntityFramework<CmsDataContext, Student>()
@@ -66,6 +67,12 @@ namespace DynamicDataCMS.Web
                    .ConfigureSiaSkynet()
                    //.ConfigureIpfs()
                    .ConfigureAzureStorage(() => new StorageConfiguration() { ReadFiles = false, ReadCmsItems = true, WriteFiles = false });
+
+            if (sia)
+                services.UseDynamicDataCMS(Configuration)
+                   .UseJsonEditor()
+                   .ConfigureDynamicDataCmsAuthBasic() //Optional if you want user login
+                   .ConfigureSiaSkynet(() => new StorageConfiguration() { ReadFiles = true, ReadCmsItems = true, WriteFiles = true, WriteCmsItems = true });
 
 
             //Azure AD Authentication setup
