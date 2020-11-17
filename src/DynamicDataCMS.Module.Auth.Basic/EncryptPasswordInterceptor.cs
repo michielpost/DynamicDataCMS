@@ -31,7 +31,7 @@ namespace DynamicDataCMS.Module.Auth.Basic
             if (modifiedItem == null)
                 throw new Exception($"Item was null after converting ({cmsType}).");
 
-            return Task.FromResult(item);
+            return Task.FromResult(modifiedItem);
         }
     }
 }

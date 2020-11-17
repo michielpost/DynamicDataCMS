@@ -48,8 +48,8 @@ namespace DynamicDataCMS.Web
             //services.AddDbContext<CmsDataContext>(options =>
             //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            bool defaultSetup = false;
-            bool sia = true;
+            bool defaultSetup = true;
+            bool sia = false;
             bool cosmosDb = false;
             bool azureAd = false;
 
@@ -59,7 +59,7 @@ namespace DynamicDataCMS.Web
                    .UseJsonEditor()
                    .ConfigureDynamicDataCmsAuthBasic() //Optional if you want user login
                    //.ConfigureDynamicDataCmsAuthAzureAD() //Optional if you want user login using Azure AD
-                   .ConfigureMicrio() //Optional, if you want to have support to upload images to micr.io
+                   //.ConfigureMicrio() //Optional, if you want to have support to upload images to micr.io
                    .AddInterceptor<ExampleInterceptor>()
                    //.ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
                    //.ConfigureEntityFramework<CmsDataContext, Student>()
@@ -71,7 +71,7 @@ namespace DynamicDataCMS.Web
             if (sia)
                 services.UseDynamicDataCMS(Configuration)
                    .UseJsonEditor()
-                   //.ConfigureDynamicDataCmsAuthBasic() //Optional if you want user login
+                   .ConfigureDynamicDataCmsAuthBasic() //Optional if you want user login
                    .ConfigureSiaSkynet(() => new StorageConfiguration() { ReadFiles = true, ReadCmsItems = true, WriteFiles = true, WriteCmsItems = true });
 
 
@@ -120,8 +120,8 @@ namespace DynamicDataCMS.Web
             app.UseRouting();
 
             //Optional if you want authentication:
-            //app.UseAuthentication();  // Must be after UseRouting()
-            //app.UseMiddleware<DynamicDataCmsAuthenticatationMiddleware>();
+            app.UseAuthentication();  // Must be after UseRouting()
+            app.UseMiddleware<DynamicDataCmsAuthenticatationMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
