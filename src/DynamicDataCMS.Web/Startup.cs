@@ -48,7 +48,8 @@ namespace DynamicDataCMS.Web
             //services.AddDbContext<CmsDataContext>(options =>
             //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            bool defaultSetup = true;
+            bool defaultSetup = false;
+            bool sia = true;
             bool cosmosDb = false;
             bool azureAd = false;
 
@@ -66,6 +67,12 @@ namespace DynamicDataCMS.Web
                    .ConfigureSiaSkynet()
                    //.ConfigureIpfs()
                    .ConfigureAzureStorage(() => new StorageConfiguration() { ReadFiles = false, ReadCmsItems = true, WriteFiles = false });
+
+            if (sia)
+                services.UseDynamicDataCMS(Configuration)
+                   .UseJsonEditor()
+                   //.ConfigureDynamicDataCmsAuthBasic() //Optional if you want user login
+                   .ConfigureSiaSkynet(() => new StorageConfiguration() { ReadFiles = true, ReadCmsItems = true, WriteFiles = true, WriteCmsItems = true });
 
 
             //Azure AD Authentication setup
@@ -113,8 +120,8 @@ namespace DynamicDataCMS.Web
             app.UseRouting();
 
             //Optional if you want authentication:
-            app.UseAuthentication();  // Must be after UseRouting()
-            app.UseMiddleware<DynamicDataCmsAuthenticatationMiddleware>();
+            //app.UseAuthentication();  // Must be after UseRouting()
+            //app.UseMiddleware<DynamicDataCmsAuthenticatationMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
