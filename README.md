@@ -31,6 +31,7 @@ Edit `Startup.cs` and add the following lines to `ConfigureServices`
 
 ```cs
 services.UseDynamicDataCMS(Configuration)
+  .UseJsonEditor()
   .ConfigureAzureStorage(() => new StorageConfiguration() {  ReadCmsItems = true, ReadFiles = true });
 ```
 ## Modules
@@ -40,7 +41,7 @@ DynamicDataCMS is a modular CMS and different modules are available:
 The CosmosDB module stores CmsItems to Azure CosmosDB. This module does not support storing file data. You can use the Azure Storage module for file data.
 ```cs
 services.UseDynamicDataCMS(Configuration)
-  ..UseJsonEditor()
+  .UseJsonEditor()
   .ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
   .ConfigureAzureStorage(() => new StorageConfiguration() {  ReadFiles = true }); //Optional if you need file storage.
 ```
@@ -58,6 +59,7 @@ Stores data in Azure Tables and file data to Azure Blob Storage.
 
 ```cs
 services.UseDynamicDataCMS(Configuration)
+  .UseJsonEditor()
   .ConfigureAzureStorage(() => new StorageConfiguration() {  ReadCmsItems = true, ReadFiles = true });
 ```
 
@@ -76,6 +78,7 @@ Stores data in MS SQL. Make sure you already have your own working EntityFramewo
 
 ```cs
 services.UseDynamicDataCMS(Configuration)
+  .UseJsonEditor()
   .ConfigureEntityFramework<MyCustomDataContext, MyModel>()
 ```
 
@@ -88,6 +91,7 @@ Adds user login and user list to the CMS
 Add a reference to `DynamicDataCMS.Core.Auth` nuget package.
 ```cs
 services.UseDynamicDataCMS(Configuration)
+  .UseJsonEditor()
   .ConfigureDynamicDataCMSAuthBasic()
 ```
 
@@ -106,9 +110,16 @@ It's also possible to use Microsft Azure AD:
 Stores data on Sia Skynet, a free decentralized CDN and file sharing platform
 https://siasky.net
 
+Only files:
 ```cs
 services.UseDynamicDataCMS(Configuration)
+  .UseJsonEditor()
   .ConfigureSiaSkynet();
+```
+
+It's also possible to store all data on Sia Skynet using SkyDB:
+```cs
+.ConfigureSiaSkynet(() => new StorageConfiguration() { ReadFiles = true, ReadCmsItems = true, WriteFiles = true, WriteCmsItems = true });
 ```
 
 ### IPFS
@@ -128,6 +139,7 @@ Host can be set in config, uses localhost as default.
 Allows you to modify the data before it's saved.
 ```cs
 services.UseDynamicDataCMS(Configuration)
+   .UseJsonEditor()
    .AddInterceptor<ExampleInterceptor>()
 ```
 
