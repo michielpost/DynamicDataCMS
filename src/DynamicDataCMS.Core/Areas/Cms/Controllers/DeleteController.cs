@@ -97,11 +97,11 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
         [Route("delete/{cmsType}/{id:guid}/{lang?}")]
         public async Task<IActionResult> DeleteConfirm([FromRoute]string cmsType, [FromRoute]Guid id, [FromRoute]string? lang, [FromQuery]string? treeItemSchemaKey, [FromQuery]Guid? treeNodeId)
         {
-            await writeCmsItemService.Delete(cmsType, id, lang, this.User.Identity.Name).ConfigureAwait(false);
+            await writeCmsItemService.Delete(cmsType, id, lang, this.User.Identity?.Name).ConfigureAwait(false);
 
             if (treeNodeId.HasValue)
             {
-                await cmsTreeService.ClearCmsTreeNode(cmsType, treeNodeId.Value, lang, this.User.Identity.Name).ConfigureAwait(false);
+                await cmsTreeService.ClearCmsTreeNode(cmsType, treeNodeId.Value, lang, this.User.Identity?.Name).ConfigureAwait(false);
             }
 
             return RedirectToAction("List", "List", new { cmsType = cmsType });

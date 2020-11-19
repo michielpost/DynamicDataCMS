@@ -46,9 +46,10 @@ namespace DynamicDataCMS.Storage.EntityFramework
 
             return (result.Select(x => {
                 var item = x.ToCmsItem();
-                item.CmsType = cmsType;
+                if(item != null)
+                    item.CmsType = cmsType;
                 return item;
-            }).ToList(), count);
+            }).Where(x => x != null).Select(x => x!).ToList(), count);
         }
 
        

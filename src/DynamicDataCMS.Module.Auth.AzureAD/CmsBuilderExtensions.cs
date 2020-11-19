@@ -79,7 +79,7 @@ namespace DynamicDataCMS.Module.Auth.AzureAD
 
         private static async Task OnTokenValidatedFunc(TokenValidatedContext context)
         {
-            string? email = context.Principal.Identity.Name;
+            string? email = context.Principal?.Identity?.Name;
             var readCmsItemService = context.HttpContext.RequestServices.GetRequiredService<IReadCmsItem>();
 
             var (users, total) = await readCmsItemService.List(CmsUser.DefaultCmsType, null, null, searchQuery: email);

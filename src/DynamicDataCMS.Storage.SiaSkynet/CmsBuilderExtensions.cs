@@ -26,10 +26,14 @@ namespace DynamicDataCMS.Storage.SiaSkynet
 
             StorageConfiguration storageConfig = storageConfigFunc();
 
-            if(storageConfig.ReadFiles)
+            if (storageConfig.ReadFiles)
                 services.AddTransient<IReadFile, CmsFileStorageService>();
             if (storageConfig.WriteFiles)
                 services.AddTransient<IWriteFile, CmsFileStorageService>();
+            if (storageConfig.ReadCmsItems)
+                services.AddSingleton<IReadCmsItem, CmsItemStorageService>();
+            if (storageConfig.WriteCmsItems)
+                services.AddSingleton<IWriteCmsItem, CmsItemStorageService>();
 
             return builder;
         }

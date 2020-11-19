@@ -94,7 +94,7 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
 
             CmsTreeNode? cmsTreeItem = await cmsTreeService.GetCmsTreeNode(cmsTreeType, slug, lang).ConfigureAwait(false);
             if(cmsTreeItem == null)
-                cmsTreeItem = await cmsTreeService.CreateOrUpdateCmsTreeNodeForSlug(cmsTreeType, slug, new CmsTreeNode() { CmsItemId = Guid.NewGuid() }, lang, this.User.Identity.Name);
+                cmsTreeItem = await cmsTreeService.CreateOrUpdateCmsTreeNodeForSlug(cmsTreeType, slug, new CmsTreeNode() { CmsItemId = Guid.NewGuid() }, lang, this.User.Identity?.Name);
 
             if (string.IsNullOrEmpty(cmsTreeItem.CmsItemType) && string.IsNullOrEmpty(treeItemSchemaKey))
             {

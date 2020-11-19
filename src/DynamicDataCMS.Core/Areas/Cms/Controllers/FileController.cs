@@ -59,7 +59,7 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
 
                 try
                 {
-                    var result = await writeFileService.WriteFile(cmsFile, cmsType, id, fieldName, lang, this.User.Identity.Name).ConfigureAwait(false);
+                    var result = await writeFileService.WriteFile(cmsFile, cmsType, id, fieldName, lang, this.User.Identity?.Name).ConfigureAwait(false);
 
                     return new JsonResult(result);
                 }

@@ -29,7 +29,7 @@ namespace DynamicDataCMS.Core
                 return next(context);
             }
 
-            if (!context.User.Identity.IsAuthenticated)
+            if (!(context.User.Identity?.IsAuthenticated ?? false))
             {
                 // The user is not authenticated, redirect to default authetication
                 return context.ChallengeAsync();

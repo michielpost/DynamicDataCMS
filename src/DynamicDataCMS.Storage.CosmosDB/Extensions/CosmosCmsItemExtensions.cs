@@ -11,13 +11,13 @@ namespace DynamicDataCMS.Storage.CosmosDB.Extensions
 {
     internal static class CosmosCmsItemExtensions
     {
-        internal static CmsItem ToCmsItem(this CosmosCmsItem item)
+        internal static CmsItem? ToCmsItem(this CosmosCmsItem item)
         {
             string json = JsonConvert.SerializeObject(item);
             return System.Text.Json.JsonSerializer.Deserialize<CmsItem>(json);
         }
 
-        internal static T ToCmsItem<T>(this CosmosCmsDataItem item) where T : CmsItem
+        internal static T? ToCmsItem<T>(this CosmosCmsDataItem item) where T : CmsItem
         {
             string json = JsonConvert.SerializeObject(item);
             return System.Text.Json.JsonSerializer.Deserialize<T>(json);

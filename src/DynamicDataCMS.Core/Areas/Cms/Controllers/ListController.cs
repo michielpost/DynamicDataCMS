@@ -48,6 +48,9 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
                 return new NotFoundResult();
 
             var schema = schemaService.GetSchema(cmsMenuItem.SchemaKey);
+            if (schema == null)
+                throw new Exception($"schema not found for key: {cmsMenuItem.SchemaKey}");
+
             int pageSize = cmsMenuItem.PageSize;
             if (pageSize <= 0)
                 pageSize = 20;

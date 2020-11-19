@@ -38,14 +38,17 @@ namespace DynamicDataCMS.Storage.CosmosDB
             {
                 var typeInfo = cmsConfiguration.MenuItems.Where(x => x.Key == cmsType.Value).FirstOrDefault();
 
-                StringBuilder sb = new StringBuilder();
-                sb.Append("AND (");
-                foreach (var prop in typeInfo.ListViewProperties)
-                    sb.Append($"CONTAINS(c.{prop.Key}, '{searchQuery}') OR ");
-                sb.Remove(sb.Length - 3, 3);
-                sb.Append(") ");
+                if (typeInfo != null)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append("AND (");
+                    foreach (var prop in typeInfo.ListViewProperties)
+                        sb.Append($"CONTAINS(c.{prop.Key}, '{searchQuery}') OR ");
+                    sb.Remove(sb.Length - 3, 3);
+                    sb.Append(") ");
 
-                whereClause = sb.ToString();
+                    whereClause = sb.ToString();
+                }
 
                 //Only support one page of results for now
                 //TODO: Create count query with Where clause

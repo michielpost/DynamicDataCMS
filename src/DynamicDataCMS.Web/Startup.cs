@@ -49,6 +49,7 @@ namespace DynamicDataCMS.Web
             //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             bool defaultSetup = true;
+            bool sia = false;
             bool cosmosDb = false;
             bool azureAd = false;
 
@@ -58,7 +59,7 @@ namespace DynamicDataCMS.Web
                    .UseJsonEditor()
                    .ConfigureDynamicDataCmsAuthBasic() //Optional if you want user login
                    //.ConfigureDynamicDataCmsAuthAzureAD() //Optional if you want user login using Azure AD
-                   .ConfigureMicrio() //Optional, if you want to have support to upload images to micr.io
+                   //.ConfigureMicrio() //Optional, if you want to have support to upload images to micr.io
                    .AddInterceptor<ExampleInterceptor>()
                    //.ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
                    //.ConfigureEntityFramework<CmsDataContext, Student>()
@@ -66,6 +67,12 @@ namespace DynamicDataCMS.Web
                    .ConfigureSiaSkynet()
                    //.ConfigureIpfs()
                    .ConfigureAzureStorage(() => new StorageConfiguration() { ReadFiles = false, ReadCmsItems = true, WriteFiles = false });
+
+            if (sia)
+                services.UseDynamicDataCMS(Configuration)
+                   .UseJsonEditor()
+                   .ConfigureDynamicDataCmsAuthBasic() //Optional if you want user login
+                   .ConfigureSiaSkynet(() => new StorageConfiguration() { ReadFiles = true, ReadCmsItems = true, WriteFiles = true, WriteCmsItems = true });
 
 
             //Azure AD Authentication setup
@@ -137,15 +144,20 @@ namespace DynamicDataCMS.Web
             {
                 using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
-                    await serviceScope.ServiceProvider.GetService<JsonSchemaService>().InitializeSchemas();
+                    var schemaService = serviceScope.ServiceProvider.GetService<JsonSchemaService>();
+                    if(schemaService != null)
+                        await schemaService.InitializeSchemas();
 
                     //If using auth, insert first test user
                     var dataService = serviceScope.ServiceProvider.GetService<DataProviderWrapperService>();
-                    var (_, total) = await dataService.List(CmsUser.DefaultCmsType, null, null);
-                    if (total == 0)
+                    if (dataService != null)
                     {
-                        var cmsUser = new CmsUser { Email = "admin@admin.com", Password = "admin" };
-                        await dataService.Write(cmsUser.ToCmsItem(), CmsUser.DefaultCmsType, Guid.NewGuid(), null, "system");
+                        var (_, total) = await dataService.List(CmsUser.DefaultCmsType, null, null);
+                        if (total == 0)
+                        {
+                            var cmsUser = new CmsUser { Email = "admin@admin.com", Password = "admin" };
+                            await dataService.Write(cmsUser.ToCmsItem()!, CmsUser.DefaultCmsType, Guid.NewGuid(), null, "system");
+                        }
                     }
                 }
             });

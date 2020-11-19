@@ -67,7 +67,9 @@ namespace DynamicDataCMS.SampleWeb
             {
                 using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
-                    await serviceScope.ServiceProvider.GetService<JsonSchemaService>().InitializeSchemas();
+                    var schemaService = serviceScope.ServiceProvider.GetService<JsonSchemaService>();
+                    if(schemaService != null)
+                        await schemaService.InitializeSchemas();
                 }
             });
         }

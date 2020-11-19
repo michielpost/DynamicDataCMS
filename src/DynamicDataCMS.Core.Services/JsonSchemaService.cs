@@ -62,12 +62,12 @@ namespace DynamicDataCMS.Core.Services
            return GetSchemas();
         }
 
-        public SchemaLocation GetSchema(CmsSchemaType schemaType)
+        public SchemaLocation? GetSchema(CmsSchemaType schemaType)
         {
             return cmsConfiguration.Schemas.Where(x => x.Key == schemaType.Value).FirstOrDefault();
         }
 
-        public MenuItem GetCmsType(CmsType cmsType)
+        public MenuItem? GetCmsType(CmsType cmsType)
         {
             return cmsConfiguration.MenuItems.Where(x => x.Key == cmsType.Value).FirstOrDefault();
         }

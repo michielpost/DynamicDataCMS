@@ -20,14 +20,18 @@ namespace DynamicDataCMS.Module.Auth.Basic
         public Task<T> InterceptAsync<T>(T item, CmsType cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem
         {
             var cmsUser = item.ToObject<CmsUser>();
+            if (cmsUser == null)
+                throw new Exception($"Unable to convert item to {cmsType}");
 
             //Encrypt password
             cmsUser.PasswordEncrypted = BCrypt.Net.BCrypt.HashPassword(cmsUser.Password);
             cmsUser.Password = string.Empty; //Do not store original password
 
-            item = cmsUser.ToObject<T>();
+            var modifiedItem = cmsUser.ToObject<T>();
+            if (modifiedItem == null)
+                throw new Exception($"Item was null after converting ({cmsType}).");
 
-            return Task.FromResult(item);
+            return Task.FromResult(modifiedItem);
         }
     }
 }

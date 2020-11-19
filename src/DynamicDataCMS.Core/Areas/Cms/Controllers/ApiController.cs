@@ -40,11 +40,11 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
                 CmsType = cmsType,
                 Id = id
             };
-            await writeCmsItemService.Write(item, cmsType, id, lang, this.User.Identity.Name).ConfigureAwait(false);
+            await writeCmsItemService.Write(item, cmsType, id, lang, this.User.Identity?.Name).ConfigureAwait(false);
 
             if(treeNodeId.HasValue && treeItemSchemaKey != null)
             {
-                await cmsTreeService.SetCmsTreeNodeType(cmsType, treeNodeId.Value, treeItemSchemaKey, id, lang, this.User.Identity.Name);
+                await cmsTreeService.SetCmsTreeNodeType(cmsType, treeNodeId.Value, treeItemSchemaKey, id, lang, this.User.Identity?.Name);
             }
 
             return new OkObjectResult(item);

@@ -47,8 +47,11 @@ namespace DynamicDataCMS.Core.Services
             //Get node
             var existing = document.Nodes.Where(x => x.NodeId == nodeId).FirstOrDefault();
 
-            existing.CmsItemType = null;
-            existing.CmsItemId = null;
+            if(existing != null)
+            {
+                existing.CmsItemType = null;
+                existing.CmsItemId = null;
+            }
 
             await dataProvider.Write<CmsTreeItem>(document, cmsTreeType, Guid.Empty, lang: null, currentUser).ConfigureAwait(false);
 
