@@ -14,7 +14,7 @@ namespace DynamicDataCMS.Module.Auth.Basic
         public bool HandlesType(CmsType cmsType)
         {
             //Only do this for the auth controller
-            return CmsUser.DefaultCmsType.Value == cmsType.Value;
+            return CmsUser.DefaultCmsType == cmsType;
         }
 
         public Task<T> InterceptAsync<T>(T item, CmsType cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem
