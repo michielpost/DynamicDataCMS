@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DynamicDataCMS.Core.Models
 {
-    public class SearchResult
+    public record SearchResult
     {
         public Guid Id { get; set; }
         public string Title { get; set; }

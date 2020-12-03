@@ -14,7 +14,7 @@ namespace DynamicDataCMS.Core.Models
     /// A schema can be used for multiple CmsTypes
     /// </summary>
     [JsonConverter(typeof(CmsTypeJsonConverter))]
-    public class CmsType
+    public record CmsType
     {
         public string Value { get; set; }
 

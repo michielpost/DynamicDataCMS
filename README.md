@@ -114,12 +114,20 @@ Only files:
 ```cs
 services.UseDynamicDataCMS(Configuration)
   .UseJsonEditor()
-  .ConfigureSiaSkynet();
+  .ConfigureSiaSkynet(() =>  new StorageConfiguration { WriteCmsItems = false , ReadFiles = true})
 ```
 
 It's also possible to store all data on Sia Skynet using SkyDB:
 ```cs
 .ConfigureSiaSkynet(() => new StorageConfiguration() { ReadFiles = true, ReadCmsItems = true, WriteFiles = true, WriteCmsItems = true });
+```
+
+Add a secret to your config, the secret is used to generate a private key for SkyDB:
+```json
+"SkynetConfig": {
+  "Secret": "cms example secret",
+  "ExcludedTypes": [ "student", "book" ]
+}
 ```
 
 ### IPFS

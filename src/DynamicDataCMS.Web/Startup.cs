@@ -64,7 +64,7 @@ namespace DynamicDataCMS.Web
                    //.ConfigureCosmosDB(() => new StorageConfiguration() { ReadCmsItems = true })
                    //.ConfigureEntityFramework<CmsDataContext, Student>()
                    //.ConfigureEntityFramework<CmsDataContext, Book>()
-                   .ConfigureSiaSkynet()
+                   .ConfigureSiaSkynet(() => new StorageConfiguration { WriteCmsItems = false , WriteFiles = true, ReadFiles = true})
                    //.ConfigureIpfs()
                    .ConfigureAzureStorage(() => new StorageConfiguration() { ReadFiles = false, ReadCmsItems = true, WriteFiles = false });
 

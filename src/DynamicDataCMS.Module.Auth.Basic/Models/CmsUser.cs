@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DynamicDataCMS.Module.Auth.Basic.Models
 {
-    public class CmsUser
+    public record CmsUser
     {
         public static CmsType DefaultCmsType = "cmsUser";
         public static CmsSchemaType DefaultCmsSchemaType = "cmsUser";

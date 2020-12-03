@@ -9,7 +9,7 @@ namespace DynamicDataCMS.Core.Models
     /// <summary>
     /// Single CmsDataItem (single language)
     /// </summary>
-    public class CmsItem
+    public record CmsItem
     {
         [JsonPropertyName("id")]
         public Guid Id { get; set; }

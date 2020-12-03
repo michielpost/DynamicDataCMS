@@ -9,7 +9,7 @@ namespace DynamicDataCMS.Storage.SiaSkynet.Models
     {
         public string? BaseUrl { get; set; }
 
-        public string? Seed { get; set; }
+        public string? Secret { get; set; }
 
         /// <summary>
         /// Types that should not be saved by this provider

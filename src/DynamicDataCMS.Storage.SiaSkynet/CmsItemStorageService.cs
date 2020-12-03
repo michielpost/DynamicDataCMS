@@ -35,10 +35,10 @@ namespace DynamicDataCMS.Storage.SiaSkynet
             else
                 _client = new SiaSkynetClient();
 
-            if (string.IsNullOrWhiteSpace(this.skynetConfig.Seed))
+            if (string.IsNullOrWhiteSpace(this.skynetConfig.Secret))
                 throw new ArgumentNullException("SkynetConfig.Seed should contain a seed value to generate a private/public key pair.", nameof(skynetConfig));
 
-            var keypair = SiaSkynetClient.GenerateKeys(this.skynetConfig.Seed);
+            var keypair = SiaSkynetClient.GenerateKeys(this.skynetConfig.Secret);
             privateKey = keypair.privateKey;
             publicKey = keypair.publicKey;
         }

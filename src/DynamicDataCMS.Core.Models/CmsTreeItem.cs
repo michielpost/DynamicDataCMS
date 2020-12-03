@@ -5,12 +5,12 @@ using System.Text;
 
 namespace DynamicDataCMS.Core.Models
 {
-    public class CmsTreeItem : CmsItem
+    public record CmsTreeItem : CmsItem
     {
         public List<CmsTreeNode> Nodes { get; set; } = new List<CmsTreeNode>();
     }
 
-    public class CmsTreeNode
+    public record CmsTreeNode
     {
         public Guid NodeId { get; set; } = Guid.NewGuid();
         public Guid? ParentId { get; set; }
