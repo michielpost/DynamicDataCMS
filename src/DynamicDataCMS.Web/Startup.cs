@@ -129,7 +129,7 @@ namespace DynamicDataCMS.Web
                     name: "cms",
                     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
-                endpoints.MapDynamicControllerRoute<PageTreeRoutes>("{**slug}");
+                //endpoints.MapDynamicControllerRoute<PageTreeRoutes>("{**slug}");
             });
 
 

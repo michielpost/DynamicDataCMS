@@ -1,5 +1,4 @@
-﻿using Microsoft.Azure.Storage.Blob;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using DynamicDataCMS.Core.Models;
 using DynamicDataCMS.Storage.AzureStorage.Models;
 using DynamicDataCMS.Storage.Interfaces;
@@ -165,10 +164,7 @@ namespace DynamicDataCMS.Storage.AzureStorage
                 var files = await azureStorageService.GetFilesFromDirectory($"{cmsType}/{id}").ConfigureAwait(false);
                 foreach (var file in files)
                 {
-                    if (file is CloudBlockBlob cloudBlockBlob)
-                    {
-                        await cloudBlockBlob.DeleteAsync().ConfigureAwait(false);
-                    }
+                    await azureStorageService.DeleteFileAsync(file.Name).ConfigureAwait(false);
                 }
 
             }

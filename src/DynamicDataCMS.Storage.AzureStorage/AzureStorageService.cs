@@ -1,7 +1,4 @@
-﻿using Microsoft.Azure.Storage;
-using Microsoft.Azure.Storage.Auth;
-using Microsoft.Azure.Storage.Blob;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using DynamicDataCMS.Storage.AzureStorage.Models;
 using System;
 using System.Collections.Generic;
@@ -10,6 +7,8 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 
 namespace DynamicDataCMS.Storage.AzureStorage
 {
@@ -28,86 +27,71 @@ namespace DynamicDataCMS.Storage.AzureStorage
         /// <summary>
         /// Store the given fileData in the blobstorage and return a blob identifying the results
         /// </summary>
-        public async Task<ICloudBlob> StoreFileAsync(byte[] fileData, string contentType, string? fileName = null, string? containerName = null)
+        public async Task<BlobClient> StoreFileAsync(byte[] fileData, string blobName, string? contentType, string? containerName = null)
         {
             var blobContainer = await GetBlobContainer(containerName).ConfigureAwait(false);
-            if (string.IsNullOrEmpty(fileName))
-                fileName = Guid.NewGuid().ToString();
+            if (string.IsNullOrWhiteSpace(blobName))
+                throw new ArgumentNullException(nameof(blobName));
 
-            var blockBlob = blobContainer.GetBlockBlobReference(fileName);
-
-            blockBlob.Properties.ContentType = contentType;
-            //blockBlob.Properties.CacheControl = "public, max-age=31536000"; //Cache for 1 year
+            var blobClient = blobContainer.GetBlobClient(blobName);
 
             using (var stream = new MemoryStream(fileData, writable: false))
             {
-                await blockBlob.UploadFromStreamAsync(stream).ConfigureAwait(false);
+                await blobClient.UploadAsync(stream,
+                  new BlobHttpHeaders()
+                  {
+                      ContentType = contentType
+                  });
             }
 
-            return blockBlob;
+            return blobClient;
         }
 
         /// <summary>
         /// retrieve a new pointer to the blobstore container containing our assets
         /// </summary>
-        private async Task<CloudBlobContainer> GetBlobContainer(string? containerName)
+        private async Task<BlobContainerClient> GetBlobContainer(string? containerName)
         {
             if (string.IsNullOrEmpty(containerName))
-                containerName = _config.ContainerName;
+                containerName = _config.AssetsContainerName;
 
-            var storageAccount = string.IsNullOrWhiteSpace(_config.ConnectionString) ? CloudStorageAccount.DevelopmentStorageAccount : CloudStorageAccount.Parse(_config.ConnectionString);
+            var storageAccount = new BlobServiceClient(_config.ConnectionString);
 
-            var blobClient = storageAccount.CreateCloudBlobClient();
-            var blobContainer = blobClient.GetContainerReference(containerName);
-            await blobContainer.CreateIfNotExistsAsync().ConfigureAwait(false);
-            return blobContainer;
+            BlobContainerClient container = storageAccount.GetBlobContainerClient(containerName);
+            await container.CreateIfNotExistsAsync(PublicAccessType.None).ConfigureAwait(false);
+
+            return container;
         }
 
         /// <summary>
         /// Delete the given file from the blobstore
         /// </summary>
-        /// <param name="blobStoreId"></param>
+        /// <param name="blobName"></param>
+        /// <param name="containerName"></param>
         /// <returns></returns>
-        public async Task DeleteFileAsync(string blobStoreId, string? containerName = null)
+        public async Task DeleteFileAsync(string blobName, string? containerName = null)
         {
-            if (string.IsNullOrWhiteSpace(blobStoreId))
-                throw new ArgumentNullException(nameof(blobStoreId));
-
-            var container = await GetBlobContainer(containerName).ConfigureAwait(false);
-
-            var blobReference = await container.GetBlobReferenceFromServerAsync(blobStoreId).ConfigureAwait(false);
-            if (blobReference == null)
-                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Given blobStoreId '{0}' does not exist",
-                  blobStoreId));
+            var blobReference = await GetFileReference(blobName, containerName).ConfigureAwait(false);
 
             await blobReference.DeleteAsync().ConfigureAwait(false);
         }
 
         /// <summary>
-        /// Get file from the blobstore
+        /// Delete the given file from the blobstore
         /// </summary>
-        /// <param name="blobStoreId"></param>
+        /// <param name="blobName"></param>
+        /// <param name="containerName"></param>
         /// <returns></returns>
-        public async Task<ICloudBlob> GetFileReference(string blobStoreId, string? containerName = null)
+        public async Task<BlobClient> GetFileReference(string blobName, string? containerName = null)
         {
-            if (string.IsNullOrWhiteSpace(blobStoreId))
-                throw new ArgumentNullException(nameof(blobStoreId));
+            if (string.IsNullOrWhiteSpace(blobName))
+                throw new ArgumentNullException(nameof(blobName));
 
             var container = await GetBlobContainer(containerName).ConfigureAwait(false);
 
-            var blobReference = container.GetBlockBlobReference(blobStoreId);
+            var blobReference = container.GetBlobClient(blobName);
             if (blobReference == null)
-                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Given blobStoreId '{0}' does not exist",
-                  blobStoreId));
-
-            if (!await blobReference.ExistsAsync().ConfigureAwait(false))
-                throw new FileNotFoundException();
-
-            if (blobReference.Properties.Length == 0)
-            {
-                throw new InvalidDataException();
-            }
-
+                throw new ArgumentException($"Given blobName '{blobName}' does not exist");
 
             return blobReference;
         }
@@ -121,17 +105,19 @@ namespace DynamicDataCMS.Storage.AzureStorage
                 using (var stream = new MemoryStream())
                 {
                     // download image
-                    await blob.DownloadToStreamAsync(stream).ConfigureAwait(false);
+                    await blob.DownloadToAsync(stream).ConfigureAwait(false);
                     var fileBytes = stream.ToArray();
 
                     string json = Encoding.ASCII.GetString(fileBytes);
 
                     var cmsItem = JsonSerializer.Deserialize<T>(json);
 
-                    return (cmsItem, blob.Properties.Created);
+                    var props = await blob.GetPropertiesAsync().ConfigureAwait(false);
+
+                    return (cmsItem, props.Value.CreatedOn);
                 }
             }
-            catch (FileNotFoundException)
+            catch (Azure.RequestFailedException)
             {
                 return default;
             }
@@ -143,22 +129,27 @@ namespace DynamicDataCMS.Storage.AzureStorage
 
             byte[] fileData = Encoding.ASCII.GetBytes(json);
 
-            return StoreFileAsync(fileData, "application/json", fileName);
+            return StoreFileAsync(fileData, fileName, "application/json");
         }
 
-        public async Task<IEnumerable<IListBlobItem>> GetFilesFromDirectory(string path, string? containerName = null)
+        public async Task<IEnumerable<BlobItem>> GetFilesFromDirectory(string path, string? containerName = null)
         {
             if (string.IsNullOrWhiteSpace(path))
                 throw new ArgumentNullException(nameof(path));
 
             var container = await GetBlobContainer(containerName).ConfigureAwait(false);
 
-            var dirReference = container.GetDirectoryReference(path);
+            var dirReference = container.GetBlobsByHierarchyAsync(Azure.Storage.Blobs.Models.BlobTraits.All, Azure.Storage.Blobs.Models.BlobStates.All, path);
             if (dirReference == null)
                 throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Given directory '{0}' does not exist",
                   path));
 
-            var list = dirReference.ListBlobs();
+            var list = new List<BlobItem>();
+            await foreach (BlobHierarchyItem blobHierarchyItem in container.GetBlobsByHierarchyAsync(prefix: path, delimiter: "/"))
+            {
+                if (blobHierarchyItem.IsBlob)
+                    list.Add(blobHierarchyItem.Blob);
+            }
 
             return list;
         }

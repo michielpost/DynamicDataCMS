@@ -35,10 +35,11 @@ namespace DynamicDataCMS.Storage.AzureStorage
             using (var stream = new MemoryStream())
             {
                 // download file
-                await blob.DownloadToStreamAsync(stream).ConfigureAwait(false);
+                await blob.DownloadToAsync(stream).ConfigureAwait(false);
                 var fileBytes = stream.ToArray();
+                var props = await blob.GetPropertiesAsync().ConfigureAwait(false);
 
-                return new CmsFile { Bytes = fileBytes, ContentType = blob.Properties.ContentType };
+                return new CmsFile { Bytes = fileBytes, ContentType = props.Value.ContentType };
             }
         }
 
@@ -46,7 +47,7 @@ namespace DynamicDataCMS.Storage.AzureStorage
         {
             string fileName = GenerateFileName(cmsType, id, fieldName, lang);
 
-            var blob = await azureStorageService.StoreFileAsync(file.Bytes, file.ContentType, fileName).ConfigureAwait(false);
+            var blob = await azureStorageService.StoreFileAsync(file.Bytes, fileName, file.ContentType).ConfigureAwait(false);
 
             return fileName;
         }
