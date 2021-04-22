@@ -18,7 +18,7 @@ jobs:
     - name: Publish Website
       run: dotnet publish src/DynamicDataCMS.Web -o publish/DynamicDataCMS.Web -c Release
     - name: Deploy to app service
-      uses: azure/webapps-deploy@v1
+      uses: azure/webapps-deploy@v2
       with:
         app-name: qms4-dev
         package: publish/DynamicDataCMS.Web
