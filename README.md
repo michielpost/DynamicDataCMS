@@ -1,4 +1,4 @@
-![GitHub Actions status | Q42/DynamicDataCMS](https://github.com/Q42/DynamicDataCMS/workflows/ASP.NET%20Core%20CI/badge.svg)
+[![ASP.NET Core CI](https://github.com/Q42/DynamicDataCMS/actions/workflows/aspnetcore.yml/badge.svg)](https://github.com/Q42/DynamicDataCMS/actions/workflows/aspnetcore.yml)
 # DynamicDataCMS
 Open source Q42 CMS  
 Developer friendly, headless and modular CMS based on JsonSchema standard  
