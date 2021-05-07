@@ -2,9 +2,12 @@ name: Push NuGet packages
 
 on:
   workflow_dispatch:
-
+    version:
+      description: 'NuGet package version'
+      required: true
+      
 jobs:
-  build:
+  publish:
 
     runs-on: ubuntu-latest
     
@@ -15,10 +18,10 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Build with dotnet
-      run: dotnet build --configuration Release
+      run: dotnet build --configuration Release /p:Version=${{ github.event.inputs.version }}
     - name: Package NuGet
-      run: dotnet pack -c Release -o out
-    - name: Publish NuGet to GitHub registry
+      run: dotnet pack -c Release -o out -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg /p:Version=${{ github.event.inputs.version }}
+    - name: Publish packages to nuget.org
       run: dotnet nuget push ./out/**/*.* -s https://api.nuget.org/v3/index.json -k ${NUGET_TOKEN}
       env:
         NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }} 

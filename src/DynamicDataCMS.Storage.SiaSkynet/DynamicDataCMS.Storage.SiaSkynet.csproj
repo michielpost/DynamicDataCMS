@@ -8,7 +8,6 @@
     <Company>Q42</Company>
     <Product>DynamicDataCMS</Product>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>$(DOTNET_BUILD_VERSION)</Version>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/Q42/DynamicDataCMS</RepositoryUrl>
     <PackageProjectUrl>https://github.com/Q42/DynamicDataCMS</PackageProjectUrl>
