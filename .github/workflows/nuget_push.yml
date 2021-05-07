@@ -2,10 +2,11 @@ name: Push NuGet packages
 
 on:
   workflow_dispatch:
-    version:
-      description: 'NuGet package version'
-      required: true
-      
+    inputs:
+      version:
+        description: 'NuGet package version'
+        required: true
+
 jobs:
   publish:
 
