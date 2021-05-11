@@ -80,7 +80,7 @@ namespace DynamicDataCMS.Storage.SiaSkynet
             var indexFileName = GenerateFileName(cmsType, "_index", null);
 
             //Get current index file
-            var json = await _client.SkyDbGetAsString(publicKey, indexFileName).ConfigureAwait(false);
+            var json = await _client.SkyDbGetAsString(publicKey, new RegistryKey(indexFileName)).ConfigureAwait(false);
             var indexFile = new List<CmsItem>();
             if (json != null)
             {
@@ -96,7 +96,7 @@ namespace DynamicDataCMS.Storage.SiaSkynet
 
             var fileName = GenerateFileName(cmsType, id, lang);
 
-            var json = await _client.SkyDbGetAsString(publicKey, fileName).ConfigureAwait(false);
+            var json = await _client.SkyDbGetAsString(publicKey, new RegistryKey(fileName)).ConfigureAwait(false);
             T? file = null;
             if (json != null)
             {
@@ -113,7 +113,7 @@ namespace DynamicDataCMS.Storage.SiaSkynet
             
             var fileName = GenerateFileName(cmsType, id, lang);
             string itemJson = JsonSerializer.Serialize(item);
-            await _client.SkyDbSet(privateKey, publicKey, fileName, itemJson).ConfigureAwait(false);
+            await _client.SkyDbSet(privateKey, publicKey, new RegistryKey(fileName), itemJson).ConfigureAwait(false);
 
             //Write index file for paging and sorting
             var indexFileName = GenerateFileName(cmsType, "_index", lang);
@@ -150,7 +150,7 @@ namespace DynamicDataCMS.Storage.SiaSkynet
             indexFile.Add(indexItem);
 
             string indexFileJson = JsonSerializer.Serialize(indexFile);
-            await _client.SkyDbSet(privateKey, publicKey, indexFileName, indexFileJson).ConfigureAwait(false);
+            await _client.SkyDbSet(privateKey, publicKey, new RegistryKey(indexFileName), indexFileJson).ConfigureAwait(false);
         }
 
         public async Task Delete(CmsType cmsType, Guid id, string? lang, string? currentUser)
@@ -168,7 +168,7 @@ namespace DynamicDataCMS.Storage.SiaSkynet
 
                 string indexFileJson = JsonSerializer.Serialize(indexFile);
                 var indexFileName = GenerateFileName(cmsType, "_index", lang);
-                await _client.SkyDbSet(privateKey, publicKey, indexFileName, indexFileJson).ConfigureAwait(false);
+                await _client.SkyDbSet(privateKey, publicKey, new RegistryKey(indexFileName), indexFileJson).ConfigureAwait(false);
             }
         }
 
