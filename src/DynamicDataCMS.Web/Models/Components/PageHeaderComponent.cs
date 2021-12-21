@@ -8,12 +8,12 @@ namespace DynamicDataCMS.Web.Models.Components
 	public class PageHeaderComponent
 	{
 		[Display(Name = "Titel in plaats van afbeelding (optioneel)")]
-		public string TitleInsteadOfImage { get; set; }
+		public string TitleInsteadOfImage { get; set; } = default!;
 
 		[Display(Name = "Titel")]
-		public string Title { get; set; }
+		public string Title { get; set; } = default!;
 
 		[Display(Name = "Intro tekst")]
-		public string MainMarkdown { get; set; }
+		public string MainMarkdown { get; set; } = default!;
 	}
 }

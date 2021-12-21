@@ -66,6 +66,8 @@ namespace DynamicDataCMS.Storage.EntityFramework
         public async Task Write<T>(T item, CmsType cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem
         {
             var dbObj = item.ToObject<Model>();
+            if (dbObj == null)
+                throw new ArgumentNullException(nameof(item));
 
             var existing = await this.Read<T>(cmsType, id, lang);
 
@@ -80,6 +82,9 @@ namespace DynamicDataCMS.Storage.EntityFramework
         public async Task Delete(CmsType cmsType, Guid id, string? lang, string? currentUser)
         {
             var dbObj = await dbContext.Set<Model>().FindAsync(id).ConfigureAwait(false);
+            if (dbObj == null)
+                throw new Exception($"Obj with ID {id} not found");
+
             dbContext.Set<Model>().Remove(dbObj);
             await dbContext.SaveChangesAsync();
         }

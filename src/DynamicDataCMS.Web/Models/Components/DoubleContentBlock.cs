@@ -8,11 +8,11 @@ namespace DynamicDataCMS.Web.Models.Components
 	public class DoubleContentBlock : IBaseComponent
 	{
 		[Display(Name = "Titel")]
-		public string Title { get; set; }
+		public string Title { get; set; } = default!;
 
 		[Display(Name = "Ondertitel")]
-		public string SubTitle { get; set; }
-		
+		public string SubTitle { get; set; } = default!;
+
 		[Display(Name = "Linker blok")]
 		[Required]
 		public ContentBlock LeftBlock { get; set; } = new ContentBlock();

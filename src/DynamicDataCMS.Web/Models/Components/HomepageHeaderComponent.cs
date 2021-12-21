@@ -11,10 +11,10 @@ namespace DynamicDataCMS.Web.Models.Components
 		public Guid ProductId { get; set; }
 		
 		[Display(Name = "Titel")]
-		public string Title { get; set; }
+		public string Title { get; set; } = default!;
 
 		[Display(Name = "Subtitel")]
-		public string SubTitle { get; set; }
-		
+		public string SubTitle { get; set; } = default!;
+
 	}
 }

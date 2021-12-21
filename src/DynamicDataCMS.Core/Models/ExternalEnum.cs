@@ -7,15 +7,15 @@ namespace DynamicDataCMS.Core.Models
 {
     public class ExternalEnum
     {
-        public string title { get; set; }
-        public string type { get; set; }
-        public List<string> @enum { get; set; }
-        public EnumOptions options { get; set; }
+        public string title { get; set; } = default!;
+        public string type { get; set; } = default!;
+        public List<string> @enum { get; set; } = new List<string>();
+        public EnumOptions options { get; set; } = default!;
     }
 
     public class EnumOptions
     {
-        public List<string> enum_titles { get; set; }
+        public List<string> enum_titles { get; set; } = new List<string>();
     }
 
 }

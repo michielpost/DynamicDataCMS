@@ -36,7 +36,7 @@ namespace DynamicDataCMS.Storage.SiaSkynet
         {
             using (Stream stream = new MemoryStream(file.Bytes))
             {
-                var response = await _client.UploadFileAsync(file.ContentType, stream);
+                var response = await _client.UploadFileAsync($"{fieldName}.{file.ContentType}", stream);
 
                 return response.Skylink;
             }

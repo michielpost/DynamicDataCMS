@@ -2,6 +2,10 @@
 @model ListViewModel
 
 @{
+    if (Model == null)
+    {
+        return;
+    }
     ViewData["Title"] = Model.MenuCmsItem.Name + " Overview";
 
     string searchQuery = ViewBag.SearchQuery;

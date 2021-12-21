@@ -15,8 +15,8 @@ namespace DynamicDataCMS.Storage.AzureStorage.Models
         /// When null: uses development storage
         /// </summary>
         public string? ConnectionString { get; set; }
-        public string ContainerName { get; set; }
-        public string AssetsContainerName { get; set; }
+        public string ContainerName { get; set; } = default!;
+        public string AssetsContainerName { get; set; } = default!;
         public AzureStorageLocation StorageLocation { get; set; } = AzureStorageLocation.Tables;
 
         /// <summary>

@@ -24,7 +24,7 @@ namespace DynamicDataCMS.Storage.CosmosDB.Models
         public Guid Id { get; set; }
 
         [JsonProperty("cmstype")]
-        public string CmsType { get; set; }
+        public string CmsType { get; set; } = default!;
 
         public DateTimeOffset LastModifiedDate { get; set; } = DateTimeOffset.UtcNow;
 

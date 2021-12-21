@@ -1,5 +1,9 @@
 ﻿@model DynamicDataCMS.Editors.JsonEditor.Models.EditViewModel
 @{
+    if (Model == null)
+    {
+        return;
+    }
     ViewData["Title"] = Model.MenuCmsItem.Name;
 }
 

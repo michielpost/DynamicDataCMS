@@ -9,13 +9,13 @@ namespace DynamicDataCMS.Web.Models.Molecules
 	{
 		[Display(Name = "Titel")]
 		[Required]
-		public string Title { get; set; }
+		public string Title { get; set; } = default!;
 
 		[Display(Name = "Ondertitel")]
-		public string SubTitle { get; set; }
+		public string SubTitle { get; set; } = default!;
 
 		[Display(Name = "Tekst")]
-		public string Text { get; set; }
+		public string Text { get; set; } = default!;
 
 		[Display(Name = "Afbeelding (16x9)")]
 		[UIHint("asset-picker")]

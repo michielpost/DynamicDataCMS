@@ -11,7 +11,7 @@ namespace DynamicDataCMS.Web.Models.Pages
         [Display(Name = "Titel")]
         [Required]
         [MinLength(2, ErrorMessage = "Vul minimaal 2 karakters in")]
-        public string MetaTitle { get; set; }
+        public string MetaTitle { get; set; } = default!;
 
         [Display(Name = "Postfix tonen", Description = "De postfix wordt achter de titel toegevoegd, bijvoorbeeld '- Foo Bar'")]
         public bool ShowPostFix { get; set; } = true;
@@ -19,7 +19,7 @@ namespace DynamicDataCMS.Web.Models.Pages
         [Display(Name = "Omschrijving")]
         [UIHint("textarea")]
         [MaxLength(300, ErrorMessage = "Een omschrijving langer dan 300 tekens is niet mogelijk in Google")]
-        public string MetaDescription { get; set; }
+        public string MetaDescription { get; set; } = default!;
 
         [Display(Name = "Indexeren", Description = "Indexeren betekent dat de pagina in zoekmachines (zoals Google) wordt opgenomen.")]
         public bool MetaIndex { get; set; } = true;
@@ -29,7 +29,7 @@ namespace DynamicDataCMS.Web.Models.Pages
 
         [Url]
         [Display(Name = "Canonical", Description = "Geeft aan zoekmachines aan welke url voor deze content de voorkeur heeft.")]
-        public string Canonical { get; set; }
+        public string Canonical { get; set; } = default!;
 
         public DateTimeOffset? PublishDate { get; set; }
 

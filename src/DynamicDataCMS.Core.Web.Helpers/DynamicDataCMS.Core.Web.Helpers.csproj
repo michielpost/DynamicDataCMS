@@ -1,25 +1,24 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <RazorLangVersion>3.0</RazorLangVersion>
+    <TargetFramework>net6.0</TargetFramework>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-    <Nullable>enable</Nullable>
-    <WarningsAsErrors>CS8600;CS8601;CS8602;CS8603;CS8625;CS8613</WarningsAsErrors>
+	  <Nullable>enable</Nullable>
+	  <WarningsAsErrors>nullable</WarningsAsErrors>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
-    <Authors>Q42</Authors>
-    <Company>Q42</Company>
+    <Authors>Michiel Post</Authors>
+    <Company>Michiel Post</Company>
     <Product>DynamicDataCMS</Product>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/Q42/DynamicDataCMS</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/Q42/DynamicDataCMS</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/michielpost/DynamicDataCMS</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/michielpost/DynamicDataCMS</PackageProjectUrl>
   </PropertyGroup>
 
-  <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+	
   <ItemGroup>
     <ProjectReference Include="..\DynamicDataCMS.Core.Services\DynamicDataCMS.Core.Services.csproj" />
   </ItemGroup>

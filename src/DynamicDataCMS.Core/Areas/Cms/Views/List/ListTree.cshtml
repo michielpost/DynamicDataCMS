@@ -1,6 +1,10 @@
 ﻿@model ListTreeViewModel
 
 @{
+    if (Model == null)
+    {
+        return;
+    }
     ViewData["Title"] = Model.MenuCmsItem.Name + " Overview";
     string searchQuery = ViewBag.SearchQuery;
     var showItemType = Model.MenuCmsItem.SchemaKey == null && Model.MenuCmsItem.SchemaKeys.Count > 1;

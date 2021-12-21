@@ -15,7 +15,7 @@ namespace DynamicDataCMS.Module.Auth.Basic.Models
         [Display(Name = "Email")]
         [Required] 
         [EmailAddress]
-        public string Email { get; set; }
+        public string Email { get; set; } = default!;
 
         [Display(Name = "Password")]
         [Required]

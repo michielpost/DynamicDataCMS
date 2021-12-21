@@ -6,10 +6,10 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using DynamicDataCMS.Core.Models;
 using DynamicDataCMS.Module.Micrio.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace DynamicDataCMS.Module.Micrio.Areas.Cms.Controllers
 {
@@ -30,7 +30,7 @@ namespace DynamicDataCMS.Module.Micrio.Areas.Cms.Controllers
         [HttpPost]
         [Route("add")]
         [Produces("application/json")]
-        public async Task<ActionResult<MicrioResponse>> Add([FromBody] string imageId)
+        public async Task<ActionResult<MicrioResponse?>> Add([FromBody] string imageId)
         {
             if (!this.micrioConfig.IsValid())
                 throw new Exception("Micrio config is not valid.");

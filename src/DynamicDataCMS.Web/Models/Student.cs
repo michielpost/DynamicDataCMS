@@ -14,7 +14,7 @@ namespace DynamicDataCMS.Web.Models
         public Guid Id { get; set; }
 
         [MaxLength(128)]
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
 
         public int? Age { get; set; }
 

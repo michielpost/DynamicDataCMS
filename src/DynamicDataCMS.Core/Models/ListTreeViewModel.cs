@@ -7,10 +7,10 @@ namespace DynamicDataCMS.Core.Models
 {
     public class ListTreeViewModel
     {
-        public string CmsType { get; set; }
+        public string CmsType { get; set; } = default!;
 
-        public CmsTreeItem CmsTreeItem { get; set; }
-        public MenuItem MenuCmsItem { get; set; }
+        public CmsTreeItem CmsTreeItem { get; set; } = default!;
+        public MenuItem MenuCmsItem { get; set; } = default!;
 
     }
 }

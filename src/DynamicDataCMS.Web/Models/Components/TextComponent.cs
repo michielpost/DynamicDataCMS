@@ -11,7 +11,7 @@ namespace DynamicDataCMS.Web.Models.Components
 		[Display(Name = "Tekst")]
 		[Required]
 		[UIHint("markdown")]
-		public string Text { get; set; }
+		public string Text { get; set; } = default!;
 
 		[Display(Name = "Grootte")]
 		public Size Size { get; set; }
