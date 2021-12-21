@@ -83,7 +83,7 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
 
             //TODO: Get document and get proper file name
 
-            return File(file.Bytes, file.ContentType);
+            return File(file.Bytes, file.ContentType ?? "application/octet-stream");
         }
 
         private static string GetFileName(IFormFile file) => file.ContentDisposition.Split(';')

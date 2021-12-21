@@ -5,16 +5,16 @@ namespace DynamicDataCMS.Web.Models.Molecules
 	public class CarouselSlide
 	{
 		[Display(Name = "Slide label")]
-		public string Label { get; set; }
+		public string Label { get; set; } = default!;
 
 		[Display(Name = "Slide info tekst", Description = "Deze tekst wordt alleen op desktop getoond")]
-		public string InfoText { get; set; }
+		public string InfoText { get; set; } = default!;
 
 		[Display(Name = "Titel")]
-		public string Title { get; set; }
+		public string Title { get; set; } = default!;
 
 		[Display(Name = "Subtitel")]
-		public string SubTitle { get; set; }
+		public string SubTitle { get; set; } = default!;
 
 	}
 }

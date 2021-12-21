@@ -32,7 +32,7 @@ namespace DynamicDataCMS.Core.Models
 
     public class MenuGroup
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
         public int Order { get; set; }
 
         public List<MenuItem> MenuItems { get; set; } = new List<MenuItem>();
@@ -40,10 +40,10 @@ namespace DynamicDataCMS.Core.Models
 
     public class MenuItem
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
 
         //Should be CmsType, but JsonConverter is not supported for config files
-        public string Key { get; set; }
+        public string Key { get; set; } = default!;
 
         //Should be CmsSchemaType, but JsonConverter is not supported for config files
         public string? SchemaKey { get; set; }
@@ -77,7 +77,7 @@ namespace DynamicDataCMS.Core.Models
     public class SchemaLocation
     {
         //Should be CmsSchemaType, but JsonConverter is not supported for config files
-        public string Key { get; set; }
+        public string Key { get; set; } = default!;
         public Uri? Uri { get; set; }
         public string? FileLocation { get; set; }
 
@@ -86,7 +86,7 @@ namespace DynamicDataCMS.Core.Models
 
     public class ListViewProperty
     {
-        public string Key { get; set; }
-        public string DisplayName { get; set; }
+        public string Key { get; set; } = default!;
+        public string DisplayName { get; set; } = default!;
     }
 }

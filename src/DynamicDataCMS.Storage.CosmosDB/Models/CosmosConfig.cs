@@ -10,8 +10,8 @@ namespace DynamicDataCMS.Storage.CosmosDB.Models
     /// </summary>
     public class CosmosConfig
     {
-        public string Endpoint { get; set; }
-        public string Key { get; set; }
+        public string Endpoint { get; set; } = default!;
+        public string Key { get; set; } = default!;
         public string DatabaseId { get; set; } = "dynamicdatacms";
         public string ContainerId { get; set; } = "dynamicdatacms-container";
 

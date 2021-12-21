@@ -6,6 +6,6 @@ namespace DynamicDataCMS.Storage.Ipfs.Models
 {
     public class IpfsConfig
     {
-        public string Host { get; set; }
+        public string Host { get; set; } = default!;
     }
 }

@@ -14,7 +14,7 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
     [Area("cms")]
     [Route("[area]/api")]
     [ApiController]
-    public class ApiController : ControllerBase
+    public class ApiController : Controller
     {
         private readonly IReadCmsItem readCmsItemService;
         private readonly IWriteCmsItem writeCmsItemService;
@@ -79,6 +79,9 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
                 return Enumerable.Empty<SearchResult>().ToList();
 
             var schema = schemaService.GetCmsType(cmsType);
+            if(schema == null)
+                return Enumerable.Empty<SearchResult>().ToList();
+
             var (results, _) = await readCmsItemService.List(cmsType, null, null, searchQuery: q).ConfigureAwait(false);
 
             var searchResults = new List<SearchResult>();
@@ -103,9 +106,12 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
         [HttpGet]
         [Route("enum/{cmsType}")]
         [Produces("application/json")]
-        public async Task<ExternalEnum> Enum([FromRoute]string cmsType)
+        public async Task<ActionResult<ExternalEnum>> Enum([FromRoute]string cmsType)
         {
             var schema = schemaService.GetCmsType(cmsType);
+            if (schema == null)
+                return NotFound();
+
             var list = await readCmsItemService.List(cmsType, null, null).ConfigureAwait(false);
 
             var result = new ExternalEnum

@@ -6,7 +6,7 @@ namespace DynamicDataCMS.Core.Models
 {
     public record CmsFile
     {
-        public byte[] Bytes { get; set; }
+        public byte[] Bytes { get; set; } = new byte[0];
         public string? ContentType { get; set; }
     }
 }

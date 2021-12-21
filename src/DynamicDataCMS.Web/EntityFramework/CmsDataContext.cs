@@ -15,8 +15,8 @@ namespace DynamicDataCMS.Web.EntityFramework
         }
 
 
-        public DbSet<Student> Students { get; set; }
-        public DbSet<Book> Book { get; set; }
+        public DbSet<Student> Students { get; set; } = default!;
+        public DbSet<Book> Book { get; set; } = default!;
 
     }
 }

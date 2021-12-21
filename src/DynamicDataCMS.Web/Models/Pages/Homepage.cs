@@ -10,10 +10,10 @@ namespace DynamicDataCMS.Web.Models.Pages
     {
         [Required]
         [Display(Name = "Pagina header")]
-        public HomepageHeaderComponent HomepageHeaderComponent { get; set; }
+        public HomepageHeaderComponent HomepageHeaderComponent { get; set; } = default!;
 
         [Display(Name = "Carousel")]
-        public CarouselComponent CarouselComponent { get; set; }
+        public CarouselComponent CarouselComponent { get; set; } = default!;
     }
 
 }

@@ -6,9 +6,9 @@ namespace DynamicDataCMS.Module.Micrio.Models
 {
     public class MicrioConfig
     {
-        public string ApiKey { get; set; }
-        public string UserId { get; set; }
-        public string FolderShortId { get; set; }
+        public string ApiKey { get; set; } = default!;
+        public string UserId { get; set; } = default!;
+        public string FolderShortId { get; set; } = default!;
 
 
         public bool IsValid()

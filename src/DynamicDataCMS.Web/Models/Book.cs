@@ -14,10 +14,10 @@ namespace DynamicDataCMS.Web.Models
         public Guid Id { get; set; }
 
         [MaxLength(128)]
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
 
-        public string Author { get; set; }
+        public string Author { get; set; } = default!;
 
-        public string Description { get; set; }
+        public string Description { get; set; } = default!;
     }
 }

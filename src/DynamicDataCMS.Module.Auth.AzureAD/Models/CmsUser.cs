@@ -15,6 +15,6 @@ namespace DynamicDataCMS.Module.Auth.AzureAD.Models
         [Display(Name = "Email")]
         [Required] 
         [EmailAddress]
-        public string Email { get; set; }
+        public string Email { get; set; } = default!;
     }
 }

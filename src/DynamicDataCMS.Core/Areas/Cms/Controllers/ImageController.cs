@@ -52,7 +52,7 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
             }
             catch (Exception error)
             {
-                throw error;
+                throw;
             }
         }
     }

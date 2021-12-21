@@ -7,8 +7,8 @@ namespace DynamicDataCMS.Core.Models
 {
     public class EditTreeViewModel
     {
-        public string CmsType { get; set; }
-        public MenuItem MenuCmsItem { get; set; }
+        public string CmsType { get; set; } = default!;
+        public MenuItem MenuCmsItem { get; set; } = default!;
         public string? Language { get; set; }
         public string? TreeItemSchemaKey { get; set; }
         public Guid? TreeNodeId { get; set; }

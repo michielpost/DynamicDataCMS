@@ -30,7 +30,7 @@ namespace DynamicDataCMS.Storage.CosmosDB
         public async Task<(IReadOnlyList<CmsItem> results, int total)> List(CmsType cmsType, string? sortField, string? sortOrder, int pageSize = 20, int pageIndex = 0, string? searchQuery = null)
         {
             var result = await _cosmosService.List(cmsType.ToString(), sortField, sortOrder, pageSize, pageIndex, searchQuery).ConfigureAwait(false);
-            return (result.results.Select(x => x.ToCmsItem()).ToList(), result.total);
+            return (result.results.Select(x => x.ToCmsItem()).Where(x => x != null).Select(x => x!).ToList<CmsItem>(), result.total);
         }
 
         public Task Write<T>(T item, CmsType cmsType, Guid id, string? lang, string? currentUser) where T : CmsItem

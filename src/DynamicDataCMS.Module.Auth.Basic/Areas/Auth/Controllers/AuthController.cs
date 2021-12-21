@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using DynamicDataCMS.Core.Models;
 using DynamicDataCMS.Storage.Interfaces;
 using System.Net.Http;
 using System.Text.Json;
 using DynamicDataCMS.Core.Services;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
 using DynamicDataCMS.Core.Services.Extensions;
 using DynamicDataCMS.Module.Auth.Basic.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace DynamicDataCMS.Module.Auth.Basic.Controllers
 {

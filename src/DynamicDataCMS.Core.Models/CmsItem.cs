@@ -15,7 +15,7 @@ namespace DynamicDataCMS.Core.Models
         public Guid Id { get; set; }
 
         [JsonPropertyName("cmstype")]
-        public CmsType CmsType { get; set; }
+        public CmsType CmsType { get; set; } = default!;
 
         public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.UtcNow;
 

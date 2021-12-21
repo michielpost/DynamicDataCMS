@@ -1,6 +1,10 @@
 ﻿@model EditTreeViewModel
 
 @{
+    if (Model == null)
+    {
+        return;
+    }
     ViewData["Title"] = Model.MenuCmsItem.Name + " Picker";
 
 }

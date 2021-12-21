@@ -6,6 +6,6 @@ namespace DynamicDataCMS.Web.Models.Components
 	public abstract class BaseComponent
 	{
 		[Display(Name = "Titel")]
-		public string Title { get; set; }
+		public string Title { get; set; } = default!;
 	}
 }
