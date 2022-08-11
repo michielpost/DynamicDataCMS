@@ -53,7 +53,7 @@ namespace DynamicDataCMS.Core.Services
                         image.SaveAsJpeg(output, new JpegEncoder
                         {
                             Quality = quality,
-                            Subsample = JpegSubsample.Ratio444
+                            ColorType = JpegColorType.YCbCrRatio444
                         });
                     }
                     else
