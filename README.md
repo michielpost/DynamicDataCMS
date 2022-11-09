@@ -2,9 +2,7 @@
 # DynamicDataCMS
 Open source Q42 CMS  
 Developer friendly, headless and modular CMS based on JsonSchema standard  
-Runs on ASP.Net on .NET 6.0
-
-## Live Demo: https://qms4.azurewebsites.net/cms
+Runs on ASP.Net on .NET 7.0
 
 ## Features
 - Headless CMS
