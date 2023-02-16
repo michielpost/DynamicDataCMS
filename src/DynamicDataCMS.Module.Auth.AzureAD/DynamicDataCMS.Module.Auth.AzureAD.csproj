@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Identity.Web" Version="1.25.5" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="1.26.0" />
   </ItemGroup>
 
   <ItemGroup>
