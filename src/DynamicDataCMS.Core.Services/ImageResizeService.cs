@@ -1,5 +1,6 @@
 ﻿using DynamicDataCMS.Storage.Interfaces;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
@@ -35,7 +36,7 @@ namespace DynamicDataCMS.Core.Services
                 return null;
 
             // Read from stream.
-            using (var image = Image.Load(Configuration.Default, cmsFile.Bytes, out var format))
+            using (var image = Image.Load(cmsFile.Bytes))
             {
                 if (cover)
                 {
@@ -48,17 +49,25 @@ namespace DynamicDataCMS.Core.Services
 
                 using (var output = new MemoryStream())
                 {
-                    if (format.DefaultMimeType == JpegFormat.Instance.DefaultMimeType)
+                    if (image.Metadata.DecodedImageFormat?.DefaultMimeType == JpegFormat.Instance.DefaultMimeType)
                     {
                         image.SaveAsJpeg(output, new JpegEncoder
                         {
                             Quality = quality,
-                            ColorType = JpegColorType.YCbCrRatio444
+                            ColorType = JpegEncodingColor.YCbCrRatio444
                         });
+                    }
+                    else if(image.Metadata.DecodedImageFormat != null)
+                    {
+                        image.Save(output, image.Metadata.DecodedImageFormat);
                     }
                     else
                     {
-                        image.Save(output, format);
+                        image.SaveAsJpeg(output, new JpegEncoder
+                        {
+                            Quality = quality,
+                            ColorType = JpegEncodingColor.YCbCrRatio444
+                        });
                     }
 
                     // store in cache
