@@ -2,7 +2,7 @@
 # DynamicDataCMS
 Open source Dynamic Data CMS  
 Developer friendly, headless and modular CMS based on JsonSchema standard  
-Runs on ASP.Net on .NET 7.0
+Runs on ASP.Net on .NET 8.0
 
 ## Features
 - Headless CMS
