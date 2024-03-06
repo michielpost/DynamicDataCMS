@@ -8,6 +8,7 @@ using DynamicDataCMS.Core.Models;
 using DynamicDataCMS.Core.Services;
 using DynamicDataCMS.Storage.Interfaces;
 using NJsonSchema;
+using NJsonSchema.Generation;
 
 namespace DynamicDataCMS.Core.Areas.Cms.Controllers
 {
@@ -136,7 +137,7 @@ namespace DynamicDataCMS.Core.Areas.Cms.Controllers
             if (type == null)
                 return new NotFoundResult();
 
-            var schema = JsonSchema.FromType(type, new NJsonSchema.Generation.JsonSchemaGeneratorSettings()
+            var schema = JsonSchema.FromType(type, new SystemTextJsonSchemaGeneratorSettings()
             {
                 //AllowReferencesWithProperties = true,
                 //AlwaysAllowAdditionalObjectProperties = true,

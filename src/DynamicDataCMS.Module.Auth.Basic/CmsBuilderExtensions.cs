@@ -31,7 +31,7 @@ namespace DynamicDataCMS.Module.Auth.Basic
             //Add CmsUser to CmsConfiguration
             services.PostConfigure<CmsConfiguration>(x =>
             {
-                var userSchema = JsonSchema.FromType(typeof(CmsUser), new NJsonSchema.Generation.JsonSchemaGeneratorSettings()
+                var userSchema = JsonSchema.FromType(typeof(CmsUser), new NJsonSchema.Generation.SystemTextJsonSchemaGeneratorSettings()
                 {
                     //AllowReferencesWithProperties = true,
                     //AlwaysAllowAdditionalObjectProperties = true,
